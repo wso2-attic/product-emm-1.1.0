@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<parent>
-		<groupId>org.wso2mobile.platform</groupId>
-		<artifactId>wso2mobileserver-parent</artifactId>
+		<groupId>org.wso2.emm</groupId>
+		<artifactId>emm-parent</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>wso2mobileserver</artifactId>
+	<artifactId>emm</artifactId>
 	<packaging>jar</packaging>
-	<name>WSO2Mobile Enterprise Mobile Platform - Distribution</name>
-	<description>WSO2Mobile Enterprise Mobile Platform Distribution</description>
+	<name>WSO2 Enterprise Mobility Manager (EMM) - Distribution</name>
+	<description>WSO2 Enterprise Mobility Manager (EMM) Distribution</description>
 
 	<dependencies>
 		<dependency>
@@ -131,15 +131,15 @@
 								<property name="shindig.version" value="2.5.0-beta5"/>
 
 								<mkdir dir="${tempdir}"/>
-								<mkdir dir="${tempdir}/wso2mobileserver-${project.version}/repository/components"/>
+								<mkdir dir="${tempdir}/wso2emm-${project.version}/repository/components"/>
 								<unzip dest="${tempdir}">
 									<fileset dir="target">
-										<include name="wso2mobileserver-${project.version}.zip"/>
+										<include name="wso2emm-${project.version}.zip"/>
 									</fileset>
 								</unzip>
 								<copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components" 
 										overwrite="true">
-									<fileset dir="${tempdir}/wso2mobileserver-${project.version}/repository/components"></fileset>
+									<fileset dir="${tempdir}/wso2emm-${project.version}/repository/components"></fileset>
 								</copy>
 								<!--testing -->
 								<unzip src="target/shindig/WEB-INF/lib/shindig-common-${shindig.version}.jar"
@@ -168,7 +168,7 @@
 									og4j.logger.net.sf.ehcache=ERROR
 								</concat>
 
-								<delete file="target/wso2mobileServer-${project.version}.zip"/>
+								<delete file="target/wso2emm-${project.version}.zip"/>
 								<delete dir="${tempdir}"/>
 							</tasks>
 						</configuration>
@@ -208,7 +208,7 @@
 								<delete dir="target/dependency-maven-plugin-markers"/>
 								<delete dir="target/maven-archiver"/>
 								<delete dir="target/wso2carbon-core-${carbon.kernal.version}"/>
-								<delete file="target/wso2mobileserver-${project.version}.jar"/>
+								<delete file="target/wso2emm-${project.version}.jar"/>
 								<delete dir="target/sources"/>
 								<delete dir="target/site"/>
 								<delete dir="target/antrun"/>
