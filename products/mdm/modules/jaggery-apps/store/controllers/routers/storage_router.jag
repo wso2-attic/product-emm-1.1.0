@@ -1,0 +1,98 @@
+<%
+/*
+ Description: The controller is used to serve files that are stored in the StorageManager
+ Filename: storage_router.jag
+ Created Date: 26/9/2013
+ */
+
+
+/*
+ Constant variables used to designate Header parameters
+ */
+var HEADER_CONTENT_TYPE = 'Content-Type';
+var HEADER_CONTENT_LENGTH = 'Content-Length';
+
+var ERROR_NOT_FOUND='The requested resource was not found.';
+var ERROR_AUTH_REQ="You must be logged in to access this resource";
+
+var log=new Log('storage.router');
+
+var storageModule = require('/modules/data/storage.js').storageModule();
+
+var store=require('/modules/store.js').storeManagers(request,session);
+
+var storageSecurityProvider=store.storageSecurityProvider;
+
+var storageManager = new storageModule.StorageManager({
+    context: 'storage',
+    isCached:false,
+    connectionInfo: {
+        dataSource:'JAGH2'
+    }
+});
+
+var value = {};
+
+//Obtain the tenantId and the uuid from the url
+var uriMatcher=new URIMatcher(request.getRequestURI());
+
+var isMatch=uriMatcher.match('/{context}/storage/{type}/{id}/{uuid}/{fileName}');
+
+//Handle the request only if the url matches
+if(isMatch){
+    var matchedElements=uriMatcher.elements();
+
+    handleResourceRequest(matchedElements);
+}
+else{
+    response.sendError(404,ERROR_NOT_FOUND);
+}
+
+
+/*
+The function services the requests for a resource by using the matched elements
+@matchedElements: A list of elements extracted from the url
+ */
+function handleResourceRequest(matchedElements){
+    var key=matchedElements['uuid'];
+    var compoundKey=key+'/'+matchedElements['fileName'];
+    var type=matchedElements['type'];
+    var id=matchedElements['id'];
+
+    //log.debug(compoundKey);
+    var isAllowed=storageSecurityProvider.execute(type,id,compoundKey,session);
+
+    //log.debug(isAllowed);
+
+    if(!isAllowed){
+         response.sendError(401,ERROR_AUTH_REQ);
+         return isAllowed;
+        //return;
+    }
+
+    var storedValue = storageManager.get(key);
+
+    //Check if a value was returned from storage
+    if(!storedValue){
+        response.sendError(404,ERROR_NOT_FOUND);
+    }
+    else{
+
+        //Get the image details
+        var contentType = storedValue.contentType;
+        var contentLength = storedValue.contentLength;
+
+        //Create the headers
+        response.addHeader(HEADER_CONTENT_TYPE, contentType);
+        response.addHeader(HEADER_CONTENT_LENGTH, contentLength + '');
+
+        //Send the file stream
+        try {
+            print(storedValue.content);
+        } catch(e){
+
+        }
+    }
+}
+
+%>

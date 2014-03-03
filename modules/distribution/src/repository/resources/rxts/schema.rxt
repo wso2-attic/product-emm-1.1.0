@@ -1,0 +1,3 @@
+<artifactType type="application/x-xsd+xml" fileExtension="xsd" shortName="schema" singularLabel="Schema" pluralLabel="Schemas" hasNamespace="true" iconSet="29">
+    <content href="../generic/schema_view_ajaxprocessor.jsp?hideStandardView=true"/>
+</artifactType>

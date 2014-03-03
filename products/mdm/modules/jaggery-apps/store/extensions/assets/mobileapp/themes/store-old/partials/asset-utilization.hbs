@@ -1,0 +1,39 @@
+{{#with asset}}
+    {{#attributes}}
+        {{#if ../../inDashboard}}
+            <a id="btn-add-gadget" class="btn disabled" href="#modal-add-gadget"
+               data-toggle="modal"
+               data-aid="{{../../id}}" data-type="{{../../type}}"> {{t "Installed"}} </a>
+        {{else}}
+
+            {{#if ../../../sso}}
+                {{#if ../../../../user.username}}
+                    <a id="btn-add-gadget" class="btn btn-primary" href="#modal-add-gadget"
+                       data-toggle="modal"
+                       data-app="{{../../../../id}}"
+                       data-aid="{{../../../../id}}"
+                       data-platform="{{../../../../attributes.overview_platform}}"
+                       data-type="{{../../../../type}}"> {{t "Install "}}</a>
+                {{else}}
+                    <a id="btn-add-gadget" class="btn btn-primary" href="{{url "/login.jag"}}"
+                       data-toggle="modal"
+                        data-app="{{../../../../id}}"
+                       data-aid="{{../../../../id}}"
+                       data-platform="{{../../../../attributes.overview_platform}}"
+                       data-type="{{../../../../type}}"> {{t "Install "}}</a>
+                {{/if}}
+            {{else}}
+                <a id="btn-add-gadget" class="btn btn-primary" href="#modal-add-gadget"
+                   data-toggle="modal"
+                   data-app="{{../../../../id}}"
+                   data-platform="{{../../../../attributes.overview_platform}}"
+                   data-aid="{{../../../id}}" data-type="{{../../../type}}"> {{t "Install"}}</a>
+            {{/if}}
+
+        {{/if}}
+       
+    {{/attributes}}
+{{/with}}
+
+
+

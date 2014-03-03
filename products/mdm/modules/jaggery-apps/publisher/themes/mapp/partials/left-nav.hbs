@@ -1,0 +1,16 @@
+<div class="sidebar-nav">
+    <ul class="nav nav-list ">
+           <!-- <li class="active prominent-link"><a href="/publisher/">Browse All</a></li>
+            <li class="active prominent-link"><a href="#">Add</a></li>
+            <li><a href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>{{t "Add "}}{{shortName}}</a></li>
+            <li><a href="#"><i class="icon-dashboard"></i>Statistics</a></li>
+            <li><a href="#"><i class="icon-gift"></i>Wishlist</a></li>-->
+        {{#each leftNavLinks}}
+            <li class="{{this.additionalClasses}}"><a href="{{this.url}}">
+                {{#if this.iconClass}}
+                    <i class="{{this.iconClass}}"></i>
+                {{/if}}
+                {{this.name}}</a></li>
+        {{/each}}
+    </ul>
+</div>

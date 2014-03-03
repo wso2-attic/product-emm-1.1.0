@@ -1,0 +1,53 @@
+<div class="asset-being-added">
+</div>
+
+<div class="asset-thumb-container">
+	{{#if artifacts}}
+        <div class="row-fluid">
+            <table class="table table-striped list-asset-table">
+                <thead>
+                <th colspan="2"><a href="?sortby=name&sort=asc">Name <i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=version&sort=asc">Version <i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=owner&sort=asc">Owner <i class="icon-caret-down"></i></a></th>
+                <th><a href="#">Status</i></a></th>
+                <th><a href="?sortby=createdtime&sort=desc">Created <i class="icon-caret-down"></i></a></th>
+                <th></th>
+                </thead>
+                <tbody>
+                 {{#each artifacts}}
+                
+                    <tr>
+                        <td>
+                        <img src="{{this.attributes.images_thumbnail}}" class="" />
+                        </td>
+                        <td class="asset-listing-name">
+                            <a href='/publisher/asset/{{../shortName}}/{{this.id}}'>
+                                {{this.attributes.overview_name}}
+                            </a>
+                        </td>
+                        <td>
+                        {{this.attributes.overview_version}}
+                        </td>
+                        <td>
+                        {{this.attributes.overview_provider}}
+                        </td>
+                        <td>
+                        <span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
+                        </td>
+                        <td>
+                        <small>{{this.attributes.overview_createdtime}}</small>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+	{{else}}
+			<div class="emptyAssets-MsgDiv">
+			    <i class="icon-frown largeMsgIcon"></i>
+			    
+			     <p class="emptyAssets">Sorry. I couldn't find anything for you</p>
+			    
+			</div>
+	{{/if}}
+</div>

@@ -1,0 +1,7 @@
+<module name="policy" xmlns="http://wso2.org/projects/jaggery/module.xml">
+    <!-- scripts -->
+    <script>
+        <name>policy</name>
+        <path>scripts/policy.js</path>
+    </script>
+</module>

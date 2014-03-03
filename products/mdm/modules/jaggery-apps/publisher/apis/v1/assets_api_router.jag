@@ -1,0 +1,98 @@
+<%
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+var config = require('/config/publisher.json');
+var caramel = require('caramel');
+
+var router = require('/modules/router-g.js').router();
+var routeManager = new router.Router();
+
+var log = new Log();
+
+
+routeManager.register('POST', 'publisher', '/publisher/api/assets/{operation}/{type}/', function (context) {
+    var type = context.params.type;
+    
+	var server  = require('store').server;
+    var username = server.current(session).username;
+    var tenantId = server.current(session).tenantId;
+    var startDate = context.post.startDate;
+    var endDate = context.post.endDate;
+
+    //manipulate endDate to overcome date-picker issue
+    var date = new Date(Date.parse(endDate.replace(/-/g,"/")));
+    date.setDate(date.getDate() + 1);
+    // The getMonth() method returns the month (from 0 to 11) for the specified date
+    date.setMonth(date.getMonth() + 1);
+    endDate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();
+
+    var output = {};
+
+    var artifactManager = rxtManager.getArtifactManager(type);
+    var model = modelManager.getModel(type);
+    var artifact ;
+
+    if (!context.post.isOnChoice) {
+
+        var bookmarkStats = stats.filterResultsByAssetType(stats.getBookmarkStats(username,tenantId), type);
+        var bookmarkTicks = [], bookmarkStatData = [], assetName;
+        for (var i = 0; i < bookmarkStats.length; i++) {
+            artifact = artifactManager.get(bookmarkStats[i].ASSET_ID);
+            model.import('asset', artifact);
+            assetName = (model.get('overview.name')).value;
+            assetVersion = (model.get('overview.version')).value;
+            bookmarkStatData.push([i, parseInt(bookmarkStats[i]['NO_OF_BOOKMARKS'])]);
+            bookmarkStats[i]['ASSET_ID'] = assetName;
+            bookmarkTicks.push([i, assetName+'-'+assetVersion]);
+
+        }
+
+        output['bookmarkStats'] = bookmarkStatData;
+        output['bookmarkTicks'] = bookmarkTicks;
+    }
+
+    var hotAssetsStats = stats.filterResultsByAssetType(stats.getHotAssetStats(startDate,endDate,tenantId), type);
+    var hotAssetticks = [], hotstAssetData = [], hotAssetName;
+    for (var j = 0; j < hotAssetsStats.length; j++) {
+        artifact = artifactManager.get(hotAssetsStats[j].ASSET_ID);
+        model.import('asset', artifact);
+        hotAssetName = (model.get('overview.name')).value;
+        hotAssetVersion = (model.get('overview.version')).value;
+        hotstAssetData.push([j, parseInt(hotAssetsStats[j]['NO_OF_BOOKMARKS'])]);
+        hotAssetsStats[j]['ASSET_ID'] = hotAssetName;
+        hotAssetticks.push([j, hotAssetName+'-'+hotAssetVersion]);
+
+    }
+
+    output['hotAssetStats'] = hotstAssetData;
+    output['hotAssetTicks'] = hotAssetticks;
+
+    print(output);
+});
+
+var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+
+var sm=securityModule.cached();
+
+//This will short circuit the handling of the requests
+var passed=sm.check(session,function(){
+    response.sendError(401);
+});
+
+//Stop servicing the request if the check failed
+if(passed){
+
+    var user = require('store').user;
+    var publisher = require('/modules/publisher.js').publisher(request, session);
+    var stats = require('/modules/statistics.js');
+
+    //var routeManager=application.get(config.app.ROUTE_MANAGER);
+    var rxtManager = publisher.rxtManager;
+    var modelManager = publisher.modelManager;
+
+    routeManager.handle(request, response);
+}
+
+}, request, response, session);
+%>

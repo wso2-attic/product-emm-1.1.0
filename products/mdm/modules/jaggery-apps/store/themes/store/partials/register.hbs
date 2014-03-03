@@ -1,0 +1,37 @@
+<!-- Modal -->
+<div id="modal-register" class="modal hide fade modal-blue" tabindex="-1" role="dialog"
+     aria-labelledby="publishModalLabel" aria-hidden="true">
+
+    <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="icon-remove"></i>
+        </button>
+
+        <div>
+            <form id="form-register" action="" method="post">
+                <fieldset>
+
+                    <h2>{{t "Register"}}</h2>
+
+                    <div id="register-alert" class="alert alert-error">
+
+                    </div>
+
+                    <input id="inp-username-register" type="text" name="username" class="span3 required"
+                           placeholder="{{t "Enter a Username"}}">
+                    <input id="inp-password-register" type="password" name="password" class="span3 required"
+                           placeholder="{{t "Password"}}">
+                    <input id="inp-password-confirm" type="password" name="password" class="span3 required"
+                           placeholder="{{t "Confirm Password"}}">
+
+                    <hr class="emboss">
+
+                    <a href="#" id="btn-register-submit" class="btn btn-primary btn-large">
+                        {{t "Register"}}
+                    </a>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

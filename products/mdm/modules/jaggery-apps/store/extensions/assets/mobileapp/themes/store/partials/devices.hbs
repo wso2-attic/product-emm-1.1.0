@@ -1,0 +1,15 @@
+<!-- Modal -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Your Devices</h3>
+</div>
+<div class="modal-body">
+    {{#each .}}
+        <div class="device">
+            <label class="checkbox">{{make}} {{model}} - {{title}}<input type="checkbox"></label>
+        </div>
+    {{/each}}
+</div>
+<div class="modal-footer">
+    <button id="btn-install-apps" class="btn btn-primary">Install</button>
+</div>

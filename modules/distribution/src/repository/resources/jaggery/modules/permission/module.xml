@@ -1,0 +1,7 @@
+<module name="permission" xmlns="http://wso2.org/projects/jaggery/module.xml">
+   <script>
+       <name>permission</name>
+       <path>scripts/permission.js</path>
+   </script>
+</module>
+

@@ -1,0 +1,62 @@
+{
+    "applyTo": "gadget",
+
+
+    "import": [
+        "/modules/rxt/ext/scripts/form.overview.exporter.js",
+        "/modules/rxt/ext/scripts/form.exporter.js"],
+
+    "fieldPropertyRules": [
+        "overview.name:order=1",
+        "overview.provider:order=2",
+        "overview.description:order=3",
+        "overview.version:order=4"
+    ],
+
+    "link": [
+        "overview.stage:value=*.lifecycleState"
+    ],
+
+    "fieldProperties": [
+
+        {
+            "field": "*",
+            "name": "order",
+            "value": ""
+        },
+        {
+            "field": "*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "*",
+            "name": "visible",
+            "value": "true"
+        }
+    ],
+
+    "storage": {
+
+        "images_banner": {
+
+            "lifecycle": {
+                "created": ["private_{overview_provider}"],
+                "in-review": ["reviewer", "private_{overview_provider}"],
+                "published": ["Internal/everyone", "private_{overview_provider}", "reviewer","anon"],
+                "unpublished": ["private_{overview_provider}"]
+            }
+        },
+
+        "images_thumbnail": {
+
+            "lifecycle": {
+                "created": ["private_{overview_provider}"],
+                "in-review": ["reviewer", "private_{overview_provider}"],
+                "published": ["Internal/everyone", "private_{overview_provider}", "reviewer","anon"],
+                "unpublished": ["private_{overview_provider}"]
+            }
+        }
+
+    }
+}

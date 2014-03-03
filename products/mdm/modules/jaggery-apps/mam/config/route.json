@@ -1,0 +1,157 @@
+{
+    "apiRoutes": {
+        "/mam/api/users/{userid}/sendmail": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/{userid}": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/unauthenicate/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/{userid}": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/{+userid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/{+username}/groups/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/{+username}/groups/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/{userid}/devices": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/users/invite": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/invite": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/{groupid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/{groupid}/users/device_count": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/{groupid}/users": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/{groupid}/users": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/{groupid}": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/groups/{groupid}/operations/{operation}": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policy/{policyid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/{policyid}/enforce": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/{policyid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/{policyid}/groups": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/{policyid}/users": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/{policyid}/platforms": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/mam/api/policies/{policyid}/groups": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        }
+    },
+    "pageRoutes": {
+    	
+    }
+}

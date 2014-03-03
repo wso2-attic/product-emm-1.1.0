@@ -1,0 +1,91 @@
+<%
+//TODO : remove this and fix welcome page properly
+//response.sendRedirect('.' + require('/store.js').config().assetsUrlPrefix + '/gadget');
+
+var caramel;
+
+require('/modules/store.js').exec(function (ctx) {
+    var paging, count, current, loggedUser, manager, assets, length, recentDiff,
+            popularDiff, recent, popular, type,
+            log = ctx.log,
+            query = ctx.params.query,
+            tag = ctx.params.tag,
+            sso = ctx.sso,
+            store = ctx.store,
+            user = ctx.user,
+            tenantId = ctx.tenantId,
+            configs = ctx.configs,
+            site = ctx.site,
+            matcher = ctx.matcher,
+            first = true,
+            recentCount = 10,
+            popularCount = 10,
+            items = [],
+            popularItems = [],
+            recentItems = [],
+            options = {},
+            types = store.assetTypes(),
+            search = require('/modules/search.js'),
+            utility = require('/modules/util.js');
+
+    caramel = require('caramel');
+
+    length = types.length;
+    recent = Math.floor(recentCount / length);
+    recentDiff = recentCount - recent * length;
+    popular = Math.floor(popularCount / length);
+    popularDiff = popularCount - popular * length;
+    paging = store.assetsPaging(request);
+    query = query ? search.build(String(query)) : null;
+
+    types.forEach(function (type) {
+        manager = store.rxtManager(type, session);
+        if (query) {
+            assets = store.search({
+                attributes: query,
+                tag: tag,
+                type: type
+            }, paging);
+        } else if (tag) {
+            assets = store.tagged(type, tag, paging);
+        } else {
+            assets = store.assets(type, paging);
+        }
+        items.push({
+            assets: assets,
+            plural: manager.pluralLabel,
+            singular: manager.singularLabel,
+            type: manager.shortName
+        });
+        popularItems = popularItems.concat(store.popularAssets(type, first ? (popular + popularDiff) : popular));
+        recentItems = recentItems.concat(store.recentAssets(type, first ? (recent + recentDiff) : recent));
+        first = false;
+    });
+
+    caramel.render({
+        title: 'Store | WSO2 Enterprise Store',
+        user: user,
+        sso: sso,
+        header: site.header(tenantId, {
+            sso: sso,
+            user: user
+        }),
+        navigation: site.navigation(tenantId),
+        search: {
+            title: "Top Assets",
+            isTopAssets: true,
+            searchFields: search.fields()
+        },
+        topAssets: {
+            assets: items,
+            popularAssets: popularItems
+        },
+        tags: {
+            url: '/assets/' + type + '?page=1&tag=',
+            data: store.tags(type)
+        },
+        recentAssets: recentItems
+        // type: type,  tag: tag,
+    });
+}, request, response, session);
+%>

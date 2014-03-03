@@ -1,0 +1,120 @@
+.store-my-item img {
+    width: 128px;
+    float: left;
+    margin-right: 15px;
+}
+
+.store-my-item a.asset-title {
+    color: #333333;
+    /*display: inline-block;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    clear: both;
+    display: block;
+    margin-top: 2px;
+}
+#no-data-my-items, #no-data-my-items a {
+    font-size: 18px;
+}
+
+#no-data-my-items .btn-primary {
+    padding: 10px 20px;
+}
+
+.store-my-item .btn-group {
+    display: block;
+    margin-top: 8px;
+}
+
+a.site {
+    display: none;
+}
+
+a.ebook {
+    display: none;
+}
+.store-my-item {
+    position: relative;
+    width: 200px;
+    height: 237px;
+    float: left;
+    display: block;
+    margin-right: 20px;
+}
+
+.store-my-item small {
+    clear: both;
+    display: block;
+    line-height: 15px;
+}
+
+.own-asset-slideshow-cont .asset {
+    width: 200px;
+    margin-right: 17px;
+    display: inline-block;
+}
+
+.own-asset-slideshow-cont .asset:first-child {
+    margin-left: 10px;
+}
+
+.own-asset-slideshow-pag a.selected {
+    background-position: center left;
+}
+
+.own-asset-slideshow-pag a {
+    width: 8px;
+    height: 39px;
+    font-size: 0;
+    background: url(../img/asset-slideshow-pag.png) no-repeat center right;
+    margin-left: 8px;
+    display: inline-block;
+    float: left;
+}
+
+.own-asset-slideshow-pag {
+    height: 39px;
+    margin: 0;
+    position: absolute;
+    right: 73px;
+    top: 1px;
+}
+
+.caroufredsel_wrapper {
+    height: 220px !important;
+}
+
+.popover {
+    left: 0px !important;
+    width: 190px;
+}
+.arrow {
+    left: 18% !important;
+}
+
+.asset-in-site {
+    left: 0px !important;
+}
+
+#myasset-container {
+    padding-top: 20px;
+}
+
+.link-view-all {
+    position: absolute;
+    right: 15px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.link-view-all small {
+    font-size: 11px;
+}
+
+.store-my-item-thumbnail > a {
+    display: block;
+    width: 128px;
+    height: 128px;
+    overflow: hidden;
+}

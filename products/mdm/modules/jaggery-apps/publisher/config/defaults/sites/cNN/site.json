@@ -1,0 +1,15 @@
+{
+    "name": "CNN",
+    "tags": "news,site",
+    "rate": 2,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "CNN",
+        "overview_version": "1.0.0",
+        "overview_url": "http://www.cnn.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the CNN site which is an American basic cable and satellite television channel",
+        "images_thumbnail": "/cNN/thumbnail.png",
+        "images_banner": "/cNN/banner.png"
+    }
+}

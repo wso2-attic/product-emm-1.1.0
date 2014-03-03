@@ -1,0 +1,19 @@
+<%
+/*
+ Description: Landing page of the app
+ Filename:app.js
+ Created Date: 29/7/2013
+ */
+
+var caramel = require('caramel');
+var config = require('/config/publisher.json');
+var server = require('store').server;
+var gadgetCount = 0,
+        siteCount = 0;
+
+if (server.current(session) == null) {
+    response.sendRedirect('/publisher/login');
+} else {
+    response.sendRedirect('/publisher/assets/mobileapp/');
+}
+%>

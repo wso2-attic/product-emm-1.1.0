@@ -1,0 +1,119 @@
+<%
+var type = "mobileapp";
+var goose = require('/modules/goose.js').goose;
+var Handle = require("handlebars").Handlebars;
+var router = new goose({CONTEXT: "/store/"});
+var configs = require('/config/store.js').config();
+var log =new Log();
+var user = require('store').server.current(session);
+var process = require("process");
+var mdm = require('/modules/mdm.js').mdm;
+var mdmServer = new mdm();
+var server = require('store').server;
+
+var getTenantID = function() {
+    if(!(typeof session === "undefined")){
+        if (session.get("mamConsoleUser") && session.get("mamConsoleUser").tenantId != 0) {
+            var tenantID = session.get("mamConsoleUser").tenantId;
+            return tenantID;
+        } else {
+            return "-1234";
+        }
+    }
+}
+var getTenantDomainFromID = function() {
+    if (arguments[0] == "-1234") {
+        return "carbon.super";
+    }
+    var carbon = require('carbon');
+    var ctx = {};
+    ctx.tenantId = arguments[0];
+    var tenantDomain = carbon.server.tenantDomain(ctx);
+    return tenantDomain;
+}
+
+/* 
+	Get Devices
+*/
+router.get('apps/users/{userid}/devices', function(ctx){
+	if(user!=undefined){
+		var result = mdmServer.getDevices(user.username, ctx.platform);
+		print(result.data);
+	}else{
+		response.sendError(404);
+	}
+});
+
+/*
+	iOS device will first perform a request to the below end point - it will serve a plist file
+	with an endpoint to pickup the .ipa archive
+*/
+router.get("apps/install/ios/{id}", function(ctx){
+	var store = require("/modules/store.js").store(ctx.tenantDomain, session);
+	var app = store.asset(type, ctx.id);
+	//Assuming that the extension is of 3 letters
+	var iosManifest = compileTemplate("/template.hbs", {url:configs.archieve_location+""+app.attributes.overview_url, bundleid: app.attributes.overview_packagename, bundleversion: app.attributes.overview_bundleversion,  appname:app.attributes.overview_name});
+	response.contentType = "application/xml";
+	print(iosManifest);
+});
+
+
+
+// DEVICES APIS
+router.post('apps/devices/{deviceid}/install', function(ctx){
+    if (!user) {
+        response.sendError(401, 'Unauthorized');
+        return;
+    }
+    var tenant = server.tenant(request, session);
+    var store = require("/modules/store.js").store(tenant, session);
+	var asset =  store.asset(type, ctx.asset);
+	var identity = buildInstallParam(asset);
+	var payload = {
+		type : asset.attributes.overview_type,
+		identity: identity
+	};
+	if(asset.attributes.overview_platform.toUpperCase()=='WEBAPP'){
+		payload['title'] = asset.attributes.overview_name;
+		mdmServer.installWebClip(payload, ctx.deviceid);
+	}else{
+		mdmServer.install(payload, ctx.deviceid);
+	}
+});
+
+router.post('apps/devices/{deviceid}/uninstall', function(ctx){
+	var tenant = server.tenant(request, session);
+    var store = require("/modules/store.js").store(tenant, session);
+	var asset =  store.assetID(type, ctx.asset);
+	var install_asset = asset.attributes.overview_packagename; 
+	mdmServer.uninstall({identity: install_asset}, ctx.deviceid);
+});
+var buildInstallParam = function(asset){
+	var installParam = configs.mam.archieve_location+asset.attributes.overview_url;
+	if (asset.attributes.overview_platform.toUpperCase() == 'IOS'){
+		installParam = configs.mam.archieve_location+"/store/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+	}
+	if(asset.attributes.overview_type == "Market"){
+		installParam = asset.attributes.overview_packagename;
+		if(asset.attributes.overview_platform.toUpperCase() == 'IOS'){
+			installParam = asset.attributes.overview_appid;
+		}
+	}
+	if(asset.attributes.overview_platform.toUpperCase()=='WEBAPP'){
+		installParam = asset.attributes.overview_url;
+	}
+	return installParam;
+}
+var compileTemplate = function(templatePath, context){
+	var template = Handle.compile(getResource(templatePath));
+	return template(context);
+}
+function getResource(name){
+	var f = new File(name);
+	f.open("r");
+	var cont = f.readAll();
+	f.close();
+	return cont;
+}
+router.process(request);
+%>

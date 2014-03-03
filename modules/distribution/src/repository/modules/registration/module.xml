@@ -1,0 +1,7 @@
+<module name="registration" xmlns="http://wso2.org/projects/jaggery/module.xml">
+   <script>
+       <name>registration</name>
+       <path>scripts/registration.js</path>
+   </script>
+</module>
+

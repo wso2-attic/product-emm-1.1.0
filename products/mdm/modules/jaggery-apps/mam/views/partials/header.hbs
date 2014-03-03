@@ -1,0 +1,29 @@
+<header>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+	<a class="brand" href="#" style="padding:0px; padding-left:20px"><img src="{{resourcePath}}mobile-mam.png" style="height:40px"></a> 
+		 <!--  <a class="brand" href="#">{{appInfo.headerTitle}}</a>  -->
+		<ul class="nav">
+			{{#navigation.topNavigation}}
+				<li class="{{#showActive displayPage ../page}}{{/showActive}}" >
+					<a href="{{{link}}}"><i class="{{icon}} icon-white"> </i> {{{name}}}{{this.page}}</a>
+				</li>
+			{{/navigation.topNavigation}}	
+		</ul>
+		{{#compare userLogin 'true'}}
+			<ul class="nav pull-right">					
+				<li class="dropdown">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-user icon-white"> </i> Welcome {{currentUser.firstName}} <i class="icon-sort-down"></i></a>
+					<ul class="dropdown-menu">
+
+						<li>
+							<a href="{{ui.MAM_UI_URI}}logout">Logout</a>
+						</li>										
+					</ul>
+				</li>
+			</ul>
+		{{/compare}}
+		</div>
+
+	</div>
+</header>

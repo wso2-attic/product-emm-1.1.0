@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>iOS Enrollment</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/mdm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+   <link href="/mdm/assets/boostrap3/css/main.css" rel="stylesheet">
+   <link href="/mdm/assets/boostrap3/css/signin.css" rel="stylesheet">
+
+       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      
+        <div class="navbar-header">         
+          <a class="navbar-brand" href="#">WSO2Mobile MDM Registration</a>
+        </div>   
+     
+    </div>
+
+
+     <div class="container">
+
+      <form class="form-signin" action="enroll" >
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input name="username" type="text" class="form-control" placeholder="Email address" autofocus>
+        <input name="password" type="password" class="form-control" placeholder="Password">       
+        <div style="padding-bottom: 20px; padding-top: 10px">
+        <input name="byod" type="radio" value="0" /> Company Owned
+        <input name="byod" type="radio" value="1" checked="checked"  /> Personal Device        
+        </div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		<br />
+	    <div class="mdm-message text-center">
+		<div class="raw">
+			Make sure you download the root certificate
+		</div>
+		<div class="raw">
+			<a href="ca">Download</a>
+		</div>
+	    </div>
+      </form>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/mdm/assets/boostrap3/js/jquery.js"></script>
+    <script src="/mdm/assets/boostrap3/js/bootstrap.min.js"></script>
+  </body>
+</html>

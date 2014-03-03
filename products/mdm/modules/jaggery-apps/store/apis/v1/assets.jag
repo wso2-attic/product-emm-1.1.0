@@ -1,0 +1,182 @@
+<%
+var log = new Log(),
+        matcher = new URIMatcher(request.getRequestURI()),
+        method = request.getMethod();
+require('/modules/store.js').exec(function (ctx) {
+    var type, elems, assets, asset, azzet, options, man,
+            carbon = require('carbon'),
+            server = require('store').server,
+            start = request.getParameter('start') || 0,
+            count = request.getParameter('count') || 10,
+            user = carbon.server.tenantUser(request.getUser()),
+            store = require('/modules/store.js'),
+            reg = (function () {
+                var reg;
+                if (!user) {
+                    return server.anonRegistry();
+                }
+                return new carbon.registry.Registry(server.server(), {
+                    username: user.username,
+                    tenantId: user.tenantId
+                });
+            }()),
+            manager = function (type) {
+                return store.assetManager(type, reg);
+            },
+            um = server.userManager(user.tenantId),
+            authorize = function (man, options) {
+                if (!options.authorize) {
+                    return;
+                }
+                var asset = one(man, options);
+                options.authorize.forEach(function (role) {
+                    um.authorizeRole(role, asset.path, carbon.registry.actions.GET);
+                });
+            },
+            one = function (man, options) {
+                var assets = man.search(options, { start: 0, count: 10 });
+                return assets.length > 0 ? assets[0] : null;
+            };
+    response.contentType = 'application/json';
+    if (matcher.match('/{context}/apis/{version}/assets/{type}/') ||
+            matcher.match('/{context}/apis/{version}/assets/{type}')) {
+        type = matcher.elements().type;
+        man = manager(type);
+        options = request.getContent();
+
+        if (method === 'POST') {
+            man.add(options);
+            authorize(man, options);
+            print({error: false});
+            return;
+        }
+
+        if (method === 'PUT') {
+            man.update(options);
+            authorize(man, options);
+            print({error: false});
+            return;
+        }
+
+        if (method === 'DELETE') {
+            man.remove(options);
+            print({error: false});
+            return;
+        }
+
+        if (method === 'GET') {
+            assets = man.search({}, { start: start, count: count });
+            print(assets);
+            return;
+        }
+    }
+
+    if (matcher.match('/{context}/apis/{version}/assets/{type}/{provider}/{+name}/{+ver}') ||
+            matcher.match('/{context}/apis/{version}/assets/{type}/{provider}/{+name}/{+ver}/')) {
+        elems = matcher.elements();
+        type = elems.type;
+        man = manager(type);
+        options = {
+            attributes: {
+                overview_name: elems.name,
+                overview_provider: elems.provider,
+                overview_version: elems.ver
+            }
+        };
+        asset = one(man, options);
+        if (!asset) {
+            print({ error: "no matching asset found" });
+            return;
+        }
+
+        if (method === 'GET') {
+            print(asset);
+            return;
+        }
+
+        if (method === 'DELETE') {
+            man.remove({
+                id: asset.id
+            });
+            print({ error: false });
+            return;
+        }
+
+        if (method === 'PUT') {
+            options = request.getContent();
+            options.id = asset.id;
+            man.update(options);
+            authorize(man, options);
+            print({ error: false });
+            return;
+        }
+
+    }
+
+    if (matcher.match('/{context}/apis/{version}/assets/{type}/{provider}/{+name}') ||
+            matcher.match('/{context}/apis/{version}/assets/{type}/{provider}/{+name}/')) {
+        elems = matcher.elements();
+        type = elems.type;
+        man = manager(type);
+        options = {
+            attributes: {
+                overview_provider: elems.provider,
+                overview_name: elems.name
+            }
+        };
+        if (method === 'GET') {
+            assets = man.search(options, { start: start, count: count });
+            print(assets);
+            return;
+        }
+    }
+
+    if (matcher.match('/{context}/apis/{version}/assets/{type}/{provider}') ||
+            matcher.match('/{context}/apis/{version}/assets/{type}/{provider}/')) {
+        elems = matcher.elements();
+        type = elems.type;
+        man = manager(type);
+        options = {
+            attributes: {
+                overview_provider: elems.provider
+            }
+        };
+        if (method === 'GET') {
+            assets = man.search(options, { start: start, count: count });
+            print(assets);
+            return;
+        }
+    }
+    /*
+     if (matcher.match('/{context}/apis/{version}/assets/{id}') ||
+     matcher.match('/{context}/apis/{version}/assets/{id}')) {
+     assets = store.search({
+     id: matcher.elements().id
+     });
+     asset = assets.length > 0 ? assets[0] : null;
+     if (!asset) {
+     return { error: "no matching asset found" };
+     }
+
+     if (method === 'GET') {
+     return asset;
+     }
+
+     if (method === 'DELETE') {
+     store.removeAsset(asset.id);
+     return { error: false };
+     }
+
+     if (method === 'PUT') {
+     azzet = request.getContent();
+     azzet.id = asset.id;
+     store.updateAsset(azzet);
+     return { error: false };
+     }
+
+     }*/
+    response.status = 404;
+    print({ error: 'API Endpoint not found' });
+
+}, request, response, session);
+%>

@@ -1,0 +1,85 @@
+<script>
+    var isSocial = ('{{isSocial}}' == 'true');
+</script>
+<div class="asset-description">
+    {{#with asset}}
+        {{#attributes}}
+            <div class="asset-description-header">
+                <div class="row">
+                    <div class="span9">
+                        <div class="asset-banner">
+                            <img src="{{#if images_banner}}{{images_banner}}{{/if}}">
+                        </div>
+                        <div class="asset-introduction-box">
+                            <img src="{{#if images_thumbnail}}{{images_thumbnail}}{{/if}}">
+
+                            <h3>{{overview_name}}</h3>
+                            <small> {{t "Version"}} {{overview_version}}</small>
+                            <small> {{t "by"}} {{overview_provider}} </small>
+					<span class="asset-rating">
+                            <div style="width:{{../rating.ratingPx}}px"></div>
+                    </span>
+                          {{>asset-utilization ../../.}}
+                         </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="assetp-properties">
+
+                <ul class="nav nav-tabs" id="assetp-tabs" data-aid="{{../path}}">
+                    <li class="active">
+                        <a href="#tab-properties" data-toggle="tab" data-type="basic">{{t "Description"}}</a>
+                    </li>
+                    <li>
+                        <a href="#tab-reviews" data-toggle="tab" data-type="comments">{{t "User Reviews"}}</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-properties">
+                        <div class="content">
+                            {{>overview .}}
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-reviews">
+                        <iframe name="socialIfr" id="socialIfr"
+                                src="../../../social/?target={{../../type}}:{{../id}}&user={{../../user.username}}"
+                                width="100%" height="100%" style="height: 300px;"></iframe>
+                       	{{#if ../../inDashboard}}
+                       		 <div id="comment-content" class="content"></div>
+						{{else}}
+							<div id="comment-content" class="content user-review"></div>
+						{{/if}}
+                    </div>
+
+                </div>
+
+            </div>
+        {{/attributes}}
+    {{/with}}
+</div>
+<!-- Modal -->
+<!--<div id="modal-add-gadget" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+<i class="icon-remove"></i>
+</button>
+<h3 id="modal-add-gadget-header">Modal header</h3>
+</div>
+<div class="modal-body">
+<code>
+embed code goes here
+</code>
+</div>
+<div class="modal-footer">
+<span class="copy-status">
+
+</span>
+<button id="btn-copy-gadget-code" class="btn btn-primary">
+Copy Gadget Code
+</button>
+</div>-->

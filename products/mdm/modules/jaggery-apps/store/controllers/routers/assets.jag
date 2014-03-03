@@ -1,0 +1,60 @@
+<%
+var type;
+(function () {
+    var prefix, pages, path, suffix, theme, links, link, i, length, elements, mapper,
+            store = require('/modules/store.js'),
+            config = require('/config/store.js').config(),
+            file = require('/modules/file.js'),
+            server = require('store').server,
+            log = new Log(),
+            matcher = new URIMatcher(request.getRequestURI()),
+            tenant = server.tenant(request, session),
+            configs = store.configs(tenant.tenantId);
+    mapper = function (path) {
+        return function () {
+            return path;
+        };
+    };
+
+
+    if (matcher.match('/{context}' + config.assetsUrlPrefix + '/{type}/')) {
+    	
+        elements = matcher.elements();
+        type = elements.type;
+        
+        if (type == "all") {
+            path = '/controllers/top-assets.jag';
+            request.getMappedPath = mapper(path);
+            include(path);
+            return;
+        }
+        if (configs.assets.indexOf(type) === -1) {
+            response.sendError(404, 'Request Resource cannot be found');
+            return;
+        } 
+        path = store.ASSETS_EXT_PATH + type + '/pages/' + 'assets.jag';
+        if (!new File(path).isExists()) {
+            path = '/controllers/assets.jag';
+        }
+        request.getMappedPath = mapper(path);
+        include(path);
+        return;
+    }
+    if (matcher.match('/{context}' + config.assetsUrlPrefix + '/{type}/{id}')) {
+        elements = matcher.elements();
+        type = elements.type;
+        if (configs.assets.indexOf(type) === -1) {
+            response.sendError(404, 'Request Resource cannot be found');
+            return;
+        }
+        path = store.ASSETS_EXT_PATH + type + '/pages/asset.jag';
+        if (!new File(path).isExists()) {
+            path = '/controllers/asset.jag';
+        }
+        request.getMappedPath = mapper(path);
+        include(path);
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+}());
+%>

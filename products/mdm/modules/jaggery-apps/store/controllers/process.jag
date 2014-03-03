@@ -1,0 +1,32 @@
+<%
+var caramel;
+
+require('/modules/store.js').exec(function (ctx) {
+    var asset,
+            log = ctx.log,
+            sso = ctx.sso,
+            aid = ctx.params.asset,
+            store = ctx.store,
+            user = ctx.user,
+            tenantId = ctx.tenantId,
+            configs = ctx.configs,
+            site = ctx.site,
+            matcher = ctx.matcher,
+            inDashboard = false,
+            utility = require('/modules/util.js');
+
+    caramel = require('caramel');
+
+    if (!user) {
+        response.sendError(401, 'Unauthorized');
+        return;
+    }
+
+    if (!(store.asset(type, aid))) {
+        response.sendError(404, 'Not Found');
+        return;
+    }
+    store.subscribe(type, aid);
+    response.sendRedirect(request.getParameter('destination'));
+}, request, response, session);
+%>

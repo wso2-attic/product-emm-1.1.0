@@ -1,0 +1,114 @@
+<div class="container">
+
+	<div class="raw-fluid">
+		<div class="span12">
+			<div class="block">
+				<div class="block-header">
+					<div class="block-header-title pull-left">
+						{{#data.user}}
+						{{firstName}} {{lastName}} ({{username}})
+						{{/data.user}}
+					</div>
+
+				</div>
+
+				<div class="block-body container-fluid raw-fluid well-small">
+
+					<div class="raw">
+						
+						<div class="span6">
+
+							<div class="raw">
+
+								<div class="raw">
+
+									<div class="block">
+										<div class="block-header-small">
+											<div class="pull-left">
+												Info
+											</div>
+										</div>
+
+										<div class="block-body container-fluid raw-fluid well-small">
+											<div class="span2">
+												<i class="icon-user" style="font-size: 90px; color: #086F76"></i>
+											</div>
+											<div class="span3">
+												{{#data.user}}
+												<div class="span5" >													
+														<b>First Name:</b> {{firstName}}													
+												</div>
+												<div class="span5" >													
+														<b>Last Name:</b> {{lastName}}													
+												</div>
+												<div class="span5" >													
+														<b>E-Mail:</b> {{email}}													
+												</div>
+												<div class="span5" >													
+														<b>Username:</b> {{username}}													
+												</div>												
+												{{/data.user}}
+
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+						
+						
+
+						<div class="span5">
+
+							<div class="raw">
+
+								<div class="raw">
+
+									<div class="block">
+										<div class="block-header-small">
+											<div class="pull-left">
+												Roles
+											</div>
+										</div>
+
+										<div class="block-body container-fluid raw-fluid well-small">
+											<div class="raw" style="padding-left: 20px">
+
+												<div class="span2" >
+													{{#data.groups}}
+													{{#if available}}
+													<div>
+														<i class="icon-group" style="color: #086F76"></i> {{name}}
+													</div>
+													{{/if}}
+													{{/data.groups}}
+												</div>
+
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Modal Features -->
+	<div id="featureModal" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true">
+
+	</div>
+

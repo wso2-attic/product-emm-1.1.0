@@ -1,0 +1,9 @@
+<script type="text/javascript">
+    if (store.asset) {
+        store.asset = {};
+    }
+    store.asset = {
+        type: "{{type}}",
+        paging : {{#if paging}}{{json paging}}{{else}}null{{/if}}
+    };
+</script>

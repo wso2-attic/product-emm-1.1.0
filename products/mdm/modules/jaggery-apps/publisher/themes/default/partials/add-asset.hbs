@@ -1,0 +1,113 @@
+<div class="content-div">
+            <!--div class="row-fluid">
+                <form class="form-horizontal" id='form-asset-create'>
+                    {{#each data.fields}}
+					<div class="control-group">
+						<b><label class="control-label">{{this.label}}:</label>
+						</b>
+						<div class="controls">
+							{{#if this.isTextBox}}
+								<input id='{{this.name}}' type='text' value='{{this.value}}'
+                                    {{#if this.isReadOnly}} readonly{{/if}}/>
+							{{/if}}
+							{{#if this.isOptions}}
+								<select id="{{this.name}}">
+								{{#each this.valueList}}
+									<option>{{this}}</option>
+								{{/each}}
+								</select>
+							{{/if}}
+							{{#if this.isTextArea}}
+								<textarea id='{{this.name}}' value='{{this.value}}' ></textarea>
+							{{/if}}
+						</div>
+					</div>	
+		     {{/each}}
+
+                    <div id="saveButtons" class="form-actions">
+                        <input type="button" value="Create" class="btn btn-primary" name="addNewAssetButton" id="btn-create-asset">
+			<input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+                        <input type="reset" value="Cancel" class="btn">
+                    </div>
+                </form-->
+    <div class="row-fluid">
+        <div class="span12 asset-view-container">
+            <div class="widget wlightblue">
+                <div class="widget-head">
+                    <div class="pull-left">Add {{data.meta.singularLabel}}</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="widget-content">
+                    <form  class="form-horizontal" id="form-asset-create" action="/publisher/asset/gadget" method="POST" enctype="multipart/form-data">
+                        {{#each data.fields}}
+                        <div class="control-group">
+                            <b><label class="control-label">{{this.label}} 
+                            	
+                                :</label>
+                            </b>
+                            <div class="controls">
+                                {{#if this.isTextBox}}
+                                	{{#if isReadOnly}}
+                                		<input type="hidden" name='{{this.name}}' value='{{this.value}}'/>
+                                		<input id='{{this.name}}' type='text' value='{{this.value}}'  class="span8" {{#if isReadOnly}} disabled="true" {{/if}} {{#if this.isRequired}} required{{/if}}/>
+                                	{{else}}
+                                		<input id='{{this.name}}' name='{{this.name}}' type='text' value='{{this.value}}'  class="span8" {{#if isReadOnly}} disabled="true" {{/if}} {{#if this.isRequired}} required{{/if}}/>
+                                	{{/if}}
+                                    
+                                {{/if}}
+                                {{#if this.isOptions}}
+                                    <select id="{{this.name}}"  class="span8 selectpicker" name='{{this.name}}'>
+                                    {{#each this.valueList}}
+                                        <option>{{this}}</option>
+                                    {{/each}}
+                                    </select>
+                                {{/if}}
+                                {{#if this.isTextArea}}
+                                    <textarea id='{{this.name}}' value='{{this.value}}' class="span8" name='{{this.name}}'></textarea>
+                                {{/if}}
+                                {{#if this.isFile}}
+                                	<div class="span8">
+                                		<div class="tbl-upload">
+                                			<div class="tbl-upload-row">
+                                				<div class="tbl-upload-cell">
+                                					 <input type="text" class="txt-filepath" disabled="true"/>
+                                				</div>
+                                				<div class="tbl-upload-cell">
+                                					<button class="btn btn-upload">Browse</button>
+                                   					<input id='{{this.name}}' type='file' name='{{this.name}}'/>
+                                				</div>
+                                			</div>
+                                		</div>
+                                		
+                                	</div>
+                                {{/if}}
+                                {{#if this.isOptionsText}}
+                                    <div id="{{this.name}}" name='{{this.name}}' class="options-text" data-add-button="Add {{this.label}}" data-selected="" data-options="{{this.valueList}}" ></div>
+                                {{/if}}
+                               	{{#if this.isRequired}}
+                                <span class="label-required">*</span>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{/each}}
+
+						<div class="control-group">
+							<b><label class="control-label">Tags: </label></b>
+							<div class="controls">
+								<input type='text' id='tag-container' name='tag-container'>
+							</div>
+						</div>
+						
+						
+                        <div id="saveButtons" class="form-actions">
+                        	<button id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton">Create</button>
+                      		<button class="btn" type="reset">Reset</button>
+			                <input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+                        </div>
+                    </form>
+                </div>
+             
+            </div>
+	    </div>
+    </div>
+</div>

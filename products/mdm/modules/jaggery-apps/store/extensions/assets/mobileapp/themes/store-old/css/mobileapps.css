@@ -1,0 +1,8 @@
+.store-mobileapp-icon{
+    color: #34495E;
+    font-size: 30px;
+    position: absolute;   
+    top: -4px;
+    z-index: 1;
+    text-shadow:1px 1px #848484;
+}

@@ -1,0 +1,12 @@
+{{#if thisAsset.indashboard}}
+    <a href="#" class="btn disabled btn-added">{{t "Bookmarked"}}</a>
+{{else}}
+    {{# if ssoParam}}
+        <a href="{{url "/login"}}" class="btn btn-primary asset-add-btn">{{>process-asset-text}}</a>
+    {{else}}
+        <a href="#" class="btn btn-primary asset-add-btn">{{>process-asset-text}}</a>
+    {{/if}}
+    {{# if userParam.username}}
+        <a href="#" class="btn btn-primary asset-add-btn">{{>process-asset-text}}</a>
+    {{/if}}
+{{/if}}

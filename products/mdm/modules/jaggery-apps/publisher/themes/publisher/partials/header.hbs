@@ -1,0 +1,34 @@
+<div id="publisher_top_nav" class="container-fluid top-nav-container">
+    <div class="row-fluid">
+        <div id="publisher_logo_main" class="left span3">
+            <div class="logo es_publisher_logo">
+                <a href="/publisher/" class="">
+                    <img alt="Enterprise Store Publisher Logo" src="{{url "/themes/publisher/img/enterprise-store-logo.png"}}" />
+                </a>
+            </div>
+        </div>
+        <div class="span9 top-nav-controls">
+            <div class="dropdown context_menu right">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-reorder"></i></a>
+                <ul class="dropdown-menu store-switcher-menu">
+                    <li><a target="_self" href="/publisher/assets/gadget/"><i class="icon-dashboard"></i>{{t "Gadget"}}</a></li>
+                    <li><a target="_self" href="/publisher/assets/site/"><i class="icon-compass"></i>{{t "Site"}}</a></li>
+                    <li><a target="_self" href="/publisher/assets/book/"><i class="icon-book"></i>{{t "Book"}}</a></li>
+                </ul>
+            </div>
+            <div class="dropdown user right">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+						<span class="icon-stack">
+							<i class="icon-check-empty icon-stack-base"></i>
+							<i class="icon-user"></i>
+						</span>
+                    {{cuser.username}}
+                    <span class="icon-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu user-menu">
+                    <li><a onclick="window.location.href='{{url "/logout"}}'" href="#"><i class="icon-signout"></i>{{t "Sign out"}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

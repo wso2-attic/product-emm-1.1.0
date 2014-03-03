@@ -1,0 +1,117 @@
+.store-my-item img {
+    width: 128px;
+    float: left;
+    margin-right: 15px;
+}
+
+.store-my-item a.asset-title {
+    color: #333333;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+#no-data-my-items, #no-data-my-items a {
+    font-size: 18px;
+}
+
+#no-data-my-items .btn-primary {
+    padding: 10px 20px;
+}
+
+.store-my-item .btn-group {
+    display: block;
+}
+
+a.site {
+    display: none;
+}
+
+a.ebook {
+    display: none;
+}
+.store-my-item {
+    position: relative;
+    width: 197px;
+    height: 237px;
+    float: left;
+    display: block;
+    margin-right: 20px;
+}
+
+.store-my-item small {
+    clear: both;
+    display: block;
+    line-height: 0 !important;
+}
+
+.own-asset-slideshow-cont .asset {
+    width: 200px;
+    margin-right: 17px;
+    display: inline-block;
+}
+
+.own-asset-slideshow-cont .asset:first-child {
+    margin-left: 10px;
+}
+
+.own-asset-slideshow-pag a.selected {
+    background-position: center left;
+}
+
+.own-asset-slideshow-pag a {
+    width: 8px;
+    height: 39px;
+    font-size: 0;
+    background: url(../img/asset-slideshow-pag.png) no-repeat center right;
+    margin-left: 8px;
+    display: inline-block;
+    float: left;
+}
+
+.own-asset-slideshow-pag {
+    height: 39px;
+    margin: 0;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.caroufredsel_wrapper {
+    height: 220px !important;
+}
+
+.popover {
+    left: 0px !important;
+    width: 190px;
+}
+.arrow {
+    left: 18% !important;
+}
+
+.asset-in-site {
+    left: 0px !important;
+}
+.bookmark-assert-provider {
+    padding-top: 7px;
+}
+
+.store-icon-trash{
+    color: #000000;
+    font-size: 40px;
+    position: absolute;
+    right: 60px;
+    text-shadow: 1px 1px #848484;
+    top: 100px;
+    z-index: 1;
+}
+
+#myasset-container {
+    padding-top: 20px;
+}
+
+.store-my-item .btn-group {
+    display: block;
+    margin-top: 8px;
+}

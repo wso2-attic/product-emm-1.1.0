@@ -1,0 +1,7 @@
+<module name="login" xmlns="http://wso2.org/projects/jaggery/module.xml">
+   <script>
+       <name>login</name>
+       <path>scripts/login.js</path>
+   </script>
+</module>
+

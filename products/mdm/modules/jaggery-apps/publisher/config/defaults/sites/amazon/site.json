@@ -1,0 +1,15 @@
+{
+    "name": "Amazon",
+    "tags": "books,site,market,internet shopping,e-commerce",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "Amazon",
+        "overview_version": "1.0.0",
+        "overview_url": "http://www.amazon.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the Amazon site which is of an American international multibillion dollar electronic commerce company",
+        "images_thumbnail": "/amazon/thumbnail.png",
+        "images_banner": "/amazon/banner.png"
+    }
+}

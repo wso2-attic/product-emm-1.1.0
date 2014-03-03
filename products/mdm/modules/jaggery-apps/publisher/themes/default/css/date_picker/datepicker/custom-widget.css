@@ -1,0 +1,55 @@
+#date-range {
+    position:relative;
+    float: right;
+    padding-right: 39px;
+    z-index:1;
+}
+#date-range-field {
+    width: 290px;
+    height: 26px;
+    overflow: hidden;
+    position: relative;
+    cursor:pointer;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+}
+#date-range-field a  {
+    color:#B2B2B2;
+    background-color:#F7F7F7;
+    text-align:center;
+    display: block;
+    position: absolute;
+    width: 26px;
+    height: 23px;
+    top: 0;
+    right: 0;
+    text-decoration: none;
+    padding-top:6px;
+    border-radius: 0 5px 5px 0;
+}
+#date-range-field span {
+    font-size: 12px;
+    font-weight: bold;
+    color: #404040;
+    position: relative;
+    top: 0;
+    height: 26px;
+    line-height: 26px;
+    left: 5px;
+    width: 250px;
+    text-align: center;
+}
+
+#datepicker-calendar {
+    position: absolute;
+    top: 27px;
+    left: 0;
+    overflow: hidden;
+    width: 497px;
+    height:153px;
+    background-color: #F7F7F7;
+    border: 1px solid #CCCCCC;
+    border-radius: 0 5px 5px 5px;
+    display:none;
+    padding:10px 0 0 10px;
+}

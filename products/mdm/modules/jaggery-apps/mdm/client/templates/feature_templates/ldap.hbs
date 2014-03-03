@@ -1,0 +1,35 @@
+<div class="feature-dialog">
+
+	<div class="modal-header">
+		<h4 id="myModalLabel">LDAP Configuration</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div class="raw">
+			<div class="feature-lable">LDAP Description: <span style="color:#FF0000">*</span> </div><input type="text" id="ldapdesc" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw">
+			<div class="feature-lable">Host Name: <span style="color:#FF0000">*</span> </div><input type="text" id="hostname" class="feature-input" data-required="true">
+		</div>
+		<div class="raw">
+			<div class="feature-lable">Username: <span style="color:#FF0000">*</span> </div><input type="text" id="username" class="feature-input" data-required="true">
+		</div>
+		<div class="raw">
+			<div class="feature-lable">Password: <span style="color:#FF0000">*</span> </div><input type="text" id="password" class="feature-input" data-required="true">
+		</div>
+		<div class="raw well-small">
+			Use DSSL: <input type="checkbox" id="usedssl" class="feature-input">
+		</div>
+	
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-cancel"  data-dismiss="modal" aria-hidden="true">
+			Close
+		</button>
+		<button  class="btn btn-orange feature-command">Set LDAP</button>
+	</div>
+
+</div>
+

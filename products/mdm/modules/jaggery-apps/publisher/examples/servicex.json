@@ -1,0 +1,119 @@
+{
+    "applyTo": "servicex",
+
+
+    "import": [
+        "/modules/ext/scripts/rxt.importer.js",
+        "/modules/ext/scripts/form.exporter.js"],
+
+    "fieldPropertyRules": [],
+
+    "tables": [
+        {
+            "name": "*"
+        }
+
+    ],
+
+    "fieldProperties": [
+        {
+            "field": "*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "*",
+            "name": "visible",
+            "value": "true"
+        },
+        {
+            "field": "overview.*",
+            "name": "save",
+            "value": "default"
+        },
+        {
+            "field": "overview.*",
+            "name": "editable",
+            "value": true
+        },
+        {
+            "field": "images.*",
+            "name": "editable",
+            "value": true
+        },
+        {
+            "field": "*.lifeCycle",
+            "name": "save",
+            "value": "asset.lifecycle.action.save"
+        },
+        {
+            "field": "overview.provider",
+            "name": "readOnly",
+            "value": "true"
+        },
+        {
+            "field":"overview.provider",
+            "name":"editable",
+            "value":false
+        },
+        {
+            "field":"overview.name",
+            "name":"editable",
+            "value":false
+        },
+        {
+            "field": "overview.createdtime",
+            "name": "hidden",
+            "value": "true"
+        },
+        {
+            "field":"overview.version",
+            "name":"editable",
+            "value":false
+        }
+
+    ],
+
+    "fields": [
+        {
+            "name": "lifeCycle",
+            "table": "*",
+            "label": "Life Cycle",
+            "value": "SampleLifeCycle2"
+
+        },
+        {
+            "name": "thumbnail",
+            "table": "images",
+            "type": "file"
+        },
+        {
+            "name": "description",
+            "table": "overview",
+            "value": "The provider has not given a description."
+        }
+
+    ],
+
+    "permissions": {
+        "created": ["Internal/private_{overview_provider}"],
+        "in-review": ["Internal/reviewer", "Internal/private_{overview_provider}"],
+        "published": ["Internal/private_{overview_provider}"],
+        "unpublished": ["Internal/private_{overview_provider}"]
+    },
+
+
+    "storage": {
+
+        "images_thumbnail": {
+
+            "lifecycle": {
+                "created": ["Internal/private_{overview_provider}"],
+                "in-review": ["Internal/reviewer", "Internal/private_{overview_provider}"],
+                "published": ["Internal/everyone", "Internal/private_{overview_provider}", "Internal/reviewer"],
+                "unpublished": ["Internal/private_{overview_provider}"]
+            }
+        }
+
+    }
+}

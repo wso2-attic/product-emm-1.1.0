@@ -1,0 +1,197 @@
+body .store-left {
+    padding-top: 0;
+}
+.asset-description {
+    position: relative;
+    padding-top: 0;
+}
+.asset-description-header h2 {
+    margin-top: 12px;
+}
+.asset-description-header {
+    background: #fff;
+}
+.asset-description-header .row > div {
+    position: relative;
+    height: 300px;
+}
+.asset-description-header .row {
+    margin-bottom: 0;
+}
+
+#modal-add-gadget code {
+    display: block;
+}
+
+#modal-add-gadget .copy-status {
+    margin-right: 20px;
+}
+
+/*
+ .assetp-properties li:nth-child(even) {
+ background: #f5f5f5;
+ }
+ */
+.assetp-properties .tab-content {
+    overflow: visible;
+}
+#tab-reviews {
+    position: absolute;
+    display: block;
+    visibility: hidden;
+    top:-9999px;
+}
+
+#tab-reviews li {
+    background: none repeat scroll 0 0 transparent;
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 14px;
+    padding: 9px 0 5px;
+}
+#tab-reviews .content {
+    position: relative;
+}
+
+#tab-reviews li p {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+#tab-reviews ul {
+    position: relative;
+}
+
+#tab-reviews .tab-reviewer {
+    color: #888888;
+    font-size: 12px;
+    font-style: italic;
+    text-align: right;
+}
+#tab-review-box {
+    padding: 10px;
+    background: #F5F5F5;
+}
+#tab-review-box .row-fluid {
+    margin-bottom: 0;
+}
+
+#reviews-loader {
+    display: none;
+}
+#socialIfr {
+    overflow: hidden;
+}
+.asset-banner {
+    left: -15px;
+}
+
+.asset-introduction-box {
+    left: 564px;
+}
+
+a.btn-embed {
+    border-radius: 4px 4px 4px 4px;
+    color: #AAAAAA;
+    font-size: 18px;
+    letter-spacing: 3px;
+    padding: 10px;
+    background: #ECF0F1;
+    margin-top: 0;
+    display: inline-block;
+}
+
+a.btn-href {
+    border-radius: 4px 4px 4px 4px;
+    color: #AAAAAA;
+    font-size: 18px;
+    letter-spacing: 3px;
+    padding: 10px;
+    background: #ECF0F1;
+    margin-top: 0;
+    display: inline-block;
+}
+
+a.btn-embed:hover {
+    background: #ECF0F1;
+    color: #2C3238;
+}
+
+a.site {
+    display: none;
+}
+
+a.ebook {
+    display: none;
+}
+
+textarea.site {
+    display: none;
+}
+
+.embed-snippet {
+
+}
+
+.rate-num-assert {
+    font-size: smaller;
+}
+
+label.error {
+    display: none;
+}
+@media all and (max-width: 1225px) {
+    .asset-introduction-box {
+
+    }
+}
+
+/*
+ * assert introduction box
+ *
+ *
+ */
+
+.asset-introduction-box {
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    top: 0;
+    left: 565px;
+    padding: 20px;
+    border-left: 1px solid #ECF0F1;
+    border-bottom: 1px solid #ECF0F1;
+}
+
+.asset-introduction-box img {
+    width: 75px;
+    border: 1px solid #FFFFFF;
+}
+.asset-introduction-box h3 {
+    margin-bottom: 5px;
+    line-height: normal;
+    max-height: 59px;
+    overflow: hidden;
+}
+.asset-introduction-box small {
+    display: block;
+    line-height: 1.2;
+    color: #7f8c8d;
+}
+.asset-introduction-box .asset-rating {
+    margin-top: 10px;
+    width: auto;
+    margin-bottom: 15px;
+}
+.text-review-box-charCount-msg {
+    text-align: right;
+    width: 50%;
+    float: right;
+}
+
+/*
+.asset-description-header .asset-introduction-box {
+    left: 59% !important;
+    right: -1px;
+    background: #fff;
+}*/
+
+

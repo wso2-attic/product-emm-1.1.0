@@ -1,0 +1,18 @@
+{
+    "name": "Robinson Crusoe",
+    "tags": "ebooks,novel,fiction",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "Robinson Crusoe",
+        "overview_version": "Edition-1",
+        "overview_url": "robinsonCrusoe/Robinson_Crusoe.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Daniel Defoe",
+        "overview_provider": "admin",
+        "overview_description": "The story is widely perceived to have been influenced by the life of Alexander Selkirk, a Scottish castaway who lived for four years on the Pacific island.",
+        "images_thumbnail": "robinsonCrusoe/thumbnail.jpg",
+        "images_banner": "robinsonCrusoe/banner.png"
+    }
+}

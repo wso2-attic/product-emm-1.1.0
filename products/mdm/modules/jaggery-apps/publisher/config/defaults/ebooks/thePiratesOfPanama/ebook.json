@@ -1,0 +1,18 @@
+{
+    "name": "The Pirates of Panama",
+    "tags": "ebooks,novel",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "The Pirates of Panama",
+        "overview_version": "Edition-1",
+        "overview_url": "thePiratesOfPanama/The_Pirates_of_Panama.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Alexandre Olivier",
+        "overview_provider": "admin",
+        "overview_description": "A True Account of the Famous Adventures and Daring Deeds of Sir Henry Morgan and Other Notorious Freebooters of the Spanish Main.",
+        "images_thumbnail": "thePiratesOfPanama/thumbnail.jpg",
+        "images_banner": "thePiratesOfPanama/banner.png"
+    }
+}

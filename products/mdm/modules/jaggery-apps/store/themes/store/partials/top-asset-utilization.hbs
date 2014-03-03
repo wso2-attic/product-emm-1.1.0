@@ -1,0 +1,14 @@
+{{#if thisAsset.indashboard}}
+    <a href="#" class="btn disabled btn-added">View</a>
+{{else}}
+
+    {{# if ssoParam}}
+        <a href="{{url "/login"}}"
+           class="btn btn-primary btn-added">View</a>
+    {{else}}
+
+        <a href="#" class="btn btn-primary btn-added">View</a>
+    {{/if}}
+    {{# if userParam.username}}
+        <a href="#" class="btn btn-primary btn-added">View</a>
+    {{/if}}{{/if}}

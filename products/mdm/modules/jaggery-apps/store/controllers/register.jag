@@ -1,0 +1,18 @@
+<%
+var log = new Log(),
+        caramel = require('caramel'),
+        site = require('/modules/site.js');
+
+caramel.render({
+    'title': 'Store | Login',
+    'navigation': site.navigation(),
+    'register': {
+        'url': 'user-registration.jag',
+        'contentType': 'application/x-www-form-urlencoded',
+        'parameters': [
+            'email',
+            'password'
+        ]
+    }
+});
+%>

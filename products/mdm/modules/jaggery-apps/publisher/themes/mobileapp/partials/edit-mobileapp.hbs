@@ -1,0 +1,189 @@
+<div class="content-div">
+	<div class="row-fluid" id="app-upload-progress"  style="display: none">		
+		    <div class="progress progress-striped active">
+		    <div class="bar" style="width: 90%;"></div>
+		    </div>
+		    
+	</div>
+	
+	<div class="row-fluid well-small" id="app-upload-progress-done" style="display: none; padding-left: 44px">	  
+		    <div class="alert alert-info container span11">
+		    <button type="button" class="close" data-dismiss="alert">&times;</button>
+		    <h4>App is uploaded successfully!</h4>
+		    	Please enter application details below. 
+		    </div>
+	</div>
+
+	<div class="row-fluid">
+		<form class="form-horizontal" id='form-asset-create' action="/publisher/api/asset/mobileapp/{{artifact.id}}" method="post" enctype="multipart/form-data">
+			<div class="well-small offset9">
+			<!--	<a class="btn btn-primary" href="#modal-upload-app" data-toggle="modal">Upload Application</a> -->
+			</div>
+
+			<input type="hidden" id="appmeta" name="appmeta" value="">
+
+			<input type="hidden" name="version" value="1.0">
+			<input
+			type="hidden" name="provider" value="1WSO2Mobile">
+			
+			<input	type="hidden" id="txtMarketHidden" name="markettype" value="">
+			<input	type="hidden" id="txtOSHidden" name="platform" value="">
+			
+
+			<div class="control-group">
+				<label class="control-label" for="txtName">Title</label>
+				<div class="controls">
+					<input class="field span6" type="text" name="overview_name" id="txtName" disabled="disabled" value="{{artifact.attributes.overview_name}}">	
+					<input type="hidden" name="app_id" id="app_id" value="{{artifact.id}}" >								
+				</div>
+			</div>
+			<!--
+			<div class="control-group">
+			<label class="control-label" for="txtName">Package Name</label>
+			<div class="controls">
+			<input class="field span6" type="text" name="package_name" id="txtPackageName">
+			</div>
+			</div>
+			-->
+			<div class="control-group">
+				<label class="control-label" for="txtDescription">Description</label>
+				<div class="controls">
+					<textarea class="field span6" id="txtDescription"
+										name="description" rows="6" style="width:90%">{{artifact.attributes.overview_description}}</textarea>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="txtRecentChanges">Recent
+					Changes</label>
+				<div class="controls">
+					<textarea class="field span6" id="txtRecentChanges"
+										name="recentChanges" rows="6" style="width:90%">{{artifact.attributes.overview_recentchanges}}</textarea>
+				</div>
+			</div>
+			
+			
+			<div id="control-packagename"	class="control-group">
+									<label class="control-label" for="txtName">Version <span style="color:#FF0000">*</span></label>
+									<div class="controls">
+										<input class="field span6" style="width: 110px" type="text"  value="{{artifact.attributes.overview_version}}"
+										id="txtVersion" disabled="disabled">
+									</div>
+			</div>
+
+			
+
+			<div class="control-group">
+				<label class="control-label" for="txtBanner">Banner</label>
+				<div class="controls">
+					
+					
+					<div data-provides="fileupload" class="fileupload fileupload-exists"><input type="hidden" value="" name="">
+						<div class="fileupload-preview fileupload-preview-banner thumbnail" style="line-height: 160px;"><img src="{{artifact.attributes.images_banner}}"></div>
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
+								<input type="file" id="txtBanner" name="bannerFile" value="{{artifact.attributes.images_banner}}">
+							</span>
+						</div>
+					</div>
+					
+					
+				</div>
+				
+			</div>
+
+
+
+
+
+			<div class="control-group">
+				<label for="txtScreenShot" class="control-label">Screen
+					Shots  <span style="color:#FF0000">*</span><br><small>(288px * 512px, .png)</small></label>
+				<div class="controls">
+
+					{{#if artifact.attributes.images_screenshots.[0]}}
+					<div data-provides="fileupload" class="fileupload fileupload-exists"><input type="hidden" value="" name="">
+						<div class="fileupload-preview thumbnail" style="line-height: 240px;"><img src="{{artifact.attributes.images_screenshots.[0]}}"></div>
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
+								<input type="file" data-url="/publisher/api/apps/upload" id="txtScreenShot1" name="screenshot1File" class="uploadAction">
+							</span>
+						</div>
+					</div>
+					{{/if}}
+					
+					
+					{{#if artifact.attributes.images_screenshots.[1]}}
+					<div data-provides="fileupload" class="fileupload fileupload-exists"><input type="hidden" value="" name="">
+						<div class="fileupload-preview thumbnail" style="line-height: 240px;"><img src="{{artifact.attributes.images_screenshots.[1]}}"></div>
+					<div>
+							<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
+								<input type="file" data-url="/publisher/api/apps/upload" id="txtScreenShot2" name="screenshot2File" class="uploadAction">
+							</span>
+						</div>
+					</div>
+					{{/if}}
+
+					{{#if artifact.attributes.images_screenshots.[2]}}
+					<div data-provides="fileupload" class="fileupload fileupload-exists"><input type="hidden" value="" name="">
+						<div class="fileupload-preview thumbnail" style="line-height: 240px;"><img src="{{artifact.attributes.images_screenshots.[2]}}"></div>
+					<div>
+							<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
+								<input type="file" data-url="/publisher/api/apps/upload" id="txtScreenShot3" name="screenshot3File" class="uploadAction">
+							</span>
+						</div>
+					</div>
+					{{/if}}
+
+				</div>
+			</div>
+
+
+			<div class="control-group">
+				<label for="txtIconfile" class="control-label">Icon file  <span style="color:#FF0000">*</span><br><small>(124px * 124px, .png)</small></label>
+				<div class="controls">
+					<div data-provides="fileupload" class="fileupload fileupload-exists"><input type="hidden" value="" name="">
+						<div class="fileupload-preview fileupload-preview-icon thumbnail" style="line-height: 160px;"><img src="{{artifact.attributes.images_thumbnail}}"></div>
+					<div>
+							<span class="btn btn-file"><span class="fileupload-new"><i class="icon-plus-sign"></i></span><span class="fileupload-exists"><i class="icon-edit"></i></span>
+								<input type="file" name="iconFile">
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+
+			<div id="saveButtons" class="form-actions">
+				<input type="submit" value="Submit" class="btn btn-primary" name="addNewAssetButton">
+				<input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+				<a href="/publisher/assets/mobileapp/" class="btn">Cancel</a>
+			</div>
+		</form>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<style>
+	.control-search{
+		visibility: hidden;
+	}
+	
+	input[type="file"] {
+    	display: inline;
+	}
+	
+</style>

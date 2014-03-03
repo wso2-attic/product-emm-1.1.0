@@ -1,0 +1,15 @@
+{
+    "name": "Read Write Web",
+    "tags": "site,news,technology",
+    "rate": 3,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "Read Write Web",
+        "overview_version": "1.0.0",
+        "overview_url": "http://readwrite.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the Read Write Web site which  is a popular weblog that provides Web Technology news, reviews and analysis, covering web apps, web technology trends, social networking and social media",
+        "images_thumbnail": "/readWriteWeb/thumbnail.png",
+        "images_banner": "/readWriteWeb/banner.png"
+    }
+}

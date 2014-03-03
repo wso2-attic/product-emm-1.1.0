@@ -1,0 +1,99 @@
+<%
+var caramel;
+
+require('/modules/store.js').exec(function (ctx) {
+    var tag, type, recentGadgets, recentSites, recentEBooks,
+            log = ctx.log,
+            sso = ctx.sso,
+            store = ctx.store,
+            user = ctx.user,
+            tenantId = ctx.tenantId,
+            configs = ctx.configs,
+            site = ctx.site,
+            matcher = ctx.matcher,
+            inDashboard = false,
+            count = 0,
+            types = store.assetTypes(),
+            tags = [],
+            search = require('/modules/search.js'),
+            utility = require('/modules/util.js');
+
+    caramel = require('caramel');
+
+    //var rxtAttributes = require('/modules/util.js').getRXTAttributes(tenantId, type);
+    
+    
+ 
+    var devices = [];
+    if(user!=null){
+        var mdm = require('/modules/mdm.js').mdm;
+        var mdmServer = new mdm();
+        try{
+            var result = mdmServer.getDevices(user.username+"@"+user.tenantDomain);
+            devices = parse(result);
+        }catch(e){
+            log.debug(e);
+        }
+    }
+
+    if (!user) {
+        response.sendRedirect(caramel.configs().context);
+        return;
+    }
+    recentGadgets = store.recentAssets("gadget", 3);
+    recentSites = store.recentAssets("site", 3);
+    recentEBooks = store.recentAssets("ebook", 3);
+    var recentAssets = recentGadgets.concat(recentSites, recentEBooks);
+    var subscriptions = store.subscriptions();
+    //count = Object.keys(subscriptions).length;
+
+    for (var i = 0; i < types.length; i++) {
+        tag = {
+            url: '/assets/' + types[i] + '?page=1&tag=',
+            data: store.tags(types[i])
+        };
+        tags[i] = tag;
+        type = types[i];
+        if (subscriptions[type]) {
+            if (subscriptions[type].length == 0) {
+                delete subscriptions[type];
+            } else {
+                count += subscriptions[type].length;
+            }
+        }
+    }
+
+    caramel.render({
+        'title': 'Store | My Apps',
+        user: user,
+        sso: sso,
+        devices: devices,
+        header: site.header(tenantId, {
+            sso: sso,
+            user: user
+        }),
+
+        navigation: site.navigation(tenantId),
+        search: {
+            search: {title: type},
+            isTopAssets: false,
+            searchFields: search.fields()
+        },
+        /*
+         'navigation' : site.navigation(store.tenantId, {
+         sso : sso,
+         user : user
+         }),
+         search: {
+         mainPage : "My bookmarks",
+         subPage : "",
+         isTopAssets : false,
+         searchFields : rxtAttributes
+         },*/
+
+        'userAssets': count > 0 ? subscriptions : null,
+        'recentAssets': recentAssets,
+        'tags': tags
+    });
+}, request, response, session);
+%>

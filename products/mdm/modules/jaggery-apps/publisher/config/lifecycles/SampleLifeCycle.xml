@@ -1,0 +1,134 @@
+<aspect name="SampleLifeCycle2" class="org.wso2.jaggery.scxml.aspects.JaggeryTravellingPermissionLifeCycle">
+    <configuration type="literal">
+        <lifecycle>
+            <scxml xmlns="http://www.w3.org/2005/07/scxml"
+                   version="1.0"
+                   initialstate="Initial">
+                <state id='Initial'>
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Promote" class="org.wso2.jaggery.scxml.generic.GenericExecutor">
+                                <parameter name="PERMISSION:get"
+                                           value="http://www.wso2.org/projects/registry/actions/get"/>
+                                <parameter name="PERMISSION:add"
+                                           value="http://www.wso2.org/projects/registry/actions/add"/>
+                                <parameter name="PERMISSION:delete"
+                                           value="http://www.wso2.org/projects/registry/actions/delete"/>
+                                <parameter name="PERMISSION:authorize" value="authorize"/>
+
+                                <parameter name="STATE_RULE1:Created"
+                                           value="Internal/private_{asset_author}:+get,+add,+delete,+authorize"/>
+                                <parameter name="STATE_RULE2:Created"
+                                           value="Internal/reviewer:+get,-add,-delete,-authorize"/>
+                                <parameter name="STATE_RULE3:Created"
+                                           value="Internal/everyone:+get,-add,-delete,-authorize"/>
+
+                            </execution>
+                        </data>
+                    </datamodel>
+                    <transition event="Promote" target="Created"/>
+                </state>
+                <state id="Created">
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Promote" class="org.wso2.jaggery.scxml.generic.GenericExecutor">
+                                <parameter name="PERMISSION:get"
+                                           value="http://www.wso2.org/projects/registry/actions/get"/>
+                                <parameter name="PERMISSION:add"
+                                           value="http://www.wso2.org/projects/registry/actions/add"/>
+                                <parameter name="PERMISSION:delete"
+                                           value="http://www.wso2.org/projects/registry/actions/delete"/>
+                                <parameter name="PERMISSION:authorize" value="authorize"/>
+
+
+                                <parameter name="STATE_RULE1:In-Review"
+                                           value="Internal/private_{asset_author}:+get,-add,-delete,-authorize"/>
+                                <parameter name="STATE_RULE2:In-Review"
+                                           value="Internal/reviewer:+get,+add,-delete,+authorize"/>
+                                <parameter name="STATE_RULE3:In-Review"
+                                           value="Internal/everyone:+get,-add,-delete,-authorize"/>
+
+                            </execution>
+                        </data>
+                    </datamodel>
+                    <transition event="Promote" target="In-Review"/>
+                </state>
+                <state id="In-Review">
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Promote" class="org.wso2.jaggery.scxml.generic.GenericExecutor">
+                                <parameter name="PERMISSION:get"
+                                           value="http://www.wso2.org/projects/registry/actions/get"/>
+                                <parameter name="PERMISSION:add"
+                                           value="http://www.wso2.org/projects/registry/actions/add"/>
+                                <parameter name="PERMISSION:delete"
+                                           value="http://www.wso2.org/projects/registry/actions/delete"/>
+                                <parameter name="PERMISSION:authorize" value="authorize"/>
+
+                                <parameter name="STATE_RULE1:Published"
+                                           value="Internal/private_{asset_author}:+get,+add,-delete,+authorize"/>
+                                <parameter name="STATE_RULE2:Published"
+                                           value="Internal/reviewer:+get,-add,-delete,-authorize"/>
+                                <parameter name="STATE_RULE3:Published"
+                                           value="Internal/everyone:+get,-add,-delete,-authorize"/>
+                                <parameter name="STATE_RULE3:Published"
+                                           value="system/wso2.anonymous.role:+get,-add,-delete,-authorize"/>
+                            </execution>
+                        </data>
+                    </datamodel>
+                    <transition event="Promote" target="Published"/>
+                </state>
+                <state id="Published">
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Demote" class="org.wso2.jaggery.scxml.generic.GenericExecutor">
+                                <parameter name="PERMISSION:get"
+                                           value="http://www.wso2.org/projects/registry/actions/get"/>
+                                <parameter name="PERMISSION:add"
+                                           value="http://www.wso2.org/projects/registry/actions/add"/>
+                                <parameter name="PERMISSION:delete"
+                                           value="http://www.wso2.org/projects/registry/actions/delete"/>
+                                <parameter name="PERMISSION:authorize" value="authorize"/>
+
+
+                                <parameter name="STATE_RULE1:Unpublished"
+                                           value="Internal/private_{asset_author}:+get,+add,+delete,+authorize"/>
+                                <parameter name="STATE_RULE2:Unpublished"
+                                           value="Internal/reviewer:+get,-add,-delete,-authorize"/>
+                                <parameter name="STATE_RULE3:Unpublished"
+                                           value="Internal/everyone:+get,-add,-delete,-authorize"/>
+
+                            </execution>
+                        </data>
+                    </datamodel>
+                    <transition event="Demote" target="Unpublished"/>
+                </state>
+                <state id="Unpublished">
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Promote" class="org.wso2.jaggery.scxml.generic.GenericExecutor">
+                                <parameter name="PERMISSION:get"
+                                           value="http://www.wso2.org/projects/registry/actions/get"/>
+                                <parameter name="PERMISSION:add"
+                                           value="http://www.wso2.org/projects/registry/actions/add"/>
+                                <parameter name="PERMISSION:delete"
+                                           value="http://www.wso2.org/projects/registry/actions/delete"/>
+                                <parameter name="PERMISSION:authorize" value="authorize"/>
+
+
+                                <parameter name="STATE_RULE1:In-Review"
+                                           value="Internal/private_{asset_author}:+get,-add,-delete,-authorize"/>
+                                <parameter name="STATE_RULE2:In-Review"
+                                           value="Internal/reviewer:+get,+add,-delete,+authorize"/>
+                                <parameter name="STATE_RULE3:In-Review"
+                                           value="Internal/everyone:+get,-add,-delete,-authorize"/>
+
+                            </execution>
+                        </data>
+                    </datamodel>
+                    <transition event="Promote" target="In-Review"/>
+                </state>
+            </scxml>
+        </lifecycle>
+    </configuration>
+</aspect>

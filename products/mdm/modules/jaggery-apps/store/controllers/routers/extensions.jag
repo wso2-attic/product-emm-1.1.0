@@ -1,0 +1,70 @@
+<%
+var type;
+(function () {
+    var path, elements, theme, mapper, suffix, pages, links, length, link, i, mod,
+            log = new Log(),
+            config = require('/config/store.js').config(),
+            store = require('/modules/store.js'),
+            file = require('/modules/file.js'),
+            matcher = new URIMatcher(request.getRequestURI()),
+            prefix = config.extensionsUrlPrefix + config.assetsUrlPrefix + '/',
+            server = require('store').server,
+            tenant = server.tenant(request, session),
+            configs = store.configs(tenant.tenantId);
+    mapper = function (path) {
+        return function () {
+            return path;
+        };
+    };
+    if (matcher.match('/{context}' + prefix + '{type}/themes/{+file}')) {
+        elements = matcher.elements();
+        type = elements.type;
+        if (configs.assets.indexOf(type) === -1) {
+            response.sendError(404, 'Request Resource cannot be found');
+            return;
+        }
+        prefix = store.ASSETS_EXT_PATH + type;
+        file.send(prefix + '/themes/' + elements.file);
+        return;
+    }
+    if (matcher.match('/{context}' + prefix + '{type}/resources/{+file}')) {
+        elements = matcher.elements();
+        type = elements.type;
+        if (configs.assets.indexOf(type) === -1) {
+            response.sendError(404, 'Request Resource cannot be found');
+            return;
+        }
+        prefix = store.ASSETS_EXT_PATH + type;
+        file.send(prefix + '/resources/' + elements.file);
+        return;
+    }
+    if (matcher.match('/{context}' + prefix + '{type}/{+suffix}')) {
+        mod = require('/modules/store.js');
+        elements = matcher.elements();
+        type = elements.type;
+        suffix = elements.suffix;
+        pages = store.ASSETS_EXT_PATH + type + '/pages/';
+        if (suffix) {
+            links = mod.store(request, session).assetLinks(type).links;
+            length = links.length;
+            for (i = 0; i < length; i++) {
+                link = links[i];
+                if (new RegExp(link.url).test(suffix)) {
+                    path = link.path || link.url;
+                    break;
+                }
+            }
+            if (path) {
+                path = pages + path;
+            } else if (suffix === 'process') {
+                path = pages + 'process.jag';
+                path = new File(path).isExists() ? path : '/controllers/process.jag';
+            }
+            request.getMappedPath = mapper(path);
+            include(path);
+            return;
+        }
+    }
+    response.sendError(404, 'Requested Resource cannot be found');
+}());
+%>

@@ -1,0 +1,57 @@
+{
+    "server": {
+        "https": "%https.host%/admin",
+        "http": "%http.host%"
+    },
+    "roles": {
+    },
+    "user": {
+        "username": "admin",
+        "password": "admin"
+    },
+    "userRoles": [],
+    "permissions": {
+        "login": {
+            "/permission/admin/login": ["ui.execute"]
+        }
+    },
+    "userSpace": {
+        "space": "portal",
+        "options": {
+            "type": "registry",
+            "serverUrl": "%https.host%/admin",
+            "path": "/_system/governance/users",
+            "username": "admin",
+            "password": "admin"
+        },
+        "accessible":[
+            {
+                "context":"/_system/governance",
+                "collections":["gadgets","sites","ebooks"],
+                "actions":["http://www.wso2.org/projects/registry/actions/get",
+                    "http://www.wso2.org/projects/registry/actions/add",
+                    "http://www.wso2.org/projects/registry/actions/delete",
+                    "authorize"]
+            }
+        ]
+    },
+    "storeSpace": {
+        "space": "store",
+        "options": {
+            "type": "registry",
+            "serverUrl": "%https.host%/admin",
+            "path": "/_system/governance/users",
+            "username": "admin",
+            "password": "admin"
+        }
+    },
+    "ssoConfiguration" : {
+        "enabled" : true,
+        "issuer" : "portal",
+        "identityProviderURL" : "%https.host%/sso/samlsso.jag",
+        "keyStorePassword" : "wso2carbon",
+        "identityAlias" : "wso2carbon",
+        "responseSigningEnabled" : "true",
+        "keyStoreName" : "/repository/resources/security/wso2carbon.jks"
+    }
+}

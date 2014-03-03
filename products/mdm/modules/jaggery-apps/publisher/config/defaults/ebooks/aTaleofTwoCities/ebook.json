@@ -1,0 +1,18 @@
+{
+    "name": "A Tale of Two Cities",
+    "tags": "ebooks, novel",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "A Tale of Two Cities",
+        "overview_version": "Edition-1",
+        "overview_url": "aTaleofTwoCities/A_Tale_of_Two_Cities.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Charles Dickens",
+        "overview_provider": "admin",
+        "overview_description": "The novel depicts the plight of the French peasantry demoralized by the French aristocracy in the years leading up to the revolution, the corresponding brutality demonstrated by the revolutionaries toward the former aristocrats in the early years of the revolution, and many unflattering social parallels with life in London during the same time period. It follows the lives of several protagonists through these events.",
+        "images_thumbnail": "aTaleofTwoCities/thumbnail.jpg",
+        "images_banner": "aTaleofTwoCities/banner.png"
+    }
+}

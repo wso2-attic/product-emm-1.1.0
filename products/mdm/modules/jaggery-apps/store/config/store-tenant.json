@@ -1,0 +1,20 @@
+{
+    "assets": ["mobileapp"],
+    "assetsPageSize": 12,
+    "commentsPageSize": 10,
+    "userSpace": "/_system/governance/users",
+    "roles": {
+        "Internal/store": {
+            "/permission/admin/login": ["ui.execute"]
+        }
+    },
+    "userRoles": ["Internal/store"],
+    "permissions": {
+        "login": {
+            "/permission/admin/login": ["ui.execute"]
+        }
+    },
+    "paths":{
+        "RXT_EXTENSION_PATH":"/config/ext/"
+    }
+}

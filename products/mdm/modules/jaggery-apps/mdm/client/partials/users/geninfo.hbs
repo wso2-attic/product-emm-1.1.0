@@ -1,0 +1,48 @@
+{{#genInfo.received_data}} {{#if battery}}
+<div class="raw well-small gen-info" data-toggle="tooltip" 	title="Battery Level: {{battery.level}}%">
+	<img
+		src="{{../../resourcePath}}battery/battery-{{#batteryLevel battery.level}}{{/batteryLevel}}.png"	style="width: 25px"> {{battery.level}}%
+</div>
+{{/if}} {{#if internal_memory}}
+<div class="raw well-small gen-info" data-toggle="tooltip"
+	title="Internal Memory: {{internal_memory.available}}GB">
+	<img src="{{../../resourcePath}}int-memory.png" style="width: 25px">
+	{{internal_memory.available}}GB
+</div>
+{{/if}}
+ {{#if external_memory}}
+<div class="raw well-small gen-info" data-toggle="tooltip"
+	title="External Memory: {{external_memory.available}}GB">
+	<img src="{{../../resourcePath}}ext-sdcard.png" style="width: 25px">
+	{{external_memory.available}}GB
+</div>
+{{/if}}
+
+{{#if location_obj}}
+<div class="raw well-small gen-info" data-toggle="tooltip" style="display: none"
+	title="Location">
+	<a href="#locationModal" id="locationModalLink" role="button" data-toggle="modal"><img
+		src="{{../../resourcePath}}info/location.png" style="width: 25px"></a>
+</div>
+{{/if}}
+
+{{/genInfo.received_data}}
+
+
+<!-- Modal Location -->
+<div id="locationModal" class="modal invisible fade" tabindex="-1" role="dialog"
+	aria-hidden="true">
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">x</button>
+		<h4 id="myModalLabel">Location</h4>
+	</div>
+	<div class="modal-body" style="height:500px;">
+			<div id="map_canvas">
+											    
+			</div>
+	</div>
+	
+
+</div>

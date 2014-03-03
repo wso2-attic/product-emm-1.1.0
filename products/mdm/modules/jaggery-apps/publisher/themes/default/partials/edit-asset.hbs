@@ -1,0 +1,101 @@
+<div class='content-div'>
+	<div class="row-fluid">
+		<div class="span12 asset-view-container" >
+			<div id='msg-container-recent-activity'></div>
+			<div class="widget wlightblue">
+				<div class="widget-head">
+					<div class="pull-left">
+						Edit Asset - {{{snoop "fields(name=overview_name).value" this.data}}}
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="widget-content">
+					<form class="form-horizontal" id='form-asset-edit'>
+						{{#each data.fields}}
+						
+						<div class="control-group">
+							<b><label class="control-label">{{this.label}}:</label></b>
+							<div class="controls">
+								
+								{{#if this.isOptions}}							
+                                    <select id="{{this.name}}" class="span8 selectpicker" name='{{this.name}}'>
+                                    {{#each ../../categorySelect}}
+                                        <option {{#if this.sel}}selected{{/if}}>{{this.cat}}</option>
+                                    {{/each}}
+                                    </select>
+                                {{else}}
+                                	 {{#if this.isTextArea}}
+                                    	<textarea id='{{this.name}}' class="span8" name='{{this.name}}'>{{this.value}}</textarea>
+                               		 {{/if}}
+                                     {{#if this.isTextBox}}
+                                     
+	                                     {{#if isReadOnly}}
+	                                		<input type="hidden" name='{{this.name}}' value='{{this.value}}'/>
+	                                		<input id='{{this.name}}'  type='text'  class="span8" value='{{this.value}}' {{#unless isEditable}} disabled="true" {{/unless}} {{#if this.isRequired}} required{{/if}}/>
+	                                	{{else}}
+	                                		<input id='{{this.name}}' name='{{this.name}}' type='text' value='{{this.value}}'  class="span8" {{#if isReadOnly}} disabled="true" {{/if}} {{#if this.isRequired}} required{{/if}}/>
+	                                	{{/if}}
+                                		
+                                	{{/if}}
+                                    {{#if this.isFile}}
+                                        <div class="span8">
+                                           <table class="table tbl-upload">
+                                           		<tr>
+                                           			<td class="tbl-upload-preview">
+                                           				<img id="img-preview-{{this.name}}" src="{{this.value}}" alt="{{this.value}}">
+                                           			</td>
+                                           		</tr>
+                                           		<tr>
+                                           			<td>
+                                           				<table class="tbl-upload-inner">
+                                           					<tr>
+                                           						<td><label id='preview-{{this.name}}'>{{this.value}}</label>
+                                           							 <input type="hidden" value="{{this.value}}" id='{{this.name}}' name='preview-{{this.name}}'>
+                                           							 <input type="text" class="txt-filepath" disabled="true" placeholder="Upload a new file"/>            
+                                           						</td>
+                                           						<td width="25%">
+                                           							<button class="btn btn-upload">Browse</button>
+                                                                    <input  type='file' name='{{this.name}}'/>
+                                           						</td>
+                                           					</tr>
+                                           				</table>
+
+                                           			</td>
+                                           		</tr>
+                                           </table>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+
+                                {{#if this.isOptionsText}}
+                                    <div id="{{this.name}}" name='{{this.name}}' class="options-text" data-add-button="Add {{this.label}}" data-selected="{{this.value}}" data-options="{{this.valueList}}" ></div>
+                                {{/if}}
+                               
+                                {{#if this.isRequired}}
+								<span class="label-required">*</span>
+								{{/if}}
+							</div>
+						</div>
+						{{/each}}
+
+						<div class="control-group">
+							<b><label class="control-label">Tags: </label></b>
+							<div class="controls">
+								<input type='text' id='tag-test' name='tags'>
+							</div>
+						</div>
+
+						<div id="saveButtons" class="form-actions">
+							<input type="button" value="Update" class="btn btn-primary"
+							name="editAssetButton"  id="editAssetButton">
+							<input type="reset" value="Reset"  class="btn">
+							<input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+

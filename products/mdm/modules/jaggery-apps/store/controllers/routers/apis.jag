@@ -1,0 +1,21 @@
+<%
+// http://localhost:9763/caramel/apis/asset/1234/comments
+(function () {
+    var matcher = new URIMatcher(request.getRequestURI());
+    var log = new Log();
+    if (matcher.match('/{context}/apis/{type}/{+any}')) {
+        switch (matcher.elements().type) {
+            case 'asset' :
+                if(!matcher.match('/{context}/apis/{type}/{asset}/{+any}')) {
+                    request.sendError(404, 'API Endpoint Not Found');
+                    return;
+                }
+                include(require('/modules/store.js').ASSETS_EXT_PATH + matcher.elements().asset + '/apis.jag');
+                return;
+            case 'comment':
+                break;
+        }
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+}());
+%>

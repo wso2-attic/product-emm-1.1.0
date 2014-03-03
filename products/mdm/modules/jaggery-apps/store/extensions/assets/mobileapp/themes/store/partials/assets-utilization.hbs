@@ -1,0 +1,12 @@
+{{#if thisAsset.indashboard}}
+    <a href="#" class="btn disabled btn-added">{{t "Installed"}}</a>
+{{else}}
+    {{# if ssoParam}}
+        <a href="{{url "/login"}}?id={{thisAsset.id}}&amp;platform={{thisAsset.attributes.overview_platform}}" class="btn btn-primary asset-add-btn" data-platform="{{thisAsset.attributes.overview_platform}}" data-app="{{thisAsset.id}}">{{>process-asset-text}}</a>
+    {{else}}
+        <a href="#" class="btn btn-primary asset-add-btn" data-platform="{{thisAsset.attributes.overview_platform}}" data-app="{{thisAsset.id}}">{{>process-asset-text}}</a>
+    {{/if}}
+    {{# if userParam.username}}
+        <a href="#" class="btn btn-primary asset-add-btn" data-platform="{{thisAsset.attributes.overview_platform}}" data-app="{{thisAsset.id}}">{{>process-asset-text}}</a>
+    {{/if}}
+{{/if}}

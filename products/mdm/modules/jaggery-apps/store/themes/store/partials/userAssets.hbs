@@ -1,0 +1,84 @@
+
+
+<div id="myasset-container" class="row">
+	<div class="span12">
+		{{#if userAssets}}
+		{{#itr userAssets}}
+		<h3 class="asset-title-separator asset-type-{{key}}">{{cap key}}s</span><div class="pagination own-asset-slideshow-pag" id="own-asset-slideshow-pag-{{key}}"></div></h3>
+		<div class="top-asset-slideshow-cont">
+		<div class="html_carousel">
+		<div id="asset-in-{{key}}">
+		
+			{{#each value}}
+			{{#attributes}}
+			<!--div class="row-fluid"-->
+			<div class="store-my-item">
+			
+				<div class="store-my-item-thumbnail">
+					<a href="{{url "/assets/"}}{{../../key}}/{{../id}}"><img src="{{images_thumbnail}}"></a>
+				</div>
+				<div class="store-my-item-info">
+					<a class="asset-title" href="{{url "/assets/"}}{{../../key}}/{{../id}}">
+						<strong>{{overview_name}}</strong>
+					</a>
+					<small class="bookmark-assert-provider">by {{overview_provider}}</small>
+					<br><div class="btn-group">
+						<img src="{{url "/extensions/assets/mobileapp/themes/store/img/"}}{{../attributes.overview_platform}}.png" style="width: 30px;"/>
+						
+						<a style="display: none" class="btn btn-danger" style="padding-left: 10px" type="{{../../key}}" data-aid="{{../id}}" data-toggle="tooltip" title="{{t "Remove"}} {{../../key}}">
+							<i class="icon-remove"></i> Remove
+						</a>
+						
+						<a class="btn btn-primary asset-reinstall-btn" type="{{../../key}}"  data-platform="{{../attributes.overview_platform}}" data-aid="{{../id}}" data-toggle="tooltip" title="{{t "Reinstall"}} {{../../key}}">
+							<i class="icon-remove"></i> Reinstall
+						</a>
+					</div>
+				</div>
+			
+			</div>
+			<!--/div-->
+			{{/attributes}}
+			{{/each}}
+		</div></div></div>
+		<hr>
+		{{/itr}}
+		{{else}}
+		<div id="no-data-my-items" class="no-data">
+			<i class="icon-inbox"></i>
+			<p>
+            {{t "You still haven't any apps from the Store."}}
+			</p>
+			<p>
+				<a href="../store/assets/mobileapp/" class="btn btn-primary">{{t "Install now"}}</a>
+			</p>
+		</div>
+		{{/if}}
+	</div>
+</div>
+
+
+
+<div id="devicesList" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="width:700px" aria-hidden="true">
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+		aria-hidden="true">
+			x
+		</button>
+		<h4 id="myModalLabel">Select your device to reinstall</h4>
+	</div>
+	<div class="modal-body">
+
+		{{#devices}}
+		<div data-dismiss="modal"  class="span1 text-center device-image-block-modal" style="text-align: center; cursor: pointer"
+		data-device-id="{{id}}" data-platform="{{platform}}">
+			<img class="device-image-modal" style="height: 100px" data-device-id="{{id}}" data-platform="{{platform}}"
+			src="/assets/wso2mobile/img/models/{{model}}.png">
+			<div class="text-center" style="font-size: x-small">
+				{{name}}
+			</div>
+		</div>
+		{{/devices}}
+
+	</div>
+</div>

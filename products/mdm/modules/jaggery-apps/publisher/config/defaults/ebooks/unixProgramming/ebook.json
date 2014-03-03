@@ -1,0 +1,18 @@
+{
+    "name": "The art of Unix Programming",
+    "tags": "ebooks,technology",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Technical",
+        "overview_name": "The art of Unix Programming",
+        "overview_version": "Edition-1",
+        "overview_url": "unixProgramming/The_art_of_unix_programming.pdf",
+        "overview_isbn": "0-13-142901-9",
+        "overview_author": "Eric S. Raymond",
+        "overview_provider": "admin",
+        "overview_description": "The art of Unix Programming provides a comprehensive explanation of Unix by comparing it with other operating systems including desktop-oriented ones such as Microsoft Windows and Mac OS to ones with research roots such as EROS and Plan 9 from Bell Labs.",
+        "images_thumbnail": "unixProgramming/thumbnail.png",
+        "images_banner": "unixProgramming/banner.png"
+    }
+}

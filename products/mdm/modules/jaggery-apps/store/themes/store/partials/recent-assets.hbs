@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="span3">
+           <h4><i class="icon-time"></i>{{t "Recently Added"}}</h4>
+        {{#slice . count="20" size="20"}}
+            {{#each .}}
+                <div class="row-fluid recently-added">
+                    {{#attributes}}
+                        <div class="span3">
+                            <a href="{{url "/assets"}}/{{../type}}/{{../id}}"><img src="{{#if images_thumbnail}}{{images_thumbnail}}{{/if}}"></a>
+                        </div>
+                        <div class="span9">
+                            <strong><a href="{{url "/assets"}}/{{../type}}/{{../id}}">{{overview_name}}</a></strong>
+                            <small>by <a href="#">{{overview_provider}}</a></small>
+                            <span class="star-rating">
+                            	<div class="asset-rating">
+	                            	<!--<div class="asset-rating-{{../rating}}star"></div>-->
+	                            	<div style="width:{{../ratingPx}}px"></div>
+                            	</div>
+                            </span>
+                        </div>
+                    {{/attributes}}
+                </div>
+            {{/each}}
+            <hr/>
+        {{/slice}}
+    </div>
+</div>

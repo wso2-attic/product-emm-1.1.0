@@ -1,0 +1,248 @@
+<div class="block">
+	<div class="block-header">
+		<div class="block-header-title pull-left">{{title}}</div>
+	</div>
+
+	<div class="container-fluid raw-fluid block-body">
+	
+	
+	
+	
+	
+	
+	<div class="dashboard functionlayer">		
+		<div id="device-widget" class="span12 row">
+			<div id="main-widget" class="span5">
+				<!--<h4>Devices by OS</h4>-->
+				<div class="row widget">
+					<div><canvas id="chartOS" width="300" height="300"></canvas></div>
+					<ul>
+						<li data-os='Windows'><a href="#"><span class="icn window"><img src="/mdm/themes/wso2mobile/img/dashboard/windows.png"/><span class="valWindows label">%</span></span></a></li>
+						<li data-os='iOS' ><a href="#"><span class="icn apple"><img src="/mdm/themes/wso2mobile/img/dashboard/apple.png"/><span class="valApple label">%</span></span></a></li>
+						<li data-os='Android' class='active'><a href="#"><span class="icn android"><img src="/mdm/themes/wso2mobile/img/dashboard/android.png"/><span class="valAndroid label">%</span></span></a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="superdiv" class="span5">
+				<div class="tabbable span6">
+					<ul class="nav nav-tabs targets">
+						<li class="active">
+							<a href="#chartVersion" data-toggle="tab">Version</a>
+						</li>
+						<li>
+							<a href="#chartVendor" data-toggle="tab">Vendor</a>
+						</li>
+						<li>
+							<a href="#chartBYOD" data-toggle="tab">BYOD</a>
+						</li>
+						<li>
+							<a href="#chartConnectivity" data-toggle="tab"  style="display:none;">Connectivity</a>
+						</li>
+					</ul>
+					<p class="totalcount"></p>
+					<div id="sub-widget" class="tab-content">
+						<div id="chartVersion" class="tab-pane active widget">
+							<div><canvas width="200" height="200"></canvas></div>
+							<ul>
+							</ul>
+						</div>	
+						<div id="chartVendor" class="tab-pane widget">
+							<div><canvas width="100" height="100"></canvas></div>
+							<ul>
+							</ul>
+						</div>
+						<div id="chartBYOD" class="tab-pane widget" >
+							<div><canvas  width="100" height="100"></canvas></div>
+							<ul>
+							</ul>
+						</div>
+						<div id="chartConnectivity" class="tab-pane widget" style="display:none;">
+							<div><canvas  width="100" height="100"></canvas></div>
+							<ul>
+							</ul>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</div>
+
+</div>
+
+<script>
+
+function buildConnectivity(){
+	if(document.getElementById('gauge')!=undefined){
+		var data;//= getData('dashboard/connectivity')
+		data = {'online': 65, 'onlineNo': 1400, 'offlineNo':500};
+		var g = new JustGage({
+			id: "gauge", 
+			value: data['online'], 
+			min: 0,
+			max: 100,
+			title: ' '
+	  	});
+		$('#device-gage .online').html(data['onlineNo']);
+		$('#device-gage .offline').html(data['offlineNo']);
+	}
+}
+function buildMainStatusChartStub(data){
+	//TODO: select the first item from the json
+	var values =[];
+	for (var key in data){
+		if(data.hasOwnProperty(key)){
+			values.push({
+				value: data[key].percentage[0],
+				total: data[key].percentage[1],
+				color: colorgen.get(true,1.0,0.8)
+			});
+		}
+	}
+	var OSSpecific = data['iOS'];
+	prepareStatusDOM(OSSpecific, 'iOS');
+	createMainArea(document.getElementById("chartOS"), values);
+}
+/*
+* Builds the main status chart and 
+*/
+function buildMainStatusChart(select){
+	if(select!=undefined && select !=null){
+		getStatusData(buildMainStatusChartStub);
+	}
+}
+
+function prepareStatusDOM(data, os){
+	data = data.data;
+	var jsos = JSON.stringify(data);
+	//alert(jsos);
+	var ulList =$('.nav.nav-tabs.targets');
+	ulList.empty();
+	var tabsContainer = $('#sub-widget');
+	tabsContainer.empty();
+	var flag = true;
+	for (var key in data){
+		if(data.hasOwnProperty(key)){
+			
+			var createHTML='<li ><a href="#chart'+key+'" data-os="'+os+'" data-toggle="tab">'+key+'</a></li>';
+			if(flag){
+				createHTML = '<li class="active"><a href="#chart'+key+'" data-os="'+os+'" data-toggle="tab">'+key+'</a></li>';
+				flag=false;
+			}
+			tabsContainer.append('<div id="chart'+key+'" class="tab-pane active widget"><div><canvas width="200" height="200"></canvas></div><ul></ul></div>');
+			ulList.append(createHTML);
+		}
+	}
+}
+// Get the status information chart data from the backend and cache it. Also expire the cache with an interval
+// TODO: Properly setup HTML5 cacheing for this
+var dataMain;
+function getStatusData(func){
+ 		getData('cont/dashboard.jag').done(func);
+		/*dataMain = { "iOS" : {"percentage": 30,"data":{
+										    "Version": {"5.1" :30, "6.1" : 70},
+											"Type" : {"iPhone": 40, "iPad" : 60},
+											"BYOD" : {"BYOD" : 70, "NON-BYOD" : 30},
+											"Connectivity" : {"Online" :40 , "Offline" : 60}
+										}},
+										"Windows" :{"percentage": 10, "data":{
+										    "Version": {"7" :30, "8" : 70},
+											"Vendor" : {"HTC": 20, "Nokia" : 80},
+											"BYOD" : {"BYOD" : 70, "NON-BYOD" : 30},
+											"Connectivity" : {"Online" :50 , "Offline" : 50}
+										}},	
+										"Android" :{"percentage": 60,"data":{
+											    "Version": {"2.3" :30, "4.0" : 70},
+												"Vendor" : {"Samsung": 70, "HTC" : 10, "LG":20},
+												"BYOD" : {"BYOD" : 30, "NON-BYOD" : 70},
+												"Connectivity" : {"Online" :20 , "Offline" : 80}
+										}}
+									};	
+						func(dataMain);*/
+		
+//	setInterval(getStatusData(true),60000);
+}
+/*
+* Send the url 
+*/
+function getData(element){
+	return $.getJSON(route(element));
+}
+
+function postData(url, data){
+	return $.post(route(url), data);
+}
+/*
+* This method will add in the context for routing endpoints
+*/
+function route(url){
+	url ='/mdm/'+url;
+	return url;
+}
+
+/*
+*	Build a chart with data and current chart object
+*/
+function  buildChart(chart_element, data){
+	if(chart_element!=undefined){
+		var ctx= chart_element.getContext("2d");
+		var chartOS = new Chart(ctx).Pie(data);
+	}
+}
+
+function colorRiseMainLabel(){
+	$('#main-widget .widget li').css({'background-color':'white'});
+	$('#device-widget .widget .active').css({'background-color':$('#main-widget .widget .active .label').css('backgroundColor')});
+}
+/*
+* Update the background colors for the OS labels
+*/
+
+function createMainArea(chart_element, data){
+	var jsos = JSON.stringify(data);
+	$('#superdiv .totalcount').html("Total Devices-"+data[0]['total']);
+	//alert(jsos);
+	data[1]['color']= '#DCDCDC';
+	data[0]['color']= '#A4C739';
+	data[2]['color']= '#26A3D9';
+	$('.valApple').prepend(data[1]['value'].toFixed(2)).css({'background-color':data[1]['color']});
+	$('.valAndroid').prepend(data[0]['value'].toFixed(2)).css({'background-color':data[0]['color']});
+	$('.valWindows').prepend(data[2]['value'].toFixed(2)).css({'background-color':data[2]['color']});
+	colorRiseMainLabel();
+	buildChart(document.getElementById("chartOS"), data);
+}
+/*
+*	Create sub-widgets and build the data indexes
+*/
+function createArea(chart_name, data){
+	var chartElement = $("#"+chart_name+" canvas").get(0);
+	var list =  $("#"+chart_name+" ul");
+	list.empty();
+	for(var i=0, item; item=data[i]; i++){
+		list.append('<li><span style="background-color:'+item['color']+'" class="label">'+item['data']+'</span><span class="valWindows"> - '+item['value'].toFixed(2)+'%</span>   Total : '+item['total']+'</li>');	
+	}
+	buildChart(chartElement, data);
+}
+
+
+</script>

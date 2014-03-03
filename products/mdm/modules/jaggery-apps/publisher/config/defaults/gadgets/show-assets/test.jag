@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- imports needed for gadget rendering -->
+    <link rel="stylesheet" type="text/css" href="/portal/lib/gadget-rendering/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/portal/lib/gadget-rendering/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/portal/lib/gadget-rendering/css/font-awesome.css">
+    <!-- END imports needed for gadget rendering -->
+</head>
+<body>
+
+<script type="text/javascript" style="">
+    if(!__gadgetLayout){
+        var __gadgetLayout = {};
+    }
+     __gadgetLayout["gadgetArea-1"] =  __gadgetLayout["gadgetArea-1"] || {};
+     __gadgetLayout["gadgetArea-1"]["g1"] = {"url" : "http://localhost:9763/portal/gadgets/show-assets/show-assets.xml", "userPrefs" : {}};
+</script>
+<div id="gadgetArea-1" class="gadgetArea">
+</div>
+
+<script type="text/javascript" src="/portal/lib/gadget-rendering/js/external/head.min.js"></script>
+<script type="text/javascript" src="/portal/lib/gadget-rendering/js/main.js"></script>
+</body>
+</html>

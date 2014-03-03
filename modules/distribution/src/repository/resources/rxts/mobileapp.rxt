@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<artifactType type="application/vnd.wso2-mobileapp+xml" shortName="mobileapp" singularLabel="Mobile App" pluralLabel="Mobile Apps"
+              hasNamespace="false" iconSet="10">
+    <storagePath>/mobileapps/@{overview_provider}/@{overview_platform}/@{overview_name}/@{overview_version}</storagePath>
+    <nameAttribute>overview_name</nameAttribute>
+    <ui>
+        <list>
+            <column name="Provider">
+                <data type="path" value="overview_provider" href="@{storagePath}"/>
+            </column>
+            <column name="Name">
+                <data type="path" value="overview_name" href="@{storagePath}"/>
+            </column>
+						<column name="Platform">
+                <data type="path" value="overview_platform" href="@{storagePath}"/>
+            </column>
+            <column name="Version">
+                <data type="path" value="overview_version" href="@{storagePath}"/>
+            </column>
+        </list>
+    </ui>
+    <content>
+        <table name="Overview">
+            <field type="text" required="true">
+                <name>Provider</name>
+            </field>
+            <field type="text" required="true">
+                <name>Name</name>
+            </field>
+            <field type="text" required="true">
+                <name>Version</name>
+            </field>
+            <field type="text-area">
+                <name>Description</name>
+            </field>
+						<field type="text-area">
+                <name>RecentChanges</name>
+            </field>
+            <field type="options">
+                <name label="Status">Status</name>
+            </field>
+						<field type="text">
+                <name>PackageName</name>
+            </field>
+						<field type="options">
+	              <name label="Category">Category</name>
+                <values>
+                    <value>iOS</value>
+                    <value>Android</value>
+                    <value>Webapp</value>
+                </values>
+            </field>
+			<!-- 
+				For uninstallation in iOS we require the App ID which is separate from 
+				package name
+			-->
+						<field type="text">
+			               <name>AppID</name>
+			      </field>
+						<field type="text">
+			               <name>BundleVersion</name>
+			      </field>
+			<!-- For Android this would be the link to the Android APK file. 
+			For iOS however this would be the name of the plist file -->
+						<field type="text">
+			          <name>URL</name>
+			       </field>
+						 <field type="text" required="true">
+			               <name>Type</name>
+			        </field>
+        </table>
+        <table name="Images">
+            <field type="text" required="true">
+                <name>Thumbnail</name>
+            </field>
+            <field type="text" required="true">
+                <name>Banner</name>
+            </field>
+			<field type="text" required="true">
+                <name>Screenshots</name>
+            </field>
+        </table>
+    </content>
+
+</artifactType>

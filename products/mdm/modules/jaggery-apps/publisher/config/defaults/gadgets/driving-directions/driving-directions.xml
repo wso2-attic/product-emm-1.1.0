@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs title="Directions by Google Maps" title_url="http://maps.google.com/help/maps/gadgets/directions/" description="Official Google Gadget.  Easily provide customers with personalized Google Maps driving and walking directions to all of your business locations." category="Google" author="E J Kalafarski" author_email="directionsgadget-support@google.com" author_affiliation="Google" author_location="Providence, RI, USA" height="55" screenshot="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/driving-directions-screenshot.png" thumbnail="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/driving-directions-thumbnail.png" scaling="false"> 
+    <Require feature="setprefs"/>
+    <Require feature="dynamic-height"/>
+    <Require feature="com.google.gadgets.analytics"/>
+    <Locale messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/ALL_ALL.xml"/>
+    <Locale lang="cs" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/cs_ALL.xml"/>
+    <Locale lang="da" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/da_ALL.xml"/>
+    <Locale lang="de" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/de_ALL.xml"/>
+    <Locale lang="en" country="GB" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/en_GB.xml"/>
+    <Locale lang="en" country="US" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/en_US.xml"/>
+    <Locale lang="es" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/es_ALL.xml"/>
+    <Locale lang="fi" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/fi_ALL.xml"/>
+    <Locale lang="fr" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/fr_ALL.xml"/>
+    <Locale lang="fr" country="CA" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/fr_CA.xml"/>
+    <Locale lang="hi" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/hi_ALL.xml"/>
+    <Locale lang="it" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/it_ALL.xml"/>
+    <Locale lang="ja" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/ja_ALL.xml"/>
+    <Locale lang="ko" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/ko_ALL.xml"/>
+    <Locale lang="nl" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/nl_ALL.xml"/>
+    <Locale lang="no" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/no_ALL.xml"/>
+    <Locale lang="pl" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/pl_ALL.xml"/>
+    <Locale lang="pt-br" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/pt-br_ALL.xml"/>
+    <Locale lang="pt-pt" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/pt-pt_ALL.xml"/>
+    <Locale lang="ru" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/ru_ALL.xml"/>
+    <Locale lang="sv" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/sv_ALL.xml"/>
+    <Locale lang="zh-cn" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/zh-cn_ALL.xml"/>
+    <Locale lang="zh-tw" messages="http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/zh-tw_ALL.xml"/>
+  </ModulePrefs>
+  <UserPref name="fromLocation" display_name="__MSG_from_locations_display_name__" datatype="string"/>
+  <UserPref name="myLocations" display_name="__MSG_locations_display_name__" datatype="string" default_value="__MSG_sample_locations__"/>
+  <UserPref name="defaultDirectionsType" display_name="__MSG_default_type_display_name__" datatype="enum" default_value="">
+    <EnumValue value="" display_value="__MSG_by_car__"/>
+    <EnumValue value="b" display_value="__MSG_cycling__"/>
+  </UserPref>
+  <UserPref name="autoExpand" datatype="hidden"/>
+  <Content type="html">
+  <![CDATA[
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script> 
+  <script type="text/javascript">
+  google.load("maps", "3.x", { other_params: "sensor=false&language=" + (new _IG_Prefs()).getLang() });
+  google.load("jquery", "1.4.2");
+  _IG_RegisterOnloadHandler(function() {
+//  gadgets.util.registerOnLoadHandler(function() {
+    var ga = new _IG_GA("UA-6002302-1");
+    var prefs = new _IG_Prefs();
+//    var prefs = new gadgets.Prefs();
+
+    //evil browser-sniffing
+    var safariFormElements = navigator.userAgent.indexOf("Safari") > -1 && (navigator.userAgent.indexOf("Macintosh") > -1 || (navigator.userAgent.indexOf("Windows NT 6.0") > -1 && navigator.userAgent.indexOf("Chrome") == -1));
+    if ($.browser.msie) {
+      $("#fields > table").width($("#fields > table").parent().width() - 5);
+      $("#from").width(100);
+      $("#to").width(100);
+      $("#to").width($("#to").parent().width());
+      $("#from").width($("#from").parent().width());
+    }
+
+    var restoreInputs = new Array();
+    restoreInputs["from"] = $("#from");
+    restoreInputs["to"] = $("#to");
+    
+    ga.reportPageview("/driving-directions");
+
+    var realignCloseButtons = function() {
+      $(".close").offset(function() {
+        var associatedInput = $("#" + $(this).attr("id").split("_")[1]);
+        return {
+          left: associatedInput.offset().left + associatedInput.outerWidth() - (safariFormElements ? 11 : 12) - 3,
+          top: associatedInput.offset().top + ((associatedInput.outerHeight() - (safariFormElements ? 11 : 12)) / 2)
+        };
+      });
+    }
+    
+    var populateField = function(fieldId, userPref) {
+      $("<select/>").attr("id", fieldId).replaceAll("#" + fieldId);
+      $(prefs.getArray(userPref)).each(function() {
+        var addr = $.trim(this);
+        if (addr.match(/\(.*\)/)) {
+           addr = addr.match(/\((.*)\)/)[1];
+        }
+        $("<option/>")
+          .val($.trim(this))
+          .text(addr)
+          .appendTo("#" + fieldId);
+      });
+      if (_args()["synd"] != "ig") {
+        $("<option/>")
+          .text("__MSG_or_enter_your_own__")
+          .appendTo("#" + fieldId)
+          .parent()
+          .change(function() {
+            if ($("#" + fieldId).val() == "__MSG_or_enter_your_own__") {
+              restoreInputs[fieldId].replaceAll("#" + fieldId).select();
+              $("<img/>")
+                .attr("src", "http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/close-icon.png")
+                .attr("id", "close_" + fieldId)
+                .attr("title", "Return to list")
+                .css("position", "absolute")
+                .css("cursor", "pointer")
+                .addClass("close")
+                .width(safariFormElements ? 11 : 12)
+                .offset({
+	              left: $("#" + fieldId).offset().left + $("#" + fieldId).outerWidth() - (safariFormElements ? 11 : 12) - 3,
+	              top: $("#" + fieldId).offset().top + (($("#" + fieldId).outerHeight() - (safariFormElements ? 11 : 12)) / 2)})
+                .click(function() {
+                  $(this).remove();
+                  populateField(fieldId, userPref);
+                  realignCloseButtons();
+//                  gadgets.window.adjustHeight();
+                  _IG_AdjustIFrameHeight();
+                })
+                .appendTo("body");
+              realignCloseButtons();
+//              gadgets.window.adjustHeight();
+              _IG_AdjustIFrameHeight();
+            }
+          });
+      }
+    }
+    
+    if ($.trim(prefs.getString("myLocations")) != "*" && $.trim(prefs.getString("myLocations")) != "" && !((prefs.getString("myLocations") == "__MSG_sample_locations__" || prefs.getString("myLocations") == "1600 Amphitheatre Pkway, Mountain View, CA") && _args()["synd"] == "ig")) {
+      populateField("to", "myLocations");
+      ga.reportPageview("/driving-directions/to/drop-down");
+    } else {
+      ga.reportPageview("/driving-directions/to/text-box");
+    }
+
+    //get directions type userpref
+    $("#mode").val(prefs.getString("defaultDirectionsType"));
+        
+    if ($.browser.msie) {
+      $("#fields > table").width($("#fields > table").parent().width() - 5);
+      $("#from").width(100);
+      $("#to").width(100);
+      $("#to").width($("#to").parent().width());
+      $("#from").width($("#from").parent().width());
+    }
+
+    var setDefaultFromLocation = function() {
+      prefs.set("fromLocation", $("#from").val());
+      $("#from").attr("readonly", "readonly");
+      $("#set_as_default")
+        .attr("src", "http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/google-star-hot.png")
+        .attr("title", "__MSG_clear_default_from_location__")
+        .unbind()
+        .click(clearDefaultFromLocation);
+      ga.reportPageview("/driving-directions/from/default/set");
+    }
+    var clearDefaultFromLocation = function() {
+      prefs.set("fromLocation", "");
+      $("#from").attr("readonly", "");
+      $("#set_as_default")
+        .attr("src", "http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/google-star.png")
+        .attr("title", "__MSG_set_default_from_location__")
+        .unbind()
+        .click(setDefaultFromLocation);
+      ga.reportPageview("/driving-directions/from/default/clear");
+    }
+
+    //give iGoogle users the option to save their address by clicking the star
+    if (_args()["synd"] == "ig") {
+      $("<img/>")
+        .attr("id", "set_as_default")
+        .attr("src", "http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/google-star.png")
+        .css("position", "absolute")
+        .css("cursor", "pointer")
+        .css("left", $("#from").offset().left + $("#from").outerWidth() - (safariFormElements ? 15 : 16) - 3)
+        .css("top", $("#from").offset().top + (($("#from").outerHeight() - (safariFormElements ? 15 : 16)) / 2))
+        .click(setDefaultFromLocation)
+        .width(safariFormElements ? 15 : 16)
+        .hide()
+        .appendTo("body");
+      if (prefs.getString("fromLocation")) {
+        $("#from")
+          .val(prefs.getString("fromLocation"))
+          .attr("readonly", "readonly")
+          .removeClass("gray");
+        $("#set_as_default")
+          .attr("src", "http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/google-star-hot.png")
+          .attr("title", "__MSG_clear_default_from_location__")
+          .unbind()
+          .click(clearDefaultFromLocation)
+          .show();
+        ga.reportPageview("/driving-directions/from/default");
+      }
+    } else {
+      if ($.trim(prefs.getString("fromLocation")) != "*" && $.trim(prefs.getString("fromLocation")) != "" && !(prefs.getString("fromLocation") == "" && _args()["synd"] == "ig")) {
+        populateField("from", "fromLocation");
+      }
+    }
+
+//    gadgets.window.adjustHeight();
+    _IG_AdjustIFrameHeight();
+
+    //globals
+    var map, directionsDisplay;
+    var geocoder = new google.maps.Geocoder();
+    var directionsService = new google.maps.DirectionsService();
+
+    //event bindings
+    $("#from").keyup(function() {
+      $.trim($(this).val()) ? $("#set_as_default").show() : $("#set_as_default").hide();
+    });
+    $("#from").bind("focus select", function(e) {
+      if ($(this).attr("readonly")) {
+        $(this).attr("readonly", "");
+        $("#set_as_default")
+          .attr("src", "http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/google-star.png")
+          .attr("title", "__MSG_set_default_from_location__")
+          .unbind()
+          .click(setDefaultFromLocation);
+      }
+    });
+    $("#add_this").find("a").click(function() {
+      window.open(this.href);
+      ga.reportPageview("/driving-directions/add-to-site");
+      return false;
+    });
+    $("#fields").submit(function() {
+    
+      $("#from").val($.trim($("#from").val()));
+      $("#to").val($.trim($("#to").val()));
+      
+      if ($("#from").val() == "" || $("#from").val() == $("#from").attr("defaultValue") || $("#to").val() == "" || $("#to").val() == $("#to").attr("defaultValue")) {
+        $("#dynamic_container").hide();
+        map = directionsDisplay = null;
+        $("#error_container").hide();
+//        gadgets.window.adjustHeight();
+        _IG_AdjustIFrameHeight();
+        
+      } else {
+
+        $("#dynamic_container").show();
+        $("#disambig").hide();
+        $("#error_container").hide();
+
+        if (map == null) {
+          map = new google.maps.Map($("#map").get(0), { mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeControl: false });
+        }
+        if (directionsDisplay == null) {
+          directionsDisplay = new google.maps.DirectionsRenderer({ map: map, panel: $("#directions").empty().get(0) });
+        }
+    
+        var tMode;
+        if ($("#mode").val() == "w") {
+          tMode = google.maps.DirectionsTravelMode.WALKING;
+          ga.reportPageview("/driving-directions/go/walking");
+        } else if ($("#mode").val() == "b") {
+          tMode = google.maps.DirectionsTravelMode.BICYCLING;
+          ga.reportPageview("/driving-directions/go/cycling");
+        } else {
+          $("#mode").val("");
+          tMode = google.maps.DirectionsTravelMode.DRIVING;
+          ga.reportPageview("/driving-directions/go/by-car");
+        }
+
+        directionsService.route({
+          origin: $.trim($("#from").val().replace(/\(.*\)/, "")),
+          destination: $.trim($("#to").val().replace(/\(.*\)/, "")),
+          travelMode: tMode
+        }, function(response, status) {
+
+          //an OK status indicates successful request
+          if (status == google.maps.DirectionsStatus.OK) {
+
+            directionsDisplay.setDirections(response);
+
+            //resize the gadget when directions are done loading
+            google.maps.event.addListenerOnce(map, 'idle', function(){ 
+//              gadgets.window.adjustHeight();
+              _IG_AdjustIFrameHeight();
+            });
+
+            var route = response.routes[0].legs[0];
+
+            //create a bar with links above the map
+            $("#tools_bar")
+              .empty()
+              .append("<a id=\"print\" href=\"http://maps.google.com/maps?hl=" + prefs.getLang() + "&saddr=" + route.start_address.replace(/ /g, "+") + "@" + route.start_location.lat() + "," + route.start_location.lng() + "&daddr=" + route.end_address.replace(/ /g, "+") + "@" + route.end_location.lat() + "," + route.end_location.lng() + "&dirflg=" + $("#mode").val() + "&ie=UTF8&z=11&layer=c&pw=2\"><img src=\"http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/print-icon.png\" class=\"icon\" /> <span class=\"u\">__MSG_print__</span></a> <img src=\"http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/divider-icon.png\" class=\"divider\" /> <a id=\"larger\" href=\"http://maps.google.com/maps?hl=" + prefs.getLang() + "&saddr=" + route.start_address.replace(/ /g, "+") + "@" + route.start_location.lat() + "," + route.start_location.lng() + "&daddr=" + route.end_address.replace(/ /g, "+") + "@" + route.end_location.lat() + "," + route.end_location.lng() + "&dirflg=" + $("#mode").val() + "&ie=UTF8&layer=c&utm_campaign=en&utm_medium=et&utm_source=en-et-na-us-gns-dd&utm_term=ddgadget\"><img src=\"http://hosting.gmodules.com/ig/gadgets/file/114281111391296844949/map-icon.png\" class=\"icon\" /> <span class=\"u\">__MSG_larger__</span></a>")
+              .find("#print")
+                .click(function() {
+                  window.open(this.href, 'Printable_Directions', 'width=800,height=600,location=yes,resizable=yes,scrollbars=yes,status=yes');
+                  ga.reportPageview("/driving-directions/print");
+                  return false;
+                })
+                .end()
+              .find("#larger")
+                .click(function() {
+                  window.open(this.href);
+                  ga.reportPageview("/driving-directions/larger");
+                  return false;
+                });
+
+            //create a bar below the map with other directions types
+            $("#also_available")
+              .empty()
+              .append("<strong>__MSG_also_available__:</strong>")
+              .hide();
+            if ($("#mode").val() != "") {
+              $("<a><img src=\"http://maps.gstatic.com/intl/en_us/mapfiles/transit/iw/3/drive.gif\" /> <span class=\"u\">__MSG_by_car__</span></a>")
+                .click(function() {
+                  $("#mode").val("");
+                  $("#fields").submit();
+                })
+                .appendTo("#also_available")
+                .parent("#also_available")
+                .show();
+            }
+            //change to gadgets.io.makeRequest, change obj.indexOf to obj.text.indexOf
+            _IG_FetchContent("http://maps.google.com/maps?hl=" + prefs.getLang() + "&saddr=" + route.start_address.replace(/ /g, "+") + "@" + route.start_location.lat() + "," + route.start_location.lng() + "&daddr="+ route.end_address.replace(/ /g, "+") + "@" + route.end_location.lat() + "," + route.end_location.lng() + "&dirflg=r&ie=UTF8&layer=c", function(obj) {
+              if ($("#mode").val() != "r" && obj.indexOf("outside our current coverage") < 0) {
+                $("<a id=\"transit\" href=\"http://maps.google.com/maps?hl=" + prefs.getLang() + "&saddr=" + route.start_address.replace(/ /g, "+") + "@" + route.start_location.lat() + "," + route.start_location.lng() + "&daddr="+ route.end_address.replace(/ /g, "+") + "@" + route.end_location.lat() + "," + route.end_location.lng() + "&dirflg=r&ie=UTF8&layer=c&utm_campaign=en&utm_medium=et&utm_source=en-et-na-us-gns-dd&utm_term=ddgadget\"><img src=\"http://maps.gstatic.com/intl/en_us/mapfiles/transit/iw/3/tram.gif\" /> <span class=\"u\">__MSG_public_transit__</span></a>")
+                  .click(function() {
+                    window.open(this.href);
+                    ga.reportPageview("/driving-directions/public-transit");
+                    return false;
+                  })
+                  .appendTo("#also_available")
+                  .parent("#also_available")
+                  .show();
+//                gadgets.window.adjustHeight();
+                _IG_AdjustIFrameHeight();
+              }
+            });
+            if ($("#mode").val() != "w" && route.distance.value <= 10000) {
+              $("<a><img src=\"http://maps.gstatic.com/intl/en_us/mapfiles/transit/iw/3/walk.gif\" /> <span class=\"u\">__MSG_walking__</span></a>")
+                .click(function() {
+                  $("#mode").val("w");
+                  $("#fields").submit();
+                })
+                .appendTo("#also_available")
+                .parent("#also_available")
+                .show();
+            }
+            if ($("#mode").val() != "b" && route.distance.value >= 4000 && route.distance.value <= 50000 && (route.start_address.indexOf("USA") > -1 || route.start_address.indexOf("United States") > -1) && (route.end_address.indexOf("USA") > -1 || route.end_address.indexOf("United States") > -1)) {
+              $("<a><img src=\"http://maps.gstatic.com/intl/en_us/mapfiles/transit/iw/3/cycle.gif\" /> <span class=\"u\">__MSG_cycling__</span></a>")
+                .click(function() {
+                  $("#mode").val("b");
+                  $("#fields").submit();
+                })
+                .appendTo("#also_available")
+                .parent("#also_available")
+                .show();
+            }
+
+//            gadgets.window.adjustHeight();
+//            _IG_AdjustIFrameHeight();
+            ga.reportPageview("/driving-directions/go/success");
+
+            geocoder.geocode({ address: $.trim($("#from").val().replace(/\(.*\)/, "")) }, function(fromResults, fromStatus) {
+              geocoder.geocode({ address: $.trim($("#to").val().replace(/\(.*\)/, "")) }, function(toResults, toStatus) {
+
+                if (fromResults.length > 1 && $("#from").attr("tagName").toLowerCase() == "input") {
+                  $("#disambig").html("<p>__MSG_did_you_mean__</p><ul></ul>").show();
+                  $.each(fromResults, function(i) {
+                    if (i) {
+                      $("<a/>")
+                        .text(this.formatted_address)
+                        .click(function() {
+                          $(this).animate(
+                            { top: ($("#from").offset().top - $(this).offset().top + 3) + "px",
+                              left: ($("#from").offset().left - $(this).offset().left + 3) + "px" },
+                            function() {
+                              $("#from").focus().val($(this).text());
+                              $("#fields").submit();
+                            });
+                          return false;
+                        })
+                        .appendTo("#disambig > ul")
+                        .wrap("<li/>");
+                    }
+                  });
+//                  gadgets.window.adjustHeight();
+                  _IG_AdjustIFrameHeight();
+                  ga.reportPageview("/driving-directions/go/success/disambig");
+                } else if (toResults.length > 1 && $("#to").attr("tagName").toLowerCase() == "input") {
+                  $("#disambig").html("<p>__MSG_did_you_mean__</p><ul></ul>").show();
+                  $.each(toResults, function(i) {
+                    if (i) {
+                      $("<a/>")
+                        .text(this.formatted_address)
+                        .click(function() {
+                          $(this).animate(
+                            { top: ($("#to").offset().top - $(this).offset().top + 3) + "px",
+                              left: ($("#to").offset().left - $(this).offset().left + 3) + "px" },
+                            function() {
+                              $("#to").val($(this).text());
+                              $("#fields").submit();
+                            });
+                          return false;
+                        })
+                        .appendTo("#disambig > ul")
+                        .wrap("<li/>");
+                      }
+                    });
+//                    gadgets.window.adjustHeight();
+                    _IG_AdjustIFrameHeight();
+                    ga.reportPageview("/driving-directions/go/success/disambig");
+                }
+
+              });
+            });
+
+          //a NOT_FOUND error indicates one of the waypoints couldn't be geocoded
+          } else if (status == google.maps.DirectionsStatus.NOT_FOUND) {
+
+            geocoder.geocode({ address: $.trim($("#from").val().replace(/\(.*\)/, "")) }, function(fromResults, fromStatus) {
+              geocoder.geocode({ address: $.trim($("#to").val().replace(/\(.*\)/, "")) }, function(toResults, toStatus) {
+
+                $("#dynamic_container").hide();
+                map = directionsDisplay = null;
+                $("#error_container").html("<div id=\"message\"><p>__MSG_couldnt_understand__ <strong>" + (fromStatus != google.maps.GeocoderStatus.OK ? $("#from").select().val() : $("#to").select().val()) + "</strong></p><p>__MSG_suggestions__</p><ul><li>__MSG_spelled_correctly__</li><li>__MSG_city_and_state__</li><li>__MSG_zip_code__</li></ul></div>").show();
+
+//                gadgets.window.adjustHeight();
+                _IG_AdjustIFrameHeight();
+                ga.reportPageview("/driving-directions/go/error");
+
+              });
+            });
+
+          //a ZERO_RESULTS error indicates no route could be found
+          } else {
+
+            $("#dynamic_container").hide();
+            map = directionsDisplay = null;
+            $("#error_container").html("<div id=\"message\"><p>__MSG_couldnt_calculate__ <strong>" + $("#from").val() + "</strong> __MSG_couldnt_calculate_to__ <strong>" + $("#to").val() + "</strong> __MSG_couldnt_calculate_end__</p></div>").show();
+
+//            gadgets.window.adjustHeight();
+            _IG_AdjustIFrameHeight()
+            ga.reportPageview("/driving-directions/go/error");
+
+          }
+        });
+        
+      }
+      ga.reportPageview("/driving-directions/go");
+      return false;
+    });
+
+    //if autoExpand userpref is set, trigger a submit
+    if (prefs.getString("autoExpand")) {
+      $("#fields").submit();
+    }
+    
+  });
+  </script>
+  <style type="text/css">
+  body { font: 13px Arial; }
+  img { border: 0; }
+  input, select { margin: 0; } /* remove default margins that appear on Safari-style forms */
+  ul { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0 }
+  li { padding: 0; margin: 4px 0; }
+  .gray { color: #aaa; }
+  .u { text-decoration: underline; }
+  #fields { padding: 2px; margin: 0; }
+  #fields table { width: 100%; white-space: nowrap; }
+  #fields label { font-size: 13px; padding-right: 8px; }
+  #fields #from, #fields #to { display: block; width: 100%; }
+  #dynamic_container { display: none; margin-top: 1.12em; }
+  #map { height: 200px; margin: 0 3px 1.12em; }
+  #directions { margin: 8px 5px; }
+  #directions td { font-size: 13px; }  /* adjust font size in preformatted directions */
+  #directions td img { height: 38px; }  /* explicitly set img height so gadget resizes correctly */
+  #message { margin: 1.12em 5px 0; }
+  #message p { font-size: 16px; }
+  #message ul { padding-left: 20px; }
+  #disambig { margin: 1.12em 5px 0; }
+  #disambig p { margin-bottom: 0; }
+  #disambig ul { list-style: none; margin: 0; }
+  #disambig li a { text-decoration: underline; cursor: pointer; position: relative; }
+  #tools_bar { text-align: right; background: #d5ddf3; margin: 4px 3px 0; padding: 5px 8px; -moz-border-radius-topleft: 4px; -moz-border-radius-topright: 4px; -webkit-border-top-left-radius: 4px; -webkit-border-top-right-radius: 4px; }
+  #tools_bar img { vertical-align: bottom; }
+  #tools_bar .divider { height: 19px; }
+  #tools_bar .icon { height: 16px; }
+  #tools_bar a { color: #0000cc; text-decoration: none; }
+  #also_available { background: #e8ecf9; margin: 1.12em 5px 0; border: 1px solid #d5ddf3; padding: 8px; -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+  #also_available strong { margin-right: 10px; }
+  #also_available a { margin-right: 10px; color: #0000cc; text-decoration: none; cursor: pointer; }
+  #also_available a img { vertical-align: bottom; height: 15px; }
+  #add_this { color: #ddd; font: 9px Verdana; margin: 0 3px 2px; padding: 2px; }
+  </style>
+  <!--May the gods of semantic markup forgive me-->
+  <form id="fields">
+    <table cellspacing="4" cellpadding="0" border="0">
+      <tr>
+        <td width="1" class="label_container"><label for="from">__MSG_from__:</label></td>
+        <td colspan="2"><input type="text" id="from" value="__MSG_example_from_address__" class="gray" onfocus="if ($(this).val() == $(this).attr('defaultValue')) { $(this).val(''); $(this).removeClass('gray'); }" onblur="if ($(this).val() == '') { $(this).val($(this).attr('defaultValue')); $(this).addClass('gray'); }"/></td>
+      </tr>
+      <tr>
+        <td width="1" class="label_container"><label for="to">__MSG_to__:</label></td>
+        <td><input type="text" id="to" value="__MSG_to_address_hint__" class="gray" onfocus="if ($(this).val() == $(this).attr('defaultValue')) { $(this).val(''); $(this).removeClass('gray'); }" onblur="if ($(this).val() == '') { $(this).val($(this).attr('defaultValue')); $(this).addClass('gray'); }"/></td>
+        <input type="hidden" id="mode" value=""/>
+        <!--td width="1">
+          <select id="mode">
+            <option value="">__MSG_by_car__</option>
+            <option value="w">__MSG_walking__</option>
+          </select>
+        </td-->
+        <td width="1"><input type="submit" id="submit" value="__MSG_go__" /></td>
+      </tr>
+    </table>
+  </form>
+  <div id="dynamic_container">
+	<div id="tools_bar"></div>
+    <div id="map"></div>
+    <div id="disambig"></div>
+    <div id="also_available"></div>
+    <div id="directions"></div>
+    <div id="add_this"><a href="http://maps.google.com/help/maps/gadgets/directions/">__MSG_add_this__</a> <span style="color: white;">Cant decide on which way to go</span></div>
+  </div>
+  <div id="error_container"></div>
+  ]]>
+  </Content>
+</Module>

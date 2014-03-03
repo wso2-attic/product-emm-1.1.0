@@ -1,0 +1,117 @@
+<div class="container">
+
+	<div class="raw">
+		<div class="span12">
+
+			<ul class="breadcrumb">
+				<li>
+					<a href="configuration">Permission</a><span class="divider">/</span>
+				</li>
+				<li class="active">
+					Add
+				</li>
+			</ul>
+
+		</div>
+
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Add Permission Group
+						</div>
+
+					</div>
+
+					<div class="block-body">
+						<form class="form-horizontal">
+							
+							
+							<div class="control-group">
+								<label class="control-label" for="inputBundleName">Permission Group Name</label>
+								<div class="controls">
+									<input type="text" id="inputBundleName">
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label" for="inputGroupId">Features:</label>
+								<div class="controls">
+									 <div id="tree3"> </div>
+								</div>
+							</div>
+
+							<div id="extra-fileds"></div>
+
+							<hr>
+							<div class="offset10">
+								<a class="btn btn-orange btn-large" id="btn-add">Add</a>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- Modal Features -->
+<div id="addPolicyModal" class="modal hide" tabindex="-1" role="dialog"
+aria-hidden="true">
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+		aria-hidden="true">
+			x
+		</button>
+		<h3 id="myModalLabel">Add Rule</h3>
+	</div>
+	<div class="modal-body">
+
+		<form class="form-horizontal pull-left">
+
+			<div class="control-group">
+				<label class="control-label" for="inputRuleId">Rule Id</label>
+				<div class="controls">
+					<input type="text" id="inputRuleId" class="input-xlarge">
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="inputSubject">Subject</label>
+				<div class="controls">
+					<input type="text" id="inputSubject" class="input-xlarge">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputAction">Action</label>
+				<div class="controls">
+					<input type="text" id="inputAction" class="input-xlarge">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputResource">Resource</label>
+				<div class="controls">
+					<input type="text" id="inputResource" class="input-xlarge">
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">
+			Close
+		</button>
+		<button class="btn btn-orange" data-dismiss="modal" id="btn-add-rule">
+			Add
+		</button>
+	</div>
+
+</div>

@@ -1,0 +1,35 @@
+<div class="content-div">
+            <div class="row-fluid">
+                <form class="form-horizontal" id='form-asset-create'>
+                    {{#each data.fields}}
+					<div class="control-group">
+						<b><label class="control-label">{{this.label}}:</label>
+						</b>
+						<div class="controls">
+							{{#if this.isTextBox}}
+								<input id='{{this.name}}' type='text' value='{{this.value}}'
+                                        {{#if this.isReadOnly}} readonly{{/if}}/>
+							{{/if}}
+							{{#if this.isOptions}}
+								<select id="{{this.name}}">
+								{{#each this.valueList}}
+									<option>{{this}}</option>
+								{{/each}}
+								</select>
+							{{/if}}
+							{{#if this.isTextArea}}
+								<textarea id='{{this.name}}' value='{{this.value}}' ></textarea>
+							{{/if}}
+						</div>
+					</div>	
+		     {{/each}}
+
+                    <div id="saveButtons" class="form-actions">
+                        <input type="button" value="Create" class="btn btn-primary" name="addNewAssetButton" id="btn-create-asset">
+			<input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+                        <input type="reset" value="Cancel" class="btn">
+                    </div>
+                </form>
+            </div>
+	  
+        </div>

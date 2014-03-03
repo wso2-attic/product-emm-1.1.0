@@ -1,0 +1,177 @@
+<div class='content-div'>
+	<div class="row-fluid grid-options">
+        <span class="breadcrumb publisher-breadcrumb">Category > {{shortName}} > <span class="title">{{{snoop "fields(name=overview_name).value" this.data}}}</span></span>
+	</div>
+	<div class="row-fluid">
+	    <ul class="nav nav-tabs tabs" id="asset_view_tabs">
+                        <li class="active"><a id="viewLink" data-toggle="tab" href="#view"><i class=" icon-list-alt"></i> Overview</a></li>
+                        <li class=""><a id="editLink" data-toggle="tab" href="#edit"><i class="icon-edit"></i> Edit</a></li>
+                        <li class=""><a id="lifecyclesLink" data-toggle="tab" href="#lifecycles"><i class="icon-lifecycle"></i> Life Cycle</a></li>
+                        <li class=""><a id="versionsLink" data-toggle="tab" href="#versions"><i class="icon-th-list"></i> Versions</a></li>
+                        <li class=""><a id="docsLink" data-toggle="tab" href="#docs"><i class="icon-file"></i> Docs</a></li>
+        </ul>
+	</div>
+	<div class="tab-content asset-tab-content">
+		<div id="view" class="tab-pane fade in active">
+            <div class="row-fluid">
+                <div class="span12 asset-detail-top-row">
+                        <div class="banner-div">
+		                    <img src="{{{snoop "fields(name=images_banner).value" this.data}}">
+		               	</div>
+		               	<div class="asset-details-box">
+                            <div class="thumbnail-div">
+                                <img src="{{{snoop "fields(name=images_thumbnail).value" this.data}}}" class=""/>
+
+                            </div>
+                            <h3>{{{snoop "fields(name=overview_name).value" this.data}}}</h3>
+                        </div>
+                </div>
+            </div>
+		    <div class="row-fluid asset-details-row">
+		                <div class="span3">
+		                    <div class="asset-view-details info-box-container">
+                                <div class="infobox block-orange">
+                                    <div class="infobox-icon">
+                                        <i class="icon-user icon-4x"></i>
+                                    </div>
+                                    <span class="infobox-bottom-text">Provider</span>
+                                    <span class="infobox-sub-text">{{{snoop "fields(name=overview_provider).value" this.data}}}</span>
+                                </div>
+                                <div class="infobox block-green">
+                                    <div class="infobox-icon">
+                                        <i class="icon-retweet"></i>
+                                    </div>
+                                    <span class="infobox-bottom-text">Lifecycle</span>
+                                    <span class="infobox-sub-text" id='view-lifecyclestate'>{{data.info.lifecycleState}}</span>
+                                </div>
+                                <div class="infobox block-blue">
+                                    <div class="infobox-icon">
+                                        <i class="icon-qrcode"></i>
+                                    </div>
+                                    <span class="infobox-bottom-text">Version</span>
+                                    <span class="infobox-sub-text">{{data.info.version}}</span>
+                                </div>
+		                    </div>
+		                </div>
+		                <div class="span9">
+		                    <table class="table table-bordered asset-view-table">
+                                <tbody>
+                                {{#each data.fields}}
+                                    <tr>
+                                        <td class="span3">{{this.label}}</td>
+                                        <td>{{this.value}}</td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+		                </div>
+		    </div>
+        </div>
+		<div id="edit" class="tab-pane fade in">
+                	<div class="row-fluid">
+                        	<div class="span12">
+					<div class="info-div alert alert-error">
+                                			<a data-dismiss="alert" class="close">x</a>
+                                			<i class="icon-warning-sign text-red icon_block"></i>
+                                			This feature will be available on our next milestone..
+                            		</div>
+                            		<form class="form-horizontal">
+                                		{{#each data.fields}}
+							<div class="control-group">
+								<b><label class="control-label">{{this.label}}:</label>
+								</b>
+								<div class="controls">
+									<input id='{{this.name}}' type='text' value='{{this.value}}' disabled="disabled"/>
+								</div>
+							</div>	
+		     				{{/each}}
+                                		<div id="saveButtons" class="form-actions">
+                                    			<input type="submit" value="Update" class="btn btn-primary" 
+								name="editAssetButton" disabled="disabled" id="editAssetButton">
+                                    			<input type="reset" value="Cancel" disabled="disabled" class="btn">
+                                		</div>
+                            		</form>
+                        	</div>
+                    	</div>
+                </div>
+                <div id="lifecycles" class="tab-pane fade in">
+                    	<div class="row-fluid">
+                        	<div class="span12">
+                            		<form class="form-horizontal">
+                                		<div class="control-group">
+
+                                    			<div class="controls">
+                                                    <legend><div id='state'>{{data.info.lifecycleState}}</div></legend>
+                                                    <div id='checklist'></div>
+                                    			</div>
+                                		</div>
+                                		<div class="form-actions">
+                                    			<input type="button" value="Promote" class="btn btn-primary"  id="btn-asset-promote">
+                                    			<input type="button" value="Demote" class="btn" id="btn-asset-demote">
+                                		</div>
+                            		</form>
+                            		<h5>Life-Cycle History</h5>
+                            		<div class="info-div alert alert-success">
+                                			<a data-dismiss="alert" class="close">x</a>
+                                			<i class="icon-info-sign"></i>
+                                			<span class="dateFull">Fri 29 Mar 2013 01:45:08 PM IST</span>
+                                			<i class="icon-user"></i>
+                                			<a href="#">admin</a> created the API.
+                            		</div>
+                            		<div class="info-div alert alert-success">
+                                		<a data-dismiss="alert" class="close">x</a>
+                                		<i class="icon-info-sign"></i>
+                                		<span class="dateFull">Fri 29 Mar 2013 01:45:17 PM IST</span>
+                                		<i class="icon-user"></i>
+                                		<a href="#">admin</a> changed api status from  'CREATED' to 'PUBLISHED'.
+                            		</div>
+                        	</div>
+                    	</div>
+                </div>
+                <div id="versions" class="tab-pane fade in">
+                    	<div class="row-fluid">
+                        	<div class="span12">	
+					<div class="info-div alert alert-error">
+                                			<a data-dismiss="alert" class="close">x</a>
+                                			<i class="icon-warning-sign text-red icon_block"></i>
+                                			This feature will be available on our next milestone..
+                            		</div>
+		                    	<table class="table table-bordered">
+		                        	<thead>
+		                            		<tr>
+		                                		<th>Version</th>
+		                                		<th>Number of subscriptions</th>
+		                            		</tr>
+		                        	</thead>
+		                        	<tbody>
+		                            		<tr>
+		                                		<td>1.0.0</td>
+		                                		<td>120</td>
+		                            		</tr>
+		                            		<tr>
+		                                		<td>1.0.0</td>
+		                                		<td>120</td>
+		                            		</tr>
+		                            		<tr>
+		                                		<td>1.0.0</td>
+		                                		<td>120</td>
+		                            		</tr>
+		                            		<tr>
+		                                		<td>1.0.0</td>
+		                                		<td>120</td>
+		                            		</tr>
+		                            		<tr>
+		                                		<td>1.0.0</td>
+		                                		<td>120</td>
+		                            		</tr>
+		                            		<tr>
+		                                		<td>1.0.0</td>
+		                                		<td>120</td>
+		                            		</tr>
+		                        	</tbody>
+		                    	</table>
+                        	</div>
+                	</div>
+                </div>
+	</div>
+</div>

@@ -1,0 +1,123 @@
+.asset-details:hover {
+    cursor: pointer;
+}
+
+.row-sort-assets .span3 .row-fluid > div {
+    margin-left: -10px;
+}
+
+
+.row-sort-assets {
+    height: 13px;
+    margin-bottom: 36px;
+    margin-top: 12px;
+    visibility:hidden;
+}
+/*
+.row-border-bottom {
+    margin-bottom: 16px;
+    padding-bottom: 23px;
+}*/
+
+
+#ul-sort-assets {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+#ul-sort-assets li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#ul-sort-assets li a {
+    opacity: .5;
+    color: #34495E;
+    font-weight: bold;
+}
+
+#ul-sort-assets li a i {
+    font-size: 17px;
+}
+
+.icon-sort-alphabetical {
+    background: url("../img/icon-sort-alphabetical.png") no-repeat scroll left top transparent;
+    height: 14px;
+    width: 16px;
+    display: inline-block !important;
+}
+
+#ul-sort-assets  li a.selected-type {
+    opacity: 1;
+    position: relative;
+}
+
+/*
+ .row-sort-assets ul li a.selected-type:before {
+ content: "";
+ width: 11px;
+ height: 8px;
+ background: url(../img/store-sort-arrow.png) no-repeat top left;
+ position: absolute;
+ bottom: -12px;
+ left: 3px;
+ }*/
+
+#breadcrumb {
+    background: #fff;
+    border: 1px solid #ccc;
+    height: 36px;
+    line-height: 36px;
+    padding: 0;
+    display: inline-block;
+    cursor: pointer;
+    color: #717f8e;
+    font-weight: 600;
+    font-size: 14px;
+}
+#breadcrumb a {
+    color: #717f8e;
+    font-weight: 600;
+    display: block;
+    padding: 2px 13px;
+    
+}
+#breadcrumb a:hover{
+    background:#F7F9F9;
+}
+.breadcrumb-l1, .breadcrumb-l2 {
+    display: inline-block;
+    vertical-align: top;
+}
+.breadcrumb-l2 {
+    background: url(../img/breadcrumb-separator.png) no-repeat top left;
+    margin-left: -5px;
+}
+.breadcrumb-head {
+    padding: 0 15px;
+    position: relative;
+}
+.breadcrumb-head span {
+    margin-right: 20px;
+}
+.breadcrumb-head i {
+    position: absolute;
+    right: 7px;
+    top: 12px;
+}
+.breadcrumb-body {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin: 0;
+    display: none;
+    position: relative;
+    z-index: 10;
+}
+.breadcrumb-body li {
+    list-style: none;
+    line-height: 35px;
+}
+.breadcrumb-sel .breadcrumb-head span, .breadcrumb-sel .breadcrumb-body li a {
+    color: #34495e !important;
+}

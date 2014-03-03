@@ -1,0 +1,42 @@
+{{#with asset}}
+    {{#attributes}}
+        {{#if ../../inDashboard}}
+            <a id="btn-add-gadget" class="btn disabled" href="#modal-add-gadget"
+               data-toggle="modal"
+               data-aid="{{../../id}}" data-type="{{../../type}}"> {{t "Bookmarked"}} </a>
+        {{else}}
+
+            {{#if ../../../sso}}
+                {{#if ../../../../user.username}}
+                    <a id="btn-add-gadget" class="btn btn-primary" href="#modal-add-gadget"
+                       data-toggle="modal"
+                       data-aid="{{../../../../id}}"
+                       data-type="{{../../../../type}}"> {{t "Bookmark "}}</a>
+                {{else}}
+                    <a id="btn-add-gadget" class="btn btn-primary" href="{{url "/login"}}"
+                       data-toggle="modal"
+                       data-aid="{{../../../../id}}"
+                       data-type="{{../../../../type}}"> {{t "Bookmark "}}</a>
+                {{/if}}
+            {{else}}
+                <a id="btn-add-gadget" class="btn btn-primary" href="#modal-add-gadget"
+                   data-toggle="modal"
+                   data-aid="{{../../../id}}" data-type="{{../../../type}}"> {{t "Bookmark"}}</a>
+            {{/if}}
+
+        {{/if}}
+        {{#if ../../user}}
+            <a class="btn btn-popover btn-embed {{../../type}}" href="#" data-toggle="popover"
+               data-content='&lt;iframe src="{{../../../embedURL}}"&gt;&lt;/iframe&gt;'
+               data-placement="bottom" title="{{t "Embed this Gadget"}}">
+                <i class="icon-angle-left"></i><i class="icon-angle-right"></i></a>
+
+        {{/if}}
+        <a class="btn btn-href" href="{{overview_url}}" target="_blank" data-placement="bottom"
+           data-toggle="tooltip" title="{{>asset-overview-text}}">
+            <i class="icon-{{../../asset_css}}"></i></a>
+    {{/attributes}}
+{{/with}}
+
+
+

@@ -1,0 +1,15 @@
+{
+    "name": "NY Times",
+    "tags": "site,news",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "NY Times",
+        "overview_version": "1.0.0",
+        "overview_url": "http://www.nytimes.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the NY times site which is of an American daily newspaper founded and continuously published in New York City since 1851",
+        "images_thumbnail": "/nYTimes/thumbnail.png",
+        "images_banner": "/nYTimes/banner.png"
+    }
+}

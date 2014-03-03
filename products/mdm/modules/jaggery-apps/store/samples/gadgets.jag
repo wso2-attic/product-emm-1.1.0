@@ -1,0 +1,57 @@
+<%
+var assetsCount = 20;
+var commentsCount = 20;
+var provider = 'admin';
+var namePrefix = 'Gadget';
+var version = '1.0.0';
+var thumbnails = [
+    'https://lh3.ggpht.com/bwBj9B4fGmTN_of0JS8xdkwklCmqCzSne1tJ9RaUNRQIzU-FEyCuFWzlsLyyPoTbyJE=w78',
+    'https://lh3.ggpht.com/MqozdquCZVfOX5ZKwvYEuCyozVM59bEtnZBz5mny_8b0II59-BeL4Wt5C_XuQ5M1IXw=w78',
+    'https://lh5.ggpht.com/-Kn0hyR8gR32W4XyjZlWc2IJO16v8LM21usVcIdnQguIgTNEmAb5GmrfwXzuGwRxba40=w78',
+    'https://lh4.ggpht.com/RPKFxx-7TBT0Ovqcz8bmGSLlfYnsn0WLMFpIXSniRe8e-_WI_HJMi2cFAxAeDKsVrQ=w78'
+];
+var comment = function (i) {
+    return 'This is my comment for the asset ' + i;
+};
+var tags = ['wso2', 'ues', 'jaggery', 'mobile', 'weather', 'sri lanka'];
+var url = 'http://localhost:9443/portal/gadgets/my-gadget/gadget.xml';
+
+var rxtPath = '/_system/governance/gadgets/';
+var store = require('store').server;
+var reg = store.systemRegistry();
+var thumbLength = thumbnails.length;
+var tagsLength = tags.length;
+var i, j, gadget, path, thumbIndex, tagIndex, name, tag;
+
+for (i = 0; i < assetsCount; i++) {
+    name = namePrefix + i;
+    thumbIndex = i % thumbLength;
+    tagIndex = i % tagsLength;
+    path = rxtPath + provider + '/' + name + '/' + version;
+    gadget =
+            <metadata xmlns="http://www.wso2.org/governance/metadata">
+                <overview>
+                    <provider>{provider}</provider>
+                    <name>{name}</name>
+                    <version>{version}</version>
+                    <url>{url}</url>
+                    <status>CREATED</status>
+                </overview>
+                <images>
+                    <thumbnail>{thumbnails[thumbIndex]}</thumbnail>
+                    <banner>{thumbnails[thumbIndex]}</banner>
+                </images>
+            </metadata>;
+    reg.put(path, {
+        mediaType: 'application/vnd.wso2-gadget+xml',
+        content: gadget.toXMLString()
+    });
+
+    reg.tag(path, tags.slice(tagIndex));
+
+    for(j = 0; j < commentsCount; j++) {
+        reg.comment(path, comment(j));
+    }
+
+}
+%>

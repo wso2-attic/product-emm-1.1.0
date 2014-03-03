@@ -1,0 +1,59 @@
+<%
+var caramel;
+
+require('/modules/store.js').exec(function (ctx) {
+    var count, tags, title,
+            log = ctx.log,
+            sso = ctx.sso,
+            store = ctx.store,
+            user = ctx.user,
+            tenantId = ctx.tenantId,
+            configs = ctx.configs,
+            site = ctx.site,
+            matcher = ctx.matcher,
+            types = store.assetTypes(),
+            utility = require('/modules/util.js');
+
+    caramel = require('caramel');
+
+    var rxtAttributes = require('/modules/util.js').getRXTAttributes(tenantId, type);
+
+    if (!user) {
+        response.sendRedirect(caramel.configs().context);
+        return;
+    }
+
+    var recentAssets = store.recentAssets(type, 3);
+    var subscriptions = store.subscriptions(type);
+    count = Object.keys(subscriptions).length;
+
+    tags = [
+        {
+            url: '/assets/' + type + '?page=1&tag=',
+            data: store.tags(type)
+        }
+    ];
+
+    title = store.assetLinks(type).title;
+
+    caramel.render({
+        'title': 'Store | My Items',
+        user: user,
+        sso: sso,
+        header: site.header(tenantId, {
+            sso: sso,
+            user: user
+        }),
+        navigation: site.navigation(tenantId),
+        search: {
+            search: {title: type},
+            isTopAssets: false,
+            searchFields: rxtAttributes
+        },
+        subscriptions: count > 0 ? subscriptions : null,
+        recentAssets: recentAssets,
+        myAssets: { user: user, type: type, title: title},
+        tags: tags
+    });
+}, request, response, session);
+%>

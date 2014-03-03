@@ -1,0 +1,22 @@
+<%
+var getFormattedDate = function(value){
+    if(value==null && value == undefined){
+        return "";
+    }
+    var date = new Date(value);
+    var fdate = date.getFullYear() + '-' +('00' + (date.getMonth()+1)).slice(-2) + '-' +('00' + date.getDate()).slice(-2) + ' ' + ('00' + date.getHours()).slice(-2) + ':' + ('00' + date.getMinutes()).slice(-2) + ':' + ('00' + date.getSeconds()).slice(-2);
+    return fdate;
+}
+    var db = new Database("EMM_DB");
+    var result = db.query("SELECT * FROM devices");
+
+    var formattedDate =getFormattedDate(result[0].created_date);
+   // print(formattedDate);
+    var temp = ' 00:00:00';
+    var date1 = '2013-12-23'+temp;
+    var date2 = '2013-12-24'+temp;
+    var tableName = 'devices';
+    var result1 = db.query("SELECT * FROM "+tableName+" where created_date between '"+date1+"' and '"+date2+"'");
+    print(result1);
+
+%>

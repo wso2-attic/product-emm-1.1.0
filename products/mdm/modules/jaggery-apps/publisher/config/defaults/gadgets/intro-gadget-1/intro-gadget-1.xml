@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+    <ModulePrefs title="Intro Gadget 1" height="350"  description="simple gadget sample" >
+        <Require feature="pubsub-2">
+            <Param name="topics">
+                <![CDATA[
+				<Topic title="geodata" name="org.uec.geo.intro1"
+				description="Subscribes to geo data" type="object"
+				subscribe="true"/>
+				]]>
+            </Param>
+        </Require>
+        <Require feature="dynamic-height"/>
+    </ModulePrefs>
+    <Content type="html">
+        <![CDATA[
+       <head>
+            <link href="/portal/themes/portal/css/flot-graph.css" rel="stylesheet" type="text/css">
+	        <script language="javascript" type="text/javascript" src="../../js/flot/excanvas.min.js"></script>
+	        <script language="javascript" type="text/javascript" src="/portal/js/flot/jquery.js"></script>
+	        <script language="javascript" type="text/javascript" src="/portal/js/flot/jquery.flot.js"></script>
+		    <script src="/portal/gadgets/intro-gadget-1/js/intro-gadget-1.js"></script>
+		     <style>
+		     	body{
+		     	background:#EFF9F7;
+		     	color:#34495E;
+		     	}
+		    	h5{
+			border-bottom: 1px solid #EDEDED;
+			padding-bottom: 7px;
+			padding-left: 20px;
+			padding-top: 10px;
+			text-align: left;
+		    	}
+		    	
+		    	#placeholder{
+		    	width: 100%; height: 240px; margin: 2px auto 0px auto;_margin-left:-150px;
+		    	}
+		    	#tooltip {
+		    	background:url('img/tooltip.png') no-repeat bottom center !important;
+		    	}
+		    	#tooltip strong{
+		    	font-size:13px;
+		    	font-weight:bold;
+		    	clear:both;
+		    	display:block;
+		    	}
+		    	#tooltip small{
+		    	font-size:12px;
+		    	}
+		    </style>
+       <head>
+
+        <body>
+        <div style="display: block; text-align:center; font-size: 12pt"><h5><img src="img/title.png"></h5>
+		    <div id="placeholder" class="demo-placeholder" style="height:90%; width:243px;  margin-left:20px; _margin-left:-130px;"></div>
+		</div>
+		</body>
+
+		]]>
+    </Content>
+</Module>

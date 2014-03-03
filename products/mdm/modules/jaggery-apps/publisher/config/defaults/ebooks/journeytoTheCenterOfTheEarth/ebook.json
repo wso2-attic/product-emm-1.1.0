@@ -1,0 +1,18 @@
+{
+    "name": "A Journey to the Center of the Earth",
+    "tags": "ebooks,novel,fiction,science,adventure",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "A Journey to the Center of the Earth",
+        "overview_version": "Edition-1",
+        "overview_url": "journeytoTheCenterOfTheEarth/A_Journey_to_the_Center_of_the_Earth.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Jules Verne",
+        "overview_provider": "admin",
+        "overview_description": "The story involves German professor Otto Lidenbrock who believes there are volcanic tubes going toward the centre of the Earth. He, his nephew Axel, and their guide Hans descend into the Icelandic volcano Snæfellsjökull, encountering many adventures, including prehistoric animals and natural hazards, before eventually coming to the surface again in southern Italy, at the Stromboli volcano.",
+        "images_thumbnail": "journeytoTheCenterOfTheEarth/thumbnail.jpg",
+        "images_banner": "journeytoTheCenterOfTheEarth/banner.png"
+    }
+}

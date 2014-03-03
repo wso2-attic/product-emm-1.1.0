@@ -1,0 +1,349 @@
+<%
+
+/*
+ Description: Provides CRUD support for assets
+ Note: type: shortName in the Rxt templates
+ GET  api/asset/{type} 	       	  : Provides the Rxt template
+ GET  api/asset/{type}/{id}        : Provides artifact details on the provided type
+ POST api/asset/{type}             : Creates a new asset of the given type
+ PUT  api/asset/{type}/{id}	  : Updates an asset with the given type and id
+ DELETE asset/{type}/{id} 	  : Deletes an asset with the provided type and id
+ Filename:asset.js
+ Created Date: 29/7/2013
+ */
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+var config = require('/config/publisher.json');
+caramel = require('caramel');
+var server = require('store').server;
+var utility = require('/modules/utility.js').rxt_utility();
+var assetCachingModule=require('/modules/cache/cache.manager.js').assetCachingModule();
+var publisher = require('/modules/publisher.js').publisher(request, session);
+var storageModule = require('/modules/data/storage.js').storageModule();
+var storageConfig = require('/config/storage.json');
+
+var router = require('/modules/router-g.js').router();
+var routeManager = new router.Router();
+
+//var routeManager=application.get(config.app.ROUTE_MANAGER);
+var rxtManager = publisher.rxtManager;
+var modelManager = publisher.modelManager;
+var dataInjector = publisher.dataInjector;
+var DataInjectorModes = publisher.DataInjectorModes;
+var filterManager=publisher.filterManager;
+
+var log = new Log();
+
+routeManager.register('GET', 'publisher', '/publisher/asset/{type}', function (context) {
+
+    var shortName = (context.params.type) || '';
+    var operation = 'create';
+    var rxtTemplate = rxtManager.findAssetTemplate(function (template) {
+        return (template.shortName == shortName) ? true : false;
+    });
+
+    var model = modelManager.getModel(shortName);
+
+    if (!rxtTemplate) {
+        log.debug('The requested asset type: ' + shortName + ' was not found');
+        response.sendError(404, 'Asset type not found'); //TODO: Replace
+    }
+    else {
+        //Obtain the username from the session and populate the provider field
+        var username = server.current(session).username;//.get('LOGGED_IN_USER');
+        model.set('overview.provider', username);
+
+        var output = model.export('form');
+        var title = shortName;
+        caramel.render({op: operation, cuser: server.current(session), shortName: shortName, rxtTemplate: rxtTemplate, data: output, title: title});
+    }
+});
+
+routeManager.register('GET', 'publisher', '/publisher/asset/{type}/{id}', function (context) {
+
+    var shortName = context.params.type;
+    //print(context.params);
+    var id = context.params.id;
+    var operation = 'view';
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+
+    //If the id is not found it will throw a conversion exception
+    //TODO: Return an empty artifact or null
+    try {
+
+        log.debug('look for '+id);
+
+        var artifact = artifactManager.get(id);
+
+        log.debug('left');
+
+        //Get the template
+        var rxtTemplate = rxtManager.findAssetTemplate(function (template) {
+            return (template.shortName == shortName) ? true : false;
+        });
+
+        var model = modelManager.getModel(shortName);
+
+        //Customize the asset for the app
+        dataInjector.inject(artifact, DataInjectorModes.DISPLAY);
+
+
+        //Perform filtering logic on the artifact
+        artifact=filterManager.filter(artifact,session);
+
+        //If there is no data after the filtering step we need to send an error
+        if(!artifact){
+            response.sendError(401,'You do not have viewing permissions to the requested asset');
+            return;
+        }
+
+        model.import('asset', artifact);
+
+        var output = model.export('form');
+		
+        var assetName = model.get('overview.name').value;
+        //Get the list of versions
+        var versionList = artifactManager.getAllAssetVersions(assetName);
+		
+		var path = artifact.path;
+		var tags = rxtManager.registry.tags(path);
+		var title = assetName;
+		
+        caramel.render({op: operation, cuser: server.current(session), shortName: shortName, artifact: artifact, rxtTemplate: rxtTemplate, data: output, versions: versionList, tags:tags, title:title});
+    } catch (e) {
+        log.debug('The asset with id ' + id + ' could not be found due to : ' + e);
+        response.sendError(404, 'Asset with id ' + id + ' could not be found.Please check server log.');
+    }
+
+});
+
+routeManager.register('GET', 'publisher', '/publisher/asset/operations/{opType}/{type}/{id}', function (context) {
+
+    var shortName = context.params.type;
+    //print(context.params);
+    var id = context.params.id;
+    var operation = context.params.opType;
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+   
+    //If the id is not found it will throw a conversion exception
+    //TODO: Return an empty artifact or null
+    try {
+        var artifact = artifactManager.get(id);
+
+        //Get the template
+        var rxtTemplate = rxtManager.findAssetTemplate(function (template) {
+            return (template.shortName == shortName) ? true : false;
+        });
+
+        var model = modelManager.getModel(shortName);
+
+        //Customize the asset for the app
+        dataInjector.inject(artifact, DataInjectorModes.DISPLAY);
+
+        model.import('asset', artifact);
+
+        var output = model.export('form');
+
+        var assetName = model.get('overview.name').value;
+
+        //Get the list of versions
+        var versionList = artifactManager.getAllAssetVersions(assetName);
+        
+		//Get tags
+		var path = artifact.path;
+		var tags = rxtManager.registry.tags(path);
+		var title = assetName;
+		
+        caramel.render({op: operation, cuser: server.current(session), shortName: shortName, artifact: artifact, rxtTemplate: rxtTemplate, data: output, versions: versionList, tags:tags, title:title});
+    } catch (e) {
+        log.debug('The asset with id ' + id + ' could not be found due to : ' + e);
+        response.sendError(404, 'Asset with id ' + id + ' could not be found.Please check server log.');
+    }
+
+});
+
+routeManager.register('POST', 'publisher', '/publisher/asset/{type}', function (context) {
+    var shortName = context.params.type;
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+    var model = modelManager.getModel(shortName);
+    var assetCacheManager=new assetCachingModule.AssetCacheManager(session);
+
+//context.post['tag-container'] = ['tag1', 'tag2'];
+
+    //Check if the type is valid
+    try {
+        //assigning default thumbnail and banner if not provided.
+        if (context.post['images_thumbnail'] == '') {
+            context.post['images_thumbnail'] = '/publisher/config/defaults/img/thumbnail.jpg';
+        }
+        if (context.post['images_banner'] == '') {
+            context.post['images_banner'] = '/publisher/config/defaults/img/banner.jpg';
+        }
+		
+        //Process and add any files in the request
+        inspectFiles(request, context.post);
+
+        model.import('form.importer', context.post);
+
+
+        //Perform validation on the model
+
+        var report=model.validate();
+
+        if((report)&&(report.failed)){
+
+            print({ok:false,message:'Validation failure',report:report});
+            return;
+        }
+
+
+        //log.debug(context.post);
+
+        model.save();
+
+        //Obtain the asset id in order to retrieve the asset again
+        var assetId=model.get('*.id').value;
+
+        //Convert the model to an artifact
+        var asset=model.export('asset.exporter');
+
+        //Cache the asset
+        assetCacheManager.add(asset,shortName);
+
+        var reg=rxtManager.registry;
+
+        //Add the tags
+        addTags(context.post,assetId,artifactManager,reg);
+
+        print({ok:true,message:'asset added'});
+    }
+    catch (e) {
+        log.error(e);
+        log.debug('An instance could not be created for asset with type :' + shortName + '.The following exception was recorded: ' + e);
+        response.sendError(500, 'The asset instance could not be created.Please check the server log.');
+    }
+
+});
+
+/*
+The function is used to add tags to the provided asset id
+@params: A post parameter object
+@assetId: The id of the asset to which the tags will be applied
+@artifactManager: An artifact manager instance
+@reg: A registry instance
+ */
+function addTags(params,assetId,artifactManager,reg){
+
+    //Obtain the tags parameter
+   // var tags=params['tags']||[];
+	 var tags=params['tag-container']||[];
+
+    //Only proceed if there are any tags
+    if(tags.length==0){
+        log.debug('no tags to add to '+assetId);
+        return;
+    }
+
+    //Obtain the artifact
+    var asset=artifactManager.get(assetId);
+
+    var path=asset.path;
+	tags = tags.split(',');
+	
+    //Attach the tags
+    reg.tag(path,tags);
+
+}
+
+/*
+ The function inspects the files sent with a request.If files are found
+ they are added to Storage and then the generated uuids are added to
+ the POST parameter object
+ @req: A request object
+ @params: The POST parameters
+ */
+function inspectFiles(req, params) {
+    var files = req.getAllFiles();
+    var fileName;
+    var file;
+    var uuid = '';
+    var extension;
+
+    //log.info(storageConfig.dataSource);
+
+    var storageManager = new storageModule.StorageManager({
+        context: 'storage',
+        isCached: false,
+        connectionInfo: {
+            dataSource: storageConfig.dataSource
+        }
+    });
+
+
+    for (var index in files) {
+
+        file = files[index];
+
+        //log.debug('file: ' + index);
+
+        //Put the file in storage and get a uuid as a reference
+        var resource = {};
+        resource['file'] = file;
+        extension = utility.fileio.getExtension(file);
+        resource['contentType'] = utility.fileio.getContentType(extension);
+
+        uuid=storageManager.put(resource);
+
+        //log.info('uuid added: '+uuid);
+
+        //Add a new  entry into the POST parameters containing the uuid
+        params[index] = uuid;
+    }
+}
+
+routeManager.register('PUT', 'publisher', '/publisher/asset/{type}/{id}/{attr}/{value}', function (context) {
+    log.debug('Unsupported method PUT for /asset called.');
+    /*var shortName=context.params.type;
+     var id=context.params.id;
+     var attribute=context.params.attr;
+     var attributeValue=context.params.value;
+     var artifactManager=rxtManager.getArtifactManager(shortName);
+
+     //Obtain the artifact
+     try{
+     var result=artifactManager.update({
+     id:id,
+     attributes: {
+     attribute:attributeValue,
+     overview_type:'default'
+     }
+     });
+     print(result);
+
+     }catch(e){
+     print('unable to update artifact with id'+e);
+     }*/
+});
+
+routeManager.register('DELETE', 'publisher', '/publisher/asset/{type}/{id}', function (context) {
+    var shortName = context.params.type;
+    var id = context.params.id;
+
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+
+    try {
+        artifactManager.remove(id);
+
+    } catch (e) {
+        log.debug('Asset id: ' + id + 'was not removed.Due to exception: ' + e);
+        response.sendError(404, 'Asset with id: ' + id + 'was not removed.Please check the server log for more details.');
+    }
+
+
+});
+routeManager.handle(request, response);
+
+}, request, response, session);
+
+%>

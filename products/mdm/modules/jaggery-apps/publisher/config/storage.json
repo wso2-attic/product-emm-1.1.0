@@ -1,0 +1,8 @@
+{
+    "driverPath":"/drivers/",
+    "driverUsed":"default",
+    "dataSource":"JAGH2",
+    "storageUrlPattern":"/{context}/storage/{type}/{id}/{uuid}",
+    "storeFields":["images_banner","images_thumbnail","overview_url"],
+    "context":"publisher"
+}

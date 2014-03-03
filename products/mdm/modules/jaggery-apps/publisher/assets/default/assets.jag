@@ -1,0 +1,130 @@
+<%
+//print('Default assets file');
+
+/*
+ Description: Provides CRUD operations on groups of assets
+ GET api/assets		      	 : Returns  a list of all asset types
+ GET api/assets/{type}            : Returns  a list of all assets
+ GET api/assets/{type}/{pageSize} : Returns  a paged list of assets
+ Filename:assets.js
+ Created Date: 29/7/2013
+ */
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+var router = require('/modules/router-g.js').router();
+var config = require('/config/publisher.json');
+caramel = require('caramel');
+var server = require('store').server;
+var publisher = require('/modules/publisher.js').publisher(request, session);
+
+var routeMnger = new router.Router();
+//var routeManager=application.get(config.app.ROUTE_MANAGER);
+var rxtManager = publisher.rxtManager;
+var modelManager = publisher.modelManager;
+var dataInjector=publisher.dataInjector;
+var DataInjectorModes=publisher.DataInjectorModes;
+var filterManager=publisher.filterManager;
+
+var log=new Log();
+
+var DEFAULT_PAGE = 10;
+var DEFAULT_PAGIN = {'start':0, 'count':1000 , 'sortOrder':'desc','sortBy': 'overview_createdtime', 'paginationLimit':1000};
+
+
+/*routeMnger.register('GET','publisher','/publisher/assets/list',function(context){
+
+ //Print all of the rxt types
+ for each(var template in rxtManager.rxtTemplates){
+ print(template.shortName+'</br>');
+ }
+
+ print('root asset');
+ //caramel.render({sample: {name: 'Default asset renderer'}});
+
+ });*/
+var log = new Log();
+
+routeMnger.register('GET', 'publisher', '/publisher/assets/{type}/', function(context) {
+	var query = request.getParameter("query");
+	var sortby = request.getParameter("sortby");
+	var sort = request.getParameter("sort");
+	var type = context.params.type;
+	try {
+
+		//TODO: Check for valid asset types
+		var artifactManager = rxtManager.getArtifactManager(type);
+
+		var artifacts = artifactManager.list(DEFAULT_PAGE) || [];
+
+		// for queries
+		if(query) {
+			assets = artifactManager.search(query, DEFAULT_PAGIN);
+			artifacts = assets;
+		} else if (sortby && sort){			
+			DEFAULT_PAGIN.sortBy = 'overview_'+sortby;
+			DEFAULT_PAGIN.sortOrder = sort.toUpperCase();
+			var artifacts = artifactManager.search(null,DEFAULT_PAGIN) || [];
+
+		} else {
+			//normal list for asserts			
+			var queryz = {};
+			assets = artifactManager.search(queryz, DEFAULT_PAGIN);
+			artifacts = assets;
+
+		}
+
+		dataInjector.inject(artifacts, DataInjectorModes.DISPLAY);
+
+        //Perform some filtering logic on the artifacts
+        artifacts=filterManager.filter(artifacts,session);
+        // log.info(artifacts);
+
+		caramel.render({
+			op : 'list',
+			cuser : server.current(session),
+			roles : server.current(session).getRoles(),
+			shortName : type,
+			artifacts : artifacts,
+			query : query,
+			title : type
+		});
+	} catch (e) {
+		response.sendError(400, "Your request is malformed");
+		log.debug(e);
+	}
+
+	/*for each(var artifact in artifacts){
+	 print(artifact.id+'<br/><br/>');
+	 }*/
+
+});
+
+
+routeMnger.register('GET', 'publisher', '/publisher/assets/{operation}/{type}/', function (context) {
+    var operation = (context.params.operation) || '';
+    var type = context.params.type;
+    if (operation == 'statistics') {
+        try {
+            caramel.render({
+                op: operation,
+                cuser: server.current(session),
+                shortName: type,
+                title: type
+            });
+
+        } catch (e) {
+            response.sendError(404, 'Asset type not found'); //TODO: Replace
+        }
+
+        /*for each(var artifact in artifacts){
+         print(artifact.id+'<br/><br/>');
+         }*/
+    }
+});
+
+
+routeMnger.handle(request, response);
+
+}, request, response, session);
+%>

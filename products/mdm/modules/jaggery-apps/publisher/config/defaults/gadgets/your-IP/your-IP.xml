@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+	<ModulePrefs title="Your IP Address"
+		description = "Displays the IP Address and Host Name of each visitor to your webpage."
+		category="Google"
+		author_email = "gadgettester@gmail.com"
+		screenshot = "http://padfiles.net/GoogleGadgets/YourIP_screenshot.png"
+		thumbnail = "http://padfiles.net/GoogleGadgets/YourIP_thumbnail.png"
+		author_location = "Palos Verdes, CA"
+		author_affiliation = "Google"
+		author_link="http://www.FTPPro.org"
+		title_url="http://www.FTPPro.org"
+		author_photo=""
+		author_aboutme=""
+		author_quote=""
+		directory_title="Your IP Address"
+		author = "FTPPro" />
+		<Content type="url" href="http://www.padfiles.net/YourIP.php" />
+</Module>

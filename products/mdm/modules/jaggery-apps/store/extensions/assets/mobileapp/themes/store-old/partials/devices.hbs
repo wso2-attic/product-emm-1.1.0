@@ -1,0 +1,54 @@
+{{#if user.username}}
+
+
+<div class="container" style="padding-bottom: 20px; display: none">
+	<h4>My Devices</h4>
+	<div class="span10">
+		
+			{{#../devices}}
+			<div data-dismiss="modal"  class="span1 text-center device-image-block" style="text-align: center; cursor: pointer"
+			data-device-id="{{id}}" data-platform="{{platform}}">
+				<img class="device-image" style="height: 100px" data-device-id="{{id}}"
+				src="/assets/wso2mobile/img/models/{{model}}.png">
+				<div class="text-center" style="font-size: x-small">
+					{{name}}
+				</div>
+			</div>
+			{{/../devices}}
+
+	</div>
+</div>
+
+
+<style>
+	.device-image {
+		opacity: 0.1;
+	}
+</style>
+
+<!-- Modal Features -->
+<div id="devicesList" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="width:700px" aria-hidden="true">
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+		aria-hidden="true">
+			x
+		</button>
+		<h4 id="myModalLabel">Select your device to install</h4>
+	</div>
+	<div class="modal-body">		
+		{{#../devices}}
+		<div data-dismiss="modal"  class="span1 text-center device-image-block-modal" style="text-align: center; cursor: pointer"
+		data-device-id="{{id}}" data-platform="{{platform}}">
+			<img class="device-image-modal" style="height: 100px" data-device-id="{{id}}" data-platform="{{platform}}"
+			src="/assets/wso2mobile/img/models/{{model}}.png">
+			<div class="text-center" style="font-size: x-small">
+				{{name}}
+			</div>
+		</div>
+		{{/../devices}}
+
+	</div>
+</div>
+<hr>
+{{/if}}

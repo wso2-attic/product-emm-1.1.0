@@ -1,0 +1,92 @@
+<%
+(function(){
+	var mam_config = require('/config/mam-config.json');
+	var log=new Log();
+	var makeid= function()
+	{
+	    var text = "";
+	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	    for( var i=0; i < 5; i++ )
+	        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	    return text;
+	}
+	var getExtension = function(file){
+		var path = file.getName();
+		var index = path.lastIndexOf('.');
+	    var ext = index < path.length ? path.substring(index + 1) : '';
+		return ext;
+	}
+	var getFileOnly = function(file){
+		var path = file.getName();
+		var index = path.lastIndexOf('.');
+	    var name = index < path.length ? path.substring(0,index) : '';
+		return name;
+	}
+	var saveFile = function(file){
+		if(file!=undefined){
+			var file_n= file.getName()
+			if(file_n==""){
+				return "";
+			}
+			var uid= makeid();
+			var file_name = mam_config.filePreciseLocation+uid+file_n;
+			file.saveAs(file_name);
+			return file_name;
+		}
+		return "";
+	}
+	function mergeRecursive(obj1, obj2) {
+	    for (var p in obj2) {
+	        try {
+	            // Property in destination object set; update its value.
+	            if (obj2[p].constructor == Object) {
+	                obj1[p] = MergeRecursive(obj1[p], obj2[p]);
+	            } else {
+	                obj1[p] = obj2[p];
+	            }
+	        } catch (e) {
+	            // Property in destination object not set; create it and set its value.
+	            obj1[p] = obj2[p];
+	        }
+	    }
+	    return obj1;
+	}
+	var file = request.getAllFiles().file;
+	var meta = {};
+	if(file==undefined){
+		//return error
+		response.sendError(500);
+	}else{
+		meta.path = saveFile(file);
+		meta.path = '/publisher' +meta.path;
+		var ext = getExtension(file);
+		if(ext=="ipa" || ext =="apk"){
+			var zipFileReading = new Packages.com.wso2.mobile.mam.manifestUtils.ZipFileReading();
+			var path = process.getEnv("PWD")+"/repository/deployment/server/jaggeryapps"+meta.path;
+			try{
+				if(ext=="ipa"){
+					var d = zipFileReading.readiOSManifestFile(path, getFileOnly(file));
+					log.debug(d);
+					var information = JSON.parse(d);
+					mergeRecursive(meta,information);
+				}else if(ext=="apk"){
+					var d = zipFileReading.readAndroidManifestFile(path);
+					log.debug(d);
+					var information = JSON.parse(d);
+					mergeRecursive(meta,information);
+				}
+				print(meta);
+				log.debug("Successfully discovered");
+			}catch(e){
+				log.debug("Uploaded file is corrupted");
+				print({"ok" : false, "message" : "Validation failure", "report" : {"failed" : true, "name" : ["Uploaded file is corrupted"]}})
+			}
+		}else{
+			print({"ok" : false, "message" : "Validation failure", "report" : {"failed" : true, "name" : ["Invalid Filetype - Uploaded file is not an archive"]}})
+			return;
+		}	
+	}
+}());
+%>

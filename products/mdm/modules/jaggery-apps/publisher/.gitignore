@@ -1,0 +1,5 @@
+#Ignore temporary files
+*~
+/.project
+upload
+config/mam-config.json

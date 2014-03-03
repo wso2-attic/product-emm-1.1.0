@@ -1,0 +1,17 @@
+<%
+var log = new Log();
+log.debug('in redirect : ' + assertionConsumerURL);
+%>
+
+<p>You are now redirected back to <%=assertionConsumerURL%>. If the
+ redirection fails, please click the post button.</p>
+<form method="post" action="<%=assertionConsumerURL%>">
+    <p><input type="hidden" name="SAMLResponse" value="<%=samlResp%>"/>
+        <input type="hidden" name="RelayState" value="<%=relayState%>"/>
+        <button type="submit">POST</button>
+    </p>
+</form>
+
+<script type="text/javascript">
+    document.forms[0].submit();
+</script>

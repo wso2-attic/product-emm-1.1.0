@@ -1,0 +1,154 @@
+<div class='content-div'>
+	<div class="tab-content asset-tab-content">
+		<div id="view" class="asset-view-container">
+            <div class="row-fluid asset-detail-top-row">
+                <div class="span2">
+                            <div class="thumbnail-div">
+                                <img src="{{{snoop "fields(name=images_thumbnail).value" this.data}}}" class=""/>
+
+                            </div>
+                </div>
+                <div class="span10 asset-details-box">
+                        <h4>{{{snoop "fields(name=overview_name).value" this.data}}}</h4>
+                </div>
+            </div>
+		    <div class="row-fluid asset-details-row">
+		                <div class="span12 asset-content-box">
+		                    <div class="widget wlightblue">
+		                        <div class="widget-head">
+                                    <div class="pull-left">Asset Overview</div>
+                                    <!--<div class="widget-icons pull-right">
+                                        <a class="wminimize" href="#"><i class="icon-chevron-up"></i></a>
+
+                                    </div>-->
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="widget-content">
+                                        <table class="table table-bordered asset-view-table widget-table">
+                                            <tbody>
+                                            {{#each data.fields}}
+                                                <tr>
+                                                    <td class="span3">{{this.label}}</td>
+                                                    <td>
+                                                        {{this.value}}
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                            {{#if tags}}
+                                            
+                                                <tr>
+                                                    <td class="span3">Tags</td>
+                                                    <td>
+                                                    	{{#each tags}}
+                                                        <span class="view-tag">{{this}}</span>
+                                                        {{/each}}
+                                                    </td>
+                                                </tr>
+                                            {{/if}}
+                                            </tbody>
+                                        </table>
+                                </div>
+                            </div>
+		                </div>
+		    </div>
+        </div>
+
+        <!--div id="edit" class="tab-pane fade in">
+                    <div class="row-fluid">
+                            <div class="span12">
+                    <div class="info-div alert alert-error">
+                                            <a data-dismiss="alert" class="close">x</a>
+                                            <i class="icon-warning-sign text-red icon_block"></i>
+                                            This feature will be available on our next milestone..
+                                    </div>
+                                    <form class="form-horizontal">
+                                        {{#each data.fields}}
+                            <div class="control-group">
+                                <b><label class="control-label">{{this.label}}:</label>
+                                </b>
+                                <div class="controls">
+                                    <input id='{{this.name}}' type='text' value='{{this.value}}' disabled="disabled"/>
+                                </div>
+                            </div>
+                             {{/each}}
+                                        <div id="saveButtons" class="form-actions">
+                                                <input type="submit" value="Update" class="btn btn-primary"
+                                name="editAssetButton" disabled="disabled" id="editAssetButton">
+                                                <input type="reset" value="Cancel" disabled="disabled" class="btn">
+                                        </div>
+                                    </form>
+                            </div>
+                        </div>
+                </div>
+                <div id="lifecycles" class="tab-pane fade in">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                    <form class="form-horizontal">
+                                        <div class="control-group">
+
+                                                <div class="controls">
+                                                    <legend><div id='state'>{{data.info.lifecycleState}}</div></legend>
+                                                    <div id='checklist'></div>
+                                                </div>
+                                        </div>
+                                        <div class="form-actions">
+                                                <input type="button" value="Promote" class="btn btn-primary"  id="btn-asset-promote">
+                                                <input type="button" value="Demote" class="btn" id="btn-asset-demote">
+                                        </div>
+                                    </form>
+                                    <h5>Life-Cycle History</h5>
+                                    <div id='lc-history'></div>
+                            </div>
+                        </div>
+                </div>
+
+                <div id="versions" class="tab-pane fade in">
+                        <div class="row-fluid">
+                            <div class="span12">
+                    <div class="info-div alert alert-error">
+                                            <a data-dismiss="alert" class="close">x</a>
+                                            <i class="icon-warning-sign text-red icon_block"></i>
+                                            This feature will be available on our next milestone..
+                                    </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                            <tr>
+                                                <th>Version</th>
+                                                <th>Number of subscriptions</th>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td>1.0.0</td>
+                                                <td>120</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.0.0</td>
+                                                <td>120</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.0.0</td>
+                                                <td>120</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.0.0</td>
+                                                <td>120</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.0.0</td>
+                                                <td>120</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.0.0</td>
+                                                <td>120</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div-->
+	</div>
+</div>
+
+
+

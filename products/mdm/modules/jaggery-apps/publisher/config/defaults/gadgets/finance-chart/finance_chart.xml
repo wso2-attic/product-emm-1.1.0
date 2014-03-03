@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="Google Finance Chart"
+             title_url="http://finance.google.com"
+             author="Google"
+             author_email="googlemodules+finance+chart+201203221@google.com"
+             author_affiliation="Google Inc."
+             author_location="Sydney, Australia"
+             thumbnail="http://www.gstatic.com/ig/modules/finance/finance_minichart-thm.cache.png"
+             screenshot="http://www.gstatic.com/ig/modules/finance/finance_minichart.cache.png"
+             description="A quick snapshot of your stock"
+             render_inline="never"
+             scaling="false"
+             height="390"
+             singleton="false">
+<Require feature="setprefs"/>
+<Require feature="dynamic-height"/>
+<Require feature="flash"/>
+</ModulePrefs>
+
+<UserPref name="stockSymbol"
+          datatype="hidden"
+          default_value="GOOG"
+          display_name="Stock symbol"/>
+
+<UserPref name="displayVolume"
+          datatype="bool"
+          default_value="true"
+          display_name="Volume"/>
+
+<UserPref name="displayDividends"
+          datatype="bool"
+          default_value="true"
+          display_name="Dividends"/>
+
+<UserPref name="displayExtendedHours"
+          datatype="bool"
+          default_value="false"
+          display_name="Extended hours"/>
+
+<UserPref name="displaySplits"
+          datatype="bool"
+          default_value="true"
+          display_name="Splits"/>
+
+<UserPref name="finance_symbol"
+          datatype="hidden"
+          default_value="GOOG"/>
+
+<UserPref name="defaultZoomDays"
+          datatype="string"
+          default_value="3"
+          display_name="Default displayed days"/>
+
+<Content type="html"><![CDATA[
+
+<style type="text/css">
+#gfc-sym-bar {height: 30px;}
+#gfc-sym {font-size: 0.9em;}
+#gfc-new-sym {font-size: 0.8em; width: 108px;}
+#gfc-new-sym-btn {font-size: 0.8em;}
+.gfc-new-sym-init {color: #848484;}
+#gfc-disclaimer {font-size: 0.7em; color: #848484;}
+</style>
+
+<div id="gfc-sym-bar">
+<span style="float: left;"><a id="gfc-sym" href="" target="_blank"></a></span>
+<span style="float: right;"><input id="gfc-new-sym" class="gfc-new-sym-init" type="text" value="Enter symbol(s)" onclick="symbolOnClick();" onkeypress="if(event.keyCode==13)changeSymbol();"/> <input id="gfc-new-sym-btn" type="button" value="Change" onclick="changeSymbol();"/></span>
+</div>
+<div id="gfc-chart"></div>
+<div style="margin: 4px;"><a id="gfc-disclaimer" href="//www.google.com/help/stock_disclaimer.html" target="_blank">Disclaimer</a></div>
+
+<script type="text/javascript">
+  var FlashProxy = {_ping: function() {}, callJS: function(){}}, prefs, sym, symbols=[];
+
+function _firstDataIsHere() {}
+function _visibleChartRangeChanged(a, b, c, d, e) {}
+function _setCurrentViewParam(a, b) {}
+
+function changeSymbol() {
+  var prefs = new _IG_Prefs(__MODULE_ID__);
+  var ns = _gel("gfc-new-sym").value.toUpperCase().replace(/ /g, ',').split(',');
+  var nsymbols = [];
+  for (var i = 0; i < ns.length; ++i) {
+    var s = ns[i];
+    if (s) {
+      nsymbols.push(s);
+    }
+  }
+  if (nsymbols.length) {
+    symbols = nsymbols;
+    prefs.set("stockSymbol", _gel("gfc-new-sym").value = symbols.join(','));
+    load();
+  }
+}
+
+function symbolOnClick() {
+  if (_gel("gfc-new-sym").className) {
+    _gel("gfc-new-sym").className = "";
+    _gel("gfc-new-sym").value = "";
+  }
+}
+
+function remoteSymbolChange() {
+  var prefs = new _IG_Prefs(__MODULE_ID__);
+  var shouldRefresh = prefs.getBool("finance_symbol_enabled");
+  if (shouldRefresh) {
+    var newSymbol = prefs.getString("finance_symbol");
+    _gel("gfc-new-sym").value = newSymbol;
+    changeSymbol();
+  }
+}
+
+function load() {
+  // This gadget requires 'google-domain', so disable it on partnerpages.
+  if (checkBlockedUrl()) {
+    handleOtherDomainError();
+    return;
+  }
+  if (!prefs) {
+    prefs = new _IG_Prefs(__MODULE_ID__);
+    symbols = prefs.getString("stockSymbol").split(',');
+  }
+  _gel("gfc-sym").href = "//www.google.com/finance?q=" + symbols[0];
+  _gel("gfc-sym").innerHTML = symbols.join(',');
+
+  function genUP(v) {
+    var ret = "";
+    for (var i = 0; i < v.length; ++i) {
+       ret += v[i] + "=" + prefs.getBool(v[i]) + "&";
+    }
+    return ret;
+  }
+
+  function genV(v) {
+    var ret = "";
+    for (var i in v) {
+      ret += i + "=" + v[i] + "&";
+    }
+    return ret;
+  }
+
+  var up = genUP(["displayVolume", "displayDividends", "displaySplits",
+                  "displayExtendedHours", "defaultZoomDays"]);
+  up += genV({hasVolume: prefs.getBool("displayVolume"), hasExtendedHours: prefs.getBool("displayExtendedHours")});
+  up += genV({defaultZoomDays: prefs.getString("defaultZoomDays")});
+  up += genV({q: symbols[0], lcId: new Date().getTime()});
+  if (symbols.length > 1) {
+    up += genV({compareTo: escape(symbols.slice(1).join(';'))});
+  }
+
+  var svp = "name:MainViewPoint,height:202,topMargin:0";
+  if (prefs.getBool("displayVolume")) {
+    svp += "::name:BottomViewPoint,height:45,topMargin:0,display:visible";
+  }
+  up += genV({single_viewpoints: escape(svp)});
+  var sly = "vp:MainViewPoint,name:DateLinesLayer,arity:Unique,tickPosition:0,type:simple,hasText:true::vp:MainViewPoint,name:PriceLinesLayer,arity:Unique,type:simple::vp:MainViewPoint,name:LineChartLayer,arity:Unique,type:simple::vp:MainViewPoint,name:AHLineChartLayer,arity:Unique,type:simple::vp:MainViewPoint,name:LastDayLineLayer,arity:Unique,type:simple::vp:MainViewPoint,name:BottomBarLayer,arity:Unique,type:simple";
+  if (prefs.getBool("displayDividends")) {
+    sly += "::vp:MainViewPoint,name:IndependentObjectsLayer,arity:Unique,type:simple,renderObj:dividend,positioning:bottom,avoidObj:split";
+  }
+  if (prefs.getBool("displaySplits")) {
+    sly += "::vp:MainViewPoint,name:IndependentObjectsLayer,arity:Unique,type:simple,renderObj:split,positioning:bottom,avoidObj:dividend";
+  }
+  if (prefs.getBool("displayVolume")) {
+    sly += "::vp:BottomViewPoint,name:VolumeScaleLayer,arity:Unique,type:simple::vp:BottomViewPoint,name:ECNVolume,arity:Unique,type:indicator::vp:BottomViewPoint,name:Volume,arity:Unique,type:indicator::vp:BottomViewPoint,name:DateLinesLayer,arity:Unique,tickPosition:1,type:simple";
+  }
+  up += genV({single_layers: escape(sly)});
+  var cvp = "name:MainViewPoint,height:247,topMargin:15";
+  up += genV({compare_viewpoints: escape(cvp)});
+  var cly = "vp:MainViewPoint,name:PercentLinesLayer,arity:Unique,type:simple::vp:MainViewPoint,name:DateLinesLayer,arity:Unique,type:simple,tickPosition:0::vp:MainViewPoint,name:BottomBarLayer,arity:Unique,type:simple::vp:MainViewPoint,name:PercentLineChartLayer,arity:Multiple,type:simple";
+  up += genV({compare_layers: escape(cly)});
+
+  _IG_EmbedFlash("//www.google.com/finance/chart9.swf", "gfc-chart", {
+      swf_version: 9,
+      height: 340,
+      menu: false,
+      flashvars: up + "u=//www.google.com/finance/getprices&fieldSeparator=%2C&objectSeparator=%3A%3A&sparklineType=dynamic&hasDefaultZoomSetting=true&verticalScaling=maximized&hasVerticalScaleSetting=true&snapping=false&minZoomDays=1&infoTextAlign=left&infoTextTopPadding=17&disableExternalInterface=true"
+      });
+}
+
+function handleOtherDomainError() {
+  document.body.innerHTML =
+      '<div><i>Due to data licensing restrictions, this gadget is only ' +
+      'available for display on ' +
+      '<a href="//www.google.com/ig" target="_blank">iGoogle</a>.' +
+      '</i></div>';
+  _IG_AdjustIFrameHeight();
+}
+
+function checkBlockedUrl() {
+  var parentUrl = location.href;
+  // Adding check for partner pages with following patterns:-
+  // Case 1. partnerpage.google.com/.*
+  // Case 2. www.google.com/ig/.* (e.g., /ig/dell)
+  if (parentUrl.match(/\/\/partnerpage.google.com/) ||
+      !parentUrl.match(/&synd=ig/) || !parentUrl.match(/&container=ig/)) {
+    return true;
+  }
+
+  // Case 3. www.google.com/ig?brand=XXXX&bmod=YYYY
+  return document.referrer && document.referrer.match(/brand=|bmod=/i);
+}
+
+_IG_RegisterOnloadHandler(load);
+</script>
+]]></Content>
+</Module>

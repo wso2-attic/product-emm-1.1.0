@@ -1,0 +1,11 @@
+<%
+//auto rediecting the user to SSO
+var user = request.getParameter('user'),
+        loged = require('store').server.current(session);
+if (user && !loged) {
+    include('/controllers/login.jag');
+} else {
+    response.sendRedirect('.' + require('/config/store.js').config().assetsUrlPrefix + '/all');
+}
+
+%>

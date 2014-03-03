@@ -1,0 +1,36 @@
+<artifactType type="application/vnd.wso2-uri+xml" shortName="uri" singularLabel="URI" pluralLabel="URIs" hasNamespace="false" iconSet="11">
+    <storagePath>/uris/@{overview_type}/@{name}</storagePath>
+    <nameAttribute>overview_name</nameAttribute>
+    <ui>
+        <list>
+            <column name="Name">
+                <data type="path" value="overview_name" href="@{storagePath}"/>
+            </column>
+            <column name="URI">
+                <data type="link" value="overview_uri" href="@{overview_uri}"/>
+            </column>
+	    <column name="Type">
+                <data type="text" value="overview_type"/>
+            </column>
+        </list>
+    </ui>
+    <content>
+        <table name="Overview">
+	    <field type="text" required="true" url="true" readonly="true">
+                <name>URI</name>
+            </field>
+            <field type="text" required="true" readonly="true">
+                <name>Name</name>
+            </field>
+	    <field type="options" readonly="true">
+		<name label="Type">Type</name>
+		<values>
+            <value>Generic</value>
+		    <value>WSDL</value>
+		    <value>XSD</value>
+            <value>Policy</value>
+	    </values>
+	    </field>
+	</table>
+    </content>
+</artifactType>

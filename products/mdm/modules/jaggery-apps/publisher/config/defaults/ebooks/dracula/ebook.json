@@ -1,0 +1,18 @@
+{
+    "name": "Dracula",
+    "tags": "ebooks, horror, gothic",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Horror",
+        "overview_name": "Dracula",
+        "overview_version": "Edition-1",
+        "overview_url": "dracula/Dracula.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Bram Stoker",
+        "overview_provider": "admin",
+        "overview_description": "The novel tells the story of Draculas attempt to move from Transylvania to England, and the battle between Dracula and a small group of men and women led by Professor Abraham Van Helsing.",
+        "images_thumbnail": "dracula/thumbnail.jpg",
+        "images_banner": "dracula/banner.png"
+    }
+}

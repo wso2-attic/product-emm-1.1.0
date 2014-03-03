@@ -1,0 +1,13 @@
+ {{#data.features}} {{#compare feature_type 'OPERATION'}}
+<div draggable="true" class="features-role" data-feature="{{name}}"
+	data-template="{{template}}" style="cursor: move;">
+	<div title="Please drag and drop '{{description}}' operations to relevent role" class="span1" draggable="true">
+		<div class="raw text-center">
+			<img src="{{../../resourcePath}}features/{{name}}.png"
+				class="features-role-image">
+		</div>
+		<div class="raw text-center" style="font-size: x-small">
+			{{#elipsis 15 description}}{{/elipsis}}</div>
+	</div>
+</div>
+{{/compare}} {{/data.features}}

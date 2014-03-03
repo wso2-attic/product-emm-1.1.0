@@ -1,0 +1,18 @@
+{
+    "name": "Emma",
+    "tags": "ebooks, novel",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "Emma",
+        "overview_version": "Edition-1",
+        "overview_url": "emma/Emma.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Jane Austen",
+        "overview_provider": "admin",
+        "overview_description": "The novel is about youthful hubris and the perils of misconstrued romance.",
+        "images_thumbnail": "emma/thumbnail.jpg",
+        "images_banner": "emma/banner.png"
+    }
+}

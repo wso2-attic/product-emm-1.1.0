@@ -1,0 +1,76 @@
+{
+    "roles": {
+        "Internal/publisher": {
+            "/permission/admin/login": ["ui.execute"]
+        },
+        "Internal/reviewer": {
+            "/permission/admin/login": ["ui.execute"]
+        }
+    },
+    "user": {
+        "username": "admin@admin.com",
+        "password": "admin"
+    },
+    "userRoles": ["Internal/publisher"],
+    "permissions": {
+        "login": {
+            "/permission/admin/login": ["ui.execute"]
+        }
+    },
+    "userSpace": "/_system/governance/users",
+    "accessible": [
+        {
+            "context": "/_system/governance",
+            "collections": ["gadgets", "sites", "ebooks", "mobileapps"],
+            "actions": ["http://www.wso2.org/projects/registry/actions/get",
+                "http://www.wso2.org/projects/registry/actions/add",
+                "http://www.wso2.org/projects/registry/actions/delete",
+                "authorize"]
+        }
+    ],
+    "app": {
+        "RXT_MANAGER": "rxt_manager",
+        "ROUTE_MANAGER": "route_manager",
+        "MODEL_MANAGER": "model_manager"
+    },
+
+    "paths": {
+        "ASSET_EXT_PATH": "/assets",
+        "ASSET_DEFAULT_PATH": "/assets/default",
+        "ASSETS_EXT_PATH": "/assets",
+        "ASSETS_DEFAULT_PATH": "/assets/default",
+        "RXT_EXTENSION_PATH": "/config/ext/"
+    },
+
+    "urls": {
+        "ASSET": "/asset",
+        "ASSETS": "/assets"
+    },
+
+    "defaultAssets": {
+        "root":"/config/defaults",
+        "assetData": [
+            {
+                "type": "gadgets",
+                "ignore":["agricultural-land",
+                    "wso2-carbon-dev",
+                    "intro-gadget-1",
+                    "intro-gadget-2",
+                    "show-assets",
+                    "co2-emission",
+                    "electric-power",
+                    "energy-use",
+                    "greenhouse-gas"]
+            },
+            {
+                "type": "ebooks"
+            },
+            {
+                "type": "sites"
+            }
+        ]
+    },
+    "router": {
+        "RENDERER": "/modules/router.caramel-renderer.js"
+    }
+}

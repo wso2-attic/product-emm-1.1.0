@@ -1,0 +1,15 @@
+{
+    "name": "WSO2",
+    "tags": "site,technology,open source,middleware",
+    "rate": 5,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "WSO2",
+        "overview_version": "1.0.0",
+        "overview_url": "http://wso2.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the WSO2 site which is of an open source application development software company focused on providing service-oriented architecture (SOA) solutions for professional developers.",
+        "images_thumbnail": "/wso2/thumbnail.png",
+        "images_banner": "/wso2/banner.png"
+    }
+}

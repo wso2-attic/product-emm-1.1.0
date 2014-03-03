@@ -1,0 +1,81 @@
+body{
+		color:#333;
+		font-family: 'Open Sans', sans-serif;
+		}
+		h1{
+		font-size:18px;
+		}
+		h2{
+		font-size:16px;
+		font-weight:600;
+		color:#898C8E;
+		}
+		.span-left{
+		float:left;
+
+		}
+		.span-right{
+		float:right;
+		}
+		ul{
+		padding:0;
+		}
+		ul li{
+		  font-size: 14px;
+		    height: 20px;
+		    line-height: 15px;
+		    list-style: none outside none;
+		    padding:5px;
+		
+		}
+		
+		ul li:hover{
+		background:#f5f5f5;
+		}
+		#senders{
+		
+		}
+		.span-right{
+		color:#16a085;
+		font-weight:bold;
+		margin-right:20px;
+		}
+		#desc-wso2{
+			position:relative;
+		}
+		#senders{
+			position:absolute;
+			bottom:0;
+			top:140px;
+			width:100%;
+		} 
+		#senders ul{
+			position:absolute;
+			overflow-y: auto;
+			width: 100%;
+			bottom:0;
+			top:40px;
+		}
+		#desc-wso2-text{
+			height:140px;
+			position:absolute;
+			overflow:hidden;
+			top:0;
+		}
+		#desc-wso2 p{
+			font-size:12px;
+		}
+		#gadget-wrapper{
+			position:relative;
+			height:100%;
+		}
+.time-slider{
+left: 14px;
+    position: absolute;
+    top: 10px;
+    width: 90%;
+}
+.two-col-gadget{width: 50%; height: 100%;}
+.push-left{float:left;}
+.push-right{float:right;}
+.gadget-area-div{position:absolute; top:60px;width:100%;height:auto;bottom:0;}

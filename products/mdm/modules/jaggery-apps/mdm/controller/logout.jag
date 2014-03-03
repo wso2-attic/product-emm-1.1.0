@@ -1,0 +1,44 @@
+<%
+(function(){
+    var user = session.get("mdmConsoleUser");
+    if(user === null) {
+        response.sendRedirect('/mdm');
+    } else {
+        var config = require('/config/mdm.js').config(),
+				process = require('process'),
+                sso = require('sso'),
+                sso_sessions = application.get('sso_sessions'),
+                sessionId = session.getId(),
+                encodedSAMLLogoutRequest = sso.client.getEncodedSAMLLogoutRequest(user, sso_sessions[session.getId()], config.ssoConfiguration.issuer),
+                relayState = '/mdm',
+                host = process.getProperty('server.host'),
+                log = new Log();
+        if(host=="localhost"){
+          var postUrl = "https://" + process.getProperty('carbon.local.ip') + ":" + process.getProperty('https.port');
+        }else{
+          var postUrl = "https://" + host;
+        }
+        log.info("store session index : " + sso_sessions[session.getId()]);
+        %>
+        <div>
+           <p>You are now redirected to Stratos Identity. If the
+           redirection fails, please click the post button.</p>
+
+            <form id="logoutForm" method="post" action="<%=postUrl%>/admin/samlsso">
+            <p>
+                <input type="hidden" name="SAMLRequest"
+                      value="<%= encodedSAMLLogoutRequest %>"/>
+                <input type="hidden" name="RelayState" value="<%= relayState %>"/>
+                 <input type="hidden" name="SSOAuthSessionID" value="<%= sessionId %>"/>
+                <button type="submit">POST</button>
+            </p>
+            </form>
+        </div>
+        <script type = "text/javascript" >
+                       document.forms[0].submit();
+        </script>
+
+         <%
+    }
+}());
+%>

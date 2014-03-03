@@ -1,0 +1,7 @@
+<module name="gcm" xmlns="http://wso2.org/projects/jaggery/module.xml">
+    <!-- scripts -->
+    <script>
+        <name>gcm</name>
+        <path>scripts/gcm.js</path>
+    </script>
+</module>

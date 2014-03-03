@@ -1,0 +1,24 @@
+input, #search-button{
+    padding:0 !important;
+}
+
+a{
+    border:none !important;
+}
+
+#container-header .row, #container-header .navbar-inner {
+    background-color: transparent;
+}
+
+
+
+input[type="file"] {
+    display: inline-block;
+   float:left;
+   width:410px;
+}
+
+.txt-filepath, .btn-upload{
+    display: none !important;
+}
+

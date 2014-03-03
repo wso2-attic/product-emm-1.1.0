@@ -1,0 +1,37 @@
+<%
+response.addHeader("Access-Control-Allow-Origin", "*");
+
+require('/modules/store.js').exec(function (ctx) {
+    var server = require('store').server;
+
+    if (!server.current(session)) {
+        //response.sendError(401, 'Unauthorized');
+        //return;
+    }
+
+    var elems,
+            tenant = server.tenant(request, session),
+            tenantId = tenant.tenantId,
+            store = require('/modules/store.js').store(tenantId, session),
+            matcher = new URIMatcher(request.getRequestURI());
+
+    if (matcher.match('/{context}/apis/tag')) {
+        print(store.tags());
+    } else if (matcher.match('/{context}/apis/tag/{type}')) {
+        var elements = matcher.elements();
+        print(store.tags(elements.type));
+
+    } else if (matcher.match('/{context}/apis/tag/{tagName}/{type}')) {
+        var elements = matcher.elements();
+
+        print(store.tagged(elements.type, elements.tagName, {
+            start: Number(request.getParameter('start')) || 0,
+            count: Number(request.getParameter('count')) || 50000,
+            sort: request.getParameter('sort') || 'recent'
+        }));
+
+    } else {
+        response.sendError(404, 'API Endpoint Not Found');
+    }
+}, request, response, session);
+%>

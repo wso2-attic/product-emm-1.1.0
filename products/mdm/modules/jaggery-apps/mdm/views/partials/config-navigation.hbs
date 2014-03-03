@@ -1,0 +1,11 @@
+<div class="raw-fluid">
+	<ul class="nav nav-pills">
+
+		{{#navigation.configNavigation}}
+		<li class="{{#showActive displayPage ../data.configOption}}{{/showActive}}">
+			<a href="{{link}}"><i class='{{icon}}'></i> {{name}}</a>
+		</li>
+		{{/navigation.configNavigation}}
+
+	</ul>
+</div>

@@ -1,0 +1,77 @@
+
+<div class="block">
+	<div class="block-header">
+		<div class="block-header-title pull-left">{{title}}</div>
+	</div>
+
+	<div class="container-fluid raw-fluid block-body" id="chart-{{index}}"></div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+	$(function() {
+		
+		
+		
+		Highcharts.setOptions({	colors: [ "#E5DC00", "#E1C600", "#DDB000",
+											"#D99A00", "#D58400", "#D26F00", "#CE5900",
+											"#CA4300", "#C62D00", "#C21700", "#BF0200"] });
+
+    	// Radialize the colors
+		Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+		        ]
+		    };
+		});
+		
+
+		$('#chart-{{index}}')
+				.highcharts(
+						{
+
+							chart : {
+								width : '250'
+							},
+
+							title : {
+								text : ''
+							},
+							tooltip : {
+								pointFormat : '{series.name}: <b>{point.percentage}%</b>',
+								percentageDecimals : 1
+							},
+
+							exporting : {
+								enabled : false
+							},
+
+							plotOptions : {
+								pie : {
+									allowPointSelect : true,
+									cursor : 'pointer',
+									dataLabels : {
+										enabled : true
+									},
+									showInLegend : false
+								}
+							},
+							
+
+							credits : {
+								enabled : false
+							},
+							series : [ {
+								type : 'pie',
+								name : 'Devices',
+								data : chartData.versions
+							} ]
+						});
+	});
+</script>

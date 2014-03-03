@@ -1,0 +1,19 @@
+{
+    "name": "Gullivers Travels",
+    "tags": "ebooks, novel, fantasy",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "Gullivers Travels",
+        "overview_version": "Edition-1",
+        "overview_url": "gulliversTravels/Gullivers_Travels_by_Jonathan_Swift.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Jonathan Swift",
+        "overview_provider": "admin",
+        "overview_description": "The book begins with a short preamble in which Lemuel Gulliver, in the style of books of the time, gives a brief outline of his life and history before his voyages. He enjoys travelling, although it is that love of travel that is his downfall.",
+        "images_thumbnail": "gulliversTravels/thumbnail.jpg",
+        "images_banner": "gulliversTravels/banner.png"
+    }
+}
+

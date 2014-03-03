@@ -1,0 +1,18 @@
+
+        {
+            "name": "Ebay",
+            "tags": "site,market,internet shopping,e-commerce",
+            "rate": 3,
+            "attributes": {
+                "overview_status": "PUBLISHED",
+                "overview_name": "Ebay",
+                "overview_version": "1.0.0",
+                "overview_url": "http://www.ebay.com/",
+                "overview_provider": "admin",
+                "overview_description": "This redirects you to the Ebay site which is of an American multinational internet consumer-to-consumer corporation",
+                "images_thumbnail":"/ebay/thumbnail.png",
+                "images_banner": "/ebay/banner.png"
+
+
+            }
+        }

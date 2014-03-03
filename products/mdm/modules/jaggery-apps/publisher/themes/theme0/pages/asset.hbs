@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>Asset Page</title>
+    		<link href="{{url "/themes/theme0/libs/bootstrap/css/bootstrap.css"}}" rel="stylesheet">
+	</head>
+	<body>
+		<legend id='meta-asset-type'>{{shortName}}</legend>
+
+
+		<form id='form-asset-create' class="form-horizontal">
+				<div class="control-group">
+						<b><label class="control-label">Id:</label>
+						</b>
+						<div class="controls">
+							<label id='meta-asset-id' >{{artifact.id}}</label>
+						</div>
+					</div>
+				</div>
+				
+				{{#each data.attributes}}
+					<div class="control-group">
+						<b><label class="control-label">{{this.name}}:</label>
+						</b>
+						<div class="controls">
+							<input id='{{this.name}}' type='text' value='{{this.value}}'/>
+						</div>
+					</div>	
+				{{/each}}
+			
+
+			<input id='btn-create-asset' class='btn btn-primary' type='button' value='Create'></input>
+			<input id='btn-delete-asset' class="btn btn-danger" type='button' value='Delete'></input>
+			<a class='btn' href='/publisher/assets/{{shortName}}/' >Back</a>
+		</form>
+		<script src="{{url "/themes/theme0/js/libs/jquery-1.8.3.min.js"}}"></script>
+		<script src="{{url "/themes/theme0/js/libs/handlebars.js"}}"></script>
+
+
+		<script src="{{url "/themes/theme0/js/libs/caramel.handlebars.client.js"}}"></script>
+		<script src="{{url "/themes/theme0/js/libs/caramel-client.js"}}"></script>
+
+	
+		<script src="{{url "/themes/theme0/js/delete.asset.js"}}"></script>
+		<script src="{{url "/themes/theme0/js/create.asset.js"}}"></script>
+	</body>
+
+</html>

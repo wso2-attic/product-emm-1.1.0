@@ -1,0 +1,31 @@
+{{#if .}}
+    <div class="pagination ">
+        <ul>
+            {{#if prev}}
+                <li>
+                    <a href="{{url this.url}}{{prev}}">Prev</a>
+                </li>
+            {{/if}}
+            {{#each left}}
+                <li>
+                    <a href="{{url ../this.url}}{{.}}">{{.}}</a>
+                </li>
+            {{/each}}
+            {{#if current}}
+                <li>
+                    <a href="#" class="current-page">{{current}}</a>
+                </li>
+            {{/if}}
+            {{#each right}}
+                <li>
+                    <a href="{{url ../this.url}}{{.}}}">{{.}}</a>
+                </li>
+            {{/each}}
+            {{#if next}}
+                <li>
+                    <a href="{{url this.url}}{{next}}">Next</a>
+                </li>
+            {{/if}}
+        </ul>
+    </div>
+{{/if}}

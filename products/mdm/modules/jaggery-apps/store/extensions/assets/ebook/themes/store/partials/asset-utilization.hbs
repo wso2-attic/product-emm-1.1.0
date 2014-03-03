@@ -1,0 +1,32 @@
+{{#with asset}}
+    {{#attributes}}
+        {{#if ../../inDashboard}}
+            <a id="btn-add-gadget" class="btn btn-primary" href="{{overview_url}}" target="_blank"
+               data-toggle="modal"
+               data-aid="{{../../id}}" data-type="{{../../type}}"> {{t "Download"}} </a>
+        {{else}}
+
+            {{#if ../../../sso}}
+                {{#if ../../../../user.username}}
+                    <a id="btn-add-gadget" class="btn btn-primary" href="{{overview_url}}" target="_blank"
+                       data-toggle="modal"
+                       data-aid="{{../../../../id}}"
+                       data-type="{{../../../../type}}"> {{t "Download "}}</a>
+                {{else}}
+                    <a id="btn-add-gadget" class="btn btn-primary" href="{{url "/login"}}"
+                       data-toggle="modal"
+                       data-aid="{{../../../../id}}"
+                       data-type="{{../../../../type}}"> {{t "Download "}}</a>
+                {{/if}}
+            {{else}}
+                <a id="btn-add-gadget" class="btn btn-primary" href="{{overview_url}}" target="_blank"
+                   data-toggle="modal"
+                   data-aid="{{../../id}}" data-type="{{../../type}}"> {{t "Download "}}</a>
+            {{/if}}
+
+        {{/if}}
+     {{/attributes}}
+{{/with}}
+
+
+

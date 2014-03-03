@@ -1,0 +1,63 @@
+<!--
+<div id="publisher_top_nav" class="container-fluid top-nav-container">
+<div class="row-fluid">
+<div id="publisher_logo_main" class="left span3">
+<div class="logo es_publisher_logo">
+<a href="/publisher/" class="">
+<img alt="Enterprise Store Publisher Logo" src="{{url "/themes/publisher/img/enterprise-store-logo.png"}}" />
+</a>
+</div>
+</div>
+<div class="span9 top-nav-controls">
+
+<div class="dropdown user right">
+<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+<span class="icon-stack">
+<i class="icon-check-empty icon-stack-base"></i>
+<i class="icon-user"></i>
+</span>
+{{cuser.username}}
+<span class="icon-chevron-down"></span>
+</a>
+<ul class="dropdown-menu user-menu">
+<li><a onclick="window.location.href='{{url "/logout"}}'" href="#"><i class="icon-signout"></i>{{t "Sign out"}}</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+-->
+
+<div class="container" id="container-header">
+	<div class="row">
+		<div class="span12">
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+
+						<a href="/publisher/" class="brand"></a>
+						<a href="/publisher/" class="back-office-label"></a>
+
+						<ul class="nav menu pull-right">
+				
+							<li>
+
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
+								class="icon-user"></i> {{cuser.username}} <b class="caret"></b></a>
+								<ul class="dropdown-menu dropdown-account" role="menu" aria-labelledby="dLabel">
+									<li>
+										<a onclick="window.location.href='{{url "/logout"}}'" href="#"><i class="icon-signout"></i>{{t "Sign out"}}</a>
+									</li>
+								</ul>
+
+							</li>
+							
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

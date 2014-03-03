@@ -1,0 +1,66 @@
+<%
+response.addHeader("Access-Control-Allow-Origin", "*");
+response.addHeader("Content-Type", "application/json");
+
+require('/modules/store.js').exec(function (ctx) {
+    var elems,
+            store = require('/modules/store.js').store(request, session),
+            paging = store.assetsPaging(request),
+            matcher = new URIMatcher(request.getRequestURI()),
+            query = request.getParameter('query'),
+            aid = request.getParameter('id');
+
+    var isMyAsset = false;
+    if (matcher.match('/{context}/apis/myAsset')) {
+        isMyAsset = true;
+        if (!require('store').server.current(session)) {
+            response.sendError(401, 'Unauthorized');
+            return;
+        }
+    }
+
+    if (isMyAsset || matcher.match('/{context}/apis/asset/{type}')) {
+        var type = matcher.elements().type;
+        if (aid) {
+            //get information about a specific gadget.
+            //request format : GET /store/apis/asset/gadget?id=/_sys/gov/gadgets/1.0.0
+            var asset = store.asset(type, aid);
+            print(asset);
+            return;
+        } else {
+            if (query) {
+                //request format : GET /store/apis/asset/gadget?query=wso2
+                //                 GET /store/apis/asset/gadget?query=wso2&start=4&count=7
+                print(store.search({
+                    query: query,
+                    type: type
+                }, {
+                    start: Number(request.getParameter('start')) || 0,
+                    count: Number(request.getParameter('count')) || 50000,
+                    sort: 'recent'
+                }));
+                return;
+            } else {
+                //request formats: GET /store/apis/asset/gadget?start=4
+                //                 GET /store/apis/asset/gadget?start=4&count=7
+                var assetsFunc = isMyAsset ? store.userAssets : store.assets;
+                print(assetsFunc.call(store, type, {
+                    start: Number(request.getParameter('start')) || 0,
+                    count: Number(request.getParameter('count')) || 50000,
+                    sort: request.getParameter('sort') || 'recent'
+                }));
+                return;
+            }
+        }
+    }
+
+    if (matcher.match('/{context}/apis/remove')) {
+        aid = request.getParameter('aid');
+        type = request.getParameter('type');
+        store.unsubscribe(type, aid);
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+
+}, request, response, session);
+%>

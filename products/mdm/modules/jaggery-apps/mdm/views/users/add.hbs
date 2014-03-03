@@ -1,0 +1,96 @@
+<div class="container">
+
+	<div class="raw-fluid">
+		<ul class="breadcrumb">
+			<li>
+				<a href="configuration">Users</a><span class="divider">/</span>
+			</li>
+			<li class="active">
+				Add
+			</li>
+		</ul>
+	</div>
+
+	<div class="raw-fluid">
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Add User
+						</div>
+
+					</div>
+
+					<div class="block-body">
+						<form class="form-horizontal" data-validate="parsley">
+							<div class="control-group">
+								<label class="control-label" for="inputFirstName">First Name</label>
+								<div class="controls">
+									<input type="text" id="inputFirstName" class="input-xxlarge" data-required="true">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputLastName">Last Name</label>
+								<div class="controls">
+									<input type="text" id="inputLastName" class="input-xxlarge" data-required="true">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">Email</label>
+								<div class="controls">
+									<input type="text" id="inputEmail" class="input-xlarge" data-trigger="change" data-type="email" data-required="true">
+								</div>
+							</div>		
+							
+							<div class="control-group">
+								<label class="control-label" for="inputFirstName">Type</label>
+								<div class="controls">
+									User <input type="radio" class="radioUserType"  name="inputType" value="user" checked="checked"> &nbsp;
+									Administrator <input type="radio" class="radioUserType"  name="inputType" value="administrator"> &nbsp;									
+								</div>
+							</div>
+
+							<div class="control-group" id="userSeletBox">
+								<label class="control-label" for="inputGroups">Roles</label>
+								<div class="controls raw">
+									<div class="multiple-selectbox inputGroupsSelect">
+										<select multiple="multiple" size="10" id="inputGroups" name="inputGroups" class='duallistbox'>
+											{{#data.groups}}
+												{{#compare type 'user'}}
+												<option value="{{name}}">{{name}}</option>
+												{{/compare}}
+											{{/data.groups}}
+
+										</select>
+									</div>
+
+								</div>
+							</div>						
+							
+
+							<hr>
+							<div class="offset1-5" >
+								<a class="btn btn-orange" id="btn-add" href="#" >Add</a>
+							</div>
+
+							<input type="hidden" id="tenantId" value="{{data.tenantId}}" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<style>
+	.info-container{
+		display: none
+	}
+	
+</style>

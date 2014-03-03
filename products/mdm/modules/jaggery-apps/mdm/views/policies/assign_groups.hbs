@@ -1,0 +1,148 @@
+<div class="container">
+
+	<div class="raw-fluid">
+		<div class="span12">
+
+			<ul class="breadcrumb">
+				<li>
+					<a href="configuration">Policies</a><span class="divider">/</span>
+				</li>
+				<li class="active">
+					Assign Resources
+				</li>
+			</ul>
+
+		</div>
+
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Policy Name: {{data.policyName}}
+						</div>
+
+					</div>
+
+					<div class="block-body">
+						<form class="form-horizontal">
+
+							<input type="hidden" id="inputId" value="{{data.policyId}}" class="input-xxlarge">
+
+							<div class="control-group" style="display: none">
+								<label class="control-label" for="inputAssignTo">Assign To</label>
+								<div class="controls">
+									<select id="inputAssignTo" >
+										<option value="roles">Roles</option>
+										<option value="users">Users</option>
+										<option value="platforms">Platform</option>
+									</select>
+								</div>
+							</div>
+							
+							<div id="accordionPolicies">
+
+							<div class="accordion-group">
+								<div class="accordion-heading">
+									<a class="accordion-toggle" id="#group-accordion" data-toggle="collapse"  href="#collapse1"> <i class="icon-group"></i> Roles <i class="icon-ok-sign" style="color:green; {{#if data.hasResources.hasGroups}}{{else}}display: none{{/if}}"> </i></a>
+								</div>
+								<div id="collapse1" class="accordion-body collapse" style="height: 0px; ">
+
+									<div class="control-group" id="roles-box">
+										<label class="control-label" >Roles</label>
+										<div class="controls raw">
+											<div class="multiple-selectbox">
+												<select multiple="multiple" size="10" id="inputGroups" name="inputUsers" class='duallistbox'>
+													{{#data.groups}}
+													<option {{#if available}}selected{{/if}} value="{{name}}">{{name}}</option>
+													{{/data.groups}}
+												</select>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+							
+							
+							<div class="accordion-group">
+								<div class="accordion-heading">
+									<a class="accordion-toggle" id="#user-accordion" data-toggle="collapse"  href="#collapse2"> <i class="icon-user"></i> Users <i class="icon-ok-sign" style="color:green; {{#if data.hasResources.hasUsers}}{{else}}display: none{{/if}}"> </i></a>
+								</div>
+								<div id="collapse2" class="accordion-body collapse" style="height: 0px; ">
+									
+									
+									<div class="control-group" id="users-box">
+										<label class="control-label" >Users</label>
+										<div class="controls raw">
+											<div class="multiple-selectbox">
+												<select multiple="multiple" size="10" id="inputUsers" name="inputUsers" class='duallistbox'>
+													{{#data.users}}
+													<option {{#if available}}selected{{/if}} value="{{name}}">{{name}}</option>
+													{{/data.users}}
+												</select>
+											</div>
+		
+										</div>
+									</div>
+									
+
+									
+
+								</div>
+							</div>
+							
+							
+							
+							<div class="accordion-group">
+								<div class="accordion-heading">
+									<a class="accordion-toggle" id="#platform-accordion" data-toggle="collapse"  href="#collapse3"> <i class="icon-star"></i> Platforms <i class="icon-ok-sign" style="color:green; {{#if data.hasResources.hasPlatforms}}{{else}}display: none{{/if}}"> </i></a>
+								</div>
+								<div id="collapse3" class="accordion-body collapse" style="height: 0px; ">
+									
+									
+									<div class="control-group" id="platforms-box">
+								<label class="control-label" >Platforms</label>
+								<div class="controls raw">
+									<div class="multiple-selectbox">
+										<select multiple="multiple" size="10" id="inputPlatforms" name="inputUsers" class='duallistbox'>
+											{{#data.platforms}}
+											<option {{#if available}}selected{{/if}} value="{{name}}">{{name}}</option>
+											{{/data.platforms}}
+										</select>
+									</div>
+
+								</div>
+							</div>
+									
+							</div>
+									
+
+								</div>
+							</div>
+							
+							
+							
+
+						
+
+							
+
+							<hr>
+							<div style="margin-left: 15px">
+								<a class="btn btn-orange" id="btn-add" href="#" >Assign</a>
+							</div>
+
+							<input type="hidden" id="tenantId" value="{{data.tenantId}}" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

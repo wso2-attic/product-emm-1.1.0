@@ -1,0 +1,63 @@
+<div class="asset-thumb-container">
+	<div class="row-fluid grid-options">
+	    <span class="breadcrumb publisher-breadcrumb">Category > {{shortName}}</span>
+	    <button class="btn btn-grid-option pull-right" type="button"><i class="icon-star"></i></button>
+	    <button class="btn btn-grid-option pull-right" type="button"><i class="icon-sort-by-alphabet"></i></button>
+	    <button class="btn btn-grid-option pull-right" type="button"><i class="icon-calendar"></i></button>
+	    <!--<button class="btn btn-grid-option right" type="button"><i class="icon-filter"></i></button>-->
+	</div>
+	{{#if artifacts}}
+        <div class="row-fluid">
+            <table class="table table-striped list-asset-table">
+                <thead>
+                <th></th>
+                <th>Name</th>
+                <th>Version</th>
+                <th>Owner</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th></th>
+                </thead>
+                <tbody>
+                 {{#each artifacts}}
+                    <tr>
+
+                        <td>
+                        <img src="{{this.attributes.images_thumbnail}}" class="" />
+                        </td>
+                        <td class="asset-listing-name">
+                            <a href='/publisher/asset/{{../shortName}}/{{this.id}}'>
+                                {{this.attributes.overview_name}}
+                            </a>
+                        </td>
+                        <td>
+                        {{this.attributes.overview_version}}
+                        </td>
+                        <td>
+                        {{this.attributes.overview_provider}}
+                        </td>
+                        <td>
+                        <span class="lifecycle-state"><i class="icon-circle text-green"></i> {{this.attributes.overview_status}}</span>
+                        </td>
+                        <td>
+                        Fri 29 Mar 2013 01:45:08 PM IST
+                        </td>
+                        <td>
+                        Fri 30 Mar 2013 01:45:08 PM IST
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+	    {{else}}
+			<div class="emptyAssets-MsgDiv">
+			    <i class="icon-inbox largeMsgIcon"></i>
+			    <br />
+			        Nothing added yet.
+			    <br />
+			    <a type="button" class="btn btn-addNewAssetLarge" href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>Add New Asset</a>
+			</div>
+	{{/if}}
+</div>

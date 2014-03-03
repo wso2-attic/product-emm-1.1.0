@@ -1,0 +1,59 @@
+div.jquery-gdakram-tooltip { 
+  width: 100%;
+  color: #000000;
+  font-size: 12px;
+	position: absolute;
+	z-index: 10000;
+	top: 0px;
+	left: 0px;
+	display: none;
+}
+
+div.jquery-gdakram-tooltip div.content { 
+  background-color: #ffffff;
+  width: 280px;
+  min-height: 200px;
+  float: left;
+  padding: 10px;
+  
+  border-color: #EEEEEE #DDDDDD #BBBBBB;
+	border-image: none;
+	border-radius: 5px 5px 5px 5px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);	
+}
+
+div.jquery-gdakram-tooltip div.content h1 {
+  font-size: 16px;
+  border-bottom: 1px solid #C4C4C4;
+  padding-bottom: 5px;
+}
+
+div.jquery-gdakram-tooltip div.up_arrow {
+  background : url('images/up_arrow.png') 60px 0px no-repeat;
+  width: 100%;
+  height: 20px;
+}
+
+div.jquery-gdakram-tooltip div.down_arrow {
+  background : url('images/down_arrow.png') 60px 0px no-repeat;
+  width: 100%;
+  height: 20px;
+}
+
+div.jquery-gdakram-tooltip div.left_arrow {
+  height: 100%;
+}
+
+div.jquery-gdakram-tooltip div.left_arrow {
+  float:left;
+  background : url('images/left_arrow.png') 0px 0px no-repeat;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 40px;
+  left: 0px;
+}
+
+

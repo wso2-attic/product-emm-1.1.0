@@ -1,0 +1,137 @@
+<div class="feature-dialog">
+
+	<div class="modal-header">
+		<h4 id="myModalLabel">Email Configuration</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Incoming Mail Server: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="incomingMailServerHostName" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Incoming Mail Server Port: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="incomingMailServerPortNumber" class="feature-input" data-required="true">
+		</div>
+		
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Outgoing Mail Server: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="outgoingMailServerHostName" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Outgoing Mail Server port: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="outgoingMailServerPortNumber" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				 Email account name: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="emailAccountName" class="feature-input" data-required="true">
+		</div>
+		
+			<div class="raw-fluid">
+			<div class="feature-lable">
+				 Email address: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="emailAddress" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				 Email account description:
+			</div>
+			<textarea type="text" id="emailAccountDescription" class="feature-input"></textarea>
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				 Email account type: <span style="color:#FF0000">*</span>
+			</div>
+			<select type="text" id="emailAccountType" class="feature-input" data-required="true">
+				<option value="imap">imap</option>
+				<option value="pop">pop</option>
+			</select>
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Incoming Mail Server Username: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="incomingMailServerUsername" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Incoming Mail Server Password: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="incomingPassword" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				  Incoming mail server authentication: 
+			</div>
+			<select type="text" id="incomingMailServerAuthentication" class="feature-input">
+				<option value="none">None</option>
+				<option value="password">Password</option>
+			</select>
+		</div>
+		
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Outgoing  Mail Server Username: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="outgoingMailServerUsername" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				Outgoing Mail Server Password: <span style="color:#FF0000">*</span>
+			</div>
+			<input type="text" id="outgoingPassword" class="feature-input" data-required="true">
+		</div>
+		
+		<div class="raw-fluid">
+			<div class="feature-lable">
+				  Outgoing mail server authentication:
+			</div>
+			<select type="text" id="outgoingMailServerAuthentication" class="feature-input">
+				<option value="none">None</option>
+				<option value="password">Password</option>
+			</select>
+		</div>
+		
+		<div class="raw">
+			Incoming Mail Server Allow SSL: <input type="checkbox" id="incomingMailServerUseSSL" class="feature-input"  data-true-val="true" data-false-val="false">
+		</div>
+		<br>
+		<div class="raw">
+			Outgoing Mail Server Allow SSL: <input type="checkbox" id="outgoingMailServerUseSSL" class="feature-input"  data-true-val="true" data-false-val="false">
+		</div>
+		
+		
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-cancel"  data-dismiss="modal" aria-hidden="true">
+			Close
+		</button>
+		<button   class="btn btn-orange feature-command" data-value="Enabled">
+			Configure
+		</button>
+	</div>
+
+</div>

@@ -1,0 +1,48 @@
+{{#if user}}
+{{#if subscription}}
+<div class="row">
+	<div class="span3">
+		<h4><a href="#" class="my-assets-link"><i class="icon-bookmark"></i>My {{title}} <i class="icon-angle-down pull-right"></i></a></h4>
+		<div id="my-assets">
+			{{#slice subscriptions count="20" size="20"}}
+			{{#each .}}
+			<div class="row-fluid recently-added">
+				{{#attributes}}
+				{{#if ../isPublished}}
+				<div class="span3">
+					<a href="{{url "/assets"}}/{{../../type}}/{{../../id}}"><img src="{{#if images_thumbnail}}{{images_thumbnail}}{{/if}}"></a>
+				</div>
+				<div class="span9">
+					<strong><a href="{{url "/assets"}}/{{../../type}}/{{../../id}}">{{overview_name}}</a></strong>
+					<small>by <a href="#">{{overview_provider}}</a></small>
+					<span class="star-rating">
+						<div class="asset-rating">
+							<div class="asset-rating-{{../../rating.average}}star">
+
+							</div>
+						</div> </span>
+				</div>
+				{{else}}
+				<div class="span3">
+					<img src="{{#if images_thumbnail}}{{images_thumbnail}}{{/if}}">
+				</div>
+				<div class="span9">
+					<strong><a>{{overview_name}}</a></strong>
+					<small>by <a>{{overview_provider}}</a></small>
+					<span class="label label-unavailable">Currently Unavailable</span>
+					
+				</div>
+				{{/if}}
+				{{/attributes}}
+
+			</div>
+			{{/each}}
+			<a class="link-view-all" href="{{url "/subscriptions"}}/{{../type}}">View all</a>
+			<hr/>
+			{{/slice}}
+		</div>
+	</div>
+</div>
+<hr>
+{{/if}}
+{{/if}}

@@ -1,0 +1,40 @@
+<div class="feature-dialog">
+
+	<div class="modal-header">
+		<h4 id="myModalLabel">IPSec VPN Profile</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div class="raw">
+			<div class="feature-lable">Display Name: <span style="color:#FF0000">*</span> </div><input data-required="true" type="text" id="display_name" class="feature-input">
+		</div>
+		
+		<div class="raw">
+			<div class="feature-lable">Authentication Method: </div><select id="type" class="feature-input"><option value="SharedSecret">Shared Secret</option><option value="Certificate">Certificate</option></select>
+		</div>
+		<div class="raw">
+			<div class="feature-lable">Domain Server: <span style="color:#FF0000">*</span> </div><input data-required="true" type="text" id="domain_server" class="feature-input">
+		</div>
+		<div class="raw">
+			<div class="feature-lable">Group Name: <span style="color:#FF0000">*</span> </div><input data-required="true" type="text" id="group_name" class="feature-input">
+		</div>
+		<div class="raw">
+			<div class="feature-lable">Shared Secret: <span style="color:#FF0000">*</span> </div><input data-required="true" type="text" id="shared_secret" class="feature-input">
+		</div>
+		<div class="raw well-small">
+			Allow Hybrid Authentication: <input type="checkbox" id="hybrid_authentication" class="feature-input">
+		</div>
+		<div class="raw well-small">
+			Prompt for Password: <input type="checkbox" id="prompt_for_password" class="feature-input">
+		</div>
+	
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-cancel"  data-dismiss="modal" aria-hidden="true">
+			Close
+		</button>
+		<button  class="btn btn-orange feature-command">Set VPN</button>
+	</div>
+
+</div>

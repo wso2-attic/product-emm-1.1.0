@@ -1,0 +1,18 @@
+{
+    "name": "A Princess of Mars",
+    "tags": "ebooks, science, fantasy, novel",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "A Princess of Mars",
+        "overview_version": "Edition-1",
+        "overview_url": "princessOfMars/A_Princess_of_Mars.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Edgar Rice Burroughs",
+        "overview_provider": "admin",
+        "overview_description": "A Princess of Mars is full of swordplay and daring feats, the novel is considered a classic example of 20th century pulp fiction. It is also a seminal instance of the planetary romance, a sub-genre of science fantasy that became highly popular in the decades following its publication. Its early chapters also contain elements of the Western. The story is set on Mars, imagined as a dying planet with a harsh desert environment.",
+        "images_thumbnail": "princessOfMars/thumbnail.jpg",
+        "images_banner": "princessOfMars/banner.png"
+    }
+}

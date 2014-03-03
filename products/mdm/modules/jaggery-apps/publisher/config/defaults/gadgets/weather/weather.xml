@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<ModulePrefs 
+
+author="To Follow4" 
+author_email="info@tofollow.com" 
+title="weather" 
+directory_title="weather" 
+description="Display the weather for your city, from a list of tens of thousands of cities. New weather clock: http://widgetbox.com/widget/weather-clock New 3D weather forecast: http://widgetbox.com/widget/weather-widget-3D New snow forecast http://widgetbox.com/widget/snowforecast"
+category="Google"
+thumbnail="http://hosting.gmodules.com/ig/gadgets/file/116938274975487055789/38248-shot.jpg"
+screenshot="http://hosting.gmodules.com/ig/gadgets/file/116938274975487055789/38248-shot.jpg" 
+height="800" 
+width="350" 
+title_url="http://tofollow.com" 
+scrolling="true"  
+author_location="" 
+author_affiliation="tofollow.com" 
+author_photo="http://" 
+author_aboutme="" 
+author_link="http://tofollow.com" 
+author_quote="">
+
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+<div align="center" name="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7344679538634023";
+/* isabelbrow300x250 */
+google_ad_slot = "5460861370";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+  
+<center>
+<script type="text/javascript" src="http://cdn.widgetserver.com/syndication/subscriber/InsertWidget.js"></script><script type="text/javascript">if (WIDGETBOX) WIDGETBOX.renderWidget('a1abc765-46d4-495b-92aa-b9248abb1cf3');</script>
+<noscript>Get the <a href="http://www.widgetbox.com/widget/weather-widget">weather widget</a> widget and many other <a href="http://www.widgetbox.com/">great free widgets</a> at <a href="http://www.widgetbox.com">Widgetbox</a>! Not seeing a widget? (<a href="http://support.widgetbox.com/">More info</a>)</noscript>
+<div align="center" name="adsense">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7344679538634023";
+/* isabelbrow300x250 */
+google_ad_slot = "5460861370";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+ ]]>
+</Content>
+</Module>

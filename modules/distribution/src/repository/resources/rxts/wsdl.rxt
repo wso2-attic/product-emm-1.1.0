@@ -1,0 +1,3 @@
+<artifactType type="application/wsdl+xml" fileExtension="wsdl" shortName="wsdl" singularLabel="WSDL" pluralLabel="WSDLs" hasNamespace="true" iconSet="28">
+    <content href="../generic/wsdl_view_ajaxprocessor.jsp?hideStandardView=true"/>
+</artifactType>

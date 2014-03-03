@@ -1,0 +1,72 @@
+<div id="myasset-container" class="row">
+    <div class="span9">
+        {{#if subscriptions}}
+        	<h3 class="asset-title-separator asset-type-{{myAssets.type}}">My {{myAssets.title}}</h3>
+            {{#itr subscriptions}}
+                <div class="top-asset-slideshow-cont">
+                    <div id="asset-in-{{key}}">
+                        {{#each value}}
+                            {{#attributes}}
+                                <div class="store-my-item">
+
+                                    <div class="store-my-item-thumbnail">
+                                    {{#if ../isPublished}}
+                                        <a href="{{url "/assets/"}}{{../../type}}/{{../../id}}"><img
+                                                src="{{images_thumbnail}}"></a>
+                                        <div class="store-my-item-info">
+                                 
+                                        <a class="asset-title" href="{{url "/asset/"}}{{../../type}}/{{../../id}}">
+                                            <strong>{{overview_name}}</strong>
+                                        </a>
+                                        <small class="bookmark-assert-provider">by {{overview_provider}}</small>
+                                        <div class="btn-group">
+                                            <a class="btn btn-mini" data-toggle="tooltip"
+                                               title="{{t "View"}} {{../../type}}"
+                                               href="{{url "/assets/"}}{{../../type}}/{{../../id}}">
+                                                <i class="icon-eye-open"></i>
+                                            </a>
+                                            <a class="btn btn-popover btn-mini {{../../type}}"
+                                               data-content='&lt;iframe src="{{../../../../URL}}/gadgets/ifr?url={{overview_url}}"&gt;&lt;/iframe&gt;'
+                                               data-toggle="popover" data-placement="top"
+                                               title="{{t "Embed this"}} {{../../type}}">
+                                                <i class="icon-angle-left"></i> <i class="icon-angle-right"></i>
+                                            </a>
+                                            <a class="btn btn-mini asset-remove-btn" type="{{../../type}}"
+                                               data-aid="{{../../id}}" data-toggle="tooltip"
+                                               title="{{t "Remove"}} {{../../type}}">
+                                                <i class="icon-remove"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                     {{else}}
+										<img src="{{images_thumbnail}}">
+										<div class="store-my-item-info">
+	                                        <a class="asset-title">
+	                                            <strong>{{overview_name}}</strong>
+	                                        </a>
+	                                        <small class="bookmark-assert-provider">by {{overview_provider}}</small>    
+	                                        <span class="label label-unavailable">Currently Unavailable</span>                                    
+                                        </div> 
+									{{/if}}           
+                                    </div>
+                                </div>
+                            {{/attributes}}
+                        {{/each}}
+                    </div>
+                </div>
+            {{/itr}}
+        {{else}}
+            <div id="no-data-my-items" class="no-data">
+                <i class="icon-inbox"></i>
+
+                <p>
+                    {{t "You still haven't any bookmarks from the Store."}}
+                </p>
+
+                <p>
+                    <a href="../" class="btn btn-primary">{{t "Bookmark now"}}</a>
+                </p>
+            </div>
+        {{/if}}
+    </div>
+</div>

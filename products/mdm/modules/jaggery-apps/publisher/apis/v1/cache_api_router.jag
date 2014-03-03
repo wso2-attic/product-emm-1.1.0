@@ -1,0 +1,94 @@
+<%
+/*
+Description: Gives an API to view the assets in the cache
+        GET /api/cache/{type}   Returns all of the assets that have been created but not indexed
+Filename: cache_api.router.jag
+Created Date: 22/10/2013
+*/
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+var config = require('/config/publisher.json');
+var caramel = require('caramel');
+
+var router = require('/modules/router-g.js').router();
+var routeManager = new router.Router();
+var DEFAULT_PAGIN = {'start':0, 'count':1000 , 'sortOrder':'asc','sortBy': 'overview_name', 'paginationLimit':1000};
+
+var log = new Log();
+
+
+routeManager.register('GET', 'publisher', '/publisher/api/cache/{type}', function (context) {
+    var shortName=context.params.type;
+    var results=[];
+    var assets;
+    var assetCacheManager;
+    var artifactManager;
+    var msg={};
+    var cachedAssetsAfterRefresh=0;
+    var cachedAssetsBeforeRefresh=0;
+    var session=context.session;
+
+
+
+    //TODO: Get a fresh copy of the session!!!
+
+    try{
+
+
+        artifactManager=rxtManager.getArtifactManager(shortName);
+
+        assetCacheManager=new assetCachingModule.AssetCacheManager(session);
+
+        assets=artifactManager.search(null,DEFAULT_PAGIN)||[];
+
+        cachedAssetsBeforeRefresh=assetCacheManager.getCachedAssetCount(shortName);
+        cachedAssetsAfterRefresh=assetCacheManager.refresh(assets,shortName);
+
+        results=assetCacheManager.get(shortName);
+
+        msg['ok']=true;
+        msg['cachedAssetsBefore']=cachedAssetsBeforeRefresh;
+        msg['cachedAssetsAfter']=cachedAssetsAfterRefresh;
+        msg['cachedAssets']=results;
+
+        print(msg);
+
+    }catch(e){
+        log.debug('Unable to return the cached assets.The following exception was thrown: '+e);
+        response.sendError(404,'Unable to retrieve assets.Please check the server log.');
+    }
+});
+
+var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+
+var sm=securityModule.cached();
+
+//This will short circuit the handling of the requests
+var passed=sm.check(session,function(){
+    response.sendError(401);
+
+});
+
+//Stop servicing the request if the check failed
+if(passed){
+
+    var user=require('store').user;
+    var publisher = require('/modules/publisher.js').publisher(request, session);
+
+
+//var routeManager=application.get(config.app.ROUTE_MANAGER);
+    var rxtManager = publisher.rxtManager;
+    var modelManager = publisher.modelManager;
+    var dataInjector=publisher.dataInjector;
+    var DataInjectorModes=publisher.DataInjectorModes;
+    var filterManager=publisher.filterManager;
+
+    var utility = require('/modules/utility.js').rxt_utility();
+    var assetCachingModule=require('/modules/cache/cache.manager.js').assetCachingModule();
+
+    routeManager.handle(request, response,session);
+}
+
+}, request, response, session);
+%>

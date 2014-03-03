@@ -1,0 +1,57 @@
+<div class="container-fluid">
+
+	<div class="raw-fluid">
+		<div class="span12">
+
+			<ul class="breadcrumb">
+				<li>
+					<a href="configuration">Roles</a><span class="divider">/</span>
+				</li>
+				<li class="active">
+					Add
+				</li>
+			</ul>
+
+		</div>
+
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Assign permissions to {{data.groupId}} role
+						</div>
+
+					</div>
+
+					<div class="block-body">
+						<form class="form-horizontal">							
+							
+							<input type="hidden" id="inputName" value={{data.groupId}} class="input-xxlarge">
+							
+							
+							<div class="control-group">
+								<label class="control-label" for="inputGroupId">Features:</label>
+								<div class="controls">
+									 <div id="tree3"> </div>
+								</div>
+							</div>
+							
+
+							<hr>
+							<div class="offset1-5">
+								<a class="btn btn-orange" id="btn-add" href="#" >Save</a>
+							</div>
+
+							<input type="hidden" id="tenantId" value="{{data.tenantId}}" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

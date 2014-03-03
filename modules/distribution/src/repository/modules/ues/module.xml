@@ -1,0 +1,6 @@
+<module name="ues" xmlns="http://wso2.org/projects/jaggery/module.xml">
+    <script>
+        <name>ues.gadgets</name>
+        <path>scripts/ues.gadgets.js</path>
+    </script>
+</module>

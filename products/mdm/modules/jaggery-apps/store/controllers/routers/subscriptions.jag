@@ -1,0 +1,34 @@
+<%
+var type;
+(function () {
+    var prefix, pages, path, suffix, theme, links, link, i, length, elements, mapper,
+            config = require('/config/store.js').config(),
+            mod = require('/modules/store.js'),
+            file = require('/modules/file.js'),
+            log = new Log(),
+            matcher = new URIMatcher(request.getRequestURI()),
+            server = require('store').server,
+            tenant = server.tenant(request, session),
+            configs = mod.configs(tenant.tenantId);
+    mapper = function (path) {
+        return function () {
+            return path;
+        };
+    };
+
+    if (matcher.match('/{context}' + config.subscriptionsUrlPrefix + '/{type}')) {
+    		
+        elements = matcher.elements();
+        type = elements.type;
+        if (configs.assets.indexOf(type) === -1) {
+            response.sendError(404, 'Request Resource cannot be found');
+            return;
+        }
+        path = '/controllers/subscriptions.jag';
+        request.getMappedPath = mapper(path);
+        include(path);
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+}());
+%>

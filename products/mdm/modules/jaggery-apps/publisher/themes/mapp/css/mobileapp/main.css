@@ -1,0 +1,52 @@
+.uploadButton{
+	padding-bottom: 20px;
+}
+
+.context_menu{
+	visibility: hidden;
+}
+
+
+
+/*------FILE UPLOAD-----*/
+
+.fileupload{
+	float:left;
+}
+
+.fileupload-preview{
+	width: 160px;
+	height: 240px;
+}
+
+.fileupload-preview-icon{
+	width: 160px;
+	height: 160px;
+}
+
+.fileupload-preview-banner{
+	width: 512px;
+	height: 160px;
+}
+
+
+.fileupload-image{
+	
+}
+
+.form-buttons{
+	padding-top: 10px;
+}
+
+
+
+.app-icon-small{
+	width:40px;
+}
+
+
+
+
+
+
+

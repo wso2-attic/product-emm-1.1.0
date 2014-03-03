@@ -1,0 +1,31 @@
+<%
+var matcher = new URIMatcher(request.getRequestURI());
+// http://localhost:9763/caramel/apis/asset/1234/comments
+
+require('/modules/store.js').exec(function (ctx) {
+    var aid,
+            server = require('store').server,
+            tenant = server.tenant(request, session),
+            tenantId = tenant.tenantId,
+            store = require('/modules/store.js').store(tenantId, session),
+            user = server.current(session);
+
+    if (!user) {
+        response.sendError(401, 'Unauthorized');
+        return;
+    }
+
+    if (matcher.match('/{context}/apis/rate')) {
+        aid = request.getParameter('asset');
+        if (!aid) {
+            var asset = store.asset(request.getParameter('type'), request.getParameter('id'));
+            aid = asset.path;
+        }
+        store.rate(aid, request.getParameter('value'));
+        print(store.rating(aid));
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+
+}, request, response, session);
+%>

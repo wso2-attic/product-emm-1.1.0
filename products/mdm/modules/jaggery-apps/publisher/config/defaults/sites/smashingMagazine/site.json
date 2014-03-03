@@ -1,0 +1,15 @@
+{
+    "name": "Smashing Magazine",
+    "tags": "site,technology",
+    "rate": 2,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "Smashing Magazine",
+        "overview_version": "1.0.0",
+        "overview_url": "http://www.smashingmagazine.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the Smashing Magazine site which is an online magazine for professional Web designers and developers, with a focus on useful techniques, best practices and valuable resources",
+        "images_thumbnail": "/smashingMagazine/thumbnail.png",
+        "images_banner": "/smashingMagazine/banner.png"
+    }
+}

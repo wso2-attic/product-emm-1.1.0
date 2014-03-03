@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Error</title>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset=utf-8 />
+		<!-- Bootstrap -->
+		<link href="/mdm/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="/mdm/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+		<link href="/mdm/assets/boostrapext/selectpicker/bootstrap-select.min.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<header>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+		
+			</div>
+	
+		</div>
+	
+	</header>		
+		
+		<div class="container" style="padding-top: 60px">
+			<div class="text-center">
+				<h3>404: I cannot find what you are looking for</h3>
+			</div>
+		</div>
+
+		<script src="/mdm/assets/jquery/jquery-min.js"></script>
+		<script src="/mdm/assets/bootstrap/js/bootstrap.min.js"></script>
+		
+		
+
+	</body>
+</html>
+

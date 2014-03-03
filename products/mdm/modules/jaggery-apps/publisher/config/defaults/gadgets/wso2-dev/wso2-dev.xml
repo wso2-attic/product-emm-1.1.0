@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+	<ModulePrefs title="WSO2 Dev List Discussion" category="WSO2"
+                 height="350" tags="charts,wso2,visualization"
+                 description="This is a sample gadget that is shipped with the store. This gadget visualizes the frequency of mails and popular mail senders in WSO2 Developer mailing list.">
+		<Require feature="pubsub-2">
+			<Param name="topics">
+				<![CDATA[
+				<Topic title="geodata" name="org.wso2.dev"
+				description="Subscribes to wso2 data" type="object"
+				subscribe="true"/>
+				]]>
+			</Param>
+		</Require>
+		<Require feature="dynamic-height"/>
+	</ModulePrefs>
+	<Content type="html">
+		<![CDATA[
+
+		<link rel="stylesheet" href="/portal/gadgets/wso2-dev/css/jslider.css">
+		<link rel="stylesheet" href="/portal/gadgets/wso2-dev/css/jslider.round.plastic.css">
+		<link rel="stylesheet" href="/portal/gadgets/wso2-dev/css/gadget.styles.css">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+		<script  src="/portal/gadgets/wso2-dev/js/jshashtable-2.1_src.js" type="text/javascript"></script>
+		<script  src="/portal/gadgets/wso2-dev/js/jquery.numberformatter-1.2.3.js" type="text/javascript"></script>
+		<script  src="/portal/gadgets/wso2-dev/js/tmpl.js" type="text/javascript"></script>
+		<script  src="/portal/gadgets/wso2-dev/js/jquery.dependClass-0.1.js" type="text/javascript"></script>
+		<script  src="/portal/gadgets/wso2-dev/js/draggable-0.1.js" type="text/javascript"></script>
+		<script  src="/portal/gadgets/wso2-dev/js/jquery.slider.js" type="text/javascript"></script>
+		<script>
+		dojoConfig = {parseOnLoad:true}
+		</script>
+		<script src="/portal/js/dojo/dojo/dojo.js" type="text/javascript"></script>
+		<script src="/portal/gadgets/wso2-dev/js/wso2-dev.js" type="text/javascript"></script>
+		<div id="gadget-wrapper">
+				<div class="span12">
+					<div id="timeslider" class="time-slider">
+						<div class="layout-slider">
+							<input id="Slider1" type="slider" name="area" value="25;72" />
+						</div>
+					</div>
+				</div>
+				<div class="gadget-area-div">
+				<div id="chart-wso2" class="two-col-gadget push-left"></div>
+				<div id="legendNode"></div>
+				<div class="row total-counts"></div>
+				<div id="desc-wso2" class="two-col-gadget push-right">
+					<div id="desc-wso2-text">
+						<h3>About this list</h3>
+						<p>carbon-dev@wso2.org is a mailing list to discuss about the architecture of WSO2 products</p>
+					</div>
+					<div id="senders">
+						<h3>Top Contributors</h3>
+						<ul>
+						</ul>
+					</div>
+				</div>
+				</div>
+		</div>
+		
+		<script>
+		setTimeout(gadgets.window.adjustHeight,2000);
+		</script>
+		]]>
+	</Content>
+</Module>

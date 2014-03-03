@@ -1,0 +1,79 @@
+<%
+require('/modules/store.js').exec(function (ctx) {
+    var action, data, message, exists,
+            error = false,
+            log = new Log(),
+            user = require('store').user,
+            matcher = new URIMatcher(request.getRequestURI());
+
+    if (matcher.match('/{context}/apis/user/{action}')) {
+        action = matcher.elements().action;
+        switch (action) {
+            case 'login':
+                try {
+                    data = request.getContent();
+                    error = !user.login(data.username, data.password, session);
+                    if (error) {
+                        message = 'Invalid username or password.';
+                    }
+                } catch (e) {
+                    log.error(e);
+                    error = true;
+                    message = e.message;
+                }
+                print({
+                    error: error,
+                    message: message
+                });
+                return;
+            case 'logout':
+                try {
+                    user.logout();
+                } catch (e) {
+                    log.error(e);
+                    error = true;
+                    message = e.message;
+                }
+                print({
+                    error: error,
+                    message: message
+                });
+                return;
+            case 'register':
+                try {
+                    data = parse(request.getContent());
+                    user.register(data.username, data.password);
+                } catch (e) {
+                    log.error(e);
+                    error = true;
+                    message = e.message;
+                }
+                print({
+                    error: error,
+                    message: message
+                });
+                return;
+            case 'exists':
+                try {
+                    data = parse(request.getContent());
+                    exists = user.userExists(data.username);
+                    if (exists) {
+                        message = 'Username ' + data.username + ' has already taken.';
+                    }
+                } catch (e) {
+                    log.error(e);
+                    error = true;
+                    message = e.message;
+                }
+                print({
+                    error: error,
+                    exists: exists,
+                    message: message
+                });
+                return;
+        }
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+}, request, response, session);
+%>

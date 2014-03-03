@@ -1,0 +1,144 @@
+<%
+var e = request.getParameter('authFailure');
+%>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WSO2 Enterprise Mobile Management</title>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset=utf-8 />
+		<!-- Bootstrap -->
+		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+		<link href="assets/boostrapext/selectpicker/bootstrap-select.min.css" rel="stylesheet" media="screen">		
+		<link href="views/css/main.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+
+			<header>
+				<div class="navbar navbar-fixed-top">
+					<div class="navbar-inner">
+				<a class="brand" href="#" style="padding:0px; padding-left:20px"><img src="views/img/mobile-platform.png" style="height:40px"></a>					
+					</div>
+
+				</div>
+		   </header>
+		
+			
+
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span8">
+							<div class=" raw-fluid login-mobile-img">
+								<img src="views/img/front-image.png">
+							</div>
+					</div>
+					<div class="span3">
+
+						<div class="block sign-in">
+							<div class="block-header">
+								<div class="block-header-title pull-left">Sign in</div>
+							</div>
+							<div id="newest-app-list" class="container-fluid raw-fluid block-body">				
+															
+								
+								
+								<form id="loginForm" action="/admin/commonauth" method="POST" >									     
+									      
+									        <input type="text" class="input-block-level" placeholder="Username" id="username" name="username">
+											<input type="password" class="input-block-level" placeholder="Password" id="password" name="password">	
+									        <label class="checkbox lblRemember">
+									          <input type="checkbox" value="remember-me"> Remember me
+									        </label>
+									         <input type="hidden" name="sessionDataKey"  value="<%=request.getParameter("sessionDataKey")%>">
+										
+									       	<hr>
+										  <% if(e){ %>
+									            <div class="alert alert-error">Username or password is invalid</div>
+									        <%
+
+                                           					 }%>
+
+										<button class="btn btn-large btn-orange" type="submit">
+												Sign in
+											</button>
+								    	</form>
+								
+								
+								
+								
+								
+								
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+
+					
+		
+		<footer style="clear:both;">
+			<div class="navbar">
+				<div class="raw text-center footer-bar">
+					<img class="footer-logo" style="width:100px" src="views/img/footer.png">
+					Copyright (c) 2014 WSO2 .Inc
+				</div>
+			</div>
+		</footer>
+
+		<script src="assets/jquery/jquery-min.js"></script>
+		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+		
+
+	</body>
+
+<script src="views/js/jquery-1.8.3.min.js"></script>
+    <script src="views/js/bootstrap.min.js"></script>
+    <script src="views/js/jquery.validate.js"></script>
+  	<script type="text/javascript">
+		$(function(){
+			function register(){
+				if (!$('#registerForm').valid()) {
+					return;
+				}
+
+            $.post('/sso/register', $( "#registerForm" ).serialize(), function(data){
+                if(JSON.parse(data).error == 'false'){
+                        $('#regFormError').hide();
+                        $('#regFormSuc').show();
+                        $('#regFormSuc').text(JSON.parse(data).msg);
+
+                        //submitting the login form
+                        $('#username').val($('#reg-username').val());
+                        $('#password').val($('#reg-password').val());
+                        $('#loginForm').submit();
+
+                }else{
+                        $('#regFormSuc').hide();
+                        $('#regFormError').show();
+                        $('#regFormError').text(JSON.parse(data).msg);
+                    }
+                });
+			}
+			$("#registrationSubmit").bind('click', register);
+			
+			$('#registerForm input').bind('keypress',function(e){
+				if(e.which == 13){
+					register();
+				}
+			});
+
+			jQuery.validator.addMethod("usrName", function(value, element) {
+				return this.optional(element) || /^[a-zA-Z0-9\-]*$/.test(value);
+			}, "Only alphanumeric characters and '-' allowed");
+		});
+
+	</script>
+
+
+</html>
+

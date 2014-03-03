@@ -1,0 +1,18 @@
+{
+    "name": "The Adventures of Tom Sawyer",
+    "tags": "ebooks,novel,folk,children",
+    "rate": 4,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_category": "Novels",
+        "overview_name": "The Adventures of Tom Sawyer",
+        "overview_version": "Edition-1",
+        "overview_url": "theAdventuresofTomSawyer/The_Adventures_of_Tom_Sawyer.pdf",
+        "overview_isbn": "-",
+        "overview_author": "Mark Twain",
+        "overview_provider": "admin",
+        "overview_description": "The story is about a young boy growing up along the Mississippi River.",
+        "images_thumbnail": "theAdventuresofTomSawyer/thumbnail.jpg",
+        "images_banner": "theAdventuresofTomSawyer/banner.png"
+    }
+}

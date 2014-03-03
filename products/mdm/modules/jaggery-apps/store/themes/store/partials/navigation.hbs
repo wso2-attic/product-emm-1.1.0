@@ -1,0 +1,45 @@
+<div id="container-search" class="container">
+	<div class="row">
+		<div class="span12 search-bar">
+			<div class="row-fluid">
+				<div class="span9">
+					{{#itr assets}}
+					<a href="{{url "/assets/"}}{{key}}" data-toggle="dropdown" class="dropdown-toggle">
+					<li class="dropdown {{#if value.selected}} selected {{/if}}">
+						<div class="dropdown-icon-cont">
+							{{#if value.icon}}
+							<div style="background-image:url({{url ""}}{{value.icon}})">
+							</div>
+							{{else}}
+								<i class="icon-{{key}}"></i>
+							{{/if}}
+						</div>
+
+						<span>{{value.title}}</span>
+						<!--
+						{{#if value.isCategorySupport}}
+						{{#if value.categories}}
+						<ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
+						{{#each value.categories}}
+						<li>
+						<a href='{{url "/assets"}}/{{../../key}}?query=category:"{{this}}"'>{{this}}</a>
+						</li>
+						{{/each}}
+						</ul>
+						{{/if}}
+						{{/if}}-->
+
+					</li> </a>
+
+					{{/itr}}
+				</div>
+				<div class="span3">
+					{{>search}}
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+

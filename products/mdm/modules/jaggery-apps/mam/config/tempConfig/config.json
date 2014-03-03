@@ -1,0 +1,29 @@
+{
+    "tenanted": true,
+    "HTTPS_URL": "%https.ip%",
+    "HTTP_URL": "%http.ip%",
+    "ssoConfiguration": {
+        "enabled": true,
+        "issuer": "mam",
+        "identityProviderURL": "%https.ip%/sso/samlsso.jag",
+        "keyStorePassword": "wso2carbon",
+        "identityAlias": "wso2carbon",
+        "responseSigningEnabled": "true",
+        "storeAcs": "%https.ip%/mam/acs",
+        "keyStoreName": "/repository/resources/security/wso2carbon.jks"
+    },
+    "publisher_location": "%https.ip%",
+    "archieve_location": "%http.ip%",
+    "store_location": "%https.ip%/store",
+    "mdm": {
+        "api" : "%https.ip%/mdm/api"
+    },
+    "email": {
+        "companyName": "$(email_companyname)",
+        "smtp":"$(email_smtp)",
+        "port":"$(email_port)",
+        "senderAddress": "$(senderAddress)",
+        "emailPassword": "$(senderPassword)",
+        "emailTemplate": "$(email_bodytemplate)"
+    }
+}

@@ -1,0 +1,91 @@
+<div class="span9 publisher-breadcrumb">
+	<!--<a href='/publisher/asset/{{shortName}}' class="btn btn-addNewAsset" type="button"><i class="icon-plus-sign-alt"></i>{{t "Add New Asset"}}</a>-->
+	<!--<div class="dropdown context_menu right">
+	<a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-reorder"></i></a>
+	<ul class="dropdown-menu store-switcher-menu">
+	<li><a target="_self" href="/publisher/assets/gadget/"><i class="icon-dashboard"></i>{{t "Gadget"}}</a></li>
+	<li><a target="_self" href="/publisher/assets/site/"><i class="icon-compass"></i>{{t "Site"}}</a></li>
+	<li><a target="_self" href="/publisher/assets/book/"><i class="icon-book"></i>{{t "Book"}}</a></li>
+	</ul>
+	</div>-->
+
+	<div class="btn-group context_menu left">
+		
+		<a class="btn" href="{{currentUrl}}">
+			<small>Type</small> <span class="publisherTitle">
+				<!--<i class="icon-{{currentType}}"></i> -->
+				{{currentTitle}}</span>
+		</a>
+	
+		<button class="btn dropdown-toggle" data-toggle="dropdown">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			{{#each breadcrumb}}
+			<li>
+				<a target="_self" href="{{this.url}}"><i class="{{this.assetIcon}}"></i>{{this.assetTitle}}</a>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+
+	{{#if assetName}}
+	<span class="breadcrumb-separator">/</span>
+	<span class="breadcrumb-text left breadcrumb-text-assetName">{{assetName}}</span>
+	<span class="breadcrumb-separator">/</span>
+	<div class="btn-group context_menu left">
+		
+		
+		<a class="btn" href="/publisher/asset/{{../currentType}}/{{currentVersionUrl}}">
+			<small>Version</small> <span class="publisherTitle">{{currentVersion}}</span>
+		</a>
+	
+		<button class="btn dropdown-toggle" data-toggle="dropdown">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			{{#each versions}}
+			<li>
+				<a target="_self" href="/publisher/asset/{{../currentType}}/{{this.id}}">{{this.version}}</a>
+			</li>
+			{{/each}}
+			<li>
+				<div id="asset-new-version-control-group">
+					<input type="text" style="margin: 0px; width: 81px;" placeholder="New version" id="asset-new-version">
+					<button class="btn btn-primary" id="btn-increase-version-asset" style="padding: 3px;">Create</button>
+					<input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+					<span class='help-inline' id='asset-new-version-msgs'></span>			
+				</div>
+			</li>
+		</ul>
+
+	</div>
+	{{/if}}
+	{{#if breadCrumbStaticText}}
+	<span class="breadcrumb-separator">/</span>
+	<span class="breadcrumb-text left">{{breadCrumbStaticText}}</span>
+	{{/if}}
+
+</div>
+<div class="span3 pull-right control-search">
+	<input type="text" class="inp-ribbon span12" placeholder="{{t "Search.."}}" id="inp_searchAsset" value="{{query}}"/>
+	<a class="" id="search-button"> <i class="icon-search"></i> </a>
+	<input type="hidden" id="search-prefix" value="{{shortName}}"/>
+</div>
+
+
+<div id="modal-redirect" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	<div class="modal-body">
+		<div class="modal-loading"></div>
+		<p>
+			Redirecting you to the new Asset Version...
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary">
+			Redirect now
+		</button>
+	</div>
+</div>
+

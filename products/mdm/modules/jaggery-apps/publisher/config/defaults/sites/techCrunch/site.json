@@ -1,0 +1,15 @@
+{
+    "name": "Tech Crunch",
+    "tags": "site,technology,news",
+    "rate": 1,
+    "attributes": {
+        "overview_status": "PUBLISHED",
+        "overview_name": "Tech Crunch",
+        "overview_version": "1.0.0",
+        "overview_url": "http://techcrunch.com/",
+        "overview_provider": "admin",
+        "overview_description": "This redirects you to the Tech Crunch site which is a leading technology media property, dedicated to obsessively profiling startups, reviewing new Internet products, and breaking tech news.",
+        "images_thumbnail": "/techCrunch/thumbnail.png",
+        "images_banner": "/techCrunch/banner.png"
+    }
+}

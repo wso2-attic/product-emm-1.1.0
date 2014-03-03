@@ -1,0 +1,16 @@
+<%
+	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
+	var common = require('/modules/common.js');
+	var iosMdm = new iosMdmModule();
+	var log = new Log();
+	var operation = request.getParameter("operation");
+	 
+	var data = iosMdm.getCA();
+
+	response.contentType = "application/x-x509-ca-cert";
+	
+	var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(data);
+	print(new Stream(byteArrayInputStream)); 
+
+
+%>

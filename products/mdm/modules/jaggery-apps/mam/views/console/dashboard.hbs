@@ -1,0 +1,50 @@
+<ul class="nav nav-tabs" id="dashboardTab">
+	<li class="active">
+		<a href="#home">All Devices</a>
+	</li>
+	<li>
+		<a href="#android"> <i class="icon-android"></i> Android</a>
+	</li>
+	<li>
+		<a href="#ios"><i class="icon-apple"></i> iOS</a>
+	</li>
+</ul>
+
+<div class="tab-content" >
+	<div class="tab-pane active" id="home">
+
+		
+
+		<div class="span3-5 widget" id="home_devices_by_ownership"
+		data-chart="devices_by_ownership" data-method="devices/all/percentage/byownership"
+		data-title="Devices By Ownership" data-height="300px" data-width="100%"></div>
+		
+	
+		
+		<div class="span3-5 widget" id="home_devices_by_os"
+		data-chart="devices_by_os" data-method="devices/all/percentage/byos"
+		data-title="Devices By OS" data-height="300px" data-width="100%"></div>
+		
+		
+			
+		<div class="span3-5 widget" id="home_devices_policies_complience"
+		data-chart="policy_complience" data-method="policies/compliance"
+		data-title="Devices By Policy Compliance" data-height="300px" data-width="100%"></div>
+		
+
+	</div>
+	<div class="tab-pane" id="android">
+		
+		<div class="span3-5 widget" id="home_android_devices_by_ownership"
+		data-chart="devices_by_ownership" data-method="devices/all/percentage/byownership"
+		data-title="Android Devices By Ownership" data-height="400px" data-width="100%"></div>
+
+	</div>
+	<div class="tab-pane" id="ios">
+		
+		<div class="span3-5 widget" id="home_ios_devices_by_ownership"
+		data-chart="devices_by_ownership" data-method="devices/all/percentage/byownership"
+		data-title="iOS Devices By Ownership" data-height="400px" data-width="100%"></div>
+
+	</div>
+</div>

@@ -1,0 +1,136 @@
+<%
+
+/*
+Description:Provides operations to work with the versioned aspects of the assets
+        GET /api/version/{type}/{id}              Retrieves the list of versions of the asset
+        POST /api/version/{type}/{id}/{version}   Duplicates the asset with the given id
+                                                  and changes version
+Filename: version_api_router.jag
+Created Date: 18/8/2013
+*/
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+var config = require('/config/publisher.json');
+var caramel = require('caramel');
+var utility = require('/modules/utility.js').rxt_utility();
+
+var router = require('/modules/router-g.js').router();
+var routeManager = new router.Router();
+
+var log=new Log('version_api_router');
+
+routeManager.register('GET','publisher','/publisher/api/version/{type}/{id}',function(context){
+    var shortName=context.params.type;
+    var id=context.params.id;
+
+    log.debug('type: '+shortName+' id: '+id);
+
+    try{
+
+        var artifactManager=rxtManager.getArtifactManager(shortName);
+
+
+        var artifact=artifactManager.get(id);
+
+        //Only try to get the version list if the artifact is found
+        if(artifact){
+            var versionList=artifactManager.getAllAssetVersions(artifact.attributes.overview_name);
+            print(versionList);
+        }
+        else{
+            response.sendError(404,'The asset '+id+' was not found.');
+        }
+
+    }catch(e){
+        log.debug('Unable to obtain the version list of asset : '+id+'.The following exception was thrown: '+e);
+        response.sendError(500,'Unable to obtain the version list of asset : '+id+'.Please check server log');
+    }
+
+});
+
+routeManager.register('POST','publisher','/publisher/api/version/{type}/{id}/{version}',function(context){
+
+    var shortName=context.params.type;
+    var id=context.params.id;
+    var version=context.params.version;
+
+    //log.debug('type: '+shortName+' id: '+id+' version: '+version);
+
+    try{
+
+        var artifactManager=rxtManager.getArtifactManager(shortName);
+
+        //Get the instance with id
+        var oldArtifact=artifactManager.get(id);
+
+        //Check if the version is already present
+        var versionList=artifactManager.getAllAssetVersions(oldArtifact.attributes.overview_name);
+
+        var foundAsset=utility.findInArray(versionList,{version:version});
+
+        //Do not create a new version if it already exists
+        if(foundAsset){
+            log.debug('a duplicate version exists');
+            response.sendError(406,'The version : '+version+' already exists for asset: '+id);
+            return;
+        }
+
+        var model=modelManager.getModel(shortName);
+
+        //Import the artifact data
+        model.import('asset',oldArtifact);
+
+        //log.debug(oldArtifact);
+
+        //Delete the id
+        model.set('*.id','');
+
+        //Set the new version
+        model.set('overview.version',version);
+
+        //Save the model
+        model.save();
+
+        var newId=model.get('*.id');
+
+        var msg={};
+        msg['ok']=true;
+        msg['id']=newId.value;
+        msg['url']='/publisher/asset/'+shortName+'/'+msg.id;
+
+        print(msg);
+
+    }catch(e){
+
+        log.debug('Unable to create a new version of the '+type+' '+id+' version: '+version+'Please'
+                +' refer to the server logs for details.The following exception was throw: '+e);
+
+        response.sendError(500,'Unable to create a new version of the '+type+' '+id+' version: '+version+'Please'
+        +' refer to the server logs for details');
+    }
+});
+
+var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+
+var sm=securityModule.cached();
+
+//This will short circuit the handling of the requests
+var passed=sm.check(session,function(){
+    response.sendError(401);
+});
+
+//Stop servicing the request if the check failed
+if(passed){
+
+    var user=require('store').user;
+    var publisher = require('/modules/publisher.js').publisher(request, session);
+
+    var rxtManager = publisher.rxtManager;
+    var modelManager = publisher.modelManager;
+
+    routeManager.handle(request,response);
+}
+
+}, request, response, session);
+%>

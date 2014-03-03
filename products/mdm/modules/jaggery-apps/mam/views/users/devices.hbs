@@ -1,0 +1,347 @@
+<meta http-equiv="refresh" content="3600" >
+
+<div class="container">
+
+	
+	<div class="raw-fluid">
+		<div class="span12">
+			<div class="block">
+				<div class="block-header">
+					<div class="block-header-title pull-left">
+						{{#data.user}}
+						{{firstName}} {{lastName}}'s Devices
+						{{/data.user}}
+					</div>
+
+				</div>
+
+				<div class="block-body container-fluid raw-fluid well-small">
+
+					<ul class="nav nav-tabs" id="devicesTab">
+						{{#if data.noDevices}}
+							<div class="well text-center">
+								This user does not have any devices
+							</div>
+						{{/if}}
+
+						{{#data.devices}}
+
+						<li class="{{#compare @index 0}}active{{/compare}}">
+							<a id="device-tab-heading-{{@index}}" data-toggle="tab" href="#device-tab-{{id}}" data-tab-id="{{@index}}" data-device-id="{{id}}" >{{properties.model}} {{#if policies.violated}}<i class="icon-remove-sign" style="color:#B94A48" title="Policy Violated"></i> {{else}} <i class="icon-ok-sign" style="color:#468847" title="Policy Comply"></i> {{/if}}</a>
+
+						</li>
+
+						{{/data.devices}}
+
+					</ul>
+
+					<div class="tab-content">
+
+						{{#data.devices}}
+
+						<div class="tab-pane {{#compare @index 0}}active{{/compare}}" id="device-tab-{{id}}">
+							
+							
+							<div class="raw">
+								<div class="span11">
+									
+									<div class="raw">
+
+										<div class="block" style="padding-right:5px;">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Operations
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid">
+
+												{{#features}}
+
+												{{#compare feature_type 'OPERATION'}}
+
+												{{#if enable}}
+
+												<div class="features-device" data-feature="{{name}}"   data-template="{{template}}" style="cursor: pointer;">
+													<div title="{{description}}" class="span1" draggable="true">
+														<div class="raw text-center">
+															<img src="{{../../../../resourcePath}}features/{{name}}.png" class="features-role-image">
+														</div>
+														<div class="raw text-center"  style="font-size: x-small">
+															{{#elipsis 10 description}}{{/elipsis}}
+														</div>
+													</div>
+												</div>
+
+												{{else}}
+
+												<div  data-feature="{{name}}"   data-template="{{template}}" style="display: none">
+													<div title="{{description}}" class="span2">
+														<div class="raw text-center">
+															<img src="{{../../../../resourcePath}}features/{{name}}.png" class="features-role-image">
+														</div>
+														<div class="raw text-center"  style="font-size: x-small; opacity: 0.3" >
+															{{#elipsis 30 description}}{{/elipsis}}
+														</div>
+													</div>
+												</div>
+
+												{{/if}}
+
+												{{/compare}}
+
+												{{/features}}
+
+											</div>
+
+										</div>
+
+									</div>
+									
+									
+									
+									
+									
+								</div>
+								
+							</div>
+							
+							
+							
+							
+							<div class="raw">
+
+								<div class="span4">
+
+									<div class="raw">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Device
+												</div>
+
+												<div class="pull-right button-block-refresh">
+													<a href="#" class="btn btn-small btn-refresh" data-command="genInfo"><i class="icon-refresh"> </i> </a>
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid well-small">
+												<div class="pull-left">
+													<img class="device-image"  data-tab-id="{{@index}}" data-device-id="{{id}}" src="{{../deviceImageService}}/{{properties.model}}.png" style="height: 300px; padding-left: 10px">
+												</div>
+												<div class="pull-right" style="font-size: x-small" id="gen-info-{{@index}}">
+
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+
+									<div class="raw">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Notifications
+												</div>
+											</div>
+
+											<div id="notifications-{{@index}}" class="block-body container-fluid raw-fluid well-small">
+
+											</div>
+
+										</div>
+
+									</div>
+
+								</div>
+
+								<div class="span7">
+									
+									
+									
+									<div class="raw" id="location-map-canvas-block-{{id}}" style="display: none">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Location
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid well-small">
+												<div id="location-map-canvas-{{id}}" style="width: 96%; height: 200px; margin-left: auto; margin-right: auto">
+													
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+									
+									
+									
+									
+									
+
+									<div class="raw">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Device Info
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid well-small">
+												{{#eachkeys properties}}
+												<div class="span3" style="font-size: x-small">
+													<b>{{this.key}}</b>: {{this.value}}
+												</div>
+												{{/eachkeys}}
+											</div>
+
+										</div>
+
+									</div>
+									
+									
+									
+									<div class="raw">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Policy
+													{{#if policies.violated}}
+													<span class="label label-important" data-toggle="tooltip">Violated</span>
+													{{else}}
+													<span class="label label-success" data-toggle="tooltip">Comply</span>
+													{{/if}}
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid well-small">
+												{{#policies.policies}}
+												<div class="span2">
+													<span style="font-size: x-small">{{name}}</span>
+													{{#if status}}
+													<i class="icon-ok-sign" style="color:#468847"></i>
+													{{else}}
+													<i class="icon-remove-sign" style="color:#B94A48"></i>
+													{{/if}}
+												</div>
+												{{/policies.policies}}
+											</div>
+
+										</div>
+
+									</div>
+									
+									
+									
+
+									<div class="raw" style="display: none">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Operations
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid">
+
+												{{#features}}
+
+												{{#compare feature_type 'OPERATION'}}
+
+												{{#if enable}}
+
+												<div class="features-device" data-feature="{{name}}"   data-template="{{template}}" style="cursor: pointer;">
+													<div title="{{description}}" class="span2" draggable="true">
+														<div class="raw text-center">
+															<img src="{{../../../../resourcePath}}features/{{name}}.png" class="features-role-image">
+														</div>
+														<div class="raw text-center"  style="font-size: x-small">
+															{{#elipsis 30 description}}{{/elipsis}}
+														</div>
+													</div>
+												</div>
+
+												{{else}}
+
+												<div  data-feature="{{name}}"   data-template="{{template}}">
+													<div title="{{description}}" class="span2">
+														<div class="raw text-center">
+															<img src="{{../../../../resourcePath}}features/{{name}}.png" class="features-role-image" style="opacity: 0.3">
+														</div>
+														<div class="raw text-center"  style="font-size: x-small; opacity: 0.3" >
+															{{#elipsis 30 description}}{{/elipsis}}
+														</div>
+													</div>
+												</div>
+
+												{{/if}}
+
+												{{/compare}}
+
+												{{/features}}
+
+											</div>
+
+										</div>
+
+									</div>
+
+									
+
+									<div class="raw">
+
+										<div class="block">
+											<div class="block-header-small">
+												<div class="pull-left">
+													Application List
+												</div>
+												<div class="pull-right button-block-refresh">
+													<a href="#" class="btn btn-small btn-refresh" data-command="appList"><i class="icon-refresh" > </i> </a>
+												</div>
+											</div>
+
+											<div class="block-body container-fluid raw-fluid well-small">
+											
+											<div id="app-list-{{@index}}" class="block-body container-fluid raw-fluid well-small">
+													<span style="font-size: small;">No apps to display</span>
+											</div>
+												
+												
+											</div>
+
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+						{{/data.devices}}
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<!-- Modal Features -->
+<div id="featureModal" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+

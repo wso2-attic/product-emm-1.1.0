@@ -1,0 +1,40 @@
+<%
+    var deviceModule = require('modules/device.js').device;
+    var device = new deviceModule();
+    if (device.validateDevice(request.getHeader("User-Agent")) != true) {
+        include("/invaliddevice.jag");
+    } else {
+        switch(request.getRequestURI()) {
+            case "/mdm/devicelogin":
+                include("/ios_utils/devicelogin.jag");
+                break;
+            case "/mdm/deviceloginsign":
+                include("/ios_utils/deviceloginsign.jag");
+                break;
+            case "/mdm/enroll":
+                include("/ios_utils/enroll.jag");
+                break;
+            case "/mdm/ca":
+                include("/ios_utils/ca.jag");
+                break;
+            case "/mdm/enrollsuccess":
+                include("/ios_utils/enrollsuccess.jag");
+                break;
+            case "/mdm/certificate":
+                include("/ios_utils/certificate.html");
+                break;
+            case "/mdm/devicestatusmonitor":
+                include("/ios_utils/devicestatusmonitor.jag");
+                break;
+            case "/mdm/downloadapp":
+                include("/downloadapp.jag");
+                break;
+            default:
+                include("/ios_utils/mdmerror.jag");
+                break;
+        }
+
+    }
+
+
+%>

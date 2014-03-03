@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>iOS Enrollment</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/mdm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+   <link href="/mdm/assets/boostrap3/css/main.css" rel="stylesheet">
+   <link href="/mdm/assets/boostrap3/css/signin.css" rel="stylesheet">
+
+       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">WSO2 EMM Registration</a>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+        <h3>
+	        <br /><br />
+	        <p align = "center">This device cannot access EMM</p>
+        </h3>
+    </div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/mdm/assets/boostrap3/js/jquery.js"></script>
+<script src="/mdm/assets/boostrap3/js/bootstrap.min.js"></script>
+</body>
+</html>

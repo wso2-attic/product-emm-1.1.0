@@ -1,0 +1,43 @@
+<%
+var caramel = require('caramel'),
+        matcher = new URIMatcher(request.getRequestURI());
+// http://localhost:9763/caramel/apis/asset/1234/comments
+require('/modules/store.js').exec(function (ctx) {
+    var server = require('store').server,
+            tenant = server.tenant(request, session),
+            tenantId = tenant.tenantId,
+            store = require('/modules/store.js').store(tenantId, session),
+            user = server.current(session);
+
+    var paging = store.commentsPaging(request),
+            aid = request.getParameter('asset');
+    if (matcher.match('/{context}/apis/comments')) {
+        caramel.render(store.comments(aid, paging));
+        return;
+    }
+    if (matcher.match('/{context}/apis/comments/paging')) {
+        caramel.render({
+            asset: aid,
+            url: '/apis/comments?asset=' + aid + '&page=',
+            start: paging.start || 0,
+            count: paging.count || store.assetsPageSize(),
+            size: store.assetsPageSize(),
+            total: store.commentCount(aid)
+        });
+        return;
+    }
+
+    if (!user) {
+        response.sendError(401, 'Unauthorized');
+        return;
+    }
+
+    if (matcher.match('/{context}/apis/comment')) {
+        store.comment(aid, request.getParameter('content'));
+        caramel.render(store.comments(aid));
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+
+}, request, response, session);
+%>

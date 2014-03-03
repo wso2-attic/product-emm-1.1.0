@@ -1,0 +1,81 @@
+<div id="container-header" class="container">
+	<div class="row">
+		<div class="span12">
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+
+						<a class="brand" href="{{url "/"}}"></a>
+						<!--
+						<ul class="nav menu store-menu">
+						{{#itr assets}}
+						<li class="dropdown {{#if value.selected}} selected {{/if}}">
+						<a href="{{url "/assets/"}}{{key}}" data-toggle="dropdown" class="dropdown-toggle"><i
+						class="icon-{{key}}"></i> {{value.title}}</a>
+						{{#if value.isCategorySupport}}
+						{{#if value.categories}}
+						<ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
+						{{#each value.categories}}
+						<li>
+						<a href='{{url "/assets"}}/{{../../key}}?query=category:"{{this}}"'>{{this}}</a>
+						</li>
+						{{/each}}
+						</ul>
+						{{/if}}
+						{{/if}}
+
+						</li>
+
+						{{/itr}}
+						</ul>-->
+
+						<ul class="nav menu pull-right">
+
+							{{#if user}}
+							<li class="nav-separator">
+								<a href="{{url "/dashboard"}}"><i
+								class="icon-mobile-phone store-topnav-bookmark"></i> {{t "My Apps"}}</a>
+							</li>
+							<li>
+
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
+								class="icon-user"></i> {{user.username}} <b class="caret"></b></a>
+								<ul class="dropdown-menu dropdown-account" role="menu" aria-labelledby="dLabel">
+									<li>
+										{{#if sso}}<a href="{{url "/logout"}}"><i class="icon-signout"></i> {{t "Sign out"}} </a>{{else}}<a id="btn-signout" href="#"><i class="icon-signout"></i> {{t "Sign out"}} </a>{{/if}}
+									</li>
+								</ul>
+
+							</li>
+							{{else}}
+
+							{{#if sso}}
+							<li>
+								<a href="{{url "/login"}}">{{t "Sign in"}}</a>
+							</li>
+							<li>
+							
+							</li>
+							{{else}}
+							<li>
+								<a href="#" data-toggle="modal" data-target="#modal-login">{{t "Sign in"}}</a>
+							</li>
+							<li>
+								<a id="btn-register" class="btn btn-primary" data-toggle="modal"
+								data-target="#modal-register">{{t "Register"}}</a>
+							</li>
+							{{/if}}
+
+							{{/if}}
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{>login login}}
+
+{{>register}}
+

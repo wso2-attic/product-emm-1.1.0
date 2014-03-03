@@ -1,0 +1,351 @@
+<%
+/*
+ Description: Provides a means to attach life cycles to artifacts
+ Note: type: shortName in the Rxt templates
+
+ GET api/lifecycle/{asset-type}/{artifact-id}                : Returns the current lifecycle state of an artifact
+ GET api/lifecycle/checklist/{type}/{id}                     : Returns the check list for an artifact
+ GET api/lifecycle/checklistitem/{index}/{type}/{id}         : Returns the checked state of the check list item at
+                                                               the given index.
+ GET api/lifecycle/actions/{type}/{id}                       : Gets the actions available to an asset at a given state
+
+ DELETE api/lifecycle/{asset-type}/{artifact-id}		     : Detaches the current lifecycle from the artifact
+ DELETE api/lifecycle/checklistitem/{index}/{type}/{id}      : Unticks a check list item at the given index
+
+ POST  api/lifecycle/{asset-type}/{artifact-id}   	         : Attach the provided lifecycle to the artifact
+ POST api/lifecycle/checklistitem/{index}/{type}/{id}        : Ticks a check list item at the given index
+
+ PUT api/lifecycle/{action}/{asset-type}/{artifact-id}	     : Performs the provided the action on the provided asset
+
+ Filename:lifecycle_api_router.js
+ Created Date: 6/8/2013
+ */
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+var config = require('/config/publisher.json');
+var caramel = require('caramel');
+
+
+var router = require('/modules/router-g.js').router();
+
+var routeManager = new router.Router();
+
+
+
+var log=new Log();
+
+routeManager.register('POST', 'publisher', '/publisher/api/lifecycle/{type}/{id}', function (context) {
+
+
+    var shortName = context.params.type;
+    var id = context.params.id;
+    var lifecycle = context.post.lifecycle;
+    //var autoPromote=context.post.promote||false;    //If promote is not specified do not auto promote
+
+    var invokeAction='';
+
+    //Check the config for a lifeCycleBehaviour block
+    utility.isPresent(config,'lifeCycleBehaviour',function(lifeCycleBehaviour){
+
+        utility.isPresent(lifeCycleBehaviour,lifeCycle,function(lifeCycleData){
+
+            utility.isPresent(lifeCycleData,'onAttach',function(onAttach){
+
+                invokeAction=onAttach.action||'';
+
+            });
+        });
+
+    });
+
+    if (!lifecycle) {
+        response.sendError(400, 'Missing required parameter: lifecycle');
+        return;
+    }
+
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+
+    try {
+        var artifact = artifactManager.get(id);
+
+        artifactManager.attachLifecycle(lifecycle, artifact);
+
+        //Perform the action if the user has specified an action
+        if(invokeAction!=''){
+            artifactManager.promoteLifecycleState(invokeAction,artifact);
+        }
+
+        var msg={};
+        msg['status']='ok';
+
+        print(msg);
+    }
+    catch (e) {
+        log.debug('The asset with id: '+id+' could not be found.The following exception was thrown: '+e);
+        response.sendError(404,'The asset with id: '+id+' could not be found.Please refere to the server log.');
+    }
+});
+
+/*
+        Ticks the check list item at the provided index
+*/
+routeManager.register('POST','publisher','/publisher/api/lifecycle/checklistitem/{index}/{type}/{id}',function(context){
+
+    var checkListItemIndex=context.params.index;
+    var shortName=context.params.type;
+    var id=context.params.id;
+
+    var artifactManager=rxtManager.getArtifactManager(shortName);
+
+    try{
+        var artifact=artifactManager.get(id);
+        artifactManager.checkItem(checkListItemIndex,artifact);
+        var msg={};
+        msg['status']='ok';
+    }
+    catch(e){
+        log.debug('The asset with id: '+id+' could not be found.The following exception was thrown: '+e);
+        response.sendError(404,'The asset with id: '+id+' could not be found.Please refer to the server log.');
+    }
+});
+
+routeManager.register('DELETE', 'publisher', '/publisher/api/lifecycle/{type}/{id}', function (context) {
+
+    var shortName = context.params.type;
+    var id = context.params.id;
+
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+
+    try {
+        var artifact = artifactManager.get(id);
+
+        artifactManager.detachLifecycle(artifact);
+
+
+        var msg={};
+        msg['status']='ok';
+
+        print(msg);
+    }
+    catch (e) {
+        log.debug('The asset with id: '+id+' could not be found.The following exception was thrown: '+e);
+        response.sendError(404,'The asset with id: '+id+' could not be found.Please refer to the server log.');
+    }
+
+});
+
+/*
+    Unticks the check list item at the given index
+*/
+routeManager.register('DELETE','publisher','/publisher/api/lifecycle/checklistitem/{index}/{type}/{id}',function(context){
+    var checkListItemIndex=context.params.index;
+    var shortName=context.params.type;
+    var id=context.params.id;
+
+    var artifactManager=rxtManager.getArtifactManager(shortName);
+
+    try{
+         var artifact=artifactManager.get(id);
+         artifactManager.uncheckItem(checkListItemIndex,artifact);
+         var msg={};
+         msg['status']='ok';
+    }
+    catch(e){
+        log.debug('The lifecyle check list item at index '+checkListItemIndex+' of asset id: '+id+' could not be unticked'
+        +'The following exception was thrown: '+e);
+        response.sendError(404,'The lifecycle check list item at index '+checkListItemIndex+' of asset id: '+id+' could not be unchecked'
+        +'.Please refer to the server log');
+    }
+});
+
+routeManager.register('PUT', 'publisher', '/publisher/api/lifecycle/{action}/{type}/{id}', function (context) {
+
+    var shortName = context.params.type;
+    var action = context.params.action;
+    var id = context.params.id;
+
+    var artifactManager = rxtManager.getArtifactManager(shortName);
+
+    try {
+        var artifact = artifactManager.get(id);
+        log.debug('Calling promoteLifecycleState for action : '+action);
+        artifactManager.promoteLifecycleState(action,artifact);
+        var msg={};
+        msg['status']='ok';
+        print(msg);
+    }
+    catch (e) {
+        log.debug('The asset with id: '+id+' could not be found.The following exception was thrown: '+e);
+        response.sendError(404,'The asset with id: '+id+' could not be found.Please refer to the server log.');
+    }
+
+});
+
+/*
+ The function returns the lifecycle structure of a given asset
+ */
+function obtainLifeCycle(type){
+    CommonUtil = Packages.org.wso2.carbon.governance.lcm.util.CommonUtil;
+    var rootReg=rxtManager.registry.registry;
+    var configReg = rootReg.getChrootedRegistry('/_system/config');
+
+    //Obtain a model of the type
+    var model=modelManager.getModel(type);
+
+    var lifecycle=model.get('*.lifeCycle').value;
+
+    var data=CommonUtil.getLifecycleConfiguration(lifecycle,configReg);
+
+    //Convert to an xml
+    data='<?xml version="1.0" encoding="ISO-8859-1"?>'+data;
+    var xml=new XML(data);
+
+    //Convert to a json
+    data=data.replace('<?xml version="1.0" encoding="ISO-8859-1"?>','');
+    var lcJSON=utility.xml.convertE4XtoJSON(xml);
+
+    return lcJSON;
+}
+
+routeManager.register('GET','publisher','/publisher/api/lifecycle/{type}/{id}',function(context){
+
+
+    try{
+
+        var shortName=context.params.type;
+        var id=context.params.id;
+
+        var artifactManager=rxtManager.getArtifactManager(shortName);
+
+        var artifact=artifactManager.get(id);
+        var state=artifactManager.getLifecycleState(artifact);
+        var actions=artifactManager.availableActions(artifact);
+
+
+        var lcJSON=obtainLifeCycle(shortName);
+
+
+        var msg={};
+        msg['status']='ok';
+        msg['state']=state;
+        msg['actions']=actions;
+        msg['lifecycle']=lcJSON;
+
+
+        log.debug(msg);
+        print(msg);
+    }
+    catch(e){
+        log.debug('The asset with id: '+id+' could not be found.The following exception was thrown: '+e);
+        response.sendError(404,'The asset with id: '+id+' could not be found.Please refere to the server log.');
+    }
+});
+
+routeManager.register('GET','publisher','/publisher/api/lifecycle/checklist/{type}/{id}',function(context){
+   //log.debug('short name: '+context.params.type);
+
+   try{
+       log.debug('Entered check list/type/id ');
+
+       var shortName=context.params.type;
+       var id=context.params.id;
+
+       var artifactManager=rxtManager.getArtifactManager(shortName);
+
+       var artifact=artifactManager.get(id);
+       var checkListItems=artifactManager.getCheckListItemNames(artifact);
+       var msg={};
+       msg['status']='ok';
+       msg['checkListItems']=checkListItems;
+       print(msg);
+   }
+   catch(e){
+       log.debug('The check list names were not retrieved for artifact: '+id+' .The following exception was thrown: '+e);
+       response.sendError(404,'The check list item names could not be retrieved for artifact: '+id+' .Please refer to the server log.');
+   }
+});
+
+/*
+        Gets the checked or unchecked state of a check list item
+*/
+routeManager.register('GET','publisher','/publisher/api/lifecycle/checklistitem/{index}/{type}/{id}',function(context){
+     try{
+         log.debug('Entered checklistitem/index/type/id ');
+         var checkListItemIndex=context.params.index;
+         var shortName=context.params.type;
+         var id=context.params.id;
+
+         var artifactManager=rxtManager.getArtifactManager(shortName);
+
+         var artifact=artifactManager.get(id);
+         var isChecked=artifactManager.isItemChecked(checkListItemIndex,artifact);
+         var msg={};
+         msg['status']='ok';
+         msg['index']=checkListItemIndex;
+         msg['isChecked']=isChecked;
+         print(msg);
+     }
+     catch(e){
+         log.debug('The check list item index state could not be  retrieved for aritfact: '+id+' .The following exception was thrown: '+e);
+         response.sendError(404,'The check list item state could not be retrieved for artifact: '+id+' .Please refer to the server log.');
+     }
+});
+
+routeManager.register('GET','publisher','/publisher/api/lifecycle/information/history/{type}/{id}/{version}',function(context){
+   try{
+
+       var shortName=context.params.type;
+       var id=context.params.id;
+
+
+       var artifactManager=rxtManager.getArtifactManager(shortName);
+       var artifact=artifactManager.get(id);
+
+
+       var historyRes=artifactManager.getLifecycleHistory(artifact);
+
+       var json={};
+
+       if(historyRes!=undefined){
+
+           var xml=new XML(historyRes.content);
+
+           json=utility.xml.convertE4XtoJSON(xml);
+
+       }
+
+       print(json);
+
+   }catch(e){
+       log.debug('The lifecycle history for artifact: '+id+' could not be found.The following exception was thrown: '+e);
+       response.sendError(404,'The lifecycle history details could not be retrieved for artifact: '+id+'.Pleas refer to the server log.');
+   }
+});
+
+var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+
+var sm=securityModule.cached();
+
+//This will short circuit the handling of the requests
+var passed=sm.check(session,function(){
+    response.sendError(401);
+});
+
+//Stop servicing the request if the check failed
+if(passed){
+    var store = require('store');
+    var user = store.user;
+    var utility=require('/modules/utility.js').rxt_utility();
+    var server=store.server;
+
+    var publisher = require('/modules/publisher.js').publisher(request, session);
+    var rxtManager = publisher.rxtManager;
+    var modelManager=publisher.modelManager;
+
+    routeManager.handle(request, response);
+}
+
+}, request, response, session);
+
+%>

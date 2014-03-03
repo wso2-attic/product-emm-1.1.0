@@ -1,0 +1,169 @@
+{
+    "applyTo": "gadget",
+
+
+    "import": [
+        "/modules/ext/scripts/rxt.importer.js",
+        "/modules/ext/scripts/form.exporter.js",
+        "/modules/ext/scripts/asset.exporter.js",
+        "/modules/ext/scripts/asset.action.save.js",
+        "/modules/ext/scripts/asset.lifecycle.action.save.js",
+        "/modules/ext/scripts/form.importer.js"],
+
+    "fieldPropertyRules": [
+        "overview.name:order=1",
+        "overview.provider:order=2",
+        "overview.description:order=3",
+        "overview.version:order=4",
+        "overview.version:save=disabled"
+    ],
+
+    "link": [
+        "overview.stage:value=*.lifecycleState"
+    ],
+
+    "tables": [
+
+        {
+            "name": "*"
+        }
+
+    ],
+
+    "fieldProperties": [
+
+        {
+            "field": "*",
+            "name": "order",
+            "value": ""
+        },
+        {
+            "field": "*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "*",
+            "name": "visible",
+            "value": "true"
+        },
+        {
+            "field": "overview.*",
+            "name": "save",
+            "value": "default"
+        },
+        {
+            "field": "overview.*",
+            "name": "editable",
+            "value": true
+        },
+        {
+            "field": "images.*",
+            "name": "save",
+            "value": "default"
+        },
+        {
+            "field": "images.*",
+            "name": "editable",
+            "value": true
+        },
+        {
+            "field": "*.lifeCycle",
+            "name": "save",
+            "value": "asset.lifecycle.action.save"
+        },
+        {
+            "field": "*.lifeCycle",
+            "name": "fetch",
+            "value": "default"
+        },
+        {
+            "field": "overview.provider",
+            "name": "readOnly",
+            "value": "true"
+        },
+        {
+            "field": "overview.provider",
+            "name": "editable",
+            "value": false
+        },
+        {
+            "field": "overview.name",
+            "name": "editable",
+            "value": false
+        },
+        {
+            "field": "overview.createdtime",
+            "name": "hidden",
+            "value": "true"
+        },
+        {
+            "field": "overview.version",
+            "name": "editable",
+            "value": false
+        },
+        {
+            "field": "overview.description",
+            "name": "value",
+            "value": "provider has not given a description"
+        }
+    ],
+
+    "fields": [
+        {
+            "name": "lifeCycle",
+            "table": "*",
+            "label": "Life Cycle",
+            "value": "SampleLifeCycle2"
+        } ,
+        {
+            "name": "banner",
+            "table": "images",
+            "type": "file"
+        },
+        {
+            "name": "thumbnail",
+            "table": "images",
+            "type": "file"
+        },
+        {
+            "name": "description",
+            "table": "overview",
+            "value": "The provider has not given a description."
+        }
+    ],
+
+    "permissions": {
+        "created": ["Internal/private_{overview_provider}"],
+        "in-review": ["Internal/reviewer", "Internal/private_{overview_provider}"],
+        "published": ["Internal/private_{overview_provider}"],
+        "unpublished": ["Internal/private_{overview_provider}"]
+    },
+
+    "storage": {
+
+        "images_banner": {
+
+
+            "lifecycle": {
+                "created": ["Internal/private_{overview_provider}"],
+                "in-review": ["Internal/reviewer", "Internal/private_{overview_provider}"],
+                "published": ["Internal/everyone", "Internal/private_{overview_provider}", "Internal/reviewer", "anon"],
+                "unpublished": ["Internal/private_{overview_provider}"]
+
+            }
+        },
+
+        "images_thumbnail": {
+
+            "lifecycle": {
+                "created": ["Internal/private_{overview_provider}"],
+                "in-review": ["Internal/reviewer", "Internal/private_{overview_provider}"],
+                "published": ["Internal/everyone", "Internal/private_{overview_provider}", "Internal/reviewer", "anon"],
+                "unpublished": ["Internal/private_{overview_provider}"]
+            }
+
+        }
+
+    }
+}

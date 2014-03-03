@@ -1,0 +1,113 @@
+<div class="asset-thumb-container">
+	<div class="pull-left">
+		 <div id="tab" class="btn-group" data-toggle="buttons-radio">
+					<a href="#" data-status="All" class="btn active tab-button" data-toggle="tab">All Apps</a>
+					<a href="#" data-status="Created" class="btn tab-button" data-toggle="tab">Created</a>
+					<a href="#" data-status="In-Review"  class="btn tab-button" data-toggle="tab">In-Review</a>
+					<a href="#" data-status="Published" class="btn tab-button" data-toggle="tab">Published</a>
+					<a href="#" data-status="Unpublished" class="btn tab-button" data-toggle="tab">Unpublished</a>
+					<a href="#" data-status="Rejected" class="btn tab-button" data-toggle="tab">Rejected</a>					
+		</div>
+	</div>
+	
+	<div class="row-fluid well-small uploadButton">
+		<a href="/publisher/asset/mobileapp" id="btn-create-asset" class="btn btn-primary pull-right" style="margin-right: 30px" ><i class="icon-plus-sign"> </i> New Application</a>
+	
+	</div>
+	
+	
+  <div class="asset-being-added">
+</div>
+  
+	
+	
+	{{#if artifacts}}
+        <div class="row-fluid">
+            <table class="table table-striped list-asset-table">
+                <thead>
+                <th colspan="2"><a href="?sortby=name">Name <i class="icon-caret-down"></i></a></th>
+                 <th><a href="?sortby=os">Platform<i class="icon-caret-down"></i></a></th>                
+                 <th><a href="?sortby=type">Type<i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=owner">Owner <i class="icon-caret-down"></i></a></th>   
+                <th><a href="?sortby=version">Version <i class="icon-caret-down"></i></a></th>             
+                <th><a href="?sortby=createdDate">Created</i></a></th>
+                <th><a href="?sortby=status">Status <i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=createdDate">Action</i></a></th>
+                <th></th>
+                </thead>
+                <tbody>
+                 {{#each artifacts}}
+                    <tr data-status="{{this.lifecycleState}}" class="app-row">
+                        <td>
+                        <img src="{{this.attributes.images_thumbnail}}" class="" />
+                        </td>
+                        <td class="asset-listing-name">
+                            <a href='/publisher/asset/operations/edit/mobileapp/{{this.id}}'>
+                                {{this.attributes.overview_name}}
+                            </a>
+                        </td>
+                         <td>
+                        <img src="/publisher/themes/mobileapp/img/mobileapps/{{this.attributes.overview_platform}}.png">
+                        </td>
+                       
+                        <td>
+                        {{this.attributes.overview_type}}
+                        </td>
+                        <td>
+                        {{this.attributes.overview_provider}}
+                        </td> 
+                         <td>
+                        {{this.attributes.overview_version}}
+                        </td>                      
+                        <td>
+                        <small>Fri 29 Mar 2013 01:45:08 PM IST</small>
+                        </td>
+                         <td>
+                         	{{#compare this.lifecycleState "Published"}}
+                        		<span class="lifecycle-state"><small><i class="icon-circle text-green"></i> {{this.lifecycleState}}</small></span>
+                        	{{/compare}}
+                        	{{#compare this.lifecycleState "Created"}}
+                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+                        	{{/compare}}
+                        	{{#compare this.lifecycleState "In-Review"}}
+                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+                        	{{/compare}}
+                        	{{#compare this.lifecycleState "Rejected"}}
+                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+                        	{{/compare}}
+                        	{{#compare this.lifecycleState "Unpublished"}}
+                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+                        	{{/compare}}
+                        	{{#compare this.lifecycleState "Approved"}}
+                        		<span class="lifecycle-state"><small><i class="icon-circle text-green"></i> {{this.lifecycleState}}</small></span>
+                        	{{/compare}}	
+                        	
+                        </td>
+                        
+                         <td>
+                         	{{#this.lifecycleAvailableActions}}                         		
+                         		<a  data-action="{{name}}" data-app="{{../this.id}}" class="btn {{style}} btn-action" name="addNewAssetButton">{{name}}</a>
+                         	{{/this.lifecycleAvailableActions}}  
+                        </td>
+                        
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+	    {{else}}
+			<div class="emptyAssets-MsgDiv">
+			    <i class="icon-inbox largeMsgIcon"></i>
+			    <br />
+			        Nothing added yet.
+			    <br />
+			    <a type="button" class="btn btn-addNewAssetLarge" href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>Add New Mobile App</a>
+			</div>
+	{{/if}}
+</div>
+
+<style>
+	.btn-action{
+		width: 80px;
+	}
+</style>

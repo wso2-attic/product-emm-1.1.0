@@ -1,0 +1,34 @@
+<%
+var caramel = require('caramel'),
+        log = new Log(),
+        matcher = new URIMatcher(request.getRequestURI());
+// http://localhost:9763/caramel/apis/asset/1234/comments
+require('/modules/store.js').exec(function (ctx) {
+    var server = require('store').server,
+            tenant = server.tenant(request, session),
+            tenantId = tenant.tenantId,
+            store = require('/modules/store.js').store(tenantId, session);
+
+    var type, total, assets,
+            tag = request.getParameter('tag'),
+            sort = request.getParameter('sort'),
+            paging = store.assetsPaging(request);
+    if (matcher.match('/{context}/apis/assets/{type}/paging') ||
+            matcher.match('/{context}/apis/assets/{type}')) {
+        type = matcher.elements().type;
+        if (tag) {
+            assets = store.tagged(type, tag, paging);
+        } else {
+            try{
+                assets = store.assets(type, paging);
+            }catch(e){
+                assets = [];
+            }
+        }
+        caramel.render(assets);
+        return;
+    }
+    response.sendError(404, 'API Endpoint Not Found');
+
+}, request, response, session);
+%>

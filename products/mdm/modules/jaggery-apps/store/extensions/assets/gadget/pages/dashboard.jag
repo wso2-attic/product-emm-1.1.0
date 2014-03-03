@@ -1,0 +1,12 @@
+<%
+var log = new Log(),
+        caramel = require('caramel'),
+        site = require('/modules/site.js'),
+        store = require('/modules/store.js'),
+        tag = require('/modules/tag.js');
+
+caramel.render({
+    'title': 'Store | Gadgets',
+    'navigation': site.navigation
+});
+%>

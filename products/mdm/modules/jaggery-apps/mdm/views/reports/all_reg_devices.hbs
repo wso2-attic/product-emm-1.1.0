@@ -1,0 +1,129 @@
+<div class="container">
+
+	<div class="raw-fluid">
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Registered Devices
+						</div>
+						
+							<div class="pull-right">
+									
+
+								</div>
+
+					</div>
+					
+					
+					
+
+					<div class="block-body block-body container-fluid raw-fluid">
+
+						<div class="raw-fluid" style="margin-left: -25px">
+							
+							<form method="post" enctype="multipart/form-data">
+
+							<div class="span2 operation-filter">
+								<div class="control-group">
+									<label class="control-label" for="inputLastName">Start Date</label>
+									<div class="controls">
+										   
+										 <div class="input-append date datepicker"  data-date="" data-date-format="yyyy-mm-dddd">
+				<input id="startdate" name="startdate" class="span2" size="16" type="text" value="{{data.inputData.startdate}}"  >
+				<span class="add-on"><i class="icon-th"></i></span>
+			  </div>
+									  
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="span2 operation-filter">
+								<div class="control-group">
+									<label class="control-label" for="inputLastName">End Date</label>
+									<div class="controls">
+										   
+										 <div class="input-append date datepicker"  data-date="" data-date-format="yyyy-mm-dddd">
+				<input id="enddate" name="enddate" class="span2" size="16" type="text" value="{{data.inputData.enddate}}" >
+				<span class="add-on"><i class="icon-th"></i></span>
+			  </div>
+									  
+									</div>
+								</div>
+							</div>
+
+							<div class="span2 operation-filter">
+								<div class="control-group">
+									<label class="control-label" for="inputEmail">Platform</label>
+									<div class="controls">
+										<select id="platform" name="platform" >
+											<option {{#compare data.inputData.platform '0'}}selected="selected"{{/compare}} value="0">--All--</option>
+											<option {{#compare data.inputData.platform '1'}}selected="selected"{{/compare}} value="1">Android</option>
+											<option {{#compare data.inputData.platform '2'}}selected="selected"{{/compare}} value="2">iOS</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="span2 operation-filter">								
+								<div class="control-group">
+									<label class="control-label" for="inputPassword" >&nbsp;</label>
+									<div class="controls">
+										<button class="btn btn-orange" type="sumbit" >Find</button>
+									</div>
+								</div>
+							</div>
+							
+							</form>
+							
+							
+						</div>		
+												
+
+						<div class="raw">
+
+							<div class="span11">						
+
+								<table cellpadding="0" cellspacing="0" border="0"
+								class="table table-striped table-bordered" id="main-table">
+									<thead>
+										<tr>
+											<th>Username</th>
+											<th>IMEI</th>
+											<th>Platform</th>
+											<th>OS version</th>
+											<th>Registered Date</th>
+											<th>Status</th>											
+										</tr>
+									</thead>
+									<tbody>
+										{{#data.results}}
+											<tr>
+												<td>{{user_id}}</td>
+												<td>{{imei}}</td>
+												<td>{{platform_name}}</td>
+												<td>{{os_version}}</td>
+												<td>{{created_date}}</td>
+												<td>{{status}}</td>
+											</tr>
+										{{/data.results}}
+									</tbody>									
+								</table>
+								
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
