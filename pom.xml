@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.wso2mobile.platform</groupId>
-	<artifactId>wso2mobileserver-parent</artifactId>
+	<groupId>org.wso2.emm</groupId>
+	<artifactId>emm-parent</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	<name>WSO2Mobile Enterprise Mobile Platform - Parent</name>
+	<name>WSO2 Enterprise Mobility Manager (EMM) - Parent</name>
 	<url>http://wso2.org/projects/appserver/java</url>
-	<description>WSO2Mobile Enterprise Mobile Platform</description>
+	<description>WSO2 Enterprise Mobility Manager (EMM)</description>
 
 	<licenses>
 		<license>
