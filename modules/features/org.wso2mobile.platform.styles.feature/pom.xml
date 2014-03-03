@@ -20,16 +20,16 @@
 			xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>org.wso2mobile.platform</groupId>
-		<artifactId>wso2mobileserver-features</artifactId>
+		<groupId>org.wso2.emm</groupId>
+		<artifactId>emm-features</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.wso2mobile.platform.styles.feature</artifactId>
+	<artifactId>org.wso2.emm.styles.feature</artifactId>
 	<packaging>pom</packaging>
-	<name>WSO2Mobile Styles Feature</name>
+	<name>WSO2 Enterprise Mobility Manager (EMM) Styles Feature</name>
 	<url>http://wso2.org</url>
 
 	<dependencies>
