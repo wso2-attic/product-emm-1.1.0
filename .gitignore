@@ -1,4 +1,3 @@
-products/mdm/modules/distribution/product/target/
 
 #################
 ## Eclipse
@@ -221,7 +220,6 @@ pip-log.txt
 #################
 .idea/ 
 org.wso2.emm.mdm.feature-1.0.0.zip
-products/mdm/modules/p2-profile-gen/product/target
 modules/features/org.wso2.emm.feature/target
 modules/distribution/target
 modules/p2-profile-gen/target
@@ -240,3 +238,29 @@ modules/components/org.wso2.carbon.databridge.datasink.cassandra/target/timestam
 .idea
 wso2emm-parent.iml
 modules/components/mdm-ui/target
+
+modules/apps/mdm/.idea
+modules/apps/mdm/mdm.iml
+modules/apps/mdm/config/android.json
+modules/apps/mdm/config/config.json
+modules/apps/mdm/client_app/*
+modules/apps/mdm/config/tenants/*
+!modules/apps/mdm/config/tenants/carbon.super/*
+!modules/apps/mdm/config/tenants/default/*
+
+modules/apps/mam/.idea
+modules/apps/mam/mam.iml
+modules/apps/mam/config/config.json
+modules/apps/mam/config/ui.json
+
+modules/apps/publisher/.idea/
+modules/apps/publisher/publisher.iml
+modules/apps/publisher/.project
+modules/apps/publisher/upload
+modules/apps/publisher/config/mam-config.json
+
+modules/apps/store/.idea
+modules/apps/store/store.iml
+modules/apps/store/.project
+
+
