@@ -21,22 +21,22 @@
 
 	<parent>
 		<groupId>org.wso2.emm</groupId>
-		<artifactId>emm-parent</artifactId>
+		<artifactId>wso2emm-parent</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.wso2.emm</groupId>
-	<artifactId>emm-features</artifactId>
+	<artifactId>wso2emm-features</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>WSO2 Enterprise Mobility Manager (EMM) Features</name>
 	<url>http://wso2.org</url>
 
 	<modules>
-		<module>org.wso2mobile.platform.feature</module>
-		<module>org.wso2mobile.platform.styles.feature</module>
+		<module>org.wso2.emm.feature</module>
+		<module>org.wso2.emm.styles.feature</module>
 	</modules>
 
 	<dependencyManagement>

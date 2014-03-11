@@ -5,13 +5,13 @@
 
 	<parent>
 		<groupId>org.wso2.emm</groupId>
-		<artifactId>emm-parent</artifactId>
+		<artifactId>wso2emm-parent</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>emm</artifactId>
+	<artifactId>wso2emm</artifactId>
 	<packaging>jar</packaging>
 	<name>WSO2 Enterprise Mobility Manager (EMM) - Distribution</name>
 	<description>WSO2 Enterprise Mobility Manager (EMM) Distribution</description>
@@ -182,10 +182,12 @@
 										overwrite="true">
 									<fileset dir="src/repository/modules"></fileset>
 								</copy>
+<!-- -->
 								<copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps"
 										overwrite="true">
 									<fileset dir="../../products/mdm/modules/jaggery-apps"></fileset>
 								</copy>
+<!-- -->
                              
 								<copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/patches/patch0001"
 										overwrite="true">

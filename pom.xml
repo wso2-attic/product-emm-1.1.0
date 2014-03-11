@@ -5,7 +5,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.wso2.emm</groupId>
-	<artifactId>emm-parent</artifactId>
+	<artifactId>wso2emm-parent</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>WSO2 Enterprise Mobility Manager (EMM) - Parent</name>
@@ -65,7 +65,7 @@
 
 	<modules>
 		<module>modules/components/mdm-ui</module>
-		<module>modules/features/org.wso2mobile.platform.feature</module>
+		<module>modules/features/org.wso2.emm.feature</module>
 		<module>modules/p2-profile-gen</module>
 		<module>modules/distribution</module>
 	</modules>

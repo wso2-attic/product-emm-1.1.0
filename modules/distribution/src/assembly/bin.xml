@@ -8,7 +8,7 @@
     <fileSets>
         <fileSet>
             <directory>target/wso2carbon-core-${carbon.kernal.version}</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}</outputDirectory>
             <excludes>
                 <exclude>**/*.sh</exclude>
                 <exclude>**/README*</exclude>
@@ -33,7 +33,7 @@
         </fileSet>
         <fileSet>
             <directory>target/wso2carbon-core-${carbon.kernal.version}</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}</outputDirectory>
             <includes>
                 <include>**/*.sh</include>
             </includes>
@@ -43,7 +43,7 @@
             <directory>
                 ../p2-profile-gen/target/wso2carbon-core-${wso2carbon.kernal.version}/dbscripts/identity/
             </directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/dbscripts/identity</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/dbscripts/identity</outputDirectory>
             <includes>
                 <include>**/**.sql</include>
             </includes>
@@ -57,20 +57,20 @@
             <directory>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/multitenancy
             </directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/multitenancy</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/multitenancy</outputDirectory>
             <fileMode>755</fileMode>
         </fileSet>
 
         <fileSet>
             <directory>src/repository/resources/styles/css</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/resources/allthemes/Default/admin</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/resources/allthemes/Default/admin</outputDirectory>
             <includes>
                 <include>**/**.css</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>src/repository/resources/styles/images</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/resources/allthemes/Default/images</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/resources/allthemes/Default/images</outputDirectory>
             <includes>
                 <include>**/**.gif</include>
                 <include>**/**.png</include>
@@ -82,13 +82,13 @@
         <!-- copy documentation -->
         <fileSet>
             <directory>target/site</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/docs</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/docs</outputDirectory>
             <fileMode>755</fileMode>
         </fileSet>
         <!-- copy the landing page webapp -->
         <fileSet>
             <directory>src/repository/resources/stratos_root</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/deployment/server/webapps/STRATOS_ROOT</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/webapps/STRATOS_ROOT</outputDirectory>
             <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
@@ -112,7 +112,7 @@
         </fileSet>
         <fileSet>
             <directory>src/repository/resources/jaggery/modules/</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/modules</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/modules</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
@@ -140,14 +140,14 @@
         </fileSet>
         <fileSet>
             <directory>target/jaxwebapps</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/deployment/server/jaxwebapps</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaxwebapps</outputDirectory>
             <includes>
                 <include>**/**</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>src/repository/conf</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf</outputDirectory>
             <includes>
                 <include>**/api-manager.xml</include>
                 <include>**/sso-idp-config.xml</include>
@@ -156,7 +156,7 @@
         </fileSet>
         <fileSet>
             <directory>src/repository/conf</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/security/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/security/</outputDirectory>
             <includes>
                 <include>**/application-authenticators.xml</include>
                 <include>**/entitlement.properties</include>
@@ -165,14 +165,14 @@
         </fileSet>
         <fileSet>
             <directory>src/repository/conf/datasources</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/datasources</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/datasources</outputDirectory>
             <includes>
                 <include>**/master-datasources.xml</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>src/repository/resources</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/resources</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/resources</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
@@ -180,40 +180,40 @@
         <!--data-bridge configuration-->
         <fileSet>
             <directory>src/repository/conf/data-bridge</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/data-bridge</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/data-bridge</outputDirectory>
             <fileMode>755</fileMode>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.version}/lib/runtimes</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/lib/runtimes/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/lib/runtimes/</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>src/repository/dbscripts/storage</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/dbscripts/storage</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/dbscripts/storage</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/WSO2-CARBON-PATCH-4.2.0-0001</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/components/patches/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/components/patches/</outputDirectory>
             <includes>
                 <include>**/patch0001/*.*</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>src/repository/components/patches</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/components/patches</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/components/patches</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>src/repository/components/lib</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/components/lib</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/components/lib</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
@@ -223,20 +223,20 @@
 
     <dependencySets>
         <!-- <dependencySet>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/deployment/server/webapps</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/deployment/server/webapps</outputDirectory>
 <outputFileNameMapping>ROOT.war</outputFileNameMapping>
 <includes>
 <include>org.apache.shindig:shindig-server:war</include>
 </includes>
 </dependencySet>-->
         <dependencySet>
-            <outputDirectory>wso2mobileserver-${pom.version}/lib/endorsed</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/lib/endorsed</outputDirectory>
             <includes>
                 <include>javax.el:el-api:jar</include>
             </includes>
         </dependencySet>
         <dependencySet>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/deployment/client/modules
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/client/modules
             </outputDirectory>
             <includes>
                 <include>org.hibernate.wso2:hibernate:jar</include>
@@ -249,94 +249,94 @@
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/event-broker.xml
             </source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
 
         <!-- <file>
 <source>target/shindig</source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/deployment/server/webapps/ROOT</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/deployment/server/webapps/ROOT</outputDirectory>
 </file>-->
 
         <file>
             <source>INSTALL.txt</source>
-            <outputDirectory>wso2mobileserver-${pom.version}</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>README.txt</source>
-            <outputDirectory>wso2mobileserver-${pom.version}</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>LICENSE.txt</source>
-            <outputDirectory>wso2mobileserver-${pom.version}</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>release-notes.html</source>
-            <outputDirectory>wso2mobileserver-${pom.version}</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>target/wso2carbon-core-${carbon.kernal.version}/bin/README.txt</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/bin/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/bin/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>target/wso2carbon-core-${carbon.kernal.version}/bin/version.txt</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/bin/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/bin/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>src/repository/conf/carbon.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
             <source>src/repository/conf/registry.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
         </file>
        
         <file>
             <source>src/repository/conf/wso2mobilemdm.jks</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/resources/security</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/resources/security</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
             <source>src/repository/conf/wso2permission.jks</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/resources/security</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/resources/security</outputDirectory>
             <filtered>true</filtered>
         </file>
 
         <file>
             <source>src/repository/conf/cipher-tool.properties</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/security/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/security/</outputDirectory>
             <filtered>true</filtered>
         </file>
         <!--copy default xacml policy to repository/resources/security -->
         <file>
             <source>src/repository/resources/policies/xacml/default/admin.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/resources/security/policies/xacml/default</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/resources/security/policies/xacml/default</outputDirectory>
             <filtered>true</filtered>
         </file>
 
         <file>
             <source>src/repository/conf/log4j.properties</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
             <source>src/repository/conf/multitenancy/cloud-services-desc.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/multitenancy/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/multitenancy/</outputDirectory>
             <filtered>true</filtered>
         </file>
 
@@ -345,12 +345,12 @@
 <source>
 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/etc/coordination-client-config.xml
 </source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/conf/etc</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
 </file>
 <file>
 <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/etc/zoo.cfg
 </source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/conf/etc</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
 </file-->
 
         <!-- Including log4j.properties file -->
@@ -358,81 +358,81 @@
 <source>
 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/log4j.properties
 </source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/conf/
+<outputDirectory>wso2emm-${pom.version}/repository/conf/
 </outputDirectory>
 </file>-->
         <file>
             <source>src/repository/conf/axis2/axis2.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/axis2/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/axis2/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>target/wso2carbon-core-${carbon.kernal.version}/repository/conf/README</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <!--<file>
 <source>target/wso2carbon-core-${carbon.kernal.version}/bin/wso2server.bat</source>
-<outputDirectory>wso2mobileserver-${pom.version}/bin/</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/bin/</outputDirectory>
 <filtered>true</filtered>
 <fileMode>644</fileMode>
 </file>-->
 
         <!--file>
 <source>conf/claim-config.xml</source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
 <fileMode>644</fileMode>
 </file-->
 
 
         <file>
             <source>src/repository/conf/identity.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf</outputDirectory>
             <fileMode>644</fileMode>
         </file>
 
         <file>
             <source>src/repository/database/WSO2IDENTITY_DB.h2.db</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/database</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>src/repository/dbscripts/emm_mysql.sql</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/dbscripts</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/dbscripts</outputDirectory>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>src/repository/dbscripts/oracle.sql</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/dbscripts/identity</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/dbscripts/identity</outputDirectory>
             <fileMode>644</fileMode>
         </file>
 <!--         <file>
             <source>src/repository/cassandra/cassandra.yaml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/etc</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
             <fileMode>644</fileMode>
         </file>
         <file>
             <source>src/repository/cassandra/cassandra-component.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/etc</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
             <fileMode>644</fileMode>
         </file> -->
         <file>
             <source>src/repository/conf/user-mgt.xml</source>
-            <outputDirectory>wso2mobileserver-${pom.version}/repository/conf/</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
         </file>
         <!-- <file>
 <source>conf/wso2is-user-certs.jks</source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/resources/security/</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/resources/security/</outputDirectory>
 <fileMode>644</fileMode>
 </file>-->
 
 
         <!-- <file>
 <source>conf/userRP.jks</source>
-<outputDirectory>wso2mobileserver-${pom.version}/repository/resources/security/</outputDirectory>
+<outputDirectory>wso2emm-${pom.version}/repository/resources/security/</outputDirectory>
 <fileMode>644</fileMode>
 </file>-->
     </files>

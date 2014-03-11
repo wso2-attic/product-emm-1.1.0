@@ -4,14 +4,14 @@
 			xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>org.wso2.emm</groupId>
-		<artifactId>emm-parent</artifactId>
+		<artifactId>wso2emm-parent</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<version>1.0.0</version>
-	<artifactId>emm-profile-gen</artifactId>
+	<artifactId>wso2emm-profile-gen</artifactId>
 	<packaging>pom</packaging>
 	
 	<build>
@@ -185,7 +185,7 @@
 								</featureArtifactDef>
 								<!-- MDM -->
 								<featureArtifactDef>
-									org.wso2mobile.platform:org.wso2mobile.platform.feature:${project.version}
+									org.wso2.emm:org.wso2.emm.feature:${project.version}
 								</featureArtifactDef>
 								<!-- BAM Features -->
 <!--

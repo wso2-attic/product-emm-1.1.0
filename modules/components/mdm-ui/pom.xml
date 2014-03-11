@@ -21,7 +21,7 @@
 
 	<parent>
 		<groupId>org.wso2.emm</groupId>
-		<artifactId>emm-parent</artifactId>
+		<artifactId>wso2emm-parent</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../../../pom.xml</relativePath>
 	</parent>
@@ -47,8 +47,8 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
-						<Private-Package>org.wso2mobile.platform.styles.internal</Private-Package>
-						<Bundle-Activator>org.wso2mobile.platform.admin.styles.internal.Activator</Bundle-Activator>
+						<Private-Package>org.wso2.emm.styles.internal</Private-Package>
+						<Bundle-Activator>org.wso2.emm.admin.styles.internal.Activator</Bundle-Activator>
 						<Import-Package>
 							org.osgi.framework,
 							org.osgi.service.http,

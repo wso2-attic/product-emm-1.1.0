@@ -25,7 +25,7 @@
     <fileSets>
         <fileSet>
             <directory>target/site</directory>
-            <outputDirectory>wso2mobileserver-${pom.version}-docs</outputDirectory>
+            <outputDirectory>wso2emm-${pom.version}-docs</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../../modules/documentation/src/site/xdoc/user-core</directory>

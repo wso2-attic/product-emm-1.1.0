@@ -1,9 +1,9 @@
-WSO2 Enterprise Mobility Management solution ${product.version}
+WSO2 Enterprise Mobility Manager (EMM) ${product.version}
 ----------------------
 
 ${buildNumber}
 
-Welcome to the WSO2 Enterprise Mobility Management solution ${product.version} release
+Welcome to the WSO2 Enterprise Mobility Manager (EMM) ${product.version} release
 
 Key Features
 ------------
@@ -38,10 +38,10 @@ http://docs.wso2.org/wiki/display/UES100/Installation+Prerequisites
 
 Known Issues
 ------------
-https://wso2.org/jira/issues/?filter=11174
+https://wso2.org/jira/issues/?filter=11718
 
 
-Enterprise Mobility Management Solution Binary Distribution Directory Structure
+WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
 -----------------------------------------------------
 
 	UES_HOME
