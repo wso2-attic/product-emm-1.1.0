@@ -37,7 +37,7 @@ var iosmdm = (function() {
 		constructor : module,
 		getCA : function() {
 			try {
-				var keystoreReader = new Packages.com.wso2.mobile.ios.mdm.impl.KeystoreReader();
+				var keystoreReader = new Packages.org.wso2.mobile.ios.mdm.impl.KeystoreReader();
 				var caCertificate = keystoreReader.getCACertificate();
 				return caCertificate.getEncoded();
 			} catch (e) {
@@ -52,11 +52,11 @@ var iosmdm = (function() {
                 //Get Tenant from the Token (which is the username)
                 var tenantName = user.getTenantNameByUser(token);
 
-				var plistGenerator = new Packages.com.wso2.mobile.ios.mdm.plist.PlistGenerator();
+				var plistGenerator = new Packages.org.wso2.mobile.ios.mdm.plist.PlistGenerator();
                 var result = plistGenerator.generateMobileConfigurations(token, tenantName);
 				var data = result.getBytes();
 
-				var pkcsSigner = new Packages.com.wso2.mobile.ios.mdm.impl.PKCSSigner();
+				var pkcsSigner = new Packages.org.wso2.mobile.ios.mdm.impl.PKCSSigner();
 				var signedData = pkcsSigner.getSignedData(data);
 
 				return signedData;
@@ -71,7 +71,7 @@ var iosmdm = (function() {
 			try {
                 log.debug("Handle Profile Request!");
 
-                var commonUtil =  new Packages.com.wso2.mobile.ios.mdm.util.CommonUtil();
+                var commonUtil =  new Packages.org.wso2.mobile.ios.mdm.util.CommonUtil();
                 var profileResponse = commonUtil.copyInputStream(inputStream);
                 if (profileResponse.challengeToken != null) {
                     db.query(sqlscripts.device_pending.update4, profileResponse.udid, profileResponse.challengeToken);
@@ -79,7 +79,7 @@ var iosmdm = (function() {
                 var devices = db.query(sqlscripts.device_pending.select4, profileResponse.udid);
                 var tenantName = user.getTenantNameFromID(devices[0].tenant_id);
 
-				var requestHandler = new Packages.com.wso2.mobile.ios.mdm.impl.RequestHandler();
+				var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
 				var signedData = requestHandler.handleProfileRequest(profileResponse.inputStream, tenantName);
 
 				return signedData;
@@ -92,7 +92,7 @@ var iosmdm = (function() {
 		getCACert : function(caPath, raPath) {
 
 			try {
-				var requestHandler = new Packages.com.wso2.mobile.ios.mdm.impl.RequestHandler();
+				var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
 				var scepResponse = requestHandler.handleGetCACert();
 
 				return scepResponse;
@@ -113,7 +113,7 @@ var iosmdm = (function() {
 		getPKIMessage : function(inputStream) {
 
 			try {
-				var certGenerator = new Packages.com.wso2.mobile.ios.mdm.impl.CertificateGenerator();
+				var certGenerator = new Packages.org.wso2.mobile.ios.mdm.impl.CertificateGenerator();
 				var pkiMessage = certGenerator.getPKIMessage(inputStream);
 
 				return pkiMessage;
@@ -129,7 +129,7 @@ var iosmdm = (function() {
 			var contentString = writer.toString();
 
 			try {
-				var plistExtractor = new Packages.com.wso2.mobile.ios.mdm.plist.PlistExtractor();
+				var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
 				var checkinMessageType = plistExtractor.extractTokens(contentString);
 
                 log.debug("CheckinMessageType >>>>>>>>>>>>>>>>>>>>>> " + checkinMessageType.getMessageType());
@@ -161,7 +161,7 @@ var iosmdm = (function() {
 			var contentString = writer.toString();
 
 			try {
-				var plistExtractor = new Packages.com.wso2.mobile.ios.mdm.plist.PlistExtractor();
+				var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
 				var apnsStatus = plistExtractor.extractAPNSResponse(contentString);
 
 

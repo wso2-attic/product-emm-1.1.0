@@ -63,7 +63,7 @@
 		meta.path = '/publisher' +meta.path;
 		var ext = getExtension(file);
 		if(ext=="ipa" || ext =="apk"){
-			var zipFileReading = new Packages.com.wso2.mobile.mam.manifestUtils.ZipFileReading();
+			var zipFileReading = new Packages.org.wso2.mobile.mam.manifestUtils.ZipFileReading();
 			var path = process.getEnv("PWD")+"/repository/deployment/server/jaggeryapps"+meta.path;
 			try{
 				if(ext=="ipa"){
