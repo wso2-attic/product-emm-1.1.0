@@ -1,0 +1,54 @@
+<div class="container">
+
+	<div class="raw-fluid">
+
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Add VPP App
+						</div>
+
+					</div>
+
+					<div class="block-body">
+						<form id="submitform" method="POST" class="form-horizontal" action="/mam/api/vpp" data-validate="parsley">
+							<div class="control-group">
+								<label class="control-label" for="inputFirstName">App Name</label>
+								<div class="controls">
+									 <div id="ms6"></div>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="inputFirstName">Promo Codes</label>
+								<div class="controls">
+									<input type="file" name="promocode" id="promocode">
+								</div>
+							</div>
+
+							<hr>
+							<div class="offset1-5">
+								<input type="submit" class="btn btn-orange" value="Add" >
+							</div>
+
+							<input type="hidden" id="tenantId" value="{{data.tenantId}}" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<style>
+	.info-container {
+		display: none
+	}
+
+</style>

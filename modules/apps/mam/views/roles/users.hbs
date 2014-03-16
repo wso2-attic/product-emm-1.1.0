@@ -1,0 +1,129 @@
+<div class="container">
+
+	<div class="raw-fluid">
+		<ul class="breadcrumb">
+			<li>
+				<a href="management">Roles</a><span class="divider">/</span>
+			</li>
+			<li class="active">
+				Users
+			</li>
+		</ul>
+	</div>
+
+	<div class="raw-fluid">
+		<div class="span2-5">
+			<div class="block">
+				<div class="block-header">
+					<div class="block-header-title pull-left">
+						Operations
+					</div>
+
+				</div>
+
+				<div class="block-body container-fluid raw-fluid">					
+					{{>feature-list-operations}}
+				</div>
+			</div>
+
+		</div>
+
+		<div class="span9">
+
+			<div class="block">
+				<div class="block-header">
+					<div class="block-header-title pull-left">
+						Manage Users
+					</div>
+
+					<div class="pull-right">
+						<input type="text" class="search-query" placeholder="Search">
+					</div>
+
+				</div>
+
+				<div class="block-body container-fluid raw-fluid">
+
+					{{#data.users}}
+					
+					{{#compare no_of_devices 0 }}
+					
+					<div  class="span2 text-center small-block-disabled">						
+						<div class="raw-fluid">
+							<div class="small-block-name">
+								<b>{{firstName}} {{lastName}}</b>
+							</div>
+							<div class="info">
+								<div class="raw">
+									{{email}}
+								</div>
+								<div class="raw">
+									{{no_of_devices}} Devices
+								</div>
+
+							</div>
+						</div> 						
+					</div>
+					
+					{{else}}
+					
+					
+					<div  class="span2 text-center small-block user-item jtootip" data-user-id='{{username}}' data-user='{{#stringify this}}{{/stringify}}'>
+					
+					
+					
+						 <div class="tooltip_description row" style="display:none" title="{{firstName}} {{lastName}}'s Devices">						
+						 {{#devices}}
+						 	<div class="span1">						 		
+						 	 <div class="raw text-center">
+						 	 <img class="device-image" style="height: 70px" src="{{../../../deviceImageService}}/{{properties.model}}.png">
+						 	 </div>
+						 	  <div class="raw text-center">
+						 	  {{properties.model}}
+						 	 </div>
+						 	</div>
+						 	
+						 {{/devices}}
+        
+       					 </div>
+					
+					
+					
+						<a href="{{../../appInfo.server_url}}users/devices?user={{username}}">
+						<div class="raw-fluid">
+							<div class="small-block-name">
+								<b>{{firstName}} {{lastName}}</b>
+							</div>
+							<div class="info">
+								<div class="raw">
+									{{email}}
+								</div>
+								<div class="raw">
+									{{no_of_devices}} Devices
+								</div>
+
+							</div>
+						</div> 
+						</a>
+
+					</div>
+					
+					
+					{{/compare}}
+
+					
+					{{/data.users}}
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- Modal Features -->
+<div id="featureModal" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>

@@ -1,0 +1,63 @@
+<div class="container-fluid">
+
+	<div class="raw-fluid">
+		<div class="span12">
+
+			<ul class="breadcrumb">
+				<li>
+					<a href="configuration">Users</a><span class="divider">/</span>
+				</li>
+				<li class="active">
+					Assign to Roles
+				</li>
+			</ul>
+
+		</div>
+
+		<div class="span12">
+
+			<div class="raw-fluid">
+				<div class="block">
+					<div class="block-header">
+						<div class="block-header-title pull-left">
+							Assign roles to {{data.username}}
+						</div>
+
+					</div>
+
+					<div class="block-body">
+						<form class="form-horizontal">							
+							
+							<input type="hidden" id="inputId" value="{{data.username}}" class="input-xxlarge">
+							
+							
+							<div class="control-group">
+								<label class="control-label" >Roles</label>
+								<div class="controls raw">
+									<div class="multiple-selectbox">
+										<select multiple="multiple" size="10" id="inputGroups" name="inputUsers" class='duallistbox'>
+											{{#data.groups}}
+												<option {{#if available}}selected{{/if}} value="{{name}}">{{name}}</option>
+											{{/data.groups}}											
+										</select>
+									</div>
+
+								</div>
+							</div>
+
+							<hr>
+							<div class="offset1-5">
+								<a class="btn btn-orange" id="btn-add" href="#" >Assign</a>
+							</div>
+
+							<input type="hidden" id="tenantId" value="{{data.tenantId}}" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

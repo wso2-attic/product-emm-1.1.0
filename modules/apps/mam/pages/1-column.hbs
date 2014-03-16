@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{title}}</title>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset=utf-8 />
+		<!-- Bootstrap -->
+		<link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="../assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+		<link href="../assets/boostrapext/selectpicker/bootstrap-select.min.css" rel="stylesheet" media="screen">
+		<link href="../assets/boostrapext/duallistbox/bootstrap-duallistbox.css" rel="stylesheet" media="screen">
+		<link href="../assets/bxslider/jquery.bxslider.css" rel="stylesheet" media="screen">
+		<link href="../assets/jqueryext/tooltip/jquery.tooltip.css" rel="stylesheet" media="screen">	
+		<link href="../assets/jqueryext/dynatree/ui.dynatree.css" rel="stylesheet" media="screen">
+		<link href="../assets/fontaws/css/font-awesome.css" rel="stylesheet" media="screen">
+		<link href="../assets/jqueryext/dropdown/css/msdropdown/dd.css" rel="stylesheet" media="screen">
+		<link href="../assets/magicsuggest/magicsuggest-1.3.1.css" rel="stylesheet" media="screen">
+		
+	
+		
+				
+		
+		<link href="../themes/{{theme}}/css/main.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+
+		{{>header}}		
+		
+			<div class="container">
+				{{{body}}}
+			</div>
+		
+		{{>footer}}	
+
+		<script src="../assets/jquery/jquery-min.js"></script>
+		<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../assets/boostrapext/selectpicker/bootstrap-select.min.js"></script>			
+		<script src="../assets/handlebars/handlebars.js"></script>
+		<script src="../assets/jqueryext/datatables/jquery.datatables.js"></script>
+		<script src="../assets/boostrapext/duallistbox/bootstrap-duallistbox.js"></script>	
+		<script src="../assets/boostrapext/datatables/datatables.js"></script>
+		<script src="../assets/boostrapext/datepicker/bootstrap.datepicker.js"></script>
+		<script src="../assets/bxslider/jquery.bxslider.min.js"></script>
+		<script src="../assets/jqueryext/ui/jquery-ui-min.js"></script>
+		<script src="../assets/noty/jquery.noty.js"></script>
+		<script src="../assets/noty/layouts/center.js"></script>
+		<script src="../assets/noty/themes/default.js"></script>		
+		<script src="../assets/jqueryext/tooltip/jquery.tooltip.js"></script>		
+		<script src="../assets/jqueryext/dynatree/jquery.dynatree.min.js"></script>
+		<script src="../assets/parsely/parsely.min.js"></script>	
+		<script src="../assets/flot/jquery.flot.min.js"></script>	
+		<script src="../assets/flot/jquery.flot.pie.min.js"></script>
+		<script src="../assets/magicsuggest/magicsuggest-1.3.1.js"></script>
+		<script src="../assets/jqueryform/jquery.form.js"></script>
+		<script src="../assets/jquerycarau/jquery.carouFredSel-6.2.1-packed.js"></script>
+	
+		
+	
+		
+		
+				
+
+		<script src="../client/js/common.js"></script>					
+		{{#if jsFile}}
+			<script src="../client/js/{{jsFile}}"></script>	
+		{{/if}}			
+		
+		
+
+	</body>
+</html>
+

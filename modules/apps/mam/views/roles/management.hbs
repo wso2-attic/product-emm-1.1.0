@@ -1,0 +1,111 @@
+<div class="container">
+
+	<div class="raw-fluid">
+		<ul class="breadcrumb">
+			<li class="active">
+				Roles
+			</li>
+		</ul>
+	</div>
+
+	
+	<div class="raw-fluid">
+		<div class="span2-5">
+
+			<div class="block">
+				<div class="block-header">
+					<div class="block-header-title pull-left">
+						Operations
+					</div>
+
+				</div>
+
+				<div class="block-body container-fluid " >					
+					{{>feature-list-operations}}
+				</div>
+			</div>
+
+		</div>
+
+		<div class="span9">
+
+			
+			<div class="block">
+				<div class="block-header">
+					<div class="block-header-title pull-left">
+						Manage Roles
+					</div>
+
+					<div class="pull-right">
+						<input type="text" class="search-query" placeholder="Search">
+					</div>
+
+				</div>
+
+				<div class="block-body container-fluid raw-fluid">
+
+					{{#data.groups}}
+					
+					{{#compare no_of_users 0 }}
+
+					<div  class="span2 text-center small-block-disabled" >						
+						<div class="raw-fluid">
+							<div class="small-block-name">
+								<b>{{elipsis 10 name}}</b>
+							</div>
+							<div class="info">
+								<div class="raw">
+									{{no_of_users}} Users
+								</div>
+								<div class="raw">
+									{{no_of_devices}} Devices
+								</div>
+
+							</div>
+						</div>
+					</div>
+					
+					{{else}}
+					
+					<div  class="span2 text-center small-block group-item" droppable="true" data-tenant-id="{{../tenantId}}" data-group-id="{{name}}" data-group='{{#stringify this}}{{/stringify}}'>
+						<a href="users?role={{name}}">
+						<div class="raw-fluid">
+							<div class="small-block-name">
+								<b>{{elipsis 10 name}}</b>
+							</div>
+							<div class="info">
+								<div class="raw">
+									{{no_of_users}} Users
+								</div>
+								<div class="raw">
+									{{no_of_devices}} Devices
+								</div>
+
+							</div>
+						</div> </a>
+
+					</div>
+					
+					{{/compare}}
+
+					
+					{{/data.groups}}
+
+				</div>
+			</div>
+			
+			
+
+		</div>
+
+	</div>
+
+	
+
+</div>
+
+
+<!-- Modal Features -->
+<div id="featureModal" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
