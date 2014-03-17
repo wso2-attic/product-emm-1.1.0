@@ -183,7 +183,5 @@ development methodology and is provided by the very same engineers who build the
 
 For additional support information please refer to http://wso2.com/support/
 
-For more information on WSO2 Application Server, visit the WSO2 Oxygen Tank (http://wso2.org)
-
 ---------------------------------------------------------------------------
 (c) Copyright 2013 WSO2 Inc.
