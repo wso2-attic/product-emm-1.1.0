@@ -1,24 +1,22 @@
 WSO2 Enterprise Mobility Manager (EMM)
 ----------------------
 
-${buildNumber}
-
 Welcome to the WSO2 Enterprise Mobility Manager (EMM) 1.0.0 release
 
 Key Features
 ------------
-[1]  Self-service device enrollment and management with end-user MDM console
-[2]  Policy-driven device management for security, data, and device features (Camera, Password Policy)
-[3]  Deploy policies over-the-air 
-[4]  Compliance monitoring for reporting, alerting, and device deprovisioning
-[5]  Role based permissions for device management
-[6]  Provisioning and deprovisioning applications to enrolled devices
-[7]  Blacklisting of applications for Android
-[8]  Supports App management
-[9]  App approval process through a lifecycle
-[10] App approval process through a lifecycle
-[11] Discover mobile apps through an Enterprise App Store
-[12] Self-provisioning of mobile apps to devices
+1.  Self-service device enrollment and management with end-user MDM console
+2.  Policy-driven device management for security, data, and device features (Camera, Password Policy)
+3.  Deploy policies over-the-air 
+4.  Compliance monitoring for reporting, alerting, and device deprovisioning
+5.  Role based permissions for device management
+6.  Provisioning and deprovisioning applications to enrolled devices
+7.  Blacklisting of applications for Android
+8.  Supports App management
+9.  App approval process through a lifecycle
+10. App approval process through a lifecycle
+11. Discover mobile apps through an Enterprise App Store
+12. Self-provisioning of mobile apps to devices
 
 
 Installation & Running
