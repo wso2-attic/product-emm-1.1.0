@@ -46,7 +46,7 @@ https://wso2.org/jira/issues/?filter=11718
 WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
 -----------------------------------------------------
 
-	UES_HOME
+	EMM_HOME
         .
         ├── bin              //executables
         ├── dbscripts        //DBScripts
