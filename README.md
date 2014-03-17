@@ -1,20 +1,24 @@
-WSO2 Enterprise Mobility Manager (EMM) ${product.version}
+WSO2 Enterprise Mobility Manager (EMM)
 ----------------------
 
 ${buildNumber}
 
-Welcome to the WSO2 Enterprise Mobility Manager (EMM) ${product.version} release
+Welcome to the WSO2 Enterprise Mobility Manager (EMM) 1.0.0 release
 
 Key Features
 ------------
-[1] Creating & Sharing Dashboards
-[2] Creating & Sharing Microsites
-[3] Creating & Sharing Gadgets
-[4] Adding external gadgets by URL
-[5] Pre-built graph gadgets
-[6] Store integration to dashboard creation flow
-[7] Enterprise store aspect
-[8] Sample microsites
+[1]  Self-service device enrollment and management with end-user MDM console
+[2]  Policy-driven device management for security, data, and device features (Camera, Password Policy)
+[3]  Deploy policies over-the-air 
+[4]  Compliance monitoring for reporting, alerting, and device deprovisioning
+[5]  Role based permissions for device management
+[6]  Provisioning and deprovisioning applications to enrolled devices
+[7]  Blacklisting of applications for Android
+[8]  Supports App management
+[9]  App approval process through a lifecycle
+[10] App approval process through a lifecycle
+[11] Discover mobile apps through an Enterprise App Store
+[12] Self-provisioning of mobile apps to devices
 
 
 Installation & Running
@@ -22,7 +26,7 @@ Installation & Running
 1. extract the downloaded zip file
 2. Run the wso2server.sh or wso2server.bat file in the bin directory
 3. Once the server starts, point your Web browser to
-   https://localhost:9443/portal/
+   https://localhost:9443/
 
 For more details, see the Installation Guide
 
@@ -34,7 +38,7 @@ System Requirements
 3. Portal app requires full Javascript enablement of the Web browser
 
 For more details see
-http://docs.wso2.org/wiki/display/UES100/Installation+Prerequisites
+https://docs.wso2.org/display/EMM100/Prerequisites
 
 Known Issues
 ------------
@@ -46,7 +50,7 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
 
 	UES_HOME
         .
-        ├── bin   //executables
+        ├── bin              //executables
         ├── dbscripts        //DBScripts
         ├── INSTALL.txt
         ├── lib
@@ -182,40 +186,6 @@ development methodology and is provided by the very same engineers who build the
 For additional support information please refer to http://wso2.com/support/
 
 For more information on WSO2 Application Server, visit the WSO2 Oxygen Tank (http://wso2.org)
-
-Crypto Notice
--------------
-
-This distribution includes cryptographic software.  The country in
-which you currently reside may have restrictions on the import,
-possession, use, and/or re-export to another country, of
-encryption software.  Before using any encryption software, please
-check your country's laws, regulations and policies concerning the
-import, possession, or use, and re-export of encryption software, to
-see if this is permitted.  See <http://www.wassenaar.org/> for more
-information.
-
-The U.S. Government Department of Commerce, Bureau of Industry and
-Security (BIS), has classified this software as Export Commodity
-Control Number (ECCN) 5D002.C.1, which includes information security
-software using or performing cryptographic functions with asymmetric
-algorithms.  The form and manner of this Apache Software Foundation
-distribution makes it eligible for export under the License Exception
-ENC Technology Software Unrestricted (TSU) exception (see the BIS
-Export Administration Regulations, Section 740.13) for both object
-code and source code.
-
-The following provides more details on the included cryptographic
-software:
-
-Apacge Rampart   : http://ws.apache.org/rampart/
-Apache WSS4J     : http://ws.apache.org/wss4j/
-Apache Santuario : http://santuario.apache.org/
-Bouncycastle     : http://www.bouncycastle.org/
-
-
-For further details, see the WSO2 Application Server documentation at
-http://docs.wso2.org/wiki/application-server-documentation
 
 ---------------------------------------------------------------------------
 (c) Copyright 2013 WSO2 Inc.
