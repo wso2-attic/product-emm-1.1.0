@@ -244,9 +244,6 @@ modules/apps/mdm/mdm.iml
 modules/apps/mdm/config/android.json
 modules/apps/mdm/config/config.json
 modules/apps/mdm/client_app/*
-modules/apps/mdm/config/tenants/*
-!modules/apps/mdm/config/tenants/carbon.super/*
-!modules/apps/mdm/config/tenants/default/*
 
 modules/apps/mam/.idea
 modules/apps/mam/mam.iml
