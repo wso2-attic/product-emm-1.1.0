@@ -6,15 +6,11 @@
             sessionId = session.getId(),
             requestURI,
             requestedPage = request.getParameter("requestedPage"),
-            host = process.getProperty('server.host'),
             relayState = '/mdm',
             encodedSAMLAuthRequest = sso.client.getEncodedSAMLAuthRequest(dataConfi.ssoConfiguration.issuer),
             log = new Log();
-    if(host=="localhost"){
-      var postUrl = "https://" + process.getProperty('carbon.local.ip') + ":" + process.getProperty('https.port');
-    }else{
-      var postUrl = "https://" + host;
-    }
+            address = require("/modules/address.js");
+    var postUrl = address.getAddress("https");
     if (!session.get("mdmConsoleUserLogin")) {
         %>
 
@@ -39,4 +35,3 @@
 }());
 
 %>
-

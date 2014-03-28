@@ -7,15 +7,10 @@
             requestURI,
             requestedPage = request.getParameter("requestedPage"),
             relayState = '/publisher',
-            host = process.getProperty('server.host'),
             encodedSAMLAuthRequest = sso.client.getEncodedSAMLAuthRequest(dataConfi.ssoConfiguration.issuer),
-            log = new Log();
-      if(host=="localhost"){
-        var postUrl = "https://" + process.getProperty('carbon.local.ip') + ":" + process.getProperty('https.port');
-      }else{
-        var postUrl = "https://" + host;
-      }
-      log.info(session.get("Loged"));
+            log = new Log(),
+            address = require("/modules/address.js");
+    var postUrl = address.getAddress("https");
     if (!session.get("Loged")) {
         %>
 
