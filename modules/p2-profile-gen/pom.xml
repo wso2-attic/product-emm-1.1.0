@@ -218,6 +218,12 @@
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:${stratos.patch.version.221}
 								</featureArtifactDef>
+
+								<!-- ntask -->
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.ntask.core.feature:4.2.1
+								</featureArtifactDef>
+								
 							</featureArtifacts>
 
 						</configuration>
@@ -371,6 +377,13 @@
 									<id>org.wso2.carbon.stratos.common.feature.group</id>
 									<version>${stratos.patch.version.221}</version>
 								</feature>
+
+								<!-- ntask -->
+								<feature>
+									<id>org.wso2.carbon.ntask.core.feature.group</id>
+									<version>4.2.1</version>
+								</feature>
+
 								<!-- BAM features -->
 <!--
 								<feature>
