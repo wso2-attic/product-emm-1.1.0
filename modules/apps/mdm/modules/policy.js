@@ -723,16 +723,38 @@ var policy = (function () {
             }
             return null;
         },
+
+        /*
+         The function schedules the Compliance Monitoring task to the Task Component
+        */
         monitoring:function(ctx){
             var monitor_interval = require("/config/config.json").monitor_interval;
-            monitor_interval = monitor_interval * 60 * 1000;
 
-            setInterval(
-           	 function(ctx){
-	                device.monitor(ctx);
-	            }
-            ,monitor_interval);
-            //,
+            try {
+                var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
+                    context = PrivilegedCarbonContext.getThreadLocalCarbonContext(),
+                    Class = java.lang.Class;
+                var taskService = context.getOSGiService(Class.forName('org.wso2.carbon.ntask.core.service.TaskService')) ;
+                log.debug("TaskService: " + taskService.toString());
+                taskService.registerTaskType("Device-Monitoring");
+
+                var taskManager = taskService.getTaskManager("Device-Monitoring");
+                log.debug("TaskManager: " + taskManager.toString());
+                var tiggerInfo = new Packages.org.wso2.carbon.ntask.core.TaskInfo.TriggerInfo();
+                tiggerInfo.setCronExpression("0 0/" + monitor_interval + " * * * ?");
+                var taskInfo = new Packages.org.wso2.carbon.ntask.core.TaskInfo();
+                taskInfo.setName("Monitoring");
+                taskInfo.setTaskClass("org.wso2.mobile.task.TaskImplementor");
+                taskInfo.setTriggerInfo(tiggerInfo);
+
+                taskInfo.setProperties(new Packages.java.util.HashMap());   //Need to be removed once bug is fixed in ntask 4.2.2
+
+                taskManager.registerTask(taskInfo);
+                taskManager.scheduleTask(taskInfo.getName());
+
+            } catch (e) {
+                log.error(e);
+            }
         }
     };
     return module;

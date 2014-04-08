@@ -102,6 +102,13 @@ var device = (function () {
             print(iosManifest);
         });
 
+        /*
+         This Api is used by the Task Component each time to start the Device Monitoring
+        */
+        router.get('devices/monitoring', function(ctx) {
+            device.monitor(ctx);
+        });
+
 		router.post('devices/isregistered', function(ctx){
 		    var result = device.isRegistered(ctx);
             log.debug(result);

@@ -892,6 +892,10 @@ var device = (function () {
             }
 
         },
+
+        /*
+         The function sends messages to registered device to get the Device Info, App Info and to check Policy Compliance.
+        */
         monitor:function(ctx){
             log.debug("Monitor");
             db = common.getDatabase();
@@ -912,6 +916,7 @@ var device = (function () {
                 }
             }
         },
+
         changeDeviceState:function(deviceId,state){
         	var tenantID = common.getTenantID();
             db.query(sqlscripts.devices.update1, state, stringify(deviceId));
