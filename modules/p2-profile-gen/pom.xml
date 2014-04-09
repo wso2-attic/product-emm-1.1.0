@@ -115,6 +115,7 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.jaggeryjs.modules:uuid.feature:${uuid.feature.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef> sugarcane:sugarcane.feature:${sugarcane.feature.version} </featureArtifactDef>
 
 								<!-- Server features -->
 								<featureArtifactDef>
@@ -339,6 +340,10 @@
 								<feature>
 									<id>org.jaggeryjs.modules.caramel.feature.group</id>
 									<version>${caramel.feature.version}</version>
+								</feature>
+								<feature> 
+									<id>sugarcane.feature.group</id>
+									<version>${sugarcane.feature.version}</version> 
 								</feature>
 							<!-- Server Features -->
 								<feature>
