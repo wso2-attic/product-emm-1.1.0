@@ -120,6 +120,7 @@
         <store.feature.version>1.0.0-SNAPSHOT</store.feature.version>
         <ues.feature.version>1.0.0-SNAPSHOT</ues.feature.version>
         <claims.feature.version>1.0.0-SNAPSHOT</claims.feature.version>
+        <sugarcane.feature.version>1.0.0-SNAPSHOT</sugarcane.feature.version>
 		<wso2.slf4j.version>1.5.10.wso2v1</wso2.slf4j.version>
 		<sso.hostobjects.version>1.0.1</sso.hostobjects.version>
 		<rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
