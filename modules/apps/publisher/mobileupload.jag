@@ -60,6 +60,8 @@
 		response.sendError(500);
 	}else{
 		meta.path = saveFile(file);
+		//add leading '/' if missing
+ 		meta.path = meta.path.charAt(0) === '/' ? meta.path : '/'+meta.path;
 		meta.path = '/publisher' +meta.path;
 		var ext = getExtension(file);
 		if(ext=="ipa" || ext =="apk"){
