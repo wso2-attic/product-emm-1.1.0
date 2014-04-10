@@ -1,6 +1,6 @@
 WSO2 Enterprise Mobility Manager (EMM)
 ----------------------
-
+Great
 Welcome to the WSO2 Enterprise Mobility Manager (EMM) 1.0.0 release
 
 Key Features
