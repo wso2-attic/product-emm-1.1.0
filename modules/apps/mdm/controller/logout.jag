@@ -12,12 +12,10 @@
                 encodedSAMLLogoutRequest = sso.client.getEncodedSAMLLogoutRequest(user, sso_sessions[session.getId()], config.ssoConfiguration.issuer),
                 relayState = '/mdm',
                 host = process.getProperty('server.host'),
-                log = new Log();
-        if(host=="localhost"){
-          var postUrl = "https://" + process.getProperty('carbon.local.ip') + ":" + process.getProperty('https.port');
-        }else{
-          var postUrl = "https://" + host;
-        }
+                log = new Log(),
+                address = require("/modules/address.js");
+                
+        var postUrl = address.getAddress("https");
         log.info("store session index : " + sso_sessions[session.getId()]);
         %>
         <div>

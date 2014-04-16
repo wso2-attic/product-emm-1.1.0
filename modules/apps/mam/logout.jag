@@ -11,14 +11,11 @@
                 sso_sessions = application.get('sso_sessions'),
                 sessionId = session.getId(),
                 encodedSAMLLogoutRequest = sso.client.getEncodedSAMLLogoutRequest(user, sso_sessions[session.getId()], config.ssoConfiguration.issuer),
-                relayState = '/mam';
-      if(host=="localhost"){
-        var postUrl = "https://" + process.getProperty('carbon.local.ip') + ":" + process.getProperty('https.port');
-      }else{
-        var postUrl = "https://" + host;
-      }
+                relayState = '/mam',
+                address = require("/modules/address.js");
+      
         var log = new Log();
-
+        var postUrl = address.getAddress("https");
         log.info("store session index : " + sso_sessions[session.getId()]);
 
 
