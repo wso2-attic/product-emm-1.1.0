@@ -83,16 +83,6 @@
 								</properties>
 							</adviceFile>
 							<bundles>
-								<bundleDef>slf4j.wso2:slf4j:1.5.10.wso2v1</bundleDef>
-<!--
-								<bundleDef>org.wso2.carbon:org.wso2.carbon.hostobjects.sso</bundleDef>
--->
-								<bundleDef>org.wso2.store:org.wso2.store.sso.common</bundleDef>
-<!--
-								<bundleDef>org.wso2.store:org.wso2.carbon.social:1.0.0</bundleDef>
-								<bundleDef>org.wso2.carbon:org.wso2.carbon.databridge.datasink.cassandra</bundleDef>
--->
-								<bundleDef>org.wso2.store:jaggery-scxml-executors:1.0.0</bundleDef>
 								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.1.0</bundleDef>
 								<bundleDef>org.wso2.emm:emm-task:1.1.0</bundleDef>
 							</bundles>

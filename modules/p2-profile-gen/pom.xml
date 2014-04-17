@@ -181,7 +181,7 @@
 
 								<!-- Store -->
 								<featureArtifactDef>
-									org.wso2.store:org.wso2.store.feature:${project.version}
+									org.wso2.store:org.wso2.store.feature:1.0.0
 								</featureArtifactDef>
 								<!-- EMM -->
 								<featureArtifactDef>
@@ -324,12 +324,12 @@
 									<id>org.wso2.carbon.governance.lifecycle.management.feature.group</id>
 									<version>${carbon.platform.version}</version>
 								</feature>
-								<!-- Store features 
+								<!-- Store features -->
 								<feature>
 									<id>org.wso2.store.feature.group</id>
-									<version>${project.version}</version>
+									<version>1.0.0</version>
 								</feature>
-								-->
+								
 
 								<!-- Identity feature -->
 								<feature>
