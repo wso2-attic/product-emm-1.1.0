@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Export-Package: org.wso2.mobile.gcm;uses:="com.google.android.gcm.serv
+ er";version="1.1.0",com.google.android.gcm.server;uses:="org.json.sim
+ ple.parser,org.json.simple";version="1.1.0"
+Built-By: nira
+Tool: Bnd-1.43.0
+Bundle-Name: emm-gcm
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.7.0_51
+Bundle-Version: 1.1.0
+Bnd-LastModified: 1397757574867
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-Description: This bundle exports packages from gcm jar files
+Import-Package: org.json.simple,org.json.simple.parser
+Bundle-SymbolicName: org.wso2.mobile.gcm.emm-gcm
+
