@@ -34,9 +34,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.wso2.store</groupId>
+			<groupId>org.wso2.emm</groupId>
 			<artifactId>org.wso2.emm.admin.styles</artifactId>
-			<version>${ues.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

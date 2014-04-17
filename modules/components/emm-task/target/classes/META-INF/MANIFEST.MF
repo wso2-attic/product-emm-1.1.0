@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Export-Package: org.wso2.mobile.task.utils;uses:="org.apache.commons.l
+ ogging,org.apache.xmlbeans,javax.xml.parsers,org.w3c.dom";version="1.
+ 0.0",org.wso2.mobile.task.internal;uses:="org.wso2.mobile.task.utils,
+ org.apache.commons.logging,org.wso2.carbon.ntask.core,org.wso2.carbon
+ .ntask.core.service,org.osgi.service.component";version="1.0.0",org.w
+ so2.mobile.task;uses:="org.apache.commons.logging,org.osgi.framework,
+ org.apache.commons.httpclient.methods,org.wso2.carbon.ntask.core,org.
+ apache.xmlbeans,org.apache.commons.httpclient";version="1.0.0"
+Service-Component: OSGI-INF/serviceComponents.xml
+Built-By: nira
+Tool: Bnd-1.43.0
+Bundle-Name: emm-task
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.7.0_51
+Bundle-Version: 1.0.0
+Bnd-LastModified: 1397705461735
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.wso2.mobile.task.Activator
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-Description: WSO2 Enterprise Mobility Manager (EMM)
+Bundle-SymbolicName: org.wso2.emm.emm-task
+Import-Package: javax.xml.parsers;resolution:=optional,org.apache.comm
+ ons.httpclient;resolution:=optional;version="[3.1,4)",org.apache.comm
+ ons.httpclient.methods;resolution:=optional;version="[3.1,4)",org.apa
+ che.commons.logging;resolution:=optional;version="[1.1,2)",org.apache
+ .xmlbeans;resolution:=optional;version="[2.3,3)",org.osgi.framework;v
+ ersion="[1.7,2)",org.osgi.service.component;resolution:=optional;vers
+ ion="[1.2,2)",org.w3c.dom;resolution:=optional,org.wso2.carbon.ntask.
+ core,org.wso2.carbon.ntask.core.service
+

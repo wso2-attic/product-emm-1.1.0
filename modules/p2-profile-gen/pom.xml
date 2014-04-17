@@ -183,10 +183,21 @@
 								<featureArtifactDef>
 									org.wso2.store:org.wso2.store.feature:${project.version}
 								</featureArtifactDef>
-								<!-- MDM -->
+								<!-- EMM -->
 								<featureArtifactDef>
 									org.wso2.emm:org.wso2.emm.feature:${project.version}
 								</featureArtifactDef>
+								
+								<!-- Stratos features    -->
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:${stratos.patch.version.221}
+								</featureArtifactDef>
+
+								<!-- ntask -->
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.ntask.core.feature:4.2.2
+								</featureArtifactDef>
+
 								<!-- BAM Features -->
 <!--
 								<featureArtifactDef>
@@ -213,16 +224,6 @@
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.databridge.streamdefn.cassandra.feature:${carbon.platform.version}
 								</featureArtifactDef> -->
-
-								<!-- Stratos features    -->
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:${stratos.patch.version.221}
-								</featureArtifactDef>
-
-								<!-- ntask -->
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.ntask.core.feature:4.2.1
-								</featureArtifactDef>
 								
 							</featureArtifacts>
 
@@ -323,11 +324,12 @@
 									<id>org.wso2.carbon.governance.lifecycle.management.feature.group</id>
 									<version>${carbon.platform.version}</version>
 								</feature>
-								<!-- Store features -->
+								<!-- Store features 
 								<feature>
 									<id>org.wso2.store.feature.group</id>
 									<version>${project.version}</version>
 								</feature>
+								-->
 
 								<!-- Identity feature -->
 								<feature>
@@ -381,7 +383,12 @@
 								<!-- ntask -->
 								<feature>
 									<id>org.wso2.carbon.ntask.core.feature.group</id>
-									<version>4.2.1</version>
+									<version>4.2.2</version>
+								</feature>
+
+								<feature>
+									<id>org.wso2.emm.feature.group</id>
+									<version>1.0.0</version>
 								</feature>
 
 								<!-- BAM features -->

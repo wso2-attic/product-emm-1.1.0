@@ -1,0 +1,4 @@
+org/wso2/mobile/task/TaskImplementor.class
+org/wso2/mobile/task/internal/TaskServiceComponent.class
+org/wso2/mobile/task/Activator.class
+org/wso2/mobile/task/utils/EMMTaskConfig.class
