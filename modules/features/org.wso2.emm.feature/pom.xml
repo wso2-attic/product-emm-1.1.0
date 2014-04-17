@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>org.wso2.emm</groupId>
 		<artifactId>wso2emm-features</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>org.wso2.emm</groupId>
 			<artifactId>org.wso2.emm.admin.styles</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wso2.store</groupId>
@@ -93,8 +93,8 @@
 								<bundleDef>org.wso2.carbon:org.wso2.carbon.databridge.datasink.cassandra</bundleDef>
 -->
 								<bundleDef>org.wso2.store:jaggery-scxml-executors:1.0.0</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.0.0</bundleDef>
-								<bundleDef>org.wso2.emm:emm-task:1.0.0</bundleDef>
+								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.1.0</bundleDef>
+								<bundleDef>org.wso2.emm:emm-task:1.1.0</bundleDef>
 							</bundles>
 							<importBundles>
 							</importBundles>

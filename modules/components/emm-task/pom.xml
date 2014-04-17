@@ -5,14 +5,14 @@
     <parent>
         <artifactId>wso2emm-parent</artifactId>
         <groupId>org.wso2.emm</groupId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>emm-task</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>emm-task</name>
     <url>http://maven.apache.org</url>
     <properties>
