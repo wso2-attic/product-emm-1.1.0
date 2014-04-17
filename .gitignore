@@ -262,6 +262,6 @@ modules/apps/store/store.iml
 modules/apps/store/.project
 
 modules/components/emm-gcm/target
-
+modules/components/emm-task/target
 
 
