@@ -181,7 +181,7 @@
 
 								<!-- Store -->
 								<featureArtifactDef>
-									org.wso2.store:org.wso2.store.feature:${project.version}
+									org.wso2.store:org.wso2.store.feature:${es.version}
 								</featureArtifactDef>
 								<!-- MDM -->
 								<featureArtifactDef>
@@ -320,7 +320,7 @@
 								<!-- Store features -->
 								<feature>
 									<id>org.wso2.store.feature.group</id>
-									<version>${project.version}</version>
+									<version>${es.version}</version>
 								</feature>
 
 								<!-- Identity feature -->

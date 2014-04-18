@@ -89,7 +89,7 @@
 -->
 								<bundleDef>org.wso2.store:org.wso2.store.sso.common</bundleDef>
 								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.0.0</bundleDef>
-<!--
+<!--	
 								<bundleDef>org.wso2.store:org.wso2.carbon.social:1.0.0</bundleDef>
 								<bundleDef>org.wso2.carbon:org.wso2.carbon.databridge.datasink.cassandra</bundleDef>
 -->
