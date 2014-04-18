@@ -65,6 +65,9 @@
 
 	<modules>
 		<module>modules/components/mdm-ui</module>
+		<module>modules/components/emm-task</module>
+		<module>modules/components/emm-gcm</module>
+		<module>modules/components/manifestUtils</module>
 		<module>modules/features/org.wso2.emm.feature</module>
 		<module>modules/p2-profile-gen</module>
 		<module>modules/distribution</module>
