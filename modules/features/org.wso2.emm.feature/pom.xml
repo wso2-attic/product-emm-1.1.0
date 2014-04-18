@@ -86,6 +86,7 @@
 								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.1.0</bundleDef>
 								<bundleDef>org.wso2.emm:emm-task:1.1.0</bundleDef>
 								<bundleDef>org.wso2.emm:emm-gcm:1.1.0</bundleDef>
+								<bundleDef>org.wso2.emm:manifestUtils:1.1.0</bundleDef>
 							</bundles>
 							<importBundles>
 							</importBundles>

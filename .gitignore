@@ -263,5 +263,4 @@ modules/apps/store/.project
 
 modules/components/emm-gcm/target
 modules/components/emm-task/target
-
-
+modules/components/manifestUtils/target
