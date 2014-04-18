@@ -1,0 +1,11 @@
+<module name="store" xmlns="http://wso2.org/projects/jaggery/module.xml">
+   <script>
+       <name>[store]/server.js</name>
+       <path>scripts/server.js</path>
+   </script>
+    <script>
+       <name>[store]/user.js</name>
+       <path>scripts/user.js</path>
+   </script>
+</module>
+
