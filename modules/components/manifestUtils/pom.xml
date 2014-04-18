@@ -67,7 +67,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
-                        <Bundle-Version>1.0.0</Bundle-Version>
+                        <Bundle-Version>1.1.0</Bundle-Version>
                         <Import-Package>
                             *
                         </Import-Package>
