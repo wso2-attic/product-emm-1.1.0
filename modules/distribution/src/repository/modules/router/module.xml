@@ -1,0 +1,10 @@
+<module name="router" xmlns="http://wso2.org/projects/jaggery/module.xml">
+    <script>
+        <name>route-map.js</name>
+        <path>scripts/util/route-map.js</path>
+    </script>
+    <script>
+        <name>router.js</name>
+        <path>scripts/core/router.js</path>
+    </script>
+</module>

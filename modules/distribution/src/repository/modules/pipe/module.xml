@@ -1,0 +1,6 @@
+<module name="pipe" xmlns="http://wso2.org/projects/jaggery/module.xml">
+    <script>
+        <name>pipe</name>
+        <path>scripts/core/pipes.js</path>
+    </script>
+</module>
