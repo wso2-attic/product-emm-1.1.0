@@ -20,8 +20,8 @@ for (var i = features.length - 1; i >= 0; i--) {
 	var file = new File("features/"+feature+"/routers");
 	var router_list = file.listFiles();
 	for (var i = router_list.length - 1; i >= 0; i--) {
-		var api_router = require("features/"+feature+"/routers/"+router_list[i].getName());
-		api_router.
+		var routefile = require("features/"+feature+"/routers/"+router_list[i].getName());
+		routefile.api_router(router);
 	};
 };
 
