@@ -1,0 +1,31 @@
+<module name="pipe-common" xmlns="http://wso2.org/projects/jaggery/module.xml">
+
+    <script>
+        <name>body-parser.js</name>
+        <path>scripts/body-parser/body-parser.js</path>
+    </script>
+    <script>
+        <name>static-content</name>
+        <path>scripts/static-content/static-content.js</path>
+    </script>
+    <script>
+        <name>query-parser.js</name>
+        <path>scripts/query-parser/query-parser.js</path>
+    </script>
+    <script>
+        <name>tenant-parser.js</name>
+        <path>scripts/tenant-parser/tenant-parser.js</path>
+    </script>
+    <script>
+        <name>logger.js</name>
+        <path>scripts/logger/logger.js</path>
+    </script>
+    <script>
+       <name>basic-auth.js</name>
+       <path>scripts/basic-auth/basic-auth.js</path>
+    </script>
+    <script>
+        <name>err-handler.js</name>
+        <path>scripts/err-handler/err-handler.js</path>
+    </script>
+</module>
