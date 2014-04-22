@@ -7,11 +7,12 @@ var common=require('pipe-common');
 
 // Pipe plugins
 pipe.plug(common.queryParser());
-pipe.plug(common.bodyParser());
+pipe.plug(common.bodyParser);
 pipe.plug(router);
+pipe.plug(common.errHandler);
 
 router = router.app;
-
+var log = new Log();
 //Change this logic once the extension model is finalized
 var packages = require('package.json');
 var features = packages.features;
@@ -19,8 +20,9 @@ for (var i = features.length - 1; i >= 0; i--) {
 	var feature = features[i];
 	var file = new File("features/"+feature+"/routers");
 	var router_list = file.listFiles();
-	for (var i = router_list.length - 1; i >= 0; i--) {
-		var routefile = require("features/"+feature+"/routers/"+router_list[i].getName());
+	
+	for (var j = router_list.length - 1; j >= 0; j--) {
+		var routefile = require("features/"+feature+"/routers/"+router_list[j].getName());
 		routefile.api_router(router);
 	};
 };
