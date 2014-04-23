@@ -22,15 +22,16 @@ var Device = function() {
 		Performs operation 
         Accept feature code and options
 	*/
-    this.operate = function(feature, options) {
+    this.operate = function(operation, options) {
         // get the valid operation object
-        var operation = device_module.features(feature);
+        var operation = device_module.features(operation);
         // check if operation is valid for device
         if(operation.valid(this)){
-            var notification = new Notification(this, operation);
             try{
-                device_module.wakeup(notification);
                 var message = new Message(this, operation, options);
+                message.queue();
+                var notification = new Notification(this, operation);
+                device_module.notify(notification);
             }catch(e){
                 // Handle if wakeup manager has issues
                 // for example ports are not open
@@ -46,6 +47,11 @@ var Device = function() {
 		Returns info about object in an options object
 	*/
     this.info = function() {}
+
+    this.enforce = function(){
+
+    }
+
 };
 // operation object will wrap functionlity for features for platform
 var Operation = function(){

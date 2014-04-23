@@ -18,19 +18,31 @@ describe('device module', function() {
     it('Perform operations to a single Device', function() {
         var operation = "LOCK"; // This comes from the UI
         var id = "20348"; // This comes from UI 
-        var device = device_module.getDevice(id);
         try {
+            var device = device_module.getDevice(id);
             device.operate(operation);
         } catch (e) {
+            //Handle situation where device is invalid
             //Handle situtation where operation is invalid
             //Handle situation where operation is not permitted to user
         }
     });
     it("Add policy", function(){
-        var policy = policy_module.createPolicy("dulithaz@gmail.com", "-1234");
+        try{
+            var policy = policy_module.createPolicy("dulithaz@gmail.com", "-1234", options);    
+        }catch(e){
+
+        }
         policy.save();
     });
     it("Associate policy to device", function(){
+        var policy = policy_module.getPolicy(policyid);
+        policy.applyUsers(added_users, removed_users);
+        policy.applyPlatforms(platforms);
+        policy.applyOwnership(device_module.BYOD);
+
+        var devices = policy.getApplicableDevices();
+        devices.enforce();
 
     });
     it("Device registration Android", function() {
