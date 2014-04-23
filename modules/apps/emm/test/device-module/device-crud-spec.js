@@ -37,12 +37,19 @@ describe('device module', function() {
     });
     it("Associate policy to device", function(){
         var policy = policy_module.getPolicy(policyid);
+
+        // internally store the added and removed users
         policy.applyUsers(added_users, removed_users);
-        policy.applyPlatforms(platforms);
+        policy.applyPlatforms(added_platforms, removed_platforms);
         policy.applyOwnership(device_module.BYOD);
 
-        var devices = policy.getApplicableDevices();
-        devices.enforce();
+        // apply the policy in a manner where it should be 
+        // enforced only
+        // revoked and enforced 
+        // revoked only 
+        policy.apply(function(device){
+            device.notify();
+        });
 
     });
     it("Device registration Android", function() {
