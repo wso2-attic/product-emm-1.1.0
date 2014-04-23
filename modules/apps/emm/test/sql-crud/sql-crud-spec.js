@@ -78,8 +78,7 @@ describe('sql-crud operation', function () {
         
         device_1.save();
         var results = this.DeviceModel.findOne({"id":"30"});
-        log.info(Packages.org.apache.commons.io.IOUtils.toString(results[0].detail.getStream(), "UTF-8"));
-
+        log.info(results);
         expect(results.length).toBe(1);
     });
 });

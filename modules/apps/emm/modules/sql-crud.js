@@ -14,8 +14,12 @@ var sqlCRUD = function (schema, options) {
             var obj = new Model();
             var fields = Object.getOwnPropertyNames(props);
             for (var j = fields.length - 1; j >= 0; j--) {
+
                 var field = fields[j];
                 obj[field] = result[field.toUpperCase()];
+                if(props[field].type=="string"){
+                    obj[field] = obj[field].toString();
+                }
             };
             list.push(obj);
         };
