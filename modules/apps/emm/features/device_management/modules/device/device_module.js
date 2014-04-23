@@ -18,20 +18,28 @@ device_module.DEVICE_REGISTRATION_PENDING = "2";
 		InvalidOperation
 */
 device_module.features = function(operation) {}
+
+device_module.wakup = function(notification) {
+	// wire the wakeup manager to perform actions
+}
+
 /*
 	Return a set of devices matching the query
 	Exceptions:-
 */
-device_module.getDevices = function(query) {};
+device_module.getDevices = function(query) {
+
+};
 /*
 	Return a device matching the id
  	Exceptions:-
  		DeviceNotFound
 */
-device_module.getDevice = function(id) {};
+device_module.getDevice = function(id) {
+
+};
 /* 
 	Register the device to EMM
-
 	create a device object based on the platform type
 
 */

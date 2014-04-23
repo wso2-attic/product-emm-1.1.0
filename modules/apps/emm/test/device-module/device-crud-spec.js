@@ -26,6 +26,13 @@ describe('device module', function() {
             //Handle situation where operation is not permitted to user
         }
     });
+    it("Add policy", function(){
+        var policy = policy_module.createPolicy("dulithaz@gmail.com", "-1234");
+        policy.save();
+    });
+    it("Associate policy to device", function(){
+
+    });
     it("Device registration Android", function() {
         try {
             //Pass all the information necessary for registration
