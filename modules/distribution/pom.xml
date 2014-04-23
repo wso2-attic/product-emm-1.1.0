@@ -28,11 +28,6 @@
 			<artifactId>el-api</artifactId>
 			<version>2.2</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-io.wso2</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${orbit.version.commons.io}</version>
-		</dependency>
 	</dependencies>
 
 	<build>
