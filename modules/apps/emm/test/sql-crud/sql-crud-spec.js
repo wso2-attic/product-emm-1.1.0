@@ -78,7 +78,6 @@ describe('sql-crud operation', function () {
         
         device_1.save();
         var results = this.DeviceModel.findOne({"id":"30"});
-        log.info(results);
         expect(results.length).toBe(1);
     });
 });
