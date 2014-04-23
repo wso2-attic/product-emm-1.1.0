@@ -15,7 +15,15 @@ policy_module.getPolicies = function(){
 	
 }
 
+policy_module.getPolicyOperation = function(){
+
+}
+
 var Policy = function(user, rules){
+	// apply the policy for devices
+	this.apply = function(callback){
+		
+	}
 	this.save = function(){
 		//save the policy to the db
 	}

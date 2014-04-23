@@ -1,11 +1,11 @@
 describe('device module', function() {
-    var log = new Log('device_module');
-    var device_module = require('/features/device_management/modules/device/device_module.js').device_module;
+    var log = new Log('DeviceModule');
+    var DeviceModule = require('/features/device_management/modules/device/DeviceModule.js').DeviceModule;
     beforeEach(function() {});
     afterEach(function() {});
     it('Perform operations to a set of Devices', function() {
         var operation = "LOCK"; // This comes from the UI
-        var devices = device_module.getDevices({
+        var devices = DeviceModule.getDevices({
             platform: 'Android'
         });
         try {
@@ -19,7 +19,7 @@ describe('device module', function() {
         var operation = "LOCK"; // This comes from the UI
         var id = "20348"; // This comes from UI 
         try {
-            var device = device_module.getDevice(id);
+            var device = DeviceModule.getDevice(id);
             device.operate(operation);
         } catch (e) {
             //Handle situation where device is invalid
@@ -41,21 +41,27 @@ describe('device module', function() {
         // internally store the added and removed users
         policy.applyUsers(added_users, removed_users);
         policy.applyPlatforms(added_platforms, removed_platforms);
-        policy.applyOwnership(device_module.BYOD);
+        policy.applyOwnership(DeviceModule.BYOD);
 
         // apply the policy in a manner where it should be 
         // enforced only
         // revoked and enforced 
         // revoked only 
         policy.apply(function(device){
-            device.notify();
+            //get the policy operation from policy_module
+            var operation = policy_module.getPolicyOperation();
+            //check if policy is valid for this device type
+            if(operation.valid(device)){
+                //notify the device of the operation
+                device.notify(operation);
+            }
         });
 
     });
     it("Device registration Android", function() {
         try {
             //Pass all the information necessary for registration
-            var device = device_module.registerDevice("dulithaz@gmail.com", "-1234", {
+            var device = DeviceModule.registerDevice("dulithaz@gmail.com", "-1234", {
                 platform: "1",
                 udid: "sdkfjo2342",
                 ownership: "1",

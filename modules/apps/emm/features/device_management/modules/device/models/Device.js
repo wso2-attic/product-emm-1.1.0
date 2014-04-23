@@ -13,7 +13,7 @@ var Device = function() {
         device.os_version = this.options.os_version;
         device.ownership = this.options.ownership;
         device.mac_address = this.options.mac_address;
-        device.status = this.device_module.DEVICE_ACTIVE;
+        device.status = this.DeviceModule.DEVICE_ACTIVE;
         device.created_date = "2012-03-02 08:07:23.234";
         device.updated_date = "2012-03-02 08:07:23.234";
         // device.save();
@@ -24,14 +24,13 @@ var Device = function() {
 	*/
     this.operate = function(operation, options) {
         // get the valid operation object
-        var operation = device_module.features(operation);
+        var operation = DeviceModule.features(operation);
         // check if operation is valid for device
         if(operation.valid(this)){
             try{
                 var message = new Message(this, operation, options);
                 message.queue();
-                var notification = new Notification(this, operation);
-                device_module.notify(notification);
+                this.notify(operation);
             }catch(e){
                 // Handle if wakeup manager has issues
                 // for example ports are not open
@@ -43,6 +42,10 @@ var Device = function() {
         // create the notification object
         // create the message object
     }
+    this.notify = function(operation){
+        var notification = new Notification(this, operation);
+        DeviceModule.notify(notification);
+    }
     /* 
 		Returns info about object in an options object
 	*/
@@ -51,44 +54,4 @@ var Device = function() {
     this.enforce = function(){
 
     }
-
 };
-// operation object will wrap functionlity for features for platform
-var Operation = function(){
-    // Check with platform features table to see if device is eligible for operation
-    this.valid = function(device){
-
-    }
-}
-var Message = function(device, operation, options){
-
-}
-// notification is the object that gets pased to wakeup manager
-var Notification = function(device, operation, options){
-    this.device = device;
-    this.operation = operation;
-    this.options = options;
-}
-
-/*
-	Device Module will satisfy the wakeup manager dependency  
-*/
-var AndroidDevice = function(user, options, device_module) {
-	this.platform = device_module.ANDROID;
-	this.user = user;
-	this.options = options;
-	this.device_module = device_module;
-    this.register = function() {
-        AndroidDevice.prototype.register.call(this);
-    }
-}
-AndroidDevice.prototype = new Device();
-var IOSDevice = function(device_module) {
-	var generate = function(){
-		
-	}
-    var registerPendingDevice = function() {
-        //iOS specific callback used for second step of iOS registration
-    }
-}
-IOSDevice.prototype = new Device();
