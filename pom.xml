@@ -91,6 +91,9 @@
 		<stratos.version>2.2.0</stratos.version>
 		<stratos.patch.version.221>2.2.1</stratos.patch.version.221>
 
+		
+		<orbit.version.commons.io>2.0.0.wso2v2</orbit.version.commons.io>
+
 		<!-- maven plugin versions -->
 		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 		<maven-compiler-plugin.version>2.3.1</maven-compiler-plugin.version>
