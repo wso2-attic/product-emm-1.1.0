@@ -54,4 +54,22 @@ var Device = function() {
     this.enforce = function(){
 
     }
+    //pass the policy object
+    this.updatePolicy = function(policy){
+        //return a json array
+        var filteredPolicy = policy.getPayload(this);
+        //write to the device_policy table
+        // here we figure out if the policy can be applied or not 
+        // we also write the filteredPolicy if decided
+        var operation = policy_module.getPolicyOperation();
+        for (var i = filteredPolicy.length - 1; i >= 0; i--) {
+            var rule = filteredPolicy[i];
+            var message = new Message(this, operation, rule);
+            message.queue();
+        };
+        // create end of message
+        var eod_message = new EODMessage(this);
+        eod_message.queue();
+        this.notify(operation);
+    }
 };

@@ -20,9 +20,15 @@ policy_module.getPolicyOperation = function(){
 }
 
 var Policy = function(user, rules){
-	// apply the policy for devices
-	this.apply = function(callback){
-		
+	// update the policy for devices
+	this.update = function(){
+		//find the devices based on the policy mapping tables
+		var devices = Device_Module.getDevices();	
+		devices.updatePolicy(this);
+	}
+	// return a list of rules (in json) that is filtered per the device
+	this.getPayload = function(device){
+
 	}
 	this.save = function(){
 		//save the policy to the db

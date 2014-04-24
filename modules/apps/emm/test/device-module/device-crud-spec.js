@@ -39,25 +39,24 @@ describe('device module', function() {
         var policy = policy_module.getPolicy(policyid);
 
         // internally store the added and removed users
-        policy.applyUsers(added_users, removed_users);
-        policy.applyPlatforms(added_platforms, removed_platforms);
-        policy.applyOwnership(DeviceModule.BYOD);
+        policy.addUsers(added_users, removed_users);
+        policy.addPlatforms(added_platforms, removed_platforms);
+        policy.addOwnership(DeviceModule.BYOD);
 
         // apply the policy in a manner where it should be 
         // enforced only
         // revoked and enforced 
         // revoked only 
-        policy.apply(function(device){
-            //get the policy operation from policy_module
-            var operation = policy_module.getPolicyOperation();
-            //check if policy is valid for this device type
-            if(operation.valid(device)){
-                //notify the device of the operation
-                device.notify(operation);
-            }
-        });
-
+        policy.update();
     });
+
+    /*
+        message status 
+            pending
+            recieving
+            intermediate
+            deleted 
+    */
     it("Device registration Android", function() {
         try {
             //Pass all the information necessary for registration
