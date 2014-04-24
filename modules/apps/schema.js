@@ -165,15 +165,15 @@ PolicyMappingPlatformSchema.plugin(sql_crud, {
     db: db
 });
 
-var PolicyMappingTypeSchema = new entity.Schema("PolicyMappingType", {
+var PolicyMappingOwnershipSchema = new entity.Schema("PolicyMappingOwnership", {
     policy_id: Number,
     tenant_id: Number,
-    type: String
+    ownership: String
 }, {
-    tablename: "policy_mapping_type"
+    tablename: "policy_mapping_ownership"
 });
 
-PolicyMappingTypeSchema.plugin(sql_crud, {
+PolicyMappingOwnershipSchema.plugin(sql_crud, {
     db: db
 });
 
