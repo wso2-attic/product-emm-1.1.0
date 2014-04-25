@@ -11,7 +11,32 @@ DeviceModule.WINDOWS = "3";
 DeviceModule.RPIE = "4";
 DeviceModule.DEVICE_ACTIVE = "1";
 DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
-
+/*
+    Plural Device object 
+    Takes in a devices array
+*/
+var Devices = function(devices){
+    this.updatePolicy = function(policy){
+        devices.forEach(function(device){
+            device.updatePolicy(policy);
+        });
+    };
+    this.operate = function(operation, options){
+        devices.forEach(function(device){
+            device.operate(operation, options);
+        });
+    };
+    this.notify = function(operation){
+        devices.forEach(function(device){
+            device.notify(operation);
+        });
+    };
+    this.enforce = function(){
+        devices.forEach(function(device){
+            device.enforce();
+        });
+    };
+}
 
 /*
 	Returns the operation object if valid
