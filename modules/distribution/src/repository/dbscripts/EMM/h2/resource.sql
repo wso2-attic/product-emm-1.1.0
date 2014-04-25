@@ -22,8 +22,8 @@ CREATE TABLE device_policy(ID INT PRIMARY KEY auto_increment, TENANT_ID INT, DEV
 DROP TABLE IF EXISTS policy_mapping_user;
 CREATE TABLE policy_mapping_user(POLICY_ID INT, TENANT_ID INT, USER_ID VARCHAR(128));
 
-DROP TABLE IF EXISTS policy_mapping_type;
-CREATE TABLE policy_mapping_type(POLICY_ID INT, TENANT_ID INT, TYPE VARCHAR(8));
+DROP TABLE IF EXISTS policy_mapping_ownership;
+CREATE TABLE policy_mapping_ownership(POLICY_ID INT, TENANT_ID INT, OWNERSHIP VARCHAR(8));
 
 DROP TABLE IF EXISTS policy_mapping_platform;
 CREATE TABLE policy_mapping_platform(POLICY_ID INT, TENANT_ID INT, PLATFORM_ID INT);
@@ -44,4 +44,4 @@ INSERT INTO platform_operations VALUES (1, 1, 1, '4.0.3', '', 'GCM', ''), (2, 2,
 
 INSERT INTO platforms VALUES (1, 'ANDROID', 'PHONE', 'Android phone'), (2, 'IOS', 'PHONE', 'iPhone'), (3, 'IOS', 'TABLET', 'iPad'), (4, 'IOS', 'IPOD', 'iPod');
 
-INSERT INTO policy_category VALUES (1, 0, 'USERS', 1), (2, 0, 'PLATFORMS', 2), (3, 0, 'TYPE', 3);
+INSERT INTO policy_category VALUES (1, 0, 'USERS', 1), (2, 0, 'PLATFORMS', 2), (3, 0, 'OWNERSHIP', 3);
