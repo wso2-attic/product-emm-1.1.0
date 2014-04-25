@@ -1,6 +1,7 @@
 describe('device module', function() {
     var log = new Log('DeviceModule');
     var DeviceModule = require('/features/device_management/modules/device/DeviceModule.js').DeviceModule;
+    var PolicyModule = require('/features/device_management/modules/policy/PolicyModule.js').PolicyModule;
     beforeEach(function() {});
     afterEach(function() {});
     it('Perform operations to a set of Devices', function() {
@@ -29,14 +30,14 @@ describe('device module', function() {
     });
     it("Add policy", function(){
         try{
-            var policy = policy_module.createPolicy("dulithaz@gmail.com", "-1234", options);    
+            var policy = PolicyModule.createPolicy("dulithaz@gmail.com", "-1234", options);    
         }catch(e){
 
         }
         policy.save();
     });
     it("Associate policy to device", function(){
-        var policy = policy_module.getPolicy(policyid);
+        var policy = PolicyModule.getPolicy(policyid);
 
         // internally store the added and removed users
         policy.addUsers(added_users, removed_users);
