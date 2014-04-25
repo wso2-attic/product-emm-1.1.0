@@ -24,6 +24,7 @@ var Policy = function(user, rules){
 	this.update = function(){
 		//find the devices based on the policy mapping tables
 		var devices = Device_Module.getDevices();	
+		// update the policy mapping tables
 		devices.updatePolicy(this);
 	}
 	// return a list of rules (in json) that is filtered per the device
@@ -37,16 +38,16 @@ var Policy = function(user, rules){
 		// remove the policy from db if no 
 	}
 	// Applying a policy to different types 
-	this.applyUsers = function(){
+	this.addUsers = function(){
 
 	}
-	this.applyPlatforms = function(){
+	this.addPlatforms = function(){
 
 	}
-	this.applyOwnership = function(){
+	this.addOwnership = function(){
 
 	}
-	this.applyRoles = function(){
+	this.addRoles = function(){
 
 	}
 	// Below methods don't gurrente that it's the applied policy for a user
