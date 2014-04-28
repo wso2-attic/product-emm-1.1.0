@@ -36,6 +36,21 @@
      <div class="container">
      <br />
 
+     <%
+     var userAgent= request.getHeader("User-Agent");
+     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+     %>
+        <form id="certificate" method="get" action="ca">
+            <p align = "center">The Root Certificate needs to be downloaded to your device before you can download to the EMM Agent.<br/><br />
+                <button class="btn btn-lg btn-primary btn-block">Download the Root Certificate</button>
+            </p>
+            <br /><br />
+        </form>
+
+     <%
+     }
+     %>
+
      <p class="text-center">If you are not registered with WSO2 EMM,  please download and install the Agent.</p>
 
   <a href=<% var deviceModule = require('/modules/device.js').device;  var device = new deviceModule();  print(device.getAppForDevice());%> class="btn btn-lg btn-primary btn-block">Download Agent</a>
