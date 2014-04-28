@@ -112,7 +112,6 @@ var device = (function () {
          This Api is used by the Task Component each time to start the Device Monitoring
         */
         router.get('devices/monitor', function(ctx) {
-            log.info("Hello");
             device.monitor(ctx);
         });
 

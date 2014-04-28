@@ -19,11 +19,14 @@ var DriverModule = {};
 var log = new Log();
 var configFile = require('/config/config.json');
 
+/*
+ * Get DB instance
+ */
 DriverModule.getConnection = function(){
     try {
         var db = application.get("db");
         if (!db) {
-            db = new Database("JAGH2")
+            db = new Database("EMM_DB_H2")
             application.put("db", db);
         }
         return db;
@@ -38,7 +41,18 @@ DriverModule.getConnection = function(){
  * For H2 database, check if the tables exists else create it.
  */
 DriverModule.createDB = function() {
-    var process = require("process");
     var db = DriverModule.getConnection();
-    if (configFile.H2_DB) {    }
+    if (configFile.H2_DB) {
+        try {
+            var isDBExist = db.query('SELECT * FROM devices');
+        } catch (e) {
+            var carbon = require('carbon');
+            var h2ScriptPath = carbon.server.home + '/dbscripts/EMM/h2/resource.sql';
+            var h2ScriptFile = new File(h2ScriptPath);
+            h2ScriptFile.open("r");
+            var h2Script = h2ScriptFile.readAll();
+            h2ScriptFile.close();
+            db.query(h2Script);
+        }
+    }
 }
