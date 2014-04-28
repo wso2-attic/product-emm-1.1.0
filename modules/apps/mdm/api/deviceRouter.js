@@ -102,38 +102,17 @@ var device = (function () {
             print(iosManifest);
         });
 
-        router.get('devices/niranjan', function(ctx) {
-            try {
-                var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
-                    context = PrivilegedCarbonContext.getThreadLocalCarbonContext(),
-                    Class = java.lang.Class;
-                var taskService = context.getOSGiService(Class.forName('org.wso2.carbon.ntask.core.service.TaskService')) ;
-                log.info("TaskService: " + taskService.toString());
-                taskService.registerTaskType("Device-Monitoring");
-
-                var taskManager = taskService.getTaskManager("Device-Monitoring");
-                log.info("TaskManager: " + taskManager.toString());
-                var tiggerInfo = new Packages.org.wso2.carbon.ntask.core.TaskInfo.TriggerInfo();
-                tiggerInfo.setCronExpression("0 0/1 * * * ?");
-                var taskInfo = new Packages.org.wso2.carbon.ntask.core.TaskInfo();
-                taskInfo.setName("Monitoring");
-                taskInfo.setTaskClass("org.wso2.mobile.task.TaskImplementor");
-                taskInfo.setTriggerInfo(tiggerInfo);
-
-                taskInfo.setProperties(new Packages.java.util.HashMap());   //Need to be removed once bug is fixed in ntask 4.2.2
-
-                taskManager.registerTask(taskInfo);
-                taskManager.rescheduleTask(taskInfo.getName());
-
-            } catch (e) {
-                log.error(e);
-            }
-        });
+        router.get('niranjan/nira', function(ctx) {
+            var process = require("process");
+            log.info(">>>>>>>>>> ");
+            log.info(stringify(process.getProperties()));
+        })
 
         /*
          This Api is used by the Task Component each time to start the Device Monitoring
         */
         router.get('devices/monitor', function(ctx) {
+            log.info("Hello");
             device.monitor(ctx);
         });
 

@@ -2,4 +2,4 @@
 Initilization logic
 **/
 
-var schema = require('schema.js');
+var schema = require('/modules/schema.js');

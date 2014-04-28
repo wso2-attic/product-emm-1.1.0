@@ -16,15 +16,8 @@
 
 var entity = require('entity');
 var sql_crud = require('/modules/sql-crud.js').sqlCRUD;
-try {
-    var db = application.get("db");
-    if (!db) {
-        db = new Database("JAGH2")
-        application.put("db", db);
-    }
-} catch (e) {
-    log.error(e);
-}
+
+var db = require('/modules/driver_module.js').DriverModule.getConnection();
 
 var DeviceSchema = new entity.Schema("Device", {
     id: Number,
@@ -100,7 +93,7 @@ var PolicySchema = new entity.Schema("Policy", {
     payload: String,
     status: String,
     created_date: Date,
-    modified_date: date
+    modified_date: Date
 }, {
     tablename: "policies"
 });
@@ -132,7 +125,7 @@ var DevicePolicySchema = new entity.Schema("DevicePolicy", {
     flitered_payload: String,
     result_payload: String,
     status: String,
-    datetime: DATE
+    datetime: Date
 }, {
     tablename: "device_policy"
 });
