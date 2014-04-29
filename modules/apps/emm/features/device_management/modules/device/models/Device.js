@@ -72,4 +72,9 @@ var Device = function() {
         eod_message.queue();
         this.notify(operation);
     }
+    // returns the payload that needs to be sent to the device
+    this.getPendingPayload = function(){
+        // platform dependant method
+    }
+    this.consumeResult = function(){};
 };

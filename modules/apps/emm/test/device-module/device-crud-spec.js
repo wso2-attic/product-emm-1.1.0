@@ -71,4 +71,21 @@ describe('device module', function() {
             log.error(e);
         }
     });
+    it("Device contacting the Server", function(){
+        var deviceid, notifier, messageid, result;
+        var device = DeviceModule.getDevice(deviceid);
+        // we are calling it payload since it might combine messages
+        try{
+            //consume the resultset if a resultset is available
+            device.consumeResult(result, notifier);
+            //obtain pending payload
+            var payload = device.getPendingPayload();
+            print(payload);
+        }catch(e){
+            // handle end of message and send 401 code
+        }
+    });
+    it("Server performing monitoring of the Devices", function(){
+
+    });
 });
