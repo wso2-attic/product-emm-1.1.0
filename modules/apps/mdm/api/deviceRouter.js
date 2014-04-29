@@ -102,17 +102,10 @@ var device = (function () {
             print(iosManifest);
         });
 
-        router.get('niranjan/nira', function(ctx) {
-            var process = require("process");
-            log.info(">>>>>>>>>> ");
-            log.info(stringify(process.getProperties()));
-        })
-
         /*
          This Api is used by the Task Component each time to start the Device Monitoring
         */
         router.get('devices/monitor', function(ctx) {
-            log.info("Hello");
             device.monitor(ctx);
         });
 

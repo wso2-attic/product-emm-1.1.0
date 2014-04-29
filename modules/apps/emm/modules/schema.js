@@ -17,7 +17,10 @@
 var entity = require('entity');
 var sql_crud = require('/modules/sql-crud.js').sqlCRUD;
 
-var db = require('/modules/driver_module.js').DriverModule.getConnection();
+var DriverModule = require('/modules/driver_module.js').DriverModule;
+var db = DriverModule.getConnection();
+DriverModule.createDB();
+
 
 var DeviceSchema = new entity.Schema("Device", {
     id: Number,
@@ -61,7 +64,7 @@ var PlatformOperationScheme = new entity.Schema("PlatformOperation", {
     operation_id: Number,
     min_os: String,
     max_os: String,
-    cloud: String,
+    NOTIFIER: String,
     ui_template: String
 }, {
     tablename: "platform_operations"
@@ -177,6 +180,7 @@ var DeviceInfoSchema = new entity.Schema("device_info", {
     user_id: String,
     operation_code: String,
     eom: Number,
+    NOTIFIER: String,
     send_message: String,
     received_message: String,
     status: String,
@@ -190,11 +194,26 @@ DeviceInfoSchema.plugin(sql_crud, {
     db: db
 });
 
+var DeviceAppSchema = new entity.Schema("device_app", {
+    device_info_id: Number,
+    device_id: Number,
+    tenant_id: Number,
+    package_name: String,
+    status: String
+}, {
+    tablename: "device_app"
+});
+
+DeviceAppSchema.plugin(sql_crud, {
+    db: db
+});
+
 var NotificationSchema = new entity.Schema("notification", {
     id: Number,
     tenant_id: Number,
     device_id: Number,
     notify_count: Number,
+    NOTIFIER: String,
     status: String,
     sent_date: Date,
     received_date: Date

@@ -33,6 +33,7 @@ public class TaskImplementor implements Task {
     @Override
     public void execute() {
         // TODO Auto-generated method stub
+        GetMethod getMethod = null;
         try {
             String host = SystemProperties.getProperty(EMMTaskConfig.SERVER_HOST);
             String ip = SystemProperties.getProperty(EMMTaskConfig.CARBON_LOCAL_IP);
@@ -46,17 +47,18 @@ public class TaskImplementor implements Task {
                 postUrl = EMMTaskConfig.HTTPS + host + ":" + port;
             }
 
-            GetMethod getMethod = new GetMethod(postUrl + EMMTaskConfig.MONITOR_URL);
+            getMethod = new GetMethod(postUrl + EMMTaskConfig.MONITOR_URL);
             final HttpClient httpClient = new HttpClient();
             getMethod.addRequestHeader(EMMTaskConfig.CONTENT_TYPE, EMMTaskConfig.APPLICATION_JSON);
             httpClient.executeMethod(getMethod);
-            getMethod.releaseConnection();
         } catch (HttpException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally {
+            getMethod.releaseConnection();
         }
     }
 
