@@ -30,6 +30,7 @@ var DeviceSchema = new entity.Schema("Device", {
     udid: String,
     os_version: String,
     ownership: Number,
+    challenge_token: String,
     token: String,
     mac_address: String,
     status: String,

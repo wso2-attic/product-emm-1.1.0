@@ -42,7 +42,6 @@ DriverModule.getConnection = function(){
  */
 DriverModule.createDB = function() {
     var db = DriverModule.getConnection();
-    log.info("SHIT");
     if (configFile.H2_DB) {
         try {
             var isDBExist = db.query('SELECT * FROM devices');
