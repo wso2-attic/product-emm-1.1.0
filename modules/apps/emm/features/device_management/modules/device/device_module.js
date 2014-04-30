@@ -17,11 +17,13 @@
  */
 var entity = require('entity');
 var Device = require('models/device.js').Device;
+var Operation = require('Operation.js').Operation;
 var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
 var IOSDevice = require('models/IOSDevice.js').IOSDevice;
 
 // entity models
 var DeviceModel = entity.model('Device');
+var OperationModel = entity.model('Operation');
 
 var DeviceModule = {};
 DeviceModule.BYOD = "1";
@@ -34,6 +36,14 @@ DeviceModule.IOSTABLET = "3";
 
 DeviceModule.DEVICE_ACTIVE = "1";
 DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
+
+
+DeviceModule.EXCEPTIONS = {
+    "DeviceNotFound": "Device Not Found",
+    "InvalidOperationCode": "Invalid Operation Code"
+};
+
+
 /*
     Plural Device object 
     Takes in a devices array
@@ -60,12 +70,13 @@ var Devices = function(devices){
         });
     };
 }
+
 /*
     Usage:- Check if deviceId is used 
 */
 DeviceModule.isDeviceRegistered = function(deviceid){
     try{
-        var device =  DeviceModel.findOne({id: deviceid});
+        var devices =  DeviceModel.findOne({id: deviceid});
         return true;
     }catch(e){
         return false;
@@ -77,7 +88,13 @@ DeviceModule.isDeviceRegistered = function(deviceid){
 	Exceptions:-
 		InvalidOperation
 */
-DeviceModule.operations = function(operation) {}
+DeviceModule.operations = function(operation) {
+    var operations = OperationModel.findOne({"id":operation});  
+    if(operations.length==0){
+        throw DeviceModule.EXCEPTIONS.InvalidOperationCode;
+    }
+    var operation = operations[0];
+}
 
 DeviceModule.notify = function(notification) {
 	// wire the wakeup manager to perform actions
@@ -96,7 +113,11 @@ DeviceModule.getDevices = function(query) {
  		DeviceNotFound
 */
 DeviceModule.getDevice = function(id) {
-
+    var devices =  DeviceModel.findOne({id: deviceid});   
+    if(devices.length==0){
+        throw DeviceModule.EXCEPTIONS.DeviceNotFound;
+    }
+    return devices[0];    
 };
 /*
     Usage:- Register a device to EMM

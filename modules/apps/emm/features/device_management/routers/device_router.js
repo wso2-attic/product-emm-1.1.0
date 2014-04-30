@@ -71,4 +71,29 @@ var api_router = function(router){
             response.sendError(500);
         }
 	});
+	/*
+		Usage:- Perform operation on a device
+		Sample:-
+			Input:- 
+				URL Param - id, operationcode
+				Body - 
+					{
+						options: {"wifi-id": "WSO2"}
+					}
+			Output:-
+				200, 500
+	*/
+	router.post('api/device/{id}/operate/{operationcode}', function(req, res){
+		try{
+			var id = req.params.id;
+			var operation_code = req.params.operationcode;
+			var options = req.param.options;
+			var device = DeviceModule.getDevice(id);
+			device.operate(operation_code, options);
+		}catch(e){
+			log.error(e);
+            print("Device Operation failed");
+            response.sendError(500);
+		}
+	});
 }
