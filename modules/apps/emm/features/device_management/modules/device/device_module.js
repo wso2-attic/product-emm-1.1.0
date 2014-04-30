@@ -16,7 +16,6 @@
  *  Description : - Device object related functions 
  */
 var entity = require('entity');
-var complexQueries = require('/modules/queries.json');
 var Device = require('models/device.js').Device;
 var Operation = require('Operation.js').Operation;
 var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
@@ -85,25 +84,16 @@ DeviceModule.isDeviceRegistered = function(deviceid){
 }
 
 /*
-	Returns the operation object if valid
+	Returns the operation object if available
 	Exceptions:-
 		InvalidOperation
 */
 DeviceModule.operations = function(operation) {
-    var operations = OperationModel.query(complexQueries.operation.getOperationsForDevice, function(complexObject, model){
-        // Handle cases for queries 
-        // This can be provided via the sql-crud later
-        model.id = complexObject.id;
-        model.code = complexObject.code;
-        model.name = complexObject.name;
-        model.description = complexObject.description;
-        model.monitor = complexObject.monitor;
-        return model;
-    });  
+    var operations = OperationModel.findOne({"id":operation});   
     if(operations.length==0){
         throw DeviceModule.EXCEPTIONS.InvalidOperationCode;
     }
-    var operation = operations[0];
+    return new Operation(operations[0]);
 }
 
 DeviceModule.notify = function(notification) {
