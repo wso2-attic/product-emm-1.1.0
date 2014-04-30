@@ -69,6 +69,22 @@ var sqlCRUD = function (schema, options) {
         }
         return list;
     };
+    /*
+        Advance method used to deal with joins 
+        query - SQL query
+        mapper - a function that maps query results to the objects. mapper function should accept 
+            dataObject and model object
+    */
+    schema.static.query = function(query, mapper){
+        var results = db.query(query);
+        var list = [];
+        for (var i = results.length - 1; i >= 0; i--) {
+            var complexdataObject = results[i];
+            var obj = new Model();
+            list.push(mapper(complexdataObject, obj));
+        };
+        return list;
+    }
 
     schema.pre('save', function (entity, next) {
         log.info('Before saving check if all the attributes are present');
