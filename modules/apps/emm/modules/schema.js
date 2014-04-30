@@ -174,7 +174,7 @@ PolicyMappingOwnershipSchema.plugin(sql_crud, {
     db: db
 });
 
-var DeviceInfoSchema = new entity.Schema("device_info", {
+var DeviceInfoSchema = new entity.Schema("Device_Info", {
     id: Number,
     device_id: Number,
     tenant_id: Number,
