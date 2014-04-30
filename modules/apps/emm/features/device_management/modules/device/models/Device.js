@@ -24,7 +24,7 @@ var Device = function() {
 	*/
     this.operate = function(operation, options) {
         // get the valid operation object
-        var operation = DeviceModule.features(operation);
+        var operation = DeviceModule.getOperations(this, operation);
         // check if operation is valid for device
         if(operation.valid(this)){
             try{

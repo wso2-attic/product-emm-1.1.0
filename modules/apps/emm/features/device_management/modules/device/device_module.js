@@ -1,3 +1,4 @@
+var entity = require('entity');
 var Device = require('models/device.js').Device;
 var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
 var IOSDevice = require('models/IOSDevice.js').IOSDevice;
@@ -9,6 +10,7 @@ DeviceModule.ANDROID = "1";
 DeviceModule.IOS = "2";
 DeviceModule.WINDOWS = "3";
 DeviceModule.RPIE = "4";
+
 DeviceModule.DEVICE_ACTIVE = "1";
 DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
 /*
@@ -37,13 +39,19 @@ var Devices = function(devices){
         });
     };
 }
+/*
+    Usage:- Check if deviceId is used 
+*/
+DeviceModule.isDeviceRegistered = function(deviceid){
+
+}
 
 /*
 	Returns the operation object if valid
 	Exceptions:-
 		InvalidOperation
 */
-DeviceModule.features = function(operation) {}
+DeviceModule.operations = function(operation) {}
 
 DeviceModule.notify = function(notification) {
 	// wire the wakeup manager to perform actions
