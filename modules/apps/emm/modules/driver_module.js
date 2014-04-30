@@ -42,10 +42,12 @@ DriverModule.getConnection = function(){
  */
 DriverModule.createDB = function() {
     var db = DriverModule.getConnection();
+    log.info("SHIT");
     if (configFile.H2_DB) {
         try {
             var isDBExist = db.query('SELECT * FROM devices');
         } catch (e) {
+            log.info(e);
             var carbon = require('carbon');
             var h2ScriptPath = carbon.server.home + '/dbscripts/EMM/h2/resource.sql';
             var h2ScriptFile = new File(h2ScriptPath);

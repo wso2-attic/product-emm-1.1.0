@@ -3,20 +3,6 @@ var Device = function() {
     var DeviceModel = entity.model('Device');
     var device;
     this.register = function() {
-        // Persist to the database
-        device = new this.DeviceModel();
-        device.id = "kjlksdf"; // generate udid
-        device.tenant_id = this.user.tenant_id;
-        device.user_id = this.user.user_id;
-        device.platform_id = this.platform;
-        device.uuid = this.options.uuid;
-        device.os_version = this.options.os_version;
-        device.ownership = this.options.ownership;
-        device.mac_address = this.options.mac_address;
-        device.status = this.DeviceModule.DEVICE_ACTIVE;
-        device.created_date = "2012-03-02 08:07:23.234";
-        device.updated_date = "2012-03-02 08:07:23.234";
-        // device.save();
     }
     /*
 		Performs operation 

@@ -35,25 +35,40 @@ var api_router = function(router){
 		var status = DeviceModule.isDeviceRegistered(id);
 		print(status);
 	});
+	/*
+		Usage:- Register a Device with provided details to EMM
+		Sample:-
+			Input:- 
+				Body - {
+					"platform" : 1,
+					"ownership": 1,
+					"os_version": "4.2",
+					"userid": "dulithaz",
+					"tenant_domain": "wso2.com"
+				}
+			Output:-
+				true, false
+	*/
 	router.post('/api/device/register/', function(req, res){
-		// Create new Device entity object
-		var Device=entity.model('Device');
-		var device_1 = new Device();
-		device_1.id = 12;
-		device_1.name = "Chan";
-		device_1.description = "Damn right!";
-		device_1.registrationDate = "2012-03-02 08:07:23.234";
-		//Persist to DB
-		device_1.save();
-
-		// Read multiple devices
-		var results = Device.find({"name":"Chan"});
-		var results = Device.findAll();
-		try{
-			// Get one device. Will throw exception if more than one found
-			var device = Device.findOne({"id":"12"});
-		}catch(e){
-			log.error(e);
-		}
+		var platform = req.body.platform;
+		var ownership = req.body.ownership;
+		var os_version = req.body.os_version;
+		var udid = req.body.udid;
+		var mac_address = req.body.mac_address;
+		var userid = req.body.userid;
+		var tenant_domain = req.body.tenant_domain;
+		try {
+            var device = DeviceModule.registerDevice(userid, tenant_domain, {
+                platform: platform,
+                ownership: ownership,
+                os_version: os_version,
+                udid: udid,
+                mac_address: mac_address
+            });
+        } catch (e) {
+            log.error(e);
+            print("Device Registration failed");
+            response.sendError(500);
+        }
 	});
 }
