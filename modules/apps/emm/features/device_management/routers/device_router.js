@@ -40,23 +40,45 @@ var api_router = function(router){
 		Sample:-
 			Input:- 
 				Body - {
-					"platform" : 1,
-					"ownership": 1,
+					"platform" : "ANDROID",
+					"device_type" : "PHONE",
+					"ownership": "BYOD",
 					"os_version": "4.2",
-					"userid": "dulithaz",
+					"userid": "admin",
+					"password" : "****"
 					"tenant_domain": "wso2.com"
+				}
+				(or)
+				Body - {
+				    "userid" : "admin",
+				    "password" : "****",
+				    "ownership" : "BYOD",
+				    "tenant_domain" : "wso2.com"
 				}
 			Output:-
 				true, false
 	*/
 	router.post('/api/device/register/', function(req, res){
+
+        var userid = req.body.userid;
+        var tenant_domain = req.body.tenant_domain;
+        var password = req.body.password;
+
+        //authentiate user
+
+
+
+        //Check if "platform" parameter is passed and if so check if it Android
+        //else find out using useragent.
+        request.getHeader("User-Agent");
+
+
 		var platform = req.body.platform;
 		var ownership = req.body.ownership;
 		var os_version = req.body.os_version;
 		var udid = req.body.udid;
 		var mac_address = req.body.mac_address;
-		var userid = req.body.userid;
-		var tenant_domain = req.body.tenant_domain;
+
 		try {
             var device = DeviceModule.registerDevice(userid, tenant_domain, {
                 platform: platform,
@@ -71,6 +93,7 @@ var api_router = function(router){
             response.sendError(500);
         }
 	});
+
 	/*
 		Usage:- Perform operation on a device
 		Sample:-
