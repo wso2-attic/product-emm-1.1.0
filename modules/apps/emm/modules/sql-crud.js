@@ -65,7 +65,7 @@ var sqlCRUD = function (schema, options) {
         log.info('FindOne Query:- '+query_line);
         var list = transform(db.query(query_line));
         if(list.length>1){
-            throw "One than one result found";
+            throw "More than one result found";
         }
         return list;
     };
