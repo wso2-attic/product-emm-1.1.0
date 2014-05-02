@@ -36,6 +36,17 @@ describe('sql-crud operation', function () {
         device_1.registrationDate = "2012-03-02 08:07:23.234";
         device_1.save();
     });
+    it('Updating of Object', function () {
+        var device_1 = new this.DeviceModel();
+        device_1.id = 30;
+        device_1.name = "Chan";
+        device_1.description = "Damn right!";
+        device_1.registrationDate = "2012-03-02 08:07:23.234";
+        device_1.save();
+
+        device_1.name = "Brain";
+        device_1.update();
+    });
     it('Query specific objects', function () {
         var device_1 = new this.DeviceModel();
         device_1.id = 30;

@@ -32,7 +32,30 @@ var sqlCRUD = function (schema, options) {
      var removeLastAnd = function(query){
         return query.substring(0, query.length - 3);;
     }
+    /*
+        Make this a top-level method later
+    */
+    schema.methods.update = function () {
+        var props = schema.props;
+        var query = "UPDATE `"+schema.meta.tablename+"` SET ";
+        var keys = schema.props;
+        //Add starting brackets
+        var columns = "(";
+        var values = "(";
+        for (var i = keys.length - 1; i >= 0; i--) {
+            var column = keys[i];
+            // var columnType = props[column].type;
+            columns += String.toUpperCase(column)+","
+            values += "'"+this[column]+"',";
+        };
+        //Add ending brackets
+        columns = removeLastComma(columns) +")";
+        values = removeLastComma(values) + ")";
 
+        query +=columns+" VALUES "+values;
+        log.info(query);
+        db.query(query);
+    }
     schema.static.find = function (query, pagination) {
         var types = Object.getOwnPropertyNames(query);
         var query_line = "SELECT * FROM `"+schema.meta.tablename+"` WHERE ";
