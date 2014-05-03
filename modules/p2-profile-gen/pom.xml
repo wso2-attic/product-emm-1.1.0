@@ -5,14 +5,15 @@
 	<parent>
 		<groupId>org.wso2.emm</groupId>
 		<artifactId>wso2emm-parent</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<artifactId>wso2emm-profile-gen</artifactId>
 	<packaging>pom</packaging>
+	<name>WSO2 Enterprise Mobility Manager (EMM) Features</name>
 	
 	<build>
 		<plugins>
@@ -181,12 +182,23 @@
 
 								<!-- Store -->
 								<featureArtifactDef>
-									org.wso2.store:org.wso2.store.feature:${project.version}
+									org.wso2.store:org.wso2.store.feature:${es.version}
 								</featureArtifactDef>
-								<!-- MDM -->
+								<!-- EMM -->
 								<featureArtifactDef>
 									org.wso2.emm:org.wso2.emm.feature:${project.version}
 								</featureArtifactDef>
+								
+								<!-- Stratos features    -->
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:${stratos.patch.version.221}
+								</featureArtifactDef>
+
+								<!-- ntask -->
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.ntask.core.feature:4.2.2
+								</featureArtifactDef>
+
 								<!-- BAM Features -->
 <!--
 								<featureArtifactDef>
@@ -213,11 +225,7 @@
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.databridge.streamdefn.cassandra.feature:${carbon.platform.version}
 								</featureArtifactDef> -->
-
-								<!-- Stratos features    -->
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:${stratos.patch.version.221}
-								</featureArtifactDef>
+								
 							</featureArtifacts>
 
 						</configuration>
@@ -320,8 +328,9 @@
 								<!-- Store features -->
 								<feature>
 									<id>org.wso2.store.feature.group</id>
-									<version>${project.version}</version>
+									<version>${es.version}</version>
 								</feature>
+								
 
 								<!-- Identity feature -->
 								<feature>
@@ -371,6 +380,18 @@
 									<id>org.wso2.carbon.stratos.common.feature.group</id>
 									<version>${stratos.patch.version.221}</version>
 								</feature>
+
+								<!-- ntask -->
+								<feature>
+									<id>org.wso2.carbon.ntask.core.feature.group</id>
+									<version>4.2.2</version>
+								</feature>
+
+								<feature>
+									<id>org.wso2.emm.feature.group</id>
+									<version>${project.version}</version>
+								</feature>
+
 								<!-- BAM features -->
 <!--
 								<feature>

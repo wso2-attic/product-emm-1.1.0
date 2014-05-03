@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.wso2.emm</groupId>
 	<artifactId>wso2emm-parent</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
 	<name>WSO2 Enterprise Mobility Manager (EMM) - Parent</name>
 	<url>http://wso2.org/projects/appserver/java</url>
@@ -65,6 +65,9 @@
 
 	<modules>
 		<module>modules/components/mdm-ui</module>
+		<module>modules/components/emm-task</module>
+		<module>modules/components/emm-gcm</module>
+		<module>modules/components/manifestUtils</module>
 		<module>modules/features/org.wso2.emm.feature</module>
 		<module>modules/p2-profile-gen</module>
 		<module>modules/distribution</module>
@@ -72,6 +75,7 @@
 
 	<properties>
 		<ues.version>1.0.0</ues.version>
+		<es.version>1.0.0</es.version>
 		<carbon.kernal.version>4.2.0</carbon.kernal.version>
 		<carbon.platform.version>4.2.0</carbon.platform.version>
 

@@ -1,0 +1,6 @@
+<module name="event" xmlns="http://wso2.org/projects/jaggery/module.xml">
+   <script>
+       <name>[event]/event.js</name>
+       <path>scripts/event.js</path>
+   </script>
+</module>

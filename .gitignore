@@ -236,6 +236,7 @@ modules/components/social/target/timestamp
 
 modules/components/org.wso2.carbon.databridge.datasink.cassandra/target/timestamp
 .idea
+*.iml
 wso2emm-parent.iml
 modules/components/mdm-ui/target
 
@@ -260,4 +261,7 @@ modules/apps/store/.idea
 modules/apps/store/store.iml
 modules/apps/store/.project
 
-
+modules/components/emm-gcm/target
+modules/components/emm-task/target
+modules/components/manifestUtils/target
+modules/features/org.wso2.emm.styles.feature/target
