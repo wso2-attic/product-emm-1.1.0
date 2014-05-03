@@ -42,5 +42,6 @@
     },
     "mam": {
         "store_location": "%https.ip%/store/"
-    }
+    },
+    "monitor_interval" : "$(monitoring_frequency)"
 }

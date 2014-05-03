@@ -65,9 +65,6 @@
 
 	<modules>
 		<module>modules/components/mdm-ui</module>
-		<module>modules/components/emm-task</module>
-		<module>modules/components/emm-gcm</module>
-		<module>modules/components/manifestUtils</module>
 		<module>modules/features/org.wso2.emm.feature</module>
 		<module>modules/p2-profile-gen</module>
 		<module>modules/distribution</module>
@@ -81,12 +78,6 @@
 
 		<!-- jaggery versions -->
 		<jaggery.feature.version>0.9.0.ALPHA4.wso2v3</jaggery.feature.version>
-
-		<!-- patch versions -->
-		<patch.version.421>4.2.1</patch.version.421>
-		<patch.version.422>4.2.2</patch.version.422>
-		<patch.version.423>4.2.3</patch.version.423>
-		<patch.version.424>4.2.4</patch.version.424>
 		<carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>
 		<stratos.version>2.2.0</stratos.version>
 		<stratos.patch.version.221>2.2.1</stratos.patch.version.221>

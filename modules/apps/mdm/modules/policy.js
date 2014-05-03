@@ -722,6 +722,17 @@ var policy = (function () {
                 return policyPayLoad;
             }
             return null;
+        },
+        monitoring:function(ctx){
+            var monitor_interval = require("/config/config.json").monitor_interval;
+            monitor_interval = monitor_interval * 60 * 1000;
+
+            setInterval(
+           	 function(ctx){
+	                device.monitor(ctx);
+	            }
+            ,monitor_interval);
+            //,
         }
     };
     return module;

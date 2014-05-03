@@ -20,10 +20,6 @@
 <wso2mobile-mdm>
 
 	<ios-mdm-conf>
-
-        <!--EMM Device Monitor Frequency -->
-        <device-monitor-frequency>5</device-monitor-frequency>
-
 		<!-- iOS mdm endpoint urls -->
 		<ios-enroll-url>https://$(host):9443/mdm/scep</ios-enroll-url>
 		<ios-profile-url>https://$(host):9443/mdm/profile</ios-profile-url>
@@ -32,13 +28,13 @@
 		
 		<!-- iOS APNS configurations -->
 		<ios-apns-cert-path>$(push_certificate)</ios-apns-cert-path>
-		<ios-apns-cert-password>$(push_password)</ios-apns-cert-password>
-		<ios-apns-production-mode>$(push_production)</ios-apns-production-mode>
+	        <ios-apns-cert-password>$(push_password)</ios-apns-cert-password>
+        	<ios-apns-production-mode>$(push_production)</ios-apns-production-mode>
        
-		<!-- iOS MDM APNS configurations -->
-		<ios-mdm-apns-cert-path>$(mdm_push_certificate)</ios-mdm-apns-cert-path>
-		<ios-mdm-apns-cert-password>$(mdm_push_password)</ios-mdm-apns-cert-password>
-		<ios-mdm-apns-production-mode>$(mdm_push_production)</ios-mdm-apns-production-mode>
+        	<!-- iOS MDM APNS configurations -->
+        	<ios-mdm-apns-cert-path>$(mdm_push_certificate)</ios-mdm-apns-cert-path>
+	        <ios-mdm-apns-cert-password>$(mdm_push_password)</ios-mdm-apns-cert-password>
+        	<ios-mdm-apns-production-mode>$(mdm_push_production)</ios-mdm-apns-production-mode>
 
 		<!-- iOS mdm topic id -->
 		<ios-mdm-topic-id>$(mdm_topic_id)</ios-mdm-topic-id>
@@ -52,27 +48,27 @@
             <!-- Keystore type (JKS/PKCS12 etc.)-->
             <keystore-type>JKS</keystore-type>
             <!-- Keystore password-->
-            <keystore-password>wso2carbon</keystore-password>
+            <keystore-password>$(wso2carbon_jks_password)</keystore-password>
             <!-- Private Key alias-->
-            <keystore-key-alias>wso2carbon</keystore-key-alias>
+            <keystore-key-alias>$(wso2carbon_jks_priv_alias)</keystore-key-alias>
             <!-- Private Key password-->
-            <keystore-key-password>wso2carbon</keystore-key-password>	
+            <keystore-key-password>$(wso2carbon_jks_priv_pwd)</keystore-key-password>	
 			
-				<!-- MDM Keystore file location-->
-            <mdm-keystore-location>$(wso2emm_jks)</mdm-keystore-location>
+			<!-- MDM Keystore file location-->
+            <mdm-keystore-location>$(wso2mobilemdm_jks)</mdm-keystore-location>
             <!-- MDM Keystore type (JKS/PKCS12 etc.)-->
             <mdm-keystore-type>JKS</mdm-keystore-type>
             <!-- MDM Keystore password-->
-            <mdm-keystore-password>wso2carbon</mdm-keystore-password>
-				<!-- Certificate authority certificate alias -->
-				<mdm-keystore-ca-cert-alias>$(mdm_keystore_ca_alias)</mdm-keystore-ca-cert-alias>
-				<!-- Certificate authority private key password -->
-				<mdm-keystore-ca-cert-priv-password>wso2carbon</mdm-keystore-ca-cert-priv-password>
-				<!-- Registration authority certificate alias -->
-				<mdm-keystore-ra-cert-alias>$(mdm_keystore_ra_alias)</mdm-keystore-ra-cert-alias>
-				<!-- Registration authority private key password -->
-				<mdm-keystore-ra-cert-priv-password>wso2carbon</mdm-keystore-ra-cert-priv-password>
-		</keystore>
+            <mdm-keystore-password>$(wso2mobilemdm_jks_password)</mdm-keystore-password>
+			<!-- Certificate authority certificate alias -->
+			<mdm-keystore-ca-cert-alias>$(mdm_keystore_ca_alias)</mdm-keystore-ca-cert-alias>
+			<!-- Certificate authority private key password -->
+			<mdm-keystore-ca-cert-priv-password>$(mdm_keystore_ca_password)</mdm-keystore-ca-cert-priv-password>
+			<!-- Registration authority certificate alias -->
+			<mdm-keystore-ra-cert-alias>$(mdm_keystore_ra_alias)</mdm-keystore-ra-cert-alias>
+			<!-- Registration authority private key password -->
+			<mdm-keystore-ra-cert-priv-password>$(mdm_keystore_ra_password)</mdm-keystore-ra-cert-priv-password>
+        </keystore>
 	</ios-mdm-conf>
 	
 </wso2mobile-mdm>

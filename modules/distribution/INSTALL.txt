@@ -1,4 +1,4 @@
-(1) Installing  WSO2 Enterprise Mobility Manager (EMM) 1.0.0
+(1) Installing  WSO2 Enterprise Mobility Management Solution ${product.version}
 
 Running the server
 ---------------
@@ -7,7 +7,7 @@ Running the server
 
 2. All the shell scripts and .bat files are available in CARBON_HOME/bin folder.
 
-3. To start WSO2 Enterprise Mobility Manager (EMM) one can use either wso2server.sh or daemon.sh in all *nix
+3. To start WSO2 Enterprise Mobility Management Solution one can use either wso2server.sh or daemon.sh in all *nix
    system & wso2server.bat file on Windows operating systems.
 
 4. Either of the following commands can be used to start WSO2 UES
@@ -41,7 +41,7 @@ System Requirements
      level in Internet Explorer 6.x.
 
 For more details see
-http://docs.wso2.org/wiki/display/UES100/Installation+Prerequisites
+https://docs.wso2.org/display/EMM101/Prerequisites
 
 
 

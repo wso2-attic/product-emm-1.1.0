@@ -10,10 +10,9 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<version>1.1.0</version>
+	<version>1.0.0</version>
 	<artifactId>wso2emm-profile-gen</artifactId>
 	<packaging>pom</packaging>
-	<name>WSO2 Enterprise Mobility Manager (EMM) Features</name>
 	
 	<build>
 		<plugins>
@@ -41,26 +40,141 @@
 							</artifactItems>
 						</configuration>
 					</execution>
-					<execution>
-						<id>2-unpack-kernel-patch</id>
-						<phase>test</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.wso2.carbon</groupId>
-									<artifactId>WSO2-CARBON-PATCH-4.2.0</artifactId>
-									<version>0001</version>
-									<type>zip</type>
-									<overWrite>true</overWrite>
-									<outputDirectory>target</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
+			    <!--Kernal patches -->
+                            <execution>
+                                <id>2-unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-${carbon.kernal.version}</artifactId>
+                                            <version>0001</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    </configuration>
+                            </execution>
+			    <execution>
+                                <id>3-unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-${carbon.kernal.version}</artifactId>
+                                            <version>0002</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    </configuration>
+                            </execution>
+			    <execution>
+                                <id>4-unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-${carbon.kernal.version}</artifactId>
+                                            <version>0003</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    </configuration>
+                            </execution>
+			    <execution>
+                                <id>5-unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-${carbon.kernal.version}</artifactId>
+                                            <version>0004</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    </configuration>
+                            </execution>	
+			    <execution>
+                                <id>6-unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-${carbon.kernal.version}</artifactId>
+                                            <version>0005</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    </configuration>
+                            </execution>
+			    <execution>
+                                <id>7-unpack-kernel-patch</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wso2.carbon</groupId>
+                                            <artifactId>WSO2-CARBON-PATCH-${carbon.kernal.version}</artifactId>
+                                            <version>0006</version>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    </configuration>
+                            </execution>
+			    <execution>
+                        	<id>unpack-equinox-executable</id>
+                        	<phase>test</phase>
+                        	<goals>
+                            		<goal>unpack</goal>
+                        	</goals>
+		                <configuration>
+		                    <artifactItems>
+		                        <artifactItem>
+		                            <groupId>org.eclipse.equinox</groupId>
+		                            <artifactId>org.eclipse.equinox.executable</artifactId>
+		                            <version>3.5.0.v20110530-7P7NFUFFLWUl76mart</version>
+		                            <type>zip</type>
+		                            <overWrite>true</overWrite>
+		                            <outputDirectory>target</outputDirectory>
+		                        </artifactItem>
+		                    </artifactItems>
+		                </configuration>
+                    	</execution>		
+		</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.wso2.maven</groupId>
@@ -83,52 +197,51 @@
 							<publishArtifactRepository>true</publishArtifactRepository>
 
 							<featureArtifacts>
-								<!-- Jaggery-->
-								<featureArtifactDef>
-									org.jaggeryjs:org.jaggeryjs.feature:${jaggery.feature.version}
-								</featureArtifactDef>
 								<featureArtifactDef>
 									caramel:caramel.feature:${caramel.feature.version}
 								</featureArtifactDef>
 								<!-- Server features -->
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:4.2.2
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.jaxws.webapp.mgt.feature:${carbon.platform.version}
+									org.wso2.carbon:org.wso2.carbon.jaxws.webapp.mgt.feature:4.2.0
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.user.mgt.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.user.mgt.feature:4.2.1
 								</featureArtifactDef>
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.module.mgt.server.feature:${carbon.platform.version}
 								</featureArtifactDef>
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.as.runtimes.cxf.feature:4.2.2
+								</featureArtifactDef>
 <!--
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.security.mgt.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.security.mgt.feature:4.2.1
 								</featureArtifactDef>
 -->
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.event.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.event.feature:4.2.1
 								</featureArtifactDef>
 								<!-- Registry features -->
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.registry.associations.dependencies.feature:${carbon.platform.version}
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.registry.community.features.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.registry.community.features.feature:4.2.1
 								</featureArtifactDef>
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.registry.extensions.feature:${carbon.platform.version}
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.registry.core.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.registry.core.feature:4.2.1
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.registry.resource.properties.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.registry.resource.properties.feature:4.2.1
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.registry.contentsearch.server.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.registry.contentsearch.server.feature:4.2.1
 								</featureArtifactDef>
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.registry.ws.feature:${carbon.platform.version}
@@ -140,7 +253,7 @@
 									org.wso2.carbon:org.wso2.carbon.governance.lifecycle.management.server.feature:${carbon.platform.version}
 								</featureArtifactDef>
 								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.governance.metadata.feature:${patch.version.421}
+									org.wso2.carbon:org.wso2.carbon.governance.metadata.feature:4.2.1
 								</featureArtifactDef>
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.registry.ui.menu.governance.feature:${carbon.platform.version}
@@ -150,52 +263,45 @@
 								</featureArtifactDef>
 
 								<!-- Identity features -->
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.core.feature:4.2.2</featureArtifactDef>
 								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.security.mgt.feature:4.2.4</featureArtifactDef>
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.application.authenticator.basicauth.server.feature:${carbon.platform.version}
-								</featureArtifactDef>
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.application.authentication.framework.server.feature:${patch.version.421}
-								</featureArtifactDef>
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.authenticator.saml2.sso.server.feature:4.2.1
-								</featureArtifactDef>
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.authenticator.saml2.sso.feature:4.2.2
-								</featureArtifactDef>
-								<feaureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.sso.saml.feature:4.2.2
-								</feaureArtifactDef>
-								<feaureArtifactDef>
-									org.wso2.carbon:org.wso2.stratos.identity.saml2.sso.mgt.feature:${stratos.version}
-								</feaureArtifactDef>
-								<feaureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.core.feature:4.2.2
-								</feaureArtifactDef>
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.claim.mgt.feature:${carbon.platform.version}
-								</featureArtifactDef>
-								<!-- xacml features -->
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.identity.xacml.feature:${carbon.platform.version}
-								</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.provider.feature:4.2.2</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.idp.mgt.feature:4.2.2</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.relying.party.feature:4.2.1</featureArtifactDef>
+								<!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.mgt.feature:4.2.1</featureArtifactDef-->
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.self.registration.feature:4.2.1</featureArtifactDef>
+								<!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.user.profile.feature:4.2.1</featureArtifactDef-->
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.xacml.feature:4.2.1</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.claim.mgt.feature:4.2.0</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.sso.saml.feature:4.2.2</featureArtifactDef>
+
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.application.authentication.framework.server.feature:4.2.1</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.application.authenticator.basicauth.server.feature:4.2.1</featureArtifactDef>
+                                 				<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.application.authenticator.samlsso.server.feature:4.2.0</featureArtifactDef>  
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.authenticator.saml2.sso.feature:4.2.2</featureArtifactDef>
+								
+
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.um.ws.service.feature:4.2.1</featureArtifactDef>
+
+								<!--featureArtifactDef>org.wso2.identity:org.wso2.identity.styles.feature:4.6.0</featureArtifactDef-->
+								<!--featureArtifactDef>org.wso2.identity:org.wso2.identity.utils.feature:4.6.0</featureArtifactDef-->
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.oauth.common.feature:4.2.2</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.oauth.feature:4.2.2</featureArtifactDef>
+								<!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.authenticator.iwa.feature:4.2.0</featureArtifactDef-->
+
+								<!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.sts.passive.feature:4.2.1</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.ldap.server.feature:4.2.1</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.scim.feature:4.2.1</featureArtifactDef>
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.authorization.feature:4.2.0</featureArtifactDef-->
+								<!-- Features related to Cloud Identity -->
+								<featureArtifactDef>org.wso2.carbon:org.wso2.carbon.user.mgt.feature:4.2.1</featureArtifactDef>
 
 								<!-- Store -->
-								<!-- EMM -->
+							
+								<!-- MDM -->
 								<featureArtifactDef>
 									org.wso2.emm:org.wso2.emm.feature:${project.version}
 								</featureArtifactDef>
-								
-								<!-- Stratos features    -->
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:${stratos.patch.version.221}
-								</featureArtifactDef>
-
-								<!-- ntask -->
-								<featureArtifactDef>
-									org.wso2.carbon:org.wso2.carbon.ntask.core.feature:4.2.2
-								</featureArtifactDef>
-
 								<!-- BAM Features -->
 <!--
 								<featureArtifactDef>
@@ -222,7 +328,30 @@
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.databridge.streamdefn.cassandra.feature:${carbon.platform.version}
 								</featureArtifactDef> -->
-								
+
+								<!-- Stratos features    -->
+								<featureArtifactDef>
+									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:2.2.1
+								</featureArtifactDef>
+								<!--Asset Store Feature list -->
+                                <featureArtifactDef>
+								    org.jaggeryjs:org.jaggeryjs.feature:0.9.0.ALPHA4.wso2v1
+								</featureArtifactDef>
+								<featureArtifactDef>
+								    org.wso2.carbon:org.wso2.carbon.apimgt.core.feature:1.2.1
+								</featureArtifactDef>
+								<featureArtifactDef>
+								    org.wso2.carbon:org.wso2.carbon.apimgt.interceptor.feature:1.2.1
+								</featureArtifactDef>
+								<featureArtifactDef>
+								    org.wso2.carbon:org.wso2.carbon.apimgt.publisher.feature:1.2.1
+								</featureArtifactDef>
+								<featureArtifactDef>
+								    org.wso2.carbon:org.wso2.carbon.apimgt.store.feature:1.2.1
+								</featureArtifactDef>
+								<featureArtifactDef>
+								    org.wso2.carbon:org.wso2.carbon.apimgt.startup.publisher.feature:1.2.0
+								</featureArtifactDef>
 							</featureArtifacts>
 
 						</configuration>
@@ -243,13 +372,12 @@
 								${basedir}/target/wso2carbon-core-${carbon.kernal.version}/repository/components
 							</destination>
 							<deleteOldProfileFiles>true</deleteOldProfileFiles>
-
 							<features>
 							<!-- Jaggery Features -->
-								<feature>
+								<!--feature>
 									<id>org.jaggeryjs.feature.group</id>
 									<version>${jaggery.feature.version}</version>
-								</feature>
+								</feature-->
 								<feature>
 									<id>caramel.feature.group</id>
 									<version>${caramel.feature.version}</version>
@@ -257,11 +385,11 @@
 							<!-- Server Features -->
 								<feature>
 									<id>org.wso2.carbon.webapp.mgt.server.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.2</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.user.mgt.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.jaxws.webapp.mgt.feature.group</id>
@@ -270,17 +398,21 @@
 <!--
 								<feature>
 									<id>org.wso2.carbon.security.mgt.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
 -->
 								<feature>
 									<id>org.wso2.carbon.event.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
+								<feature>
+                                    <id>org.wso2.carbon.as.runtimes.cxf.feature.group</id>
+                                     <version>4.2.2</version>
+                                </feature>
 								<!-- Registry features -->
 								<feature>
 									<id>org.wso2.carbon.registry.core.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.registry.ui.menu.feature.group</id>
@@ -288,11 +420,11 @@
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.registry.resource.properties.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.registry.contentsearch.server.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.registry.ws.feature.group</id>
@@ -312,7 +444,7 @@
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.governance.metadata.server.feature.group</id>
-									<version>${patch.version.421}</version>
+									<version>4.2.1</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.registry.ui.menu.governance.feature.group</id>
@@ -323,68 +455,84 @@
 									<version>${carbon.platform.version}</version>
 								</feature>
 								<!-- Store features -->
-								
+
+
+								<!-- Stratos -->
+								<feature>
+									<id>org.wso2.carbon.stratos.common.feature.group</id>
+									<version>2.2.1</version>
+								</feature>
 
 								<!-- Identity feature -->
+								
 								<feature>
-									<id>org.wso2.carbon.security.mgt.server.feature.group</id>
-									<version>4.2.4</version>
-								</feature>
-								<feature>
-									<id>org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group</id>
-									<version>${carbon.platform.version}</version>
-								</feature>
-								<feature>
-									<id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
-									<version>${patch.version.421}</version>
-								</feature>
-								<feature>
-									<id>org.wso2.carbon.identity.authenticator.saml2.sso.server.feature.group</id>
-									<version>4.2.1</version>
-								</feature>
-								<feature>
-									<id>org.wso2.carbon.identity.authenticator.saml2.sso.feature.group</id>
+									<id>org.wso2.carbon.identity.core.feature.group</id>
 									<version>4.2.2</version>
 								</feature>
 								<feature>
-									<id>org.wso2.stratos.identity.saml2.sso.mgt.feature.group</id>
-									<version>${stratos.version}</version>
+									<id>org.wso2.carbon.security.mgt.feature.group</id>
+									<version>4.2.4</version>
+								</feature>
+								<feature>
+									<id>org.wso2.carbon.identity.provider.feature.group</id>
+									<version>4.2.2</version>
+								</feature>
+								<feature>
+									<id>org.wso2.carbon.identity.relying.party.feature.group</id>
+									<version>4.2.1</version>
+								</feature>
+								<feature>
+                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <version>4.2.2</version>
+                                </feature>
+								<feature>
+									<id>org.wso2.carbon.identity.self.registration.feature.group</id>
+									<version>4.2.1</version>
+								</feature>
+								<feature>
+									<id>org.wso2.carbon.identity.xacml.feature.group</id>
+									<version>4.2.1</version>
+								</feature>
+								<feature>
+									<id>org.wso2.carbon.claim.mgt.feature.group</id>
+									<version>4.2.0</version>
 								</feature>
 								<feature>
 									<id>org.wso2.carbon.identity.sso.saml.feature.group</id>
 									<version>4.2.2</version>
 								</feature>
+								 <feature>
+								     <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
+								     <version>4.2.1</version>
+								 </feature>
+								 <feature>
+								     <id>org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group</id>
+								     <version>4.2.1</version>
+								 </feature>
 								<feature>
-									<id>org.wso2.carbon.identity.core.feature.group</id>
+                                <id>org.wso2.carbon.identity.application.authenticator.samlsso.server.feature.group</id>
+                                    <version>4.2.0</version>
+                                    </feature>
+								<feature>
+									<id>org.wso2.carbon.identity.authenticator.saml2.sso.feature.group</id>
 									<version>4.2.2</version>
 								</feature>
-								<!-- XACML features -->
 								<feature>
-									<id>org.wso2.carbon.identity.xacml.feature.group</id>
-									<version>${carbon.platform.version}</version>
+									<id>org.wso2.carbon.um.ws.service.feature.group</id>
+									<version>4.2.1</version>
 								</feature>
 								<feature>
-									<id>org.wso2.carbon.claim.mgt.feature.group</id>
-									<version>${carbon.platform.version}</version>
-								</feature>
-
-								<!-- Stratos -->
-								<feature>
-									<id>org.wso2.carbon.stratos.common.feature.group</id>
-									<version>${stratos.patch.version.221}</version>
-								</feature>
-
-								<!-- ntask -->
-								<feature>
-									<id>org.wso2.carbon.ntask.core.feature.group</id>
+                                    <id>org.wso2.carbon.identity.oauth.common.feature.group</id>
+                                    <version>4.2.2</version>
+                                </feature>
+  								<feature>
+									<id>org.wso2.carbon.identity.oauth.feature.group</id>
 									<version>4.2.2</version>
 								</feature>
-
 								<feature>
-									<id>org.wso2.emm.feature.group</id>
-									<version>${project.version}</version>
+									<id>org.wso2.carbon.user.mgt.feature.group</id>
+									<version>4.2.1</version>
 								</feature>
-
 								<!-- BAM features -->
 <!--
 								<feature>
@@ -420,6 +568,31 @@
 									<version>${carbon.platform.version}</version>
 								</feature>
 -->
+							<!-- Features related to Asset Store -->
+								<feature>
+                                    <id>org.jaggeryjs.feature.group</id>
+                                    <version>0.9.0.ALPHA4.wso2v1</version>
+                                </feature>
+								<feature>
+								    <id>org.wso2.carbon.apimgt.core.feature.group</id>
+								    <version>1.2.1</version>
+								</feature>
+								<feature>
+								    <id>org.wso2.carbon.apimgt.interceptor.feature.group</id>
+								    <version>1.2.1</version>
+								</feature>
+								<feature>
+								    <id>org.wso2.carbon.apimgt.publisher.feature.group</id>
+								    <version>1.2.1</version>
+								</feature>
+								<feature>
+								    <id>org.wso2.carbon.apimgt.store.feature.group</id>
+								    <version>1.2.1</version>
+								</feature>
+								<feature>
+								    <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
+								    <version>1.2.0</version>
+								</feature>
 							</features>
 						</configuration>
 					</execution>
@@ -461,9 +634,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<properties>
-		<carbon.platform.patch.version.412>4.2.0</carbon.platform.patch.version.412>
-		<cep.component.version>1.0.0</cep.component.version>
-	</properties>
-
 </project>

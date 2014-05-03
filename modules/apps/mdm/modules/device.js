@@ -883,10 +883,15 @@ var device = (function () {
                 return "Succeeded : "+succeeded;
             }
         },
+        monitoring:function(ctx){
+            application.put("that",this);
+            try{
+                setInterval((application.get("that")).monitor({}),100000);
+            }catch (e){
+                log.debug("Error In Monitoring");
+            }
 
-        /*
-         The function sends messages to registered device to get the Device Info, App Info and to check Policy Compliance.
-        */
+        },
         monitor:function(ctx){
             log.debug("Monitor");
             db = common.getDatabase();
@@ -907,7 +912,6 @@ var device = (function () {
                 }
             }
         },
-
         changeDeviceState:function(deviceId,state){
         	var tenantID = common.getTenantID();
             db.query(sqlscripts.devices.update1, state, stringify(deviceId));

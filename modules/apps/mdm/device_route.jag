@@ -21,7 +21,7 @@
                 include("/ios_utils/enrollsuccess.jag");
                 break;
             case "/mdm/certificate":
-                include("/ios_utils/deviceloginsign.jag");
+                include("/ios_utils/certificate.html");
                 break;
             case "/mdm/devicestatusmonitor":
                 include("/ios_utils/devicestatusmonitor.jag");

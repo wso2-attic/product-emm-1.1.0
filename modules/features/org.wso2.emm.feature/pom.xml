@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>org.wso2.emm</groupId>
 		<artifactId>wso2emm-features</artifactId>
-		<version>1.1.0</version>
+		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>org.wso2.emm</groupId>
 			<artifactId>org.wso2.emm.admin.styles</artifactId>
-			<version>1.1.0</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wso2.store</groupId>
@@ -74,7 +74,7 @@
 							<goal>p2-feature-gen</goal>
 						</goals>
 						<configuration>
-							<id>org.wso2.emm</id>
+							<id>org.wso2.store</id>
 							<propertiesFile>../../../../etc/feature.properties</propertiesFile>
 							<adviceFile>
 								<properties>
@@ -83,10 +83,17 @@
 								</properties>
 							</adviceFile>
 							<bundles>
-								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.1.0</bundleDef>
-								<bundleDef>org.wso2.emm:emm-task:1.1.0</bundleDef>
-								<bundleDef>org.wso2.emm:emm-gcm:1.1.0</bundleDef>
-								<bundleDef>org.wso2.emm:manifestUtils:1.1.0</bundleDef>
+								<bundleDef>slf4j.wso2:slf4j:1.5.10.wso2v1</bundleDef>
+<!--
+								<bundleDef>org.wso2.carbon:org.wso2.carbon.hostobjects.sso</bundleDef>
+-->
+								<bundleDef>org.wso2.store:org.wso2.store.sso.common</bundleDef>
+								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.0.0</bundleDef>
+<!--
+								<bundleDef>org.wso2.store:org.wso2.carbon.social:1.0.0</bundleDef>
+								<bundleDef>org.wso2.carbon:org.wso2.carbon.databridge.datasink.cassandra</bundleDef>
+-->
+								<bundleDef>org.wso2.store:jaggery-scxml-executors:1.0.0</bundleDef>
 							</bundles>
 							<importBundles>
 							</importBundles>

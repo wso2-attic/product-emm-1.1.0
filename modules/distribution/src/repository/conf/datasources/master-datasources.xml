@@ -5,26 +5,6 @@
     </providers>
 
     <datasources>
-	<datasource>
-            <name>$(datasource_name)</name>
-            <description>$(datasource_description)</description>
-            <jndiConfig>
-                <name>$(datasource_jndiConfig)</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>$(datasource_config_url)</url>
-                    <username>$(datasource_config_username)</username>
-                    <password>$(datasource_config_password)</password>
-                    <driverClassName>$(datasource_config_driverClassName)</driverClassName>
-                    <maxActive>$(datasource_config_maxActive)</maxActive>
-                    <maxWait>$(datasource_config_maxWait)</maxWait>
-                    <testOnBorrow>$(datasource_config_testOnBorrow)</testOnBorrow>
-                    <validationQuery>$(datasource_config_validationQuery)</validationQuery>
-                    <validationInterval>$(datasource_config_validationInterval)</validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
         <datasource>
             <name>WSO2_CARBON_DB</name>
             <description>The datasource used for registry and user manager</description>
