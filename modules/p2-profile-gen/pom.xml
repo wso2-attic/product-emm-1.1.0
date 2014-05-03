@@ -181,9 +181,6 @@
 								</featureArtifactDef>
 
 								<!-- Store -->
-								<featureArtifactDef>
-									org.wso2.store:org.wso2.store.feature:${es.version}
-								</featureArtifactDef>
 								<!-- EMM -->
 								<featureArtifactDef>
 									org.wso2.emm:org.wso2.emm.feature:${project.version}
@@ -326,10 +323,6 @@
 									<version>${carbon.platform.version}</version>
 								</feature>
 								<!-- Store features -->
-								<feature>
-									<id>org.wso2.store.feature.group</id>
-									<version>${es.version}</version>
-								</feature>
 								
 
 								<!-- Identity feature -->
