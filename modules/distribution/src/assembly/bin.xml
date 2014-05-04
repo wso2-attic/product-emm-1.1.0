@@ -199,7 +199,7 @@
             </includes>
         </fileSet>
 	<fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/dbscripts/apimgt</directory>
+            <directory>src/repository/dbscripts/apimgt</directory>
             <outputDirectory>wso2emm-${pom.version}/dbscripts/apimgt</outputDirectory>
             <includes>
                 <include>*/**</include>
