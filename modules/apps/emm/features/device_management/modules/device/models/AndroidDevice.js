@@ -1,26 +1,39 @@
 var Device = require('device.js').Device;
-var AndroidDevice = function(user, options, DeviceModule) {
-	this.platform = DeviceModule.ANDROID;
+var AndroidDevice = function(user, platform, options, DeviceModule) {
 	this.user = user;
+    this.platform = platform;
 	this.options = options;
 	this.DeviceModule = DeviceModule;
 
-     // Persist to the database
-    this.register = function() {       
+    // Persist to the database
+    this.registerNewDevice = function() {
         device = new this.DeviceModel();
-        device.tenant_id = this.user.tenant_id;
-        device.user_id = this.user.user_id;
-        device.platform_id = this.platform;
+        device.tenant_id = this.user.tenantid;
+        device.user_id = this.user.userid;
+        device.platform_id = this.platform.id;
         device.uuid = this.options.uuid;
-        device.os_version = this.options.os_version;
+        device.os_version = this.options.osVersion;
         device.ownership = this.options.ownership;
-        device.mac_address = this.options.mac_address;
-        device.status = this.DeviceModule.DEVICE_ACTIVE;
-        device.created_date = "2012-03-02 08:07:23.234";
-        device.updated_date = "2012-03-02 08:07:23.234";
-        device.save();
+        device.mac_address = this.options.macAddress;
+        device.token = this.options.token;
+        device.extraInfo = this.options.extraInfo;
+        device.status = this.DeviceModule.Device.Active;
+        device.created_date = new Date();
+        device.updated_date = new Date();
+        try {
+            device.save();
+        } catch (e) {
+            log.error(e);
+            return null;
+        }
+        var registerData = {};
+        registerData.contentType = DeviceModule.CONTENTTYPE.JSON;
+        registerData.data = device;
+        return registerData;
+
         // AndroidDevice.prototype.register.call(this);
     }
+
     this.recordNotification = function(){
     	//write to the notification table about the last contact period to the device
     }
@@ -33,14 +46,14 @@ var AndroidDevice = function(user, options, DeviceModule) {
     	var complexPayload = this.buildPayload(messages);
     	return complexPayload;
     }
+
     this.consumeResult = function(result, notifier){
     	for (var i = result.length - 1; i >= 0; i--) {
     		var resultPacket = result[i];
     		var message =this.getMessage(resultPacket.messageid);
     		message.updateResult(resultPacket);
     	};
-    	
-
     }
+
 }
 AndroidDevice.prototype = new Device();

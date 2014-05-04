@@ -15,78 +15,153 @@
  *
  * 	Description : - HTTP API Layer for Device communication
  */
+
+//var i18n = require("i18n");
+//i18n.localeResourcesBasePath('/config/lang/');
+
+var utilityModule = require('/features/utility_module.js');
+
 var api_router = function(router){
 	var log = new Log('device-router');
 	var db = application.get("db");
 
 	var DeviceModule = require('/features/device_management/modules/device/DeviceModule.js').DeviceModule;
     var PolicyModule = require('/features/device_management/modules/policy/PolicyModule.js').PolicyModule;
+
 	/*
-		Usage:- Check if the provided deviceId is registered
+		Check if the provided deviceId is registered
 		Sample:-
-			Input:- 
-				URL Param - id
-			Output:-
-				true, false
+			Input:-
+				Body - id
+			Output:- true, false
 	*/
-	router.get('/api/device/register/:id', function(req, res){
-		var id = req.params.id;
+	router.get('/api/device/register', function(req, res){
+		var id = req.body.id;
 		// Output 
 		var status = DeviceModule.isDeviceRegistered(id);
-		print(status);
+        if(status) {
+            response.status = 200;
+            response.content = status;
+        } else {
+            response.status = 401;
+            response.content = status;
+        }
 	});
+
 	/*
-		Usage:- Register a Device with provided details to EMM
+		Register a Device with provided details to EMM
 		Sample:-
-			Input:- 
-				Body - {
-					"platform" : "ANDROID",
-					"device_type" : "PHONE",
-					"ownership": "BYOD",
-					"os_version": "4.2",
-					"userid": "admin",
-					"password" : "****"
-					"tenant_domain": "wso2.com"
-				}
+			Input:-
+				Body - {"userid" : "admin", "password" : "*****", tenantDomain : "wso2.com", "ownership" : "BYOD",
+				     "platform" : "ANDROID", "device_type" : "PHONE", "os_version": "4.2" }
 				(or)
-				Body - {
-				    "userid" : "admin",
-				    "password" : "****",
-				    "ownership" : "BYOD",
-				    "tenant_domain" : "wso2.com"
-				}
-			Output:-
-				true, false
+				Body - { "userid" : "admin", "password" : "*****", "ownership" : "BYOD", "tenantDomain" : "wso2.com" }
+			Output:- COPE - true, false
+				     BYOD - send BYOD license
 	*/
-	router.post('/api/device/register/', function(req, res){
+    router.post('/api/device/login', function (req, res) {
 
         var userid = req.body.userid;
-        var tenant_domain = req.body.tenant_domain;
+        var tenantDomain = req.body.tenantDomain;
         var password = req.body.password;
+        var ownership = req.body.ownership;
+        var registerData;
 
-        //authentiate user
+        //authentiate user - usermanager - WSO2
+        //Check if tenant is activate for this device
+        var authentiate = null;
 
+        if (authentiate) {
+            //Get the tenant id from the tenant Domain = WSO2
+            var user = userModule.getUser(userid, tenantDomain);
+            var registerObject = {};
+            registerObject = utilityModule.getPlatform(req);
+            if(ownership == "COPE") {
+                //register device - WSO2
+                try {
+                    registerData = DeviceModule.registerDevice(user, {
+                        platform : registerObject.platform,
+                        platformType : registerObject.platformType,
+                        ownership : ownership,
+                        osVersion : registerObject.osVersion,
+                        udid : registerObject.udid,
+                        macAddress : registerObject.macAddress,
+                        token : registerObject.token,
+                        extraInfo : registerObject.extraInfo
+                    });
+                    if(registerData != null) {
+                        response.contentType = registerData.contentType;
+                        if(registerData.contentType == DeviceModule.CONTENTTYPE.JSON) {
+                            response.content = lang.REGISTERED;
+                        } else if (registerData.contentType == DeviceModule.CONTENTTYPE.APPLECONFIG) {
+                            var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(registerData.data);
+                            print(new Stream(byteArrayInputStream));
+                        }
+                    }
 
+                } catch (e) {
+                    log.error(e);
+                    print(lang.REGISTRATION_FAILED);
+                    response.sendError(500);
+                }
 
-        //Check if "platform" parameter is passed and if so check if it Android
-        //else find out using useragent.
-        request.getHeader("User-Agent");
+            } else if(ownership == "BYOD") {
+                //Get BYOD License - WSO2
+                var byodLicense = null;
 
+                response.content = byodLicense;
+                response.status = 200;
 
-		var platform = req.body.platform;
-		var ownership = req.body.ownership;
-		var os_version = req.body.os_version;
-		var udid = req.body.udid;
-		var mac_address = req.body.mac_address;
+            } else {
+                response.content = lang.INVALID_OWNERSHIP;
+                response.status = 401;
+            }
+        } else {
+            response.content = lang.INVALID_USER;
+            response.status = 401;
+        }
+    });
 
-		try {
-            var device = DeviceModule.registerDevice(userid, tenant_domain, {
-                platform: platform,
-                ownership: ownership,
-                os_version: os_version,
-                udid: udid,
-                mac_address: mac_address
+    /*
+        Usage: Register a BYOD device
+        Sample:
+            Input:
+                Body - {"ownership" : "BYOD", "platform" : "ANDROID", "device_type" : "PHONE", "os_version": "4.2"
+                    }
+                (or)
+                Body - { "userid" : "ownership" : "BYOD" }
+                Output:- COPE - true, false
+                         BYOD - send BYOD license
+
+    */
+	router.post('/api/device/register/', function(req, res){
+
+        //Get userid, tenant from token - Android (or) session - iOS - WSO2
+        var user = req.user;
+        var registerObject = {};
+        registerObject = utilityModule.getPlatform(req);
+        var registerData;
+
+        try {
+            var device = DeviceModule.registerDevice(user, {
+                platform : registerObject.platform,
+                platformType : registerObject.platformType,
+                ownership : ownership,
+                osVersion : registerObject.osVersion,
+                udid : registerObject.udid,
+                macAddress : registerObject.macAddress,
+                token : registerObject.token,
+                extraInfo : registerObject.extraInfo
             });
+            if(registerData != null) {
+                response.contentType = registerData.contentType;
+                if(registerData.contentType == DeviceModule.CONTENTTYPE.JSON) {
+                    response.content = lang.REGISTERED;
+                } else if (registerData.contentType == DeviceModule.CONTENTTYPE.APPLECONFIG) {
+                    var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(registerData.data);
+                    print(new Stream(byteArrayInputStream));
+                }
+            }
         } catch (e) {
             log.error(e);
             print("Device Registration failed");
@@ -95,27 +170,21 @@ var api_router = function(router){
 	});
 
 	/*
-		Usage:- Perform operation on a device
+		Perform operation on a device
 		Sample:-
 			Input:- 
-				URL Param - id, operationcode
-				Body - 
-					{
-						options: {"wifi-id": "WSO2"}
-					}
-			Output:-
-				200, 500
+				Body - { "deviceid": 1, "operationCode": 507A, "options": {"wifi-id": "WSO2"} }
+			Output:- 200, 500
 	*/
-	router.post('api/device/{id}/operate/{operationcode}', function(req, res){
+	router.post('api/device/operate', function(req, res){
 		try{
-			var id = req.params.id;
-			var operation_code = req.params.operationcode;
+            var deviceid = req.body.deviceid;
+            var operationCode = req.body.operationCode;
 			var options = req.param.options;
-			var device = DeviceModule.getDevice(id);
-			device.operate(operation_code, options);
+			DeviceModule.getDevice(deviceid);
 		}catch(e){
 			log.error(e);
-            print("Device Operation failed");
+            response.content = lang.DEVICE_OPERATION_FAILED;
             response.sendError(500);
 		}
 	});
