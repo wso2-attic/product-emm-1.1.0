@@ -46,9 +46,8 @@ DriverModule.createDB = function() {
         try {
             var isDBExist = db.query('SELECT * FROM devices');
         } catch (e) {
-            log.info(e);
             var carbon = require('carbon');
-            var h2ScriptPath = carbon.server.home + '/dbscripts/EMM/h2/resource.sql';
+            var h2ScriptPath = carbon.server.home + '/dbscripts/emm/h2/resource.sql';
             var h2ScriptFile = new File(h2ScriptPath);
             h2ScriptFile.open("r");
             var h2Script = h2ScriptFile.readAll();

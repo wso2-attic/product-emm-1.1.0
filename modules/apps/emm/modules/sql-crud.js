@@ -32,7 +32,33 @@ var sqlCRUD = function (schema, options) {
      var removeLastAnd = function(query){
         return query.substring(0, query.length - 3);;
     }
+    /*
+        Make this a top-level method later
+    */
+    schema.methods.update = function (ids) {
+        var props = schema.props;
+        var query_line = "UPDATE `"+schema.meta.tablename+"` SET ";
+        var keys = Object.getOwnPropertyNames(schema.props);
+        
+        //Add starting brackets
+        var columns = "";
+        var where = "";
+        for (var i = keys.length - 1; i >= 0; i--) {
+            var column = keys[i];
+            columns += " "+String.toUpperCase(column) +"='"+this[column]+"',";
+        };
+        //Add ending brackets
+        columns = removeLastComma(columns);
 
+        for (var j = ids.length - 1; j >= 0; j--) {   
+            var key_id = ids[j];    
+            where+=" "+key_id+"='"+this[key_id]+"' AND";
+        };
+        where = removeLastAnd(where);
+        query_line +=columns+" WHERE "+where;
+        log.info(query_line);
+        db.query(query_line);
+    }
     schema.static.find = function (query, pagination) {
         var types = Object.getOwnPropertyNames(query);
         var query_line = "SELECT * FROM `"+schema.meta.tablename+"` WHERE ";
@@ -99,9 +125,11 @@ var sqlCRUD = function (schema, options) {
         var values = "(";
         for (var i = keys.length - 1; i >= 0; i--) {
             var column = keys[i];
-            // var columnType = props[column].type;
-            columns += String.toUpperCase(column)+","
-            values += "'"+entity[column]+"',";
+            if(typeof(entity[column])!=="function"){
+                // var columnType = props[column].type;
+                columns += String.toUpperCase(column)+","
+                values += "'"+entity[column]+"',";
+            }
         };
         //Add ending brackets
         columns = removeLastComma(columns) +")";
