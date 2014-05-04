@@ -196,7 +196,7 @@ DeviceInfoSchema.plugin(sql_crud, {
     db: db
 });
 
-var DeviceAppSchema = new entity.Schema("device_app", {
+var DeviceAppSchema = new entity.Schema("Device_App", {
     device_info_id: Number,
     device_id: Number,
     tenant_id: Number,
@@ -210,12 +210,12 @@ DeviceAppSchema.plugin(sql_crud, {
     db: db
 });
 
-var NotificationSchema = new entity.Schema("notification", {
+var NotificationSchema = new entity.Schema("Notification", {
     id: Number,
     tenant_id: Number,
     device_id: Number,
     notify_count: Number,
-    NOTIFIER: String,
+    notifier: String,
     status: String,
     sent_date: Date,
     received_date: Date

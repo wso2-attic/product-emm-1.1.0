@@ -8,8 +8,8 @@ var AndroidDevice = function(user, platform, options, DeviceModule) {
     // Persist to the database
     this.registerNewDevice = function() {
         device = new this.DeviceModel();
-        device.tenant_id = this.user.tenantid;
-        device.user_id = this.user.userid;
+        device.tenant_id = this.user.tenant_id;
+        device.user_id = this.user.user_id;
         device.platform_id = this.platform.id;
         device.uuid = this.options.uuid;
         device.os_version = this.options.osVersion;

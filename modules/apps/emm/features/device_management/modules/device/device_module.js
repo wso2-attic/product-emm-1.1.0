@@ -24,6 +24,8 @@ var IOSDevice = require('models/IOSDevice.js').IOSDevice;
 // entity models
 var DeviceModel = entity.model('Device');
 var OperationModel = entity.model('Operation');
+var PlatformModel = entity('Platform');
+var NotificationModel = entity('Notification');
 
 var DeviceModule = {};
 DeviceModule.ANDROID = "ANDROID";
@@ -37,6 +39,15 @@ DeviceModule.Device.Pending = "P";
 
 DeviceModule.CONTENTTYPE.JSON = "application/json";
 DeviceModule.CONTENTTYPE.APPLECONFIG = "application/x-apple-aspen-config";
+DeviceModule.CONTENTTYPE.PLAINTEXT = "text/plain";
+DeviceModule.CONTENTTYPE.CACERT = "application/x-x509-ca-cert";
+DeviceModule.CONTENTTYPE.CARACERT = "application/x-x509-ca-ra-cert";
+DeviceModule.CONTENTTYPE.PKIMESSAGE = "application/x-pki-message";
+
+DeviceModule.NOTIFIER.SENT = "S";
+DeviceModule.NOTIFIER.RECEIVED = "R";
+DeviceModule.NOTIFIER.DELETED = "D";
+
 
 // DeviceModule.WINDOWS = "3";
 // DeviceModule.RPIE = "4";
@@ -124,7 +135,7 @@ DeviceModule.getDevice = function(id) {
 */
 DeviceModule.registerDevice = function(user, options) {
     var device;
-    var platforms = PlatformSchema.findOne({OS: options.platform, TYPE: options.platformType});
+    var platforms = PlatformModel.findOne({OS: options.platform, TYPE: options.platformType});
     if (platforms.length == 0) {
         throw lang.INVALID_PLATFORM;
     }
@@ -147,6 +158,88 @@ DeviceModule.registerDevice = function(user, options) {
     }
 
     return registerData;
+
+}
+
+/*
+    Generate the profile for iOS
+ */
+DeviceModule.handleProfile = function(inputStream) {
+    try {
+
+        log.debug("Handle Profile Request!");
+        var signedData = IOSDevice.handleProfileRequest();
+        return signedData;
+    }catch (e) {
+        log.error(e);
+        return null;
+    }
+}
+
+/*
+    Update iOS tokens
+ */
+DeviceModule.extractDeviceTokens = function(inputStream) {
+    try {
+        var writer = new Packages.java.io.StringWriter();
+        //Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer, "UTF-8");
+        var contentString = writer.toString();
+
+        var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
+        var checkinMessageType = plistExtractor.extractTokens(contentString);
+        log.debug("CheckinMessageType >>>>>> " + checkinMessageType.getMessageType());
+
+        if (checkinMessageType.getMessageType() == "CheckOut") {
+            var udid = checkinMessageType.getUdid();
+            IOSDevice.unRegister(udid);
+        } else if(checkinMessageType.getMessageType() == "TokenUpdate") {
+            var deviceToken = {};
+            deviceToken.token = checkinMessageType.getToken();
+            deviceToken.unlockToken = checkinMessageType.getUnlockToken();
+            deviceToken.magicToken = checkinMessageType.getPushMagic();
+            deviceToken.udid = checkinMessageType.getUdid();
+
+            IOSDevice.UpdateTokens(deviceToken);
+        }
+        return checkinMessageType.getMessageType();
+
+    }catch (e) {
+        log.error(e);
+        return null;
+    }
+
+    /*
+    var writer = new Packages.java.io.StringWriter();
+    Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer, "UTF-8");
+    var contentString = writer.toString();
+
+    try {
+        var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
+        var checkinMessageType = plistExtractor.extractTokens(contentString);
+
+        log.debug("CheckinMessageType >>>>>>>>>>>>>>>>>>>>>> " + checkinMessageType.getMessageType());
+
+        if (checkinMessageType.getMessageType() == "CheckOut") {
+            var ctx = {};
+            ctx.udid = checkinMessageType.getUdid();
+            device.unRegisterIOS(ctx);
+        } else if (checkinMessageType.getMessageType() == "TokenUpdate") {
+            var tokenProperties = {};
+            tokenProperties["token"] = checkinMessageType.getToken();
+            tokenProperties["unlockToken"] = checkinMessageType.getUnlockToken();
+            tokenProperties["magicToken"] = checkinMessageType.getPushMagic();
+            tokenProperties["deviceid"] = checkinMessageType.getUdid();
+
+            device.updateiOSTokens(tokenProperties);
+        }
+
+        return checkinMessageType.getMessageType();
+
+    } catch (e) {
+        log.error(e);
+    }
+    */
+
 
 }
 
