@@ -230,6 +230,13 @@
 				<include>*/**</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<directory>src/repository/dbscripts/</directory>
+			<outputDirectory>wso2emm-${pom.version}/dbscripts</outputDirectory>
+			<includes>
+				<include>*/**</include>
+			</includes>
+		</fileSet>
 
 	</fileSets>
 
@@ -424,7 +431,7 @@
 			<fileMode>644</fileMode>
 		</file>
 
-		<file>
+<!-- 		<file>
 			<source>src/repository/dbscripts/emm_mysql.sql</source>
 			<outputDirectory>wso2emm-${pom.version}/dbscripts</outputDirectory>
 			<fileMode>644</fileMode>
@@ -435,7 +442,7 @@
 			<outputDirectory>wso2emm-${pom.version}/dbscripts/identity</outputDirectory>
 			<fileMode>644</fileMode>
 		</file>
-
+ -->
 <!--
 		<file>
 			<source>src/repository/cassandra/cassandra.yaml</source>
