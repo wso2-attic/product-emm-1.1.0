@@ -1,3 +1,12 @@
-{"operation": {
-	"getOperationsForDevice": ""
-}}
+{
+    "operation":
+    {
+	    "getOperationsForDevice": ""
+    },
+
+    "notification":
+    {
+        "setDeviceStatus" : "UPDATE notification SET status = ? WHERE device_id = ? AND status = ?"
+    }
+}
+

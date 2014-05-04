@@ -26,6 +26,8 @@ var DeviceModel = entity.model('Device');
 var OperationModel = entity.model('Operation');
 var PlatformModel = entity('Platform');
 var NotificationModel = entity('Notification');
+var DevicePolicyModel = entity('DevicePolicy');
+var DeviceInfoModel = entity('DeviceInfo');
 
 var DeviceModule = {};
 DeviceModule.ANDROID = "ANDROID";
@@ -207,38 +209,6 @@ DeviceModule.extractDeviceTokens = function(inputStream) {
         log.error(e);
         return null;
     }
-
-    /*
-    var writer = new Packages.java.io.StringWriter();
-    Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer, "UTF-8");
-    var contentString = writer.toString();
-
-    try {
-        var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
-        var checkinMessageType = plistExtractor.extractTokens(contentString);
-
-        log.debug("CheckinMessageType >>>>>>>>>>>>>>>>>>>>>> " + checkinMessageType.getMessageType());
-
-        if (checkinMessageType.getMessageType() == "CheckOut") {
-            var ctx = {};
-            ctx.udid = checkinMessageType.getUdid();
-            device.unRegisterIOS(ctx);
-        } else if (checkinMessageType.getMessageType() == "TokenUpdate") {
-            var tokenProperties = {};
-            tokenProperties["token"] = checkinMessageType.getToken();
-            tokenProperties["unlockToken"] = checkinMessageType.getUnlockToken();
-            tokenProperties["magicToken"] = checkinMessageType.getPushMagic();
-            tokenProperties["deviceid"] = checkinMessageType.getUdid();
-
-            device.updateiOSTokens(tokenProperties);
-        }
-
-        return checkinMessageType.getMessageType();
-
-    } catch (e) {
-        log.error(e);
-    }
-    */
 
 
 }

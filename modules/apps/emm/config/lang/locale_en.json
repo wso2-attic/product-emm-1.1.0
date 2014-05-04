@@ -9,5 +9,6 @@
     "DEVICE_NOT_FOUND" : "Device not found",
     "REGISTERED" : "Registered",
     "INVALID_SCEP_REQUEST" : "Invalid SCEP request",
-    "NO_ACTIVE_DEVICE" : "No Active Device"
+    "NO_ACTIVE_DEVICE" : "No Active Device",
+    "DEVICE_TOKEN_UPDATE_EXCEPTION" : "Exception when updating device token"
 }

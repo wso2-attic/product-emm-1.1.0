@@ -1,5 +1,6 @@
 var Device = require('device.js').Device;
 var uniqueIdentifier = require('uuid');
+var complexQueries = require('/modules/queries.json');
 
 var IOSDevice = function(user, platform, options, DeviceModule) {
     this.user = user;
@@ -59,11 +60,11 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
                 updateDevice.update(["challenge_token", "status"]);
             }
 
-            devices = this.DeviceModel.findOne({CHALLENGE_TOKEN: profileResponse.challengeToken, STATUS: DeviceModule.Device.Pending});
+            var devices = this.DeviceModel.findOne({CHALLENGE_TOKEN: profileResponse.challengeToken, STATUS: DeviceModule.Device.Pending});
             if(devices.length == 0) {
                 throw lang.INVALID_DEVICE;
             }
-            device = devices[0];
+            var device = devices[0];
 
             //Get Tenant id from usermanagement - WSO2 Nira
             var tenantName = null
@@ -79,6 +80,9 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
         }
     }
 
+    /*
+        Unregister iOS device
+     */
     this.unRegister = function(udid) {
         if(udid != null) {
             var devices = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
@@ -87,38 +91,79 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
             }
             device = devices[0];
 
-            var notification = new this.NotificationModel();
-            notification.device_id = device.id;
-            notification.status = DeviceModule.NOTIFIER.DELETED;
+//            var notification = new this.NotificationModel();
+//            notification.status = DeviceModule.NOTIFIER.DELETED;
+//            notification.update({ID: device.id, STATUS: DeviceModule.NOTIFIER.SENT});
 
-//    'update3' : "UPDATE device_awake JOIN devices ON devices.id = device_awake.device_id SET device_awake.status = 'D' WHERE devices.udid = ? AND device_awake.status = 'S'",
+            this.NotificationModel.query((complexQueries.notification.setDeviceStatus, DeviceModule.NOTIFIER.DELETED, device.id, DeviceModule.NOTIFIER.SENT), function(complexObject, model) {
+            });
 
+            var devicePolicy = new this.DevicePolicyModel();
+            devicePolicy.status = "D";
+            devicePolicy.update({DEVICE_ID: device.id, STATUS: "A"});
 
-            this.DeviceModule.update({SET:{}})
+            var deviceInfo = new this.DeviceInfoModel();
+            deviceInfo.status = "D";
+            deviceInfo.update({DEVICE_ID: device.id, STATUS: "S"});
+
+            var updateDevice = new this.DeviceModel();
+            updateDevice.status = this.DeviceModule.Device.Deleted;
+            updateDevice.update({ID: device.id, STATUS: DeviceModule.Device.Active});
+
+            return true;
         }
     }
 
-
     /*
-    unRegisterIOS:function(ctx){
+        Update MDM Tokens
+     */
+    this.UpdateTokens = function(deviceToken) {
+        var device;
+        var token;
+        try {
+            var devicesExist = this.DeviceModel.findOne({UDID: deviceToken.udid, STATUS: DeviceModule.Device.Active});
+            if(devicesExist.length > 0) {
+                device = devicesExist[0];
+                token = device.token;
+                if(deviceToken.token != null) {
+                    token.token = deviceToken.token;
+                }
+                if(deviceToken.unlockToken != null) {
+                    token.unlockToken = deviceToken.unlockToken;
+                }
+                if(deviceToken.magicToken != null) {
+                    token.magicToken = deviceToken.magicToken;
+                }
+                device.token = token;
+                device.update(["id", "status"]);
+            } else {
+                var devices = this.DeviceModel.findOne({UDID: deviceToken.udid, STATUS: DeviceModule.Device.Pending});
+                if (devices.length > 0) {
+                    device = devices[0];
+                    var token = device.token;
+                    if(deviceToken.token != null) {
+                        token.token = deviceToken.token;
+                    }
+                    if(deviceToken.unlockToken != null) {
+                        token.unlockToken = deviceToken.unlockToken;
+                    }
+                    if(deviceToken.magicToken != null) {
+                        token.magicToken = deviceToken.magicToken;
+                    }
+                    device.token = token;
+                    device.status = DeviceModule.Device.Active;
+                    device.update(["id", "status"]);
 
-        //sendMessageToIOSDevice({'deviceid':ctx.udid, 'operation': "ENTERPRISEWIPE", 'data': ""});
+                    //Call device monitor for the device - WSO2 Nira
 
-        if(ctx.udid != null){
-            var devices = db.query(sqlscripts.devices.select20, ctx.udid);
-            db.query(sqlscripts.device_awake.update3, ctx.udid);
-            var result = db.query(sqlscripts.devices.delete2, ctx.udid);
-            if(result == 1){
-                db.query(sqlscripts.device_policy.update2, devices[0].id);
-                return true;
-            }else{
-                return false
+                } else {
+                    throw lang.DEVICE_TOKEN_UPDATE_EXCEPTION;
+                }
             }
-        }else{
-            return false;
+        } catch (e) {
+            throw lang.DEVICE_TOKEN_UPDATE_EXCEPTION;
         }
-    },*/
-
+    }
 
 
 	var generate = function(){
