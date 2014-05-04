@@ -65,6 +65,7 @@ var api_router = function(router){
         var tenantDomain = req.body.tenantDomain;
         var password = req.body.password;
         var ownership = req.body.ownership;
+        var registerData;
 
         //authentiate user - usermanager - WSO2
         //Check if tenant is activate for this device
@@ -78,17 +79,29 @@ var api_router = function(router){
             if(ownership == "COPE") {
                 //register device - WSO2
                 try {
-                    var device = DeviceModule.registerDevice(user, {
+                    registerData = DeviceModule.registerDevice(user, {
                         platform : registerObject.platform,
                         platformType : registerObject.platformType,
                         ownership : ownership,
                         osVersion : registerObject.osVersion,
                         udid : registerObject.udid,
-                        macAddress : registerObject.macAddress
+                        macAddress : registerObject.macAddress,
+                        token : registerObject.token,
+                        extraInfo : registerObject.extraInfo
                     });
+                    if(registerData != null) {
+                        response.contentType = registerData.contentType;
+                        if(registerData.contentType == DeviceModule.CONTENTTYPE.JSON) {
+                            response.content = lang.REGISTERED;
+                        } else if (registerData.contentType == DeviceModule.CONTENTTYPE.APPLECONFIG) {
+                            var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(registerData.data);
+                            print(new Stream(byteArrayInputStream));
+                        }
+                    }
+
                 } catch (e) {
                     log.error(e);
-                    print("Device Registration failed");
+                    print(lang.REGISTRATION_FAILED);
                     response.sendError(500);
                 }
 
@@ -127,16 +140,28 @@ var api_router = function(router){
         var user = req.user;
         var registerObject = {};
         registerObject = utilityModule.getPlatform(req);
+        var registerData;
 
         try {
             var device = DeviceModule.registerDevice(user, {
-                platform : platform,
-                platformType : platformType,
+                platform : registerObject.platform,
+                platformType : registerObject.platformType,
                 ownership : ownership,
-                osVersion : osVersion,
-                udid : udid,
-                macAddress : macAddress
+                osVersion : registerObject.osVersion,
+                udid : registerObject.udid,
+                macAddress : registerObject.macAddress,
+                token : registerObject.token,
+                extraInfo : registerObject.extraInfo
             });
+            if(registerData != null) {
+                response.contentType = registerData.contentType;
+                if(registerData.contentType == DeviceModule.CONTENTTYPE.JSON) {
+                    response.content = lang.REGISTERED;
+                } else if (registerData.contentType == DeviceModule.CONTENTTYPE.APPLECONFIG) {
+                    var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(registerData.data);
+                    print(new Stream(byteArrayInputStream));
+                }
+            }
         } catch (e) {
             log.error(e);
             print("Device Registration failed");

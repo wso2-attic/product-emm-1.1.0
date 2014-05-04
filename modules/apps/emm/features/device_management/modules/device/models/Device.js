@@ -19,8 +19,13 @@ var entity = require('entity');
 var Device = function() {
     var DeviceModel = entity.model('Device');
     var device;
-    this.register = function() {
+
+    /*
+        This is overwritten by the platform specific device module
+     */
+    this.registerNewDevice = function() {
     }
+
     /*
 		Performs operation 
         Accept feature code and options

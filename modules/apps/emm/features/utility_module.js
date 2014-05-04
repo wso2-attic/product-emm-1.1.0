@@ -21,28 +21,34 @@ var utilityModule = (function() {
 
     function getPlatform(req) {
 
-        var returnObject = {};
+        var deviceObject = {};
 
-        returnObject.status = true;
-        returnObject.platform = req.body.platform;
+        deviceObject.status = true;
+        deviceObject.platform = req.body.platform;
         if(returnObject.platform == null) {
             //Get platform using userAgent
             var userAgent = req.getHeader("User-Agent");
             if(userAgent.match(/iPad/i)) {
-                returnObject.platform = "IOS";
-                returnObject.platformType = "IPAD";
+                deviceObject.platform = "IOS";
+                deviceObject.platformType = "IPAD";
             }else if (userAgent.match(/iPhone/i)) {
-                returnObject.platform = "IOS";
-                returnObject.platformType = "IPHONE";
+                deviceObject.platform = "IOS";
+                deviceObject.platformType = "IPHONE";
             } else {
                 //Invalid Device
-                returnObject.status = false;
+                deviceObject.status = false;
             }
         } else if(platform == "ANDROID") {
-            returnObject.platformType = req.body.platformType;
-            returnObject.osVersion = req.body.osVersion;
-            returnObject.udid = req.body.udid;
-            returnObject.macAddress = req.body.macAddress;
+            deviceObject.platformType = req.body.platformType;
+            deviceObject.osVersion = req.body.osVersion;
+            deviceObject.udid = req.body.udid;
+            deviceObject.macAddress = req.body.macAddress;
+            var extraInfo = {};
+            extraInfo.vendor = req.body.vendor;
+            deviceObject.extraInfo = extraInfo;
+            var token = {};
+            token.gcmToken = req.body.regid;
+            deviceObject.token = token;
         } else {
             //Invalid Device
             returnObject.status = false;

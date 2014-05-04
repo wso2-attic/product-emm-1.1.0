@@ -6,5 +6,6 @@
     "DEVICE_OPERATION_FAILED" : "Device Operation failed",
     "INVALID_PLATFORM" : "Invalid Platform",
     "INVALID_OPERATIONCODE" : "Invalid Operation Code",
-    "DEVICE_NOT_FOUND" : "Device not found"
+    "DEVICE_NOT_FOUND" : "Device not found",
+    "REGISTERED" : "Registered"
 }

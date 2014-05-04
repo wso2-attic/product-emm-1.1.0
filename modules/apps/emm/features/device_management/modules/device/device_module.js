@@ -35,6 +35,9 @@ DeviceModule.Device.InActive = "I";
 DeviceModule.Device.Deleted = "D";
 DeviceModule.Device.Pending = "P";
 
+DeviceModule.CONTENTTYPE.JSON = "application/json";
+DeviceModule.CONTENTTYPE.APPLECONFIG = "application/x-apple-aspen-config";
+
 // DeviceModule.WINDOWS = "3";
 // DeviceModule.RPIE = "4";
 
@@ -126,16 +129,25 @@ DeviceModule.registerDevice = function(user, options) {
         throw lang.INVALID_PLATFORM;
     }
     var platform = platforms[0];
+    var registerData;
 
-    switch (options.platform) {
-        case DeviceModule.ANDROID:
-        	device = new AndroidDevice(user, platform, options, DeviceModule);
-            break;
-        case DeviceModule.IOS:
-        	device = new IOSDevice(user, platform, options, DeviceModule);
-            break;
+    try {
+        switch (options.platform) {
+            case DeviceModule.ANDROID:
+                device = new AndroidDevice(user, platform, options, DeviceModule);
+                break;
+            case DeviceModule.IOS:
+                device = new IOSDevice(user, platform, options, DeviceModule);
+                break;
+        }
+        registerData = device.registerNewDevice();
+    } catch (e) {
+        log.error(e);
+        return null;
     }
-    device.register();
+
+    return registerData;
+
 }
 
 /*

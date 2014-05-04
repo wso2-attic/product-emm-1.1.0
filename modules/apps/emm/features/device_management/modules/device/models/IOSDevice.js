@@ -1,4 +1,5 @@
 var Device = require('device.js').Device;
+var uniqueIdentifier = requier('uuid');
 
 var IOSDevice = function(user, platform, options, DeviceModule) {
     this.user = user;
@@ -6,9 +7,33 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
     this.options = options;
     this.DeviceModule = DeviceModule;
 
+    /*
+        Generate the Mobile Configurations
+     */
+    this.registerNewDevice = function() {
+        try {
+            //Generate the challenge token
+            var challengeToken = uniqueIdentifier.generate();
+            var plistGenerator = new Packages.org.wso2.mobile.ios.mdm.plist.PlistGenerator();
+            var result = plistGenerator.generateMobileConfigurations(token, this.user.tenantDomain);
+            var data = result.getBytes();
+
+            var pkcsSigner = new Packages.org.wso2.mobile.ios.mdm.impl.PKCSSigner();
+            var signedData = pkcsSigner.getSignedData(data);
+
+            var registerData = {};
+            registerData.data = signedData;
+            registerData.contentType = DeviceModule.CONTENTTYPE.APPLECONFIG;
+            return signedData;
+        } catch (e) {
+            log.error(e);
+            return null;
+        }
+    }
+
     //Persist to the database
     this.register = function() {
-        device
+
     }
 
     /*

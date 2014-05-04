@@ -6,19 +6,31 @@ var AndroidDevice = function(user, platform, options, DeviceModule) {
 	this.DeviceModule = DeviceModule;
 
     // Persist to the database
-    this.register = function() {       
+    this.registerNewDevice = function() {
         device = new this.DeviceModel();
-        device.tenantid = this.user.tenantid;
-        device.userid = this.user.userid;
-        device.platformid = this.platform.id;
+        device.tenant_id = this.user.tenantid;
+        device.user_id = this.user.userid;
+        device.platform_id = this.platform.id;
         device.uuid = this.options.uuid;
-        device.osVersion = this.options.osVersion;
+        device.os_version = this.options.osVersion;
         device.ownership = this.options.ownership;
-        device.macAddress = this.options.macAddress;
+        device.mac_address = this.options.macAddress;
+        device.token = this.options.token;
+        device.extraInfo = this.options.extraInfo;
         device.status = this.DeviceModule.Device.Active;
         device.created_date = new Date();
         device.updated_date = new Date();
-        device.save();
+        try {
+            device.save();
+        } catch (e) {
+            log.error(e);
+            return null;
+        }
+        var registerData = {};
+        registerData.contentType = DeviceModule.CONTENTTYPE.JSON;
+        registerData.data = device;
+        return registerData;
+
         // AndroidDevice.prototype.register.call(this);
     }
 
