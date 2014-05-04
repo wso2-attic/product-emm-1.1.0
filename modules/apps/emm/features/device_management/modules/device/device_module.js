@@ -39,16 +39,27 @@ DeviceModule.Device.InActive = "I";
 DeviceModule.Device.Deleted = "D";
 DeviceModule.Device.Pending = "P";
 
+//Notifier status
+DeviceModule.Notifier.Pending = "P";
+DeviceModule.Notifier.Received = "R";
+DeviceModule.Notifier.Deleted = "D";
+
+//Device_Policy status
+DeviceModule.DevicePolicy.Active = "A";
+DeviceModule.DevicePolicy.Deleted = "D";
+
+//Device_Info status
+DeviceModule.DeviceInfo.Pending = "P";
+DeviceModule.DeviceInfo.Received = "R";
+DeviceModule.DeviceInfo.Deleted = "D";
+
+
 DeviceModule.CONTENTTYPE.JSON = "application/json";
 DeviceModule.CONTENTTYPE.APPLECONFIG = "application/x-apple-aspen-config";
 DeviceModule.CONTENTTYPE.PLAINTEXT = "text/plain";
 DeviceModule.CONTENTTYPE.CACERT = "application/x-x509-ca-cert";
 DeviceModule.CONTENTTYPE.CARACERT = "application/x-x509-ca-ra-cert";
 DeviceModule.CONTENTTYPE.PKIMESSAGE = "application/x-pki-message";
-
-DeviceModule.NOTIFIER.SENT = "S";
-DeviceModule.NOTIFIER.RECEIVED = "R";
-DeviceModule.NOTIFIER.DELETED = "D";
 
 
 // DeviceModule.WINDOWS = "3";

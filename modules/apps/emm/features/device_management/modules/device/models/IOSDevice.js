@@ -84,33 +84,43 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
         Unregister iOS device
      */
     this.unRegister = function(udid) {
-        if(udid != null) {
-            var devices = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
-            if(devices.length == 0) {
-                throw lang.NO_ACTIVE_DEVICE;
-            }
-            device = devices[0];
+        try {
+            if(udid != null) {
+                var devices = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
+                if(devices.length == 0) {
+                    throw lang.NO_ACTIVE_DEVICE;
+                }
+                device = devices[0];
 
 //            var notification = new this.NotificationModel();
 //            notification.status = DeviceModule.NOTIFIER.DELETED;
 //            notification.update({ID: device.id, STATUS: DeviceModule.NOTIFIER.SENT});
 
-            this.NotificationModel.query((complexQueries.notification.setDeviceStatus, DeviceModule.NOTIFIER.DELETED, device.id, DeviceModule.NOTIFIER.SENT), function(complexObject, model) {
-            });
+                this.NotificationModel.query((complexQueries.notification.setDeviceStatus, DeviceModule.Notifier.Deleted, device.id, DeviceModule.Notifier.Pending), function(complexObject, model) {
+                });
 
-            var devicePolicy = new this.DevicePolicyModel();
-            devicePolicy.status = "D";
-            devicePolicy.update({DEVICE_ID: device.id, STATUS: "A"});
+//            var devicePolicy = new this.DevicePolicyModel();
+//            devicePolicy.status = "D";
+//            devicePolicy.update({DEVICE_ID: device.id, STATUS: "A"});
+                this.DevicePolicyModel.query((complexQueries.devicePolicy.setDevicePolicyStatus, DeviceModule.DevicePolicy.Deleted, device.id, DeviceModule.DevicePolicy.Active), function(complexObject, model) {
+                });
 
-            var deviceInfo = new this.DeviceInfoModel();
-            deviceInfo.status = "D";
-            deviceInfo.update({DEVICE_ID: device.id, STATUS: "S"});
+//            var deviceInfo = new this.DeviceInfoModel();
+//            deviceInfo.status = "D";
+//            deviceInfo.update({DEVICE_ID: device.id, STATUS: "S"});
+                this.DeviceInfoModel.query((complexQueries.deviceInfo.setDeviceInfoStatus, DeviceModule.DeviceInfo.Deleted, device.id, DeviceModule.DeviceInfo.Pending), function(complexObject, model) {
+                });
 
-            var updateDevice = new this.DeviceModel();
-            updateDevice.status = this.DeviceModule.Device.Deleted;
-            updateDevice.update({ID: device.id, STATUS: DeviceModule.Device.Active});
+//            var updateDevice = new this.DeviceModel();
+//            updateDevice.status = this.DeviceModule.Device.Deleted;
+//            updateDevice.update({ID: device.id, STATUS: DeviceModule.Device.Active});
+                this.DeviceModel.query((complexQueries.device.setDeviceStatus, DeviceModule.Device.Deleted, device.id, DeviceModule.Device.Active), function(complexObject, model) {
+                });
 
-            return true;
+                return true;
+            }
+        } catch(e) {
+            throw "Error un-enrolling device";
         }
     }
 
