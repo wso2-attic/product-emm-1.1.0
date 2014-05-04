@@ -45,7 +45,7 @@ describe('sql-crud operation', function () {
         device_1.save();
 
         device_1.name = "Brain";
-        device_1.update();
+        device_1.update(["id"]);
     });
     it('Query specific objects', function () {
         var device_1 = new this.DeviceModel();

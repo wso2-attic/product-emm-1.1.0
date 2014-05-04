@@ -1,7 +1,7 @@
 describe('device module', function() {
     var log = new Log('DeviceModule');
-    var DeviceModule = require('/features/device_management/modules/device/DeviceModule.js').DeviceModule;
-    var PolicyModule = require('/features/device_management/modules/policy/PolicyModule.js').PolicyModule;
+    var DeviceModule = require('/features/device_management/modules/device/device_module.js').DeviceModule;
+    var PolicyModule = require('/features/device_management/modules/policy/policy_module.js').PolicyModule;
     beforeEach(function() {});
     afterEach(function() {});
     it('Perform operations to a set of Devices', function() {
