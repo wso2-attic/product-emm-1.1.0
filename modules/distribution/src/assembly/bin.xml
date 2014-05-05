@@ -303,15 +303,15 @@
                   <include>**/patch0006/*.*</include>
              </includes>
         </fileSet>
+        <fileSet>
+            <directory>src/repository/dbscripts/</directory>
+            <outputDirectory>wso2emm-${pom.version}/dbscripts</outputDirectory>
+            <includes>
+                <include>*/**</include>
+            </includes>
+        </fileSet>
     </fileSets>
     <dependencySets>
-        <!-- <dependencySet>
-<outputDirectory>wso2emm-${pom.version}/repository/deployment/server/webapps</outputDirectory>
-<outputFileNameMapping>ROOT.war</outputFileNameMapping>
-<includes>
-<include>org.apache.shindig:shindig-server:war</include>
-</includes>
-</dependencySet>-->
         <dependencySet>
             <outputDirectory>wso2emm-${pom.version}/lib/endorsed</outputDirectory>
             <includes>
@@ -354,11 +354,6 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-
-        <!-- <file>
-<source>target/shindig</source>
-<outputDirectory>wso2emm-${pom.version}/repository/deployment/server/webapps/ROOT</outputDirectory>
-</file>-->
 
         <file>
             <source>INSTALL.txt</source>
@@ -435,28 +430,6 @@
             <outputDirectory>wso2emm-${pom.version}/repository/conf/multitenancy/</outputDirectory>
             <filtered>true</filtered>
         </file>
-	
-        <!-- Including coordination-client-config.xml file -->
-        <!--file>
-<source>
-../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/etc/coordination-client-config.xml
-</source>
-<outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
-</file>
-<file>
-<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/etc/zoo.cfg
-</source>
-<outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
-</file-->
-
-        <!-- Including log4j.properties file -->
-        <!-- <file>
-<source>
-../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/log4j.properties
-</source>
-<outputDirectory>wso2emm-${pom.version}/repository/conf/
-</outputDirectory>
-</file>-->
         <file>
             <source>src/repository/conf/axis2/axis2.xml</source>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/axis2/</outputDirectory>
@@ -469,19 +442,6 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-        <!--<file>
-<source>target/wso2carbon-core-${carbon.kernal.version}/bin/wso2server.bat</source>
-<outputDirectory>wso2emm-${pom.version}/bin/</outputDirectory>
-<filtered>true</filtered>
-<fileMode>644</fileMode>
-</file>-->
-
-        <!--file>
-<source>conf/claim-config.xml</source>
-<outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
-<fileMode>644</fileMode>
-</file-->
-
         <file>
             <source>src/repository/conf/identity.xml</source>
             <outputDirectory>wso2emm-${pom.version}/repository/conf</outputDirectory>
@@ -492,30 +452,10 @@
             <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>
             <fileMode>644</fileMode>
         </file>
-	<file>
+	   <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/database/WSO2AM_DB.h2.db</source>
             <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>
-        </file> 
-        <file>
-            <source>src/repository/dbscripts/emm_mysql.sql</source>
-            <outputDirectory>wso2emm-${pom.version}/dbscripts</outputDirectory>
-            <fileMode>644</fileMode>
         </file>
-        <file>
-            <source>src/repository/dbscripts/oracle.sql</source>
-            <outputDirectory>wso2emm-${pom.version}/dbscripts/identity</outputDirectory>
-            <fileMode>644</fileMode>
-        </file>
-<!--         <file>
-            <source>src/repository/cassandra/cassandra.yaml</source>
-            <outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>src/repository/cassandra/cassandra-component.xml</source>
-            <outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
-            <fileMode>644</fileMode>
-        </file> -->
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/user-mgt.xml</source>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>

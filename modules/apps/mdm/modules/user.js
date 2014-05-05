@@ -126,6 +126,7 @@ var user = (function () {
     module.prototype = {
         constructor: module,
         /*User CRUD Operations (Create, Retrieve, Update, Delete)*/
+        generatePassword : generatePassword,
         addUser: function(ctx){
             log.debug("Check Params"+stringify(ctx));
             var claimMap = new java.util.HashMap();

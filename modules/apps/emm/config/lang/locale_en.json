@@ -1,0 +1,11 @@
+{
+    "INVALID_DEVICE" : "Invalid Device",
+    "REGISTRATION_FAILED" : "Device Registration failed",
+    "INVALID_OWNERSHIP" : "Invalid Ownership",
+    "INVALID_USER" : "Invalid user",
+    "DEVICE_OPERATION_FAILED" : "Device Operation failed",
+    "INVALID_PLATFORM" : "Invalid Platform",
+    "INVALID_OPERATIONCODE" : "Invalid Operation Code",
+    "DEVICE_NOT_FOUND" : "Device not found",
+    "REGISTERED" : "Registered"
+}

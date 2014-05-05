@@ -78,6 +78,7 @@
 
 		<!-- jaggery versions -->
 		<jaggery.feature.version>0.9.0.ALPHA4.wso2v3</jaggery.feature.version>
+		<!-- <jaggery.feature.version>0.9.0-SNAPSHOT</jaggery.feature.version> -->
 		<carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>
 		<stratos.version>2.2.0</stratos.version>
 		<stratos.patch.version.221>2.2.1</stratos.patch.version.221>
@@ -101,7 +102,21 @@
 		<maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
 		<maven-buildnumber-plugin.version>1.1</maven-buildnumber-plugin.version>
 		<maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
-		<caramel.feature.version>1.0.0-SNAPSHOT</caramel.feature.version>
+		<caramel.feature.version>1.1.0-SNAPSHOT</caramel.feature.version>
+        <handlebars.feature.version>1.0.0-SNAPSHOT</handlebars.feature.version>
+        <markdown.feature.version>1.0.0-SNAPSHOT</markdown.feature.version>
+        <carbon.feature.version>1.0.0-SNAPSHOT</carbon.feature.version>
+        <process.feature.version>1.0.0-SNAPSHOT</process.feature.version>
+        <uuid.feature.version>1.0.0-SNAPSHOT</uuid.feature.version>
+        <event.feature.version>1.0.0-SNAPSHOT</event.feature.version>
+        <login.feature.version>1.0.0-SNAPSHOT</login.feature.version>
+        <permission.feature.version>1.0.0-SNAPSHOT</permission.feature.version>
+        <registration.feature.version>1.0.0-SNAPSHOT</registration.feature.version>
+        <sso.feature.version>1.0.0-SNAPSHOT</sso.feature.version>
+        <store.feature.version>1.0.0-SNAPSHOT</store.feature.version>
+        <ues.feature.version>1.0.0-SNAPSHOT</ues.feature.version>
+        <claims.feature.version>1.0.0-SNAPSHOT</claims.feature.version>
+        <sugarcane.feature.version>1.0.0-SNAPSHOT</sugarcane.feature.version>
 		<wso2.slf4j.version>1.5.10.wso2v1</wso2.slf4j.version>
 		<sso.hostobjects.version>1.0.1</sso.hostobjects.version>
 		<rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
