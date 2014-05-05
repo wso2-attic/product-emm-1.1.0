@@ -1,14 +1,13 @@
 var sqlCRUD = function (schema, options) {
     var log = new Log('sql-crud');
     var db = options.db;
-
+    var Model=schema.getModel();
     /*
         Transform resultset to entity list
     */
     var transform = function(results){
         var props = schema.props; 
         var list = [];
-        var Model=schema.getModel();
         for (var i = results.length - 1; i >= 0; i--) {
             var result = results[i];
             var obj = new Model();

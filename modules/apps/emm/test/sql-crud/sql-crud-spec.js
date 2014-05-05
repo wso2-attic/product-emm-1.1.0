@@ -69,7 +69,7 @@ describe('sql-crud operation', function () {
         var results = this.DeviceModel.findAll();
         expect(results.length).toBe(3);
     });
-     it('Query specific objects', function () {
+    it('Query specific objects', function () {
         var device_1 = new this.DeviceModel();
         device_1.id = 30;
         device_1.name = "Chan";
@@ -77,6 +77,21 @@ describe('sql-crud operation', function () {
         device_1.registrationDate = "2012-03-02 08:07:23.234";
         device_1.save();
         var results = this.DeviceModel.findOne({"id":"30"});
+        expect(results.length).toBe(1);
+    });
+    it('Complex query with advance query method', function () {
+        var device_1 = new this.DeviceModel();
+        device_1.id = 30;
+        device_1.name = "Chan";
+        device_1.description = "Damn right!";
+        device_1.registrationDate = "2012-03-02 08:07:23.234";
+        device_1.save();
+        var results = this.DeviceModel.query("SELECT * FROM DEVICES WHERE name like '%"+device_1.name+"'", function(complexObject, model){
+            model.id = complexObject.id;
+            model.name = complexObject.name;
+            model.description = complexObject.description;
+            model.registrationDate = complexObject.registrationDate;
+        });
         expect(results.length).toBe(1);
     });
     it('Test case for Text field ', function () {
