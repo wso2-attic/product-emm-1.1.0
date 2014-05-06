@@ -1,41 +1,26 @@
-/**
-Initilization logic
-**/
-var carbon = require('carbon');
+var common = require('/modules/common.js');
+var log = new Log();
 
-var entity = require('entity');
-var schema = require('/modules/schema.js');
-var lang = require('/config/lang/locale_en.json');
-var CONSTANTS = require('/modules/constants.js');
-/* 
-	Get the relevant configurations from carbon.xml	
-*/
-var conf = carbon.server.loadConfig('carbon.xml');
-var offset = conf.*::['Ports'].*::['Offset'].text();
-var hostName = conf.*::['HostName'].text().toString();
+var db = common.getDatabase();
 
-if (hostName === null || hostName === '') {
-    hostName = 'localhost';
-}
+var androidConfig = require('android.json');
+var gcm = require('gcm').gcm;
+gcm.setApiKey(androidConfig.api_key);
 
-var httpPort = 9763 + parseInt(offset, 10);
-var httpsPort = 9443 + parseInt(offset, 10);
+var app_TENANT_CONFIGS = 'tenant.configs';
+var app_carbon = require('carbon');
+var app_configs = require('mdm.js').config();
 
-	if(transport=="http"){
-		port = process.getProperty('mgt.transport.http.proxyPort');
-		if(!port){
-			//can use http.port as well
-			port = process.getProperty('mgt.transport.http.port');
-		}
-	}else if(transport=="https"){
-		port = process.getProperty('mgt.transport.https.proxyPort');
-		if(!port){
-			//can use https.port as well
-			port = process.getProperty('mgt.transport.https.port');
-		}
-	}
+var app_server = new app_carbon.server.Server({
+    tenanted: app_configs.tenanted,
+    url: app_configs.HTTPS_URL + '/admin'
+});
+application.put("SERVER", app_server);
+application.put(app_TENANT_CONFIGS, {});
 
-var process = require('process');
-process.setProperty('server.host', hostName);
-process.setProperty('http.port', httpPort.toString());
-process.setProperty('https.port', httpsPort.toString());
+var deviceModule = require('../modules/device.js').device;
+var device = new deviceModule(db);
+
+var policyModule = require('../modules/policy.js').policy;
+var policy = new policyModule(db);
+policy.monitoring({});

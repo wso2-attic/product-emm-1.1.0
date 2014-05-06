@@ -1,5 +1,0 @@
-<%
-
-require("sugarcane").test.run();
-
-%>
