@@ -1,9 +1,14 @@
 describe('device module', function() {
+    var entity = require('entity');
+    var DeviceModel = entity.model('Device');
+    var OperationModel = entity.model('Operation');
+    var PlatformModel = entity.model('Platform');
     var log = new Log('DeviceModule');
     var DeviceModule = require('/features/device_management/modules/device/device_module.js').DeviceModule;
     var PolicyModule = require('/features/device_management/modules/policy/policy_module.js').PolicyModule;
     beforeEach(function() {});
     afterEach(function() {});
+
     it('Perform operations to a set of Devices', function() {
         var operation = "LOCK"; // This comes from the UI
         var devices = DeviceModule.getDevices({
@@ -18,7 +23,7 @@ describe('device module', function() {
     });
     it('Perform operations to a single Device', function() {
         var operation = "LOCK"; // This comes from the UI
-        var id = "20348"; // This comes from UI 
+        var id = "20348"; // This comes from UI
         try {
             var device = DeviceModule.getDevice(id);
             device.operate(operation);
@@ -30,7 +35,7 @@ describe('device module', function() {
     });
     it("Add policy", function(){
         try{
-            var policy = PolicyModule.createPolicy("dulithaz@gmail.com", "-1234", options);    
+            var policy = PolicyModule.createPolicy("dulithaz@gmail.com", "-1234", options);
         }catch(e){
 
         }
@@ -44,33 +49,45 @@ describe('device module', function() {
         policy.addPlatforms(added_platforms, removed_platforms);
         policy.addOwnership(DeviceModule.BYOD);
 
-        // apply the policy in a manner where it should be 
+        // apply the policy in a manner where it should be
         // enforced only
-        // revoked and enforced 
-        // revoked only 
+        // revoked and enforced
+        // revoked only
         policy.update();
     });
 
     /*
-        message status 
+        message status
             pending
             recieving
             intermediate
-            deleted 
+            deleted
     */
     it("Device registration Android", function() {
         try {
             //Pass all the information necessary for registration
-            var device = DeviceModule.registerDevice("dulithaz@gmail.com", "-1234", {
-                platform: "1",
-                udid: "sdkfjo2342",
-                ownership: "1",
-                os_version: "4.1.0"
+            var user = {};
+            user.user_id = "admin";
+            user.tenant_id = -1234;
+            var token = {};
+            token.gcmToken = "djdjddkk43453452324dkdkkdls";
+            var device = DeviceModule.registerDevice(user, {
+                platform : "ANDROID",
+                platformType : "PHONE",
+                ownership : "BYOD",
+                osVersion : "4.0.3",
+                udid : "JHYD324277FFSS",
+                macAddress : "ACSJMC8654JDHTD",
+                token : token,
+                extraInfo : "jhdsfsgxcvcxvxcv"
+
             });
+            expect(device).not.toBe(null);
         } catch (e) {
             log.error(e);
         }
     });
+
     it("Device contacting the Server", function(){
         var deviceid, notifier, messageid, result;
         var device = DeviceModule.getDevice(deviceid);

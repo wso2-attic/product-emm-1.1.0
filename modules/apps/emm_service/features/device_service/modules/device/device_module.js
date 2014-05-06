@@ -1,4 +1,4 @@
-var Device = require('models/device.js').Device;
+var Device = require('models/Device.js').Device;
 var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
 var IOSDevice = require('models/IOSDevice.js').IOSDevice;
 

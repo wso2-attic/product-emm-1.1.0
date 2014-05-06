@@ -10,5 +10,6 @@
     "REGISTERED" : "Registered",
     "INVALID_SCEP_REQUEST" : "Invalid SCEP request",
     "NO_ACTIVE_DEVICE" : "No Active Device",
-    "DEVICE_TOKEN_UPDATE_EXCEPTION" : "Exception when updating device token"
+    "DEVICE_TOKEN_UPDATE_EXCEPTION" : "Exception when updating device token",
+    "ERROR_UNREGISTER" : "Error removing device"
 }

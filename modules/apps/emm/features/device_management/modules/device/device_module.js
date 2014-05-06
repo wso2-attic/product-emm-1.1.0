@@ -15,8 +15,9 @@
  *
  *  Description : - Device object related functions 
  */
+
 var entity = require('entity');
-var Device = require('models/device.js').Device;
+var Device = require('models/Device.js').Device;
 var Operation = require('Operation.js').Operation;
 var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
 var IOSDevice = require('models/IOSDevice.js').IOSDevice;
@@ -24,49 +25,16 @@ var IOSDevice = require('models/IOSDevice.js').IOSDevice;
 // entity models
 var DeviceModel = entity.model('Device');
 var OperationModel = entity.model('Operation');
-var PlatformModel = entity('Platform');
-var NotificationModel = entity('Notification');
-var DevicePolicyModel = entity('DevicePolicy');
-var DeviceInfoModel = entity('DeviceInfo');
+var PlatformModel = entity.model('Platform');
 
 var DeviceModule = {};
-DeviceModule.ANDROID = "ANDROID";
-DeviceModule.IOS = "IOS";
-
-//Device status
-DeviceModule.Device.Active = "A";
-DeviceModule.Device.InActive = "I";
-DeviceModule.Device.Deleted = "D";
-DeviceModule.Device.Pending = "P";
-
-//Notifier status
-DeviceModule.Notifier.Pending = "P";
-DeviceModule.Notifier.Received = "R";
-DeviceModule.Notifier.Deleted = "D";
-
-//Device_Policy status
-DeviceModule.DevicePolicy.Active = "A";
-DeviceModule.DevicePolicy.Deleted = "D";
-
-//Device_Info status
-DeviceModule.DeviceInfo.Pending = "P";
-DeviceModule.DeviceInfo.Received = "R";
-DeviceModule.DeviceInfo.Deleted = "D";
-
-
-DeviceModule.CONTENTTYPE.JSON = "application/json";
-DeviceModule.CONTENTTYPE.APPLECONFIG = "application/x-apple-aspen-config";
-DeviceModule.CONTENTTYPE.PLAINTEXT = "text/plain";
-DeviceModule.CONTENTTYPE.CACERT = "application/x-x509-ca-cert";
-DeviceModule.CONTENTTYPE.CARACERT = "application/x-x509-ca-ra-cert";
-DeviceModule.CONTENTTYPE.PKIMESSAGE = "application/x-pki-message";
 
 
 // DeviceModule.WINDOWS = "3";
 // DeviceModule.RPIE = "4";
 
-DeviceModule.DEVICE_ACTIVE = "1";
-DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
+//DeviceModule.DEVICE_ACTIVE = "1";
+//DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
 
 /*
     Plural Device object 
@@ -131,13 +99,32 @@ DeviceModule.notify = function(notification) {
 DeviceModule.getDevices = function(query) {
 
 };
+
+/*
+    Get device object by UDID
+*/
+DeviceModule.getDeviceObjectByUDID = function(udid) {
+    var devicesModel = DeviceModel.findOne({UDID: udid});
+    if (devices.length == 0) {
+        throw lang.DEVICE_NOT_FOUND;
+    }
+    var deviceModel = devicesModel[0];
+    var platformsModel = PlatformModel.findOne({id: deviceModel.platform_id});
+
+}
+
+DeviceModule.getDeviceObjectByDevice = function() {
+
+}
+
+
 /*
 	Return a device matching the id
  	Exceptions:-
  		DeviceNotFound
 */
 DeviceModule.getDevice = function(id) {
-    var devices =  DeviceModel.findOne({id: deviceid});   
+    var devices =  DeviceModel.findOne({ID: deviceid});
     if(devices.length==0){
         throw lang.DEVICE_NOT_FOUND;
     }
@@ -147,24 +134,24 @@ DeviceModule.getDevice = function(id) {
    Register a device to EMM
 */
 DeviceModule.registerDevice = function(user, options) {
-    var device;
-    var platforms = PlatformModel.findOne({OS: options.platform, TYPE: options.platformType});
-    if (platforms.length == 0) {
+    var deviceObject;
+    var platformsModel = PlatformModel.findOne({"OS": options.platform, "TYPE": options.platformType});
+    if (platformsModel.length == 0) {
         throw lang.INVALID_PLATFORM;
     }
-    var platform = platforms[0];
-    var registerData;
-
+    var platformModel = platformsModel[0];
+    var registerData, deviceObject;
     try {
         switch (options.platform) {
-            case DeviceModule.ANDROID:
-                device = new AndroidDevice(user, platform, options, DeviceModule);
+            case CONSTANTS.ANDROID:
+                deviceObject = new AndroidDevice(user, platformModel, options, DeviceModule);
+                registerData = deviceObject.registerNewDevice();
                 break;
-            case DeviceModule.IOS:
-                device = new IOSDevice(user, platform, options, DeviceModule);
+            case CONSTANTS.IOS:
+                deviceObject = new IOSDevice(user, platformModel, options, DeviceModule);
                 break;
         }
-        registerData = device.registerNewDevice();
+
     } catch (e) {
         log.error(e);
         return null;
@@ -204,7 +191,13 @@ DeviceModule.extractDeviceTokens = function(inputStream) {
 
         if (checkinMessageType.getMessageType() == "CheckOut") {
             var udid = checkinMessageType.getUdid();
-            IOSDevice.unRegister(udid);
+//            var device = new Device();
+//            device.platform = CONSTANTS.IOS;
+//            device.UDID = udid;
+//            device.unRegister();
+//            IOSDevice.unRegister(udid);
+              var deviceObject = DeviceModule.getDeviceObjectByUDID(udid);
+
         } else if(checkinMessageType.getMessageType() == "TokenUpdate") {
             var deviceToken = {};
             deviceToken.token = checkinMessageType.getToken();

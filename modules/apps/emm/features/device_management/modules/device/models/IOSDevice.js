@@ -1,6 +1,8 @@
-var Device = require('device.js').Device;
+var Device = require('Device.js').Device;
 var uniqueIdentifier = require('uuid');
 var complexQueries = require('/modules/queries.json');
+var lang = require('/config/lang/locale_en.json');
+var utilityModule = require('/features/utility_module.js');
 
 var IOSDevice = function(user, platform, options, DeviceModule) {
     this.user = user;
@@ -12,13 +14,13 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
         Generate the Mobile Configurations
      */
     this.registerNewDevice = function() {
-        device = new this.DeviceModel();
-        device.tenant_id = this.user.tenant_id;
-        device.user_id = this.user.user_id;
-        device.platform_id = this.platform.id;
-        device.status = this.DeviceModule.Device.Pending;
-        device.created_date = new Date();
-        device.updated_date = new Date();
+        deviceModel = new DeviceModel();
+        deviceModel.tenant_id = this.user.tenant_id;
+        deviceModel.user_id = this.user.user_id;
+        deviceModel.platform_id = this.platform.id;
+        deviceModel.status = this.DeviceModule.Device.Pending;
+        deviceModel.created_date = utilityModule.getCurrentDateTime();
+        deviceModel.modified_date = utilityModule.getCurrentDateTime();
 
 
         try {
@@ -33,10 +35,10 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
 
             var registerData = {};
             registerData.data = signedData;
-            registerData.contentType = DeviceModule.CONTENTTYPE.APPLECONFIG;
+            registerData.contentType = CONSTANTS.CONTENTTYPE.APPLECONFIG;
 
-            device.challenge_token = challengeToken;
-            device.save();
+            deviceModel.challenge_token = challengeToken;
+            deviceModel.save();
 
             return signedData;
         } catch (e) {
@@ -92,35 +94,10 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
                 }
                 device = devices[0];
 
-//            var notification = new this.NotificationModel();
-//            notification.status = DeviceModule.NOTIFIER.DELETED;
-//            notification.update({ID: device.id, STATUS: DeviceModule.NOTIFIER.SENT});
-
-                this.NotificationModel.query((complexQueries.notification.setDeviceStatus, DeviceModule.Notifier.Deleted, device.id, DeviceModule.Notifier.Pending), function(complexObject, model) {
-                });
-
-//            var devicePolicy = new this.DevicePolicyModel();
-//            devicePolicy.status = "D";
-//            devicePolicy.update({DEVICE_ID: device.id, STATUS: "A"});
-                this.DevicePolicyModel.query((complexQueries.devicePolicy.setDevicePolicyStatus, DeviceModule.DevicePolicy.Deleted, device.id, DeviceModule.DevicePolicy.Active), function(complexObject, model) {
-                });
-
-//            var deviceInfo = new this.DeviceInfoModel();
-//            deviceInfo.status = "D";
-//            deviceInfo.update({DEVICE_ID: device.id, STATUS: "S"});
-                this.DeviceInfoModel.query((complexQueries.deviceInfo.setDeviceInfoStatus, DeviceModule.DeviceInfo.Deleted, device.id, DeviceModule.DeviceInfo.Pending), function(complexObject, model) {
-                });
-
-//            var updateDevice = new this.DeviceModel();
-//            updateDevice.status = this.DeviceModule.Device.Deleted;
-//            updateDevice.update({ID: device.id, STATUS: DeviceModule.Device.Active});
-                this.DeviceModel.query((complexQueries.device.setDeviceStatus, DeviceModule.Device.Deleted, device.id, DeviceModule.Device.Active), function(complexObject, model) {
-                });
-
-                return true;
+                this.prototype.unRegister();
             }
         } catch(e) {
-            throw "Error un-enrolling device";
+            throw lang.ERROR_UNREGISTER;
         }
     }
 

@@ -35,7 +35,7 @@ var DeviceSchema = new entity.Schema("Device", {
     mac_address: String,
     status: String,
     created_date: Date,
-    updated_date: Date,
+    modified_date: Date,
     extra_info: String
 }, {
     tablename: "devices"
