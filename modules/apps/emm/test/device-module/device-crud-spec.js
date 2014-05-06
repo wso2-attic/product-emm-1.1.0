@@ -86,6 +86,17 @@ describe('device module', function() {
         }
     });
 
+    it("Device un-registration - Android", function() {
+        try {
+            var options = {};
+            options.deviceId = 1
+            var status = DeviceModule.unRegister(options);
+            expect(status).toBe(true);
+        } catch (e) {
+            log.error(e)
+        }
+    });
+
     it("Device contacting the Server", function(){
         var deviceid, notifier, messageid, result;
         var device = DeviceModule.getDevice(deviceid);

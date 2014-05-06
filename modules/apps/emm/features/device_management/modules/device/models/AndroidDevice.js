@@ -25,21 +25,24 @@ var AndroidDevice = function(user, platform, options, DeviceModule) {
         log.info("Saving");
         try {
             device.save();
+            device = DeviceEntity.findOne({"MAC_ADDRESS" : this.options.macAddress});
         } catch (e) {
             log.error(e);
             return null;
         }
         var registerData = {};
         registerData.contentType = CONSTANTS.CONTENTTYPE.JSON;
-        registerData.data = device;
+        registerData.data = device.id;
         return registerData;
 
         // AndroidDevice.prototype.register.call(this);
     }
 
-    this.unRegister = function() {
+    this.unRegister = function(deviceId) {
         try {
-            device = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
+            device = DeviceEntity.findOne({id: deviceId, STATUS: DeviceModule.Device.Active});
+            this.prototype.unRegister();
+            return true;
         } catch (e) {
             throw lang.ERROR_UNREGISTER;
         }

@@ -86,8 +86,9 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
     this.unRegister = function(udid) {
         try {
             if(udid != null) {
-                var device = this.DeviceModule.findOne({UDID: udid, STATUS: CONSTANTS.DEVICE.ACTIVE});
+                var device = DeviceEntity.findOne({UDID: udid, STATUS: CONSTANTS.DEVICE.ACTIVE});
                 this.prototype.unRegister();
+                return true;
             }
         } catch(e) {
             throw lang.ERROR_UNREGISTER;

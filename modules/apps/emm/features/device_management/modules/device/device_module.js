@@ -120,7 +120,7 @@ DeviceModule.getDeviceObjectByDevice = function(device) {
         var deviceObject;
         var platform = PlatformEntity.findOne({id: device.platform_id});
         if(platform.os == CONSTANTS.ANDROID) {
-            deviceObject = new AndroidDevice()
+            deviceObject = new AndroidDevice();
             deviceObject.deviceModel = device;
             //deviceObject.
         } else if(platform.os == CONSTANTS.IOS) {
@@ -202,12 +202,7 @@ DeviceModule.extractDeviceTokens = function(inputStream) {
 
         if (checkinMessageType.getMessageType() == "CheckOut") {
             var udid = checkinMessageType.getUdid();
-//            var device = new Device();
-//            device.platform = CONSTANTS.IOS;
-//            device.UDID = udid;
-//            device.unRegister();
-//            IOSDevice.unRegister(udid);
-              var deviceObject = DeviceModule.getDeviceObjectByUDID(udid);
+              var device = IOSDevice.unRegister(udid);
 
         } else if(checkinMessageType.getMessageType() == "TokenUpdate") {
             var deviceToken = {};
@@ -226,6 +221,26 @@ DeviceModule.extractDeviceTokens = function(inputStream) {
     }
 
 
+}
+
+/*
+    Unregister device
+*/
+DeviceModule.unRegister = function(options) {
+    try {
+        var status;
+        if(options.udid != null) {
+            //iOS - Call device unregister - WSO2 Nira
+
+        } else if (options.deviceId != null) {
+            status = AndroidDevice.unRegister(deviceId);
+        } else {
+            throw lang.EXCEPTION;
+        }
+        return status;
+    } catch (e) {
+        throw lang.EXCEPTION;
+    }
 }
 
 /*

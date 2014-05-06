@@ -155,7 +155,9 @@ var api_router = function(router){
             if(registerData != null) {
                 response.contentType = registerData.contentType;
                 if(registerData.contentType == DeviceModule.CONTENTTYPE.JSON) {
-                    response.content = lang.REGISTERED;
+                    var device = {};
+                    device.id = registerData.data;
+                    response.content = device;
                     response.status = 200;
                 } else if (registerData.contentType == DeviceModule.CONTENTTYPE.APPLECONFIG) {
                     var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(registerData.data);
@@ -250,9 +252,10 @@ var api_router = function(router){
     */
     router.post('api/device/unregister', function(req, res) {
         try {
-            var deviceId = req.body.id;
-            var udid = req.body.id;
-            var unregister = DeviceModule.unRegister(deviceId, udid);
+            var options = {};
+            options.deviceId = req.body.id;
+            options.udid = req.body.udid;
+            var unregister = DeviceModule.unRegister(options);
 
         } catch (e) {
             log.error(e);

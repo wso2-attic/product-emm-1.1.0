@@ -17,7 +17,11 @@ var sqlCRUD = function (schema, options) {
                 var field = fields[j];
                 obj[field] = result[field.toUpperCase()];
                 if(props[field].type=="string"){
-                    obj[field] = obj[field].toString();
+                    if(obj[field] == null) {
+                        obj[field] = obj[field];
+                    } else {
+                        obj[field] = obj[field].toString();
+                    }
                 }
             };
             list.push(obj);
