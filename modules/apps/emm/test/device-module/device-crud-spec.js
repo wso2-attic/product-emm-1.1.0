@@ -1,8 +1,6 @@
 describe('device module', function() {
     var entity = require('entity');
-    var DeviceModel = entity.model('Device');
-    var OperationModel = entity.model('Operation');
-    var PlatformModel = entity.model('Platform');
+    var schema = require('/modules/schema.js');
     var log = new Log('DeviceModule');
     var DeviceModule = require('/features/device_management/modules/device/device_module.js').DeviceModule;
     var PolicyModule = require('/features/device_management/modules/policy/policy_module.js').PolicyModule;
@@ -35,7 +33,7 @@ describe('device module', function() {
     });
     it("Add policy", function(){
         try{
-            var policy = PolicyModule.createPolicy("dulithaz@gmail.com", "-1234", options);
+            var policy = PolicyModule.createPolicy("admin", "-1234", options);
         }catch(e){
 
         }
