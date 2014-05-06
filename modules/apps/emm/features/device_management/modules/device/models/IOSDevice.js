@@ -14,13 +14,13 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
         Generate the Mobile Configurations
      */
     this.registerNewDevice = function() {
-        deviceModel = new DeviceModel();
-        deviceModel.tenant_id = this.user.tenant_id;
-        deviceModel.user_id = this.user.user_id;
-        deviceModel.platform_id = this.platform.id;
-        deviceModel.status = this.DeviceModule.Device.Pending;
-        deviceModel.created_date = utilityModule.getCurrentDateTime();
-        deviceModel.modified_date = utilityModule.getCurrentDateTime();
+        device = new DeviceEntity();
+        device.tenant_id = this.user.tenant_id;
+        device.user_id = this.user.user_id;
+        device.platform_id = this.platform.id;
+        device.status = this.DeviceModule.Device.Pending;
+        device.created_date = utilityModule.getCurrentDateTime();
+        device.modified_date = utilityModule.getCurrentDateTime();
 
 
         try {
@@ -37,8 +37,8 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
             registerData.data = signedData;
             registerData.contentType = CONSTANTS.CONTENTTYPE.APPLECONFIG;
 
-            deviceModel.challenge_token = challengeToken;
-            deviceModel.save();
+            device.challenge_token = challengeToken;
+            device.save();
 
             return signedData;
         } catch (e) {
@@ -55,18 +55,16 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
             var commonUtil =  new Packages.org.wso2.mobile.ios.mdm.util.CommonUtil();
             var profileResponse = commonUtil.copyInputStream(inputStream);
             if (profileResponse.challengeToken != null) {
-                var updateDevice = new this.DeviceModel();
-                updateDevice.udid = profileResponse.udid;
-                updateDevice.challenge_token = profileResponse.challengeToken;
-                updateDevice.status = DeviceModule.Device.Pending;
-                updateDevice.update(["challenge_token", "status"]);
+                var UpdateDevice = DeviceEntity.findOne({UDID: profileResponse.udid, STATUS: CONSTANTS.DEVICE.PENDING});
+                UpdateDevice.udid = profileResponse.udid;
+                UpdateDevice.challenge_token = profileResponse.challengeToken;
+                UpdateDevice.status = CONSTANTS.DEVICE.PENDING;
+
+                //WSO2 Nira
+                UpdateDevice.update(["id"]);
             }
 
-            var devices = this.DeviceModel.findOne({CHALLENGE_TOKEN: profileResponse.challengeToken, STATUS: DeviceModule.Device.Pending});
-            if(devices.length == 0) {
-                throw lang.INVALID_DEVICE;
-            }
-            var device = devices[0];
+            var device = DeviceEntity.findOne({CHALLENGE_TOKEN: profileResponse.challengeToken, STATUS: CONSTANTS.DEVICE.PENDING});
 
             //Get Tenant id from usermanagement - WSO2 Nira
             var tenantName = null
@@ -83,17 +81,12 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
     }
 
     /*
-        Unregister iOS device
+        Unregister iOS device - Chan
      */
     this.unRegister = function(udid) {
         try {
             if(udid != null) {
-                var devices = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
-                if(devices.length == 0) {
-                    throw lang.NO_ACTIVE_DEVICE;
-                }
-                device = devices[0];
-
+                var device = this.DeviceModule.findOne({UDID: udid, STATUS: CONSTANTS.DEVICE.ACTIVE});
                 this.prototype.unRegister();
             }
         } catch(e) {
@@ -106,11 +99,10 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
      */
     this.UpdateTokens = function(deviceToken) {
         var device;
-        var token;
+        var token = {};
         try {
-            var devicesExist = this.DeviceModel.findOne({UDID: deviceToken.udid, STATUS: DeviceModule.Device.Active});
-            if(devicesExist.length > 0) {
-                device = devicesExist[0];
+            device = DeviceEntity.findOne({UDID: deviceToken.udid, STATUS: CONSTANTS.DEVICE.ACTIVE});
+            if(device != null) {
                 token = device.token;
                 if(deviceToken.token != null) {
                     token.token = deviceToken.token;
@@ -124,22 +116,14 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
                 device.token = token;
                 device.update(["id", "status"]);
             } else {
-                var devices = this.DeviceModel.findOne({UDID: deviceToken.udid, STATUS: DeviceModule.Device.Pending});
-                if (devices.length > 0) {
-                    device = devices[0];
-                    var token = device.token;
-                    if(deviceToken.token != null) {
-                        token.token = deviceToken.token;
-                    }
-                    if(deviceToken.unlockToken != null) {
-                        token.unlockToken = deviceToken.unlockToken;
-                    }
-                    if(deviceToken.magicToken != null) {
-                        token.magicToken = deviceToken.magicToken;
-                    }
-                    device.token = token;
-                    device.status = DeviceModule.Device.Active;
-                    device.update(["id", "status"]);
+                device = DeviceEntity.findOne({UDID: deviceToken.udid, STATUS: CONSTANTS.DEVICE.PENDING});
+                if (device != null) {
+
+                    token.token = deviceToken.token;
+                    token.unlockToken = deviceToken.unlockToken;
+                    token.magicToken = deviceToken.magicToken;
+                    DeviceEntity.query((complexQueries.device.updateToken, token, CONSTANTS.DEVICE.ACTIVE, device.id, CONSTANTS.DEVICE.PENDING), function(complexObject, entity) {
+                    });
 
                     //Call device monitor for the device - WSO2 Nira
 

@@ -23,9 +23,9 @@ var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
 var IOSDevice = require('models/IOSDevice.js').IOSDevice;
 
 // entity models
-var DeviceModel = entity.model('Device');
-var OperationModel = entity.model('Operation');
-var PlatformModel = entity.model('Platform');
+var DeviceEntity = entity.model('Device');
+var OperationEntity = entity.model('Operation');
+var PlatformEntity = entity.model('Platform');
 
 var DeviceModule = {};
 
@@ -68,7 +68,7 @@ var Devices = function(devices){
 */
 DeviceModule.isDeviceRegistered = function(deviceid){
     try{
-        var devices =  DeviceModel.findOne({id: deviceid});
+        var device =  DeviceEntity.findOne({id: deviceid});
         return true;
     }catch(e){
         return false;
@@ -81,11 +81,13 @@ DeviceModule.isDeviceRegistered = function(deviceid){
 		InvalidOperation
 */
 DeviceModule.operations = function(operation) {
-    var operations = OperationModel.findOne({"id":operation});   
-    if(operations.length==0){
-        throw lang.INVALID_OPERATIONCODE;
+    try {
+        var operation = OperationEntity.findOne({"id":operation});
+        return new Operation(operation);
+    } catch (e) {
+        return null;
     }
-    return new Operation(operations[0]);
+
 }
 
 DeviceModule.notify = function(notification) {
@@ -104,16 +106,33 @@ DeviceModule.getDevices = function(query) {
     Get device object by UDID
 */
 DeviceModule.getDeviceObjectByUDID = function(udid) {
-    var devicesModel = DeviceModel.findOne({UDID: udid});
-    if (devices.length == 0) {
-        throw lang.DEVICE_NOT_FOUND;
+    try {
+        var device = DeviceEntity.findOne({UDID: udid});
+        return DeviceModule.getDeviceObjectByDevice(device);
+    } catch (e) {
+        log.error(e);
+        throw lang.EXECPTION;
     }
-    var deviceModel = devicesModel[0];
-    var platformsModel = PlatformModel.findOne({id: deviceModel.platform_id});
-
 }
 
-DeviceModule.getDeviceObjectByDevice = function() {
+DeviceModule.getDeviceObjectByDevice = function(device) {
+    try {
+        var deviceObject;
+        var platform = PlatformEntity.findOne({id: device.platform_id});
+        if(platform.os == CONSTANTS.ANDROID) {
+            deviceObject = new AndroidDevice()
+            deviceObject.deviceModel = device;
+            //deviceObject.
+        } else if(platform.os == CONSTANTS.IOS) {
+
+        } else {
+            throw lang.INVALID_PLATFORM
+        }
+    } catch (e){
+        throw lang.EXCEPTION;
+    }
+
+    return deviceObject;
 
 }
 
@@ -124,33 +143,25 @@ DeviceModule.getDeviceObjectByDevice = function() {
  		DeviceNotFound
 */
 DeviceModule.getDevice = function(id) {
-    var devices =  DeviceModel.findOne({ID: deviceid});
-    if(devices.length==0){
-        throw lang.DEVICE_NOT_FOUND;
-    }
-    return devices[0];    
+    var device =  DeviceEntity.findOne({ID: deviceid});
+    return device;
 };
 /*
    Register a device to EMM
 */
 DeviceModule.registerDevice = function(user, options) {
-    var deviceObject;
-    var platformsModel = PlatformModel.findOne({"OS": options.platform, "TYPE": options.platformType});
-    if (platformsModel.length == 0) {
-        throw lang.INVALID_PLATFORM;
-    }
-    var platformModel = platformsModel[0];
+    var device;
+    var platform = PlatformEntity.findOne({"OS": options.platform, "TYPE": options.platformType});
     var registerData, deviceObject;
     try {
-        switch (options.platform) {
-            case CONSTANTS.ANDROID:
-                deviceObject = new AndroidDevice(user, platformModel, options, DeviceModule);
-                registerData = deviceObject.registerNewDevice();
-                break;
-            case CONSTANTS.IOS:
-                deviceObject = new IOSDevice(user, platformModel, options, DeviceModule);
-                break;
+        if (options.platform == CONSTANTS.ANDROID) {
+            deviceObject = new AndroidDevice(user, platform, options, DeviceModule);
+        } else if(options.platform == CONSTANTS.IOS) {
+            deviceObject = new IOSDevice(user, platform, options, DeviceModule);
+        } else {
+            throw lang.EXCEPTION;
         }
+        registerData = deviceObject.registerNewDevice();
 
     } catch (e) {
         log.error(e);

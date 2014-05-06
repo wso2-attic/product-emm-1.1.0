@@ -93,7 +93,7 @@ var sqlCRUD = function (schema, options) {
         if(list.length>1){
             throw "More than one result found";
         }
-        return list;
+        return list[0];
     };
     /*
         Advance method used to deal with joins 

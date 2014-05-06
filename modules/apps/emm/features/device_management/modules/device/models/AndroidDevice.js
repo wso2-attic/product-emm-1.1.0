@@ -9,29 +9,29 @@ var AndroidDevice = function(user, platform, options, DeviceModule) {
 
     // Persist to the database
     this.registerNewDevice = function() {
-        deviceModel = new DeviceModel();
-        deviceModel.tenant_id = this.user.tenant_id;
-        deviceModel.user_id = this.user.user_id;
-        deviceModel.platform_id = this.platform.id;
-        deviceModel.udid = this.options.udid;
-        deviceModel.os_version = this.options.osVersion;
-        deviceModel.ownership = this.options.ownership;
-        deviceModel.mac_address = this.options.macAddress;
-        deviceModel.token = this.options.token;
-        deviceModel.extra_info = this.options.extraInfo;
-        deviceModel.status = CONSTANTS.DEVICE.ACTIVE;
-        deviceModel.created_date = utilityModule.getCurrentDateTime();
-        deviceModel.modified_date = utilityModule.getCurrentDateTime();
+        device = new DeviceEntity();
+        device.tenant_id = this.user.tenant_id;
+        device.user_id = this.user.user_id;
+        device.platform_id = this.platform.id;
+        device.udid = this.options.udid;
+        device.os_version = this.options.osVersion;
+        device.ownership = this.options.ownership;
+        device.mac_address = this.options.macAddress;
+        device.token = this.options.token;
+        device.extra_info = this.options.extraInfo;
+        device.status = CONSTANTS.DEVICE.ACTIVE;
+        device.created_date = utilityModule.getCurrentDateTime();
+        device.modified_date = utilityModule.getCurrentDateTime();
         log.info("Saving");
         try {
-            deviceModel.save();
+            device.save();
         } catch (e) {
             log.error(e);
             return null;
         }
         var registerData = {};
         registerData.contentType = CONSTANTS.CONTENTTYPE.JSON;
-        registerData.data = deviceModel;
+        registerData.data = device;
         return registerData;
 
         // AndroidDevice.prototype.register.call(this);

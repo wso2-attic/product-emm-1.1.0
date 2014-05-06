@@ -1,4 +1,9 @@
 {
+    "device":
+    {
+        "updateToken" : "UPDATE devices SET token = ?, status = ? WHERE id = ? AND status = ?"
+    },
+
     "operation" :
     {
 	    "getOperationsForDevice": ""
