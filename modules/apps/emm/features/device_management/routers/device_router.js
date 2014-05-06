@@ -29,7 +29,7 @@ var api_router = function(router){
     var PolicyModule = require('/features/device_management/modules/policy/PolicyModule.js').PolicyModule;
 
 	/*
-		Check if the provided deviceId is registered
+		Check if the provided device id is registered
 		Sample:-
 			Input:-
 				Body - id
@@ -244,6 +244,23 @@ var api_router = function(router){
             response.sendError(500);
         }
     });
+
+    /*
+        API to un-register a device
+    */
+    router.post('api/device/unregister', function(req, res) {
+        try {
+            var deviceId = req.body.id;
+            var udid = req.body.id;
+            var unregister = DeviceModule.unRegister(deviceId, udid);
+
+        } catch (e) {
+            log.error(e);
+            response.content = lang.INVALID_DEVICE;
+            response.sendError(500);
+        }
+    });
+
 
 	/*
 		Perform operation on a device

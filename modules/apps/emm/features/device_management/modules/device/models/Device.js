@@ -31,38 +31,6 @@ var Device = function() {
         Removes the device from EMM
     */
     this.unRegister = function() {
-        try {
-            var device;
-            switch (this.platform) {
-                case CONSTANTS.ANDROID:
-                    device = AndroidDevice(this.regid);
-                    break;
-                case CONSTANTS.IOS:
-                    device = IOSDevice.unRegister(this.udid);
-                    break;
-            }
-            if(device != null) {
-
-                this.NotificationModel.query((cottfmplexQueries.notification.setDeviceStatus, CONSTANTS.NOTIFIER.DELETED, device.id, CONSTANTS.NOTIFIER.PENDING), function(complexObject, model) {
-                });
-
-                this.DevicePolicyModel.query((complexQueries.devicePolicy.setDevicePolicyStatus, CONSTANTS.DEVICEPOLICY.DELETED, device.id, CONSTANTS.DEVICEPOLICY.ACTIVE), function(complexObject, model) {
-                });
-
-                this.DeviceInfoModel.query((complexQueries.deviceInfo.setDeviceInfoStatus, CONSTANTS.DEVICEINFO.DELETED, device.id, CONSTANTS.DEVICEINFO.PENDING), function(complexObject, model) {
-                });
-
-                this.DeviceModel.query((complexQueries.device.setDeviceStatus, CONSTANTS.DEVICE.DELETED, device.id, CONSTANTS.DEVICE.ACTIVE), function(complexObject, model) {
-                });
-
-                return true;
-            } else {
-                throw "Unknown device type";
-            }
-        } catch (e) {
-            return e;
-        }
-
 
     }
 
