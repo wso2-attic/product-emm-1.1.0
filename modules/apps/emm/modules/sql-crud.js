@@ -100,8 +100,14 @@ var sqlCRUD = function (schema, options) {
         mapper - a function that maps query results to the objects. mapper function should accept 
             dataObject and model object
     */
-    schema.static.query = function(query, mapper){
-        var results = db.query(query);
+    schema.static.query = function(query, mapper, values){
+        var results;
+        if(values){
+            values.unshift(query);
+            results = db.query.apply(db, values);
+        }else{
+            results = db.query(query);
+        }
         var list = [];
         for (var i = results.length - 1; i >= 0; i--) {
             var complexdataObject = results[i];

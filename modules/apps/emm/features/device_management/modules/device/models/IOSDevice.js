@@ -67,7 +67,7 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
             var device = DeviceEntity.findOne({CHALLENGE_TOKEN: profileResponse.challengeToken, STATUS: CONSTANTS.DEVICE.PENDING});
 
             //Get Tenant id from usermanagement - WSO2 Nira
-            var tenantName = null
+            var tenantName = null;
 
             var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
             var signedData = requestHandler.handleProfileRequest(profileResponse.inputStream, tenantName);
