@@ -1,4 +1,6 @@
-var Device = require('device.js').Device;
+var Device = require('Device.js').Device;
+var utilityModule = require('/features/utility_module.js');
+
 var AndroidDevice = function(user, platform, options, DeviceModule) {
 	this.user = user;
     this.platform = platform;
@@ -7,31 +9,40 @@ var AndroidDevice = function(user, platform, options, DeviceModule) {
 
     // Persist to the database
     this.registerNewDevice = function() {
-        device = new this.DeviceModel();
-        device.tenant_id = this.user.tenantid;
-        device.user_id = this.user.userid;
-        device.platform_id = this.platform.id;
-        device.uuid = this.options.uuid;
-        device.os_version = this.options.osVersion;
-        device.ownership = this.options.ownership;
-        device.mac_address = this.options.macAddress;
-        device.token = this.options.token;
-        device.extraInfo = this.options.extraInfo;
-        device.status = this.DeviceModule.Device.Active;
-        device.created_date = new Date();
-        device.updated_date = new Date();
+        deviceModel = new DeviceModel();
+        deviceModel.tenant_id = this.user.tenant_id;
+        deviceModel.user_id = this.user.user_id;
+        deviceModel.platform_id = this.platform.id;
+        deviceModel.udid = this.options.udid;
+        deviceModel.os_version = this.options.osVersion;
+        deviceModel.ownership = this.options.ownership;
+        deviceModel.mac_address = this.options.macAddress;
+        deviceModel.token = this.options.token;
+        deviceModel.extra_info = this.options.extraInfo;
+        deviceModel.status = CONSTANTS.DEVICE.ACTIVE;
+        deviceModel.created_date = utilityModule.getCurrentDateTime();
+        deviceModel.modified_date = utilityModule.getCurrentDateTime();
+        log.info("Saving");
         try {
-            device.save();
+            deviceModel.save();
         } catch (e) {
             log.error(e);
             return null;
         }
         var registerData = {};
-        registerData.contentType = DeviceModule.CONTENTTYPE.JSON;
-        registerData.data = device;
+        registerData.contentType = CONSTANTS.CONTENTTYPE.JSON;
+        registerData.data = deviceModel;
         return registerData;
 
         // AndroidDevice.prototype.register.call(this);
+    }
+
+    this.unRegister = function() {
+        try {
+            device = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
+        } catch (e) {
+            throw lang.ERROR_UNREGISTER;
+        }
     }
 
     this.recordNotification = function(){

@@ -35,7 +35,7 @@ var DeviceSchema = new entity.Schema("Device", {
     mac_address: String,
     status: String,
     created_date: Date,
-    updated_date: Date,
+    modified_date: Date,
     extra_info: String
 }, {
     tablename: "devices"
@@ -125,6 +125,7 @@ PolicyCategorySchema.plugin(sql_crud, {
 var DevicePolicySchema = new entity.Schema("DevicePolicy", {
     id: Number,
     tenant_id: Number,
+    device_id: Number,
     policy_id: Number,
     policy_category_id: Number,
     flitered_payload: String,
@@ -175,7 +176,7 @@ PolicyMappingOwnershipSchema.plugin(sql_crud, {
     db: db
 });
 
-var DeviceInfoSchema = new entity.Schema("Device_Info", {
+var DeviceInfoSchema = new entity.Schema("DeviceInfo", {
     id: Number,
     device_id: Number,
     tenant_id: Number,
@@ -196,7 +197,7 @@ DeviceInfoSchema.plugin(sql_crud, {
     db: db
 });
 
-var DeviceAppSchema = new entity.Schema("device_app", {
+var DeviceAppSchema = new entity.Schema("DeviceApp", {
     device_info_id: Number,
     device_id: Number,
     tenant_id: Number,
@@ -210,12 +211,12 @@ DeviceAppSchema.plugin(sql_crud, {
     db: db
 });
 
-var NotificationSchema = new entity.Schema("notification", {
+var NotificationSchema = new entity.Schema("Notification", {
     id: Number,
     tenant_id: Number,
     device_id: Number,
     notify_count: Number,
-    NOTIFIER: String,
+    notifier: String,
     status: String,
     sent_date: Date,
     received_date: Date

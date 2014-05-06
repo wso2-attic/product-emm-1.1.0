@@ -1,3 +1,21 @@
-{"operation": {
-	"getOperationsForDevice": ""
-}}
+{
+    "operation" :
+    {
+	    "getOperationsForDevice": ""
+    },
+
+    "notification" :
+    {
+        "setDeviceStatus" : "UPDATE notification SET status = ? WHERE device_id = ? AND status = ?"
+    },
+
+    "devicePolicy" :
+    {
+        "setDevicePolicyStatus" : "UPDATE device_policy SET status = ? WHERE device_id = ? AND status = ?"
+    },
+
+    "deviceInfo" : {
+        "setDeviceInfoStatus" : "UPDATE device_info SET status = ? WHERE device_id = ? AND status = ?"
+    }
+}
+

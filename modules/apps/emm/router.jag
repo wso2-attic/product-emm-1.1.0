@@ -4,6 +4,7 @@
 var pipe = require('pipe');
 var router = require('router');
 var common=require('pipe-common');
+var entity = require('entity');
 
 // Pipe plugins
 pipe.plug(common.queryParser());

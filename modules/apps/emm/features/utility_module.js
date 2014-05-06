@@ -16,44 +16,44 @@
  * 	Description : - HTTP API Layer for Device communication
  */
 
+var getPlatform = function(req) {
+    var deviceObject = {};
 
-var utilityModule = (function() {
-
-    function getPlatform(req) {
-
-        var deviceObject = {};
-
-        deviceObject.status = true;
-        deviceObject.platform = req.body.platform;
-        if(returnObject.platform == null) {
-            //Get platform using userAgent
-            var userAgent = req.getHeader("User-Agent");
-            if(userAgent.match(/iPad/i)) {
-                deviceObject.platform = "IOS";
-                deviceObject.platformType = "IPAD";
-            }else if (userAgent.match(/iPhone/i)) {
-                deviceObject.platform = "IOS";
-                deviceObject.platformType = "IPHONE";
-            } else {
-                //Invalid Device
-                deviceObject.status = false;
-            }
-        } else if(platform == "ANDROID") {
-            deviceObject.platformType = req.body.platformType;
-            deviceObject.osVersion = req.body.osVersion;
-            deviceObject.udid = req.body.udid;
-            deviceObject.macAddress = req.body.macAddress;
-            var extraInfo = {};
-            extraInfo.vendor = req.body.vendor;
-            deviceObject.extraInfo = extraInfo;
-            var token = {};
-            token.gcmToken = req.body.regid;
-            deviceObject.token = token;
+    deviceObject.status = true;
+    deviceObject.platform = req.body.platform;
+    if(returnObject.platform == null) {
+        //Get platform using userAgent
+        var userAgent = req.getHeader("User-Agent");
+        if(userAgent.match(/iPad/i)) {
+            deviceObject.platform = "IOS";
+            deviceObject.platformType = "IPAD";
+        }else if (userAgent.match(/iPhone/i)) {
+            deviceObject.platform = "IOS";
+            deviceObject.platformType = "IPHONE";
         } else {
             //Invalid Device
-            returnObject.status = false;
+            deviceObject.status = false;
         }
-        return returnObject;
+    } else if(platform == "ANDROID") {
+        deviceObject.platformType = req.body.platformType;
+        deviceObject.osVersion = req.body.osVersion;
+        deviceObject.udid = req.body.udid;
+        deviceObject.macAddress = req.body.macAddress;
+        var extraInfo = {};
+        extraInfo.vendor = req.body.vendor;
+        deviceObject.extraInfo = extraInfo;
+        var token = {};
+        token.gcmToken = req.body.regid;
+        deviceObject.token = token;
+    } else {
+        //Invalid Device
+        returnObject.status = false;
     }
+    return returnObject;
+}
 
-});
+var getCurrentDateTime = function() {
+    var date = new Date();
+    var formatedDate = date.getFullYear() + '-' +('00' + (date.getMonth()+1)).slice(-2) + '-' +('00' + date.getDate()).slice(-2) + ' ' + ('00' + date.getHours()).slice(-2) + ':' + ('00' + date.getMinutes()).slice(-2) + ':' + ('00' + date.getSeconds()).slice(-2);
+    return formatedDate;
+}

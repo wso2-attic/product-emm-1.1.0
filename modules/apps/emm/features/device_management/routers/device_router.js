@@ -67,17 +67,16 @@ var api_router = function(router){
         var ownership = req.body.ownership;
         var registerData;
 
-        //authentiate user - usermanager - WSO2
+        //authentiate user - usermanager - WSO2 Nira
         //Check if tenant is activate for this device
         var authentiate = null;
 
         if (authentiate) {
-            //Get the tenant id from the tenant Domain = WSO2
+            //Get the tenant id from the tenant Domain = WSO2 Nira
             var user = userModule.getUser(userid, tenantDomain);
             var registerObject = {};
             registerObject = utilityModule.getPlatform(req);
             if(ownership == "COPE") {
-                //register device - WSO2
                 try {
                     registerData = DeviceModule.registerDevice(user, {
                         platform : registerObject.platform,
@@ -106,7 +105,7 @@ var api_router = function(router){
                 }
 
             } else if(ownership == "BYOD") {
-                //Get BYOD License - WSO2
+                //Get BYOD License - WSO2 Nira
                 var byodLicense = null;
 
                 response.content = byodLicense;
@@ -136,7 +135,7 @@ var api_router = function(router){
     */
 	router.post('/api/device/register/', function(req, res){
 
-        //Get userid, tenant from token - Android (or) session - iOS - WSO2
+        //Get userid, tenant from token - Android (or) session - iOS - WSO2 Nira
         var user = req.user;
         var registerObject = {};
         registerObject = utilityModule.getPlatform(req);
@@ -157,6 +156,7 @@ var api_router = function(router){
                 response.contentType = registerData.contentType;
                 if(registerData.contentType == DeviceModule.CONTENTTYPE.JSON) {
                     response.content = lang.REGISTERED;
+                    response.status = 200;
                 } else if (registerData.contentType == DeviceModule.CONTENTTYPE.APPLECONFIG) {
                     var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(registerData.data);
                     print(new Stream(byteArrayInputStream));
@@ -164,10 +164,86 @@ var api_router = function(router){
             }
         } catch (e) {
             log.error(e);
-            print("Device Registration failed");
+            print(lang.REGISTRATION_FAILED);
             response.sendError(500);
         }
 	});
+
+    /*
+        Generate the profile for iOS
+     */
+    router.post('api/device/profile' , function(req, res) {
+        var signedData;
+        try {
+            signedData = DeviceModule.handleProfile(req.getInputStream());
+            if(signedData == null) {
+                print(lang.REGISTRATION_FAILED);
+                response.sendError(500);
+            }
+            response.contentType = DeviceModule.CONTENTTYPE.APPLECONFIG;
+            var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(signedData);
+            print(new Stream(byteArrayInputStream));
+
+        }catch (e){
+            log.error(e);
+            print(lang.REGISTRATION_FAILED);
+            response.sendError(500);
+        }
+    });
+
+    /*
+        Update iOS tokens
+     */
+    router.post('api/device/checkin', function(req, res) {
+        var messageType = DeviceModule.extractDeviceTokens(req.getInputStream());
+    });
+
+    router.post('api/device/scep', function(req, res) {
+        var operation = req.getParameter("operation");
+
+        try {
+            if(operation == "GetCACert") {
+
+                var scepResponse = DeviceModule.getCACert();
+                if (scepResponse.getResultCriteria() == "CA_CERT_FAILED") {
+                    //response.sendRedirect("mdmerror.jag");
+                    print(lang.REGISTRATION_FAILED);
+                    response.sendError(500);
+                } else if (scepResponse.getResultCriteria() == "CA_CERT_RECEIVED") {
+                    response.contentType = DeviceModule.CONTENTTYPE.CACERT;
+                } else if (scepResponse.getResultCriteria() == "CA_RA_CERT_RECEIVED") {
+                    response.contentType = DeviceModule.CONTENTTYPE.CARACERT;
+                } else {
+                    //response.sendRedirect("mdmerror.jag");
+                    print(lang.REGISTRATION_FAILED);
+                    response.sendError(500);
+                }
+
+                var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(scepResponse.getEncodedResponse());
+                print(new Stream(byteArrayInputStream));
+
+            } else if(operation == "GetCACaps") {
+
+                response.contentType = DeviceModule.CONTENTTYPE.PLAINTEXT;
+                var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(iosMdm.getCACaps());
+                print(new Stream(byteArrayInputStream));
+
+            } else if(operation == "PKIOperation") {
+
+                var pkiMessage = iosMdm.getPKIMessage(request.getInputStream());
+                response.contentType = DeviceModule.CONTENTTYPE.PKIMESSAGE;
+                var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(pkiMessage);
+                print(new Stream(byteArrayInputStream));
+
+            } else  {
+                log.error(lang.INVALID_SCEP_REQUEST);
+            }
+        }catch (e){
+            log.error(e);
+            print(lang.REGISTRATION_FAILED);
+            response.sendError(500);
+        }
+    });
 
 	/*
 		Perform operation on a device

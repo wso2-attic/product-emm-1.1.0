@@ -1,5 +1,8 @@
-var Device = require('device.js').Device;
-var uniqueIdentifier = requier('uuid');
+var Device = require('Device.js').Device;
+var uniqueIdentifier = require('uuid');
+var complexQueries = require('/modules/queries.json');
+var lang = require('/config/lang/locale_en.json');
+var utilityModule = require('/features/utility_module.js');
 
 var IOSDevice = function(user, platform, options, DeviceModule) {
     this.user = user;
@@ -11,11 +14,20 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
         Generate the Mobile Configurations
      */
     this.registerNewDevice = function() {
+        deviceModel = new DeviceModel();
+        deviceModel.tenant_id = this.user.tenant_id;
+        deviceModel.user_id = this.user.user_id;
+        deviceModel.platform_id = this.platform.id;
+        deviceModel.status = this.DeviceModule.Device.Pending;
+        deviceModel.created_date = utilityModule.getCurrentDateTime();
+        deviceModel.modified_date = utilityModule.getCurrentDateTime();
+
+
         try {
             //Generate the challenge token
             var challengeToken = uniqueIdentifier.generate();
             var plistGenerator = new Packages.org.wso2.mobile.ios.mdm.plist.PlistGenerator();
-            var result = plistGenerator.generateMobileConfigurations(token, this.user.tenantDomain);
+            var result = plistGenerator.generateMobileConfigurations(challengeToken, this.user.tenantDomain);
             var data = result.getBytes();
 
             var pkcsSigner = new Packages.org.wso2.mobile.ios.mdm.impl.PKCSSigner();
@@ -23,7 +35,11 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
 
             var registerData = {};
             registerData.data = signedData;
-            registerData.contentType = DeviceModule.CONTENTTYPE.APPLECONFIG;
+            registerData.contentType = CONSTANTS.CONTENTTYPE.APPLECONFIG;
+
+            deviceModel.challenge_token = challengeToken;
+            deviceModel.save();
+
             return signedData;
         } catch (e) {
             log.error(e);
@@ -31,60 +47,111 @@ var IOSDevice = function(user, platform, options, DeviceModule) {
         }
     }
 
-    //Persist to the database
-    this.register = function() {
+    /*
+        Generate the profile for iOS
+     */
+    this.handleProfileRequest = function(inputStream) {
+        try {
+            var commonUtil =  new Packages.org.wso2.mobile.ios.mdm.util.CommonUtil();
+            var profileResponse = commonUtil.copyInputStream(inputStream);
+            if (profileResponse.challengeToken != null) {
+                var updateDevice = new this.DeviceModel();
+                updateDevice.udid = profileResponse.udid;
+                updateDevice.challenge_token = profileResponse.challengeToken;
+                updateDevice.status = DeviceModule.Device.Pending;
+                updateDevice.update(["challenge_token", "status"]);
+            }
 
+            var devices = this.DeviceModel.findOne({CHALLENGE_TOKEN: profileResponse.challengeToken, STATUS: DeviceModule.Device.Pending});
+            if(devices.length == 0) {
+                throw lang.INVALID_DEVICE;
+            }
+            var device = devices[0];
+
+            //Get Tenant id from usermanagement - WSO2 Nira
+            var tenantName = null
+
+            var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
+            var signedData = requestHandler.handleProfileRequest(profileResponse.inputStream, tenantName);
+
+            return signedData;
+
+        }catch(e) {
+            log.error(e);
+            return null;
+        }
     }
 
     /*
-     var Device = require('device.js').Device;
-     var AndroidDevice = function(user, platform, options, DeviceModule) {
-     this.user = user;
-     this.platform = platform;
-     this.options = options;
-     this.DeviceModule = DeviceModule;
-
-     // Persist to the database
-     this.register = function() {
-     device = new this.DeviceModel();
-     device.tenantid = this.user.tenantid;
-     device.userid = this.user.userid;
-     device.platformid = this.platform.id;
-     device.uuid = this.options.uuid;
-     device.osVersion = this.options.osVersion;
-     device.ownership = this.options.ownership;
-     device.macAddress = this.options.macAddress;
-     device.status = this.DeviceModule.Device.Active;
-     device.created_date = new Date();
-     device.updated_date = new Date();
-     device.save();
-     // AndroidDevice.prototype.register.call(this);
-     }
-
-     this.recordNotification = function(){
-     //write to the notification table about the last contact period to the device
-     }
-     this.lastNotification = function(){
-
-     }
-     this.getPendingPayload = function(notifier){
-     var notification = this.lastNotification();
-     var messages = this.getMessages("");// get status, id, eom, operation
-     var complexPayload = this.buildPayload(messages);
-     return complexPayload;
-     }
-
-     this.consumeResult = function(result, notifier){
-     for (var i = result.length - 1; i >= 0; i--) {
-     var resultPacket = result[i];
-     var message =this.getMessage(resultPacket.messageid);
-     message.updateResult(resultPacket);
-     };
-     }
-
-     }
-     AndroidDevice.prototype = new Device();
+        Unregister iOS device
      */
+    this.unRegister = function(udid) {
+        try {
+            if(udid != null) {
+                var devices = this.DeviceModule.findOne({UDID: udid, STATUS: DeviceModule.Device.Active});
+                if(devices.length == 0) {
+                    throw lang.NO_ACTIVE_DEVICE;
+                }
+                device = devices[0];
+
+                this.prototype.unRegister();
+            }
+        } catch(e) {
+            throw lang.ERROR_UNREGISTER;
+        }
+    }
+
+    /*
+        Update MDM Tokens
+     */
+    this.UpdateTokens = function(deviceToken) {
+        var device;
+        var token;
+        try {
+            var devicesExist = this.DeviceModel.findOne({UDID: deviceToken.udid, STATUS: DeviceModule.Device.Active});
+            if(devicesExist.length > 0) {
+                device = devicesExist[0];
+                token = device.token;
+                if(deviceToken.token != null) {
+                    token.token = deviceToken.token;
+                }
+                if(deviceToken.unlockToken != null) {
+                    token.unlockToken = deviceToken.unlockToken;
+                }
+                if(deviceToken.magicToken != null) {
+                    token.magicToken = deviceToken.magicToken;
+                }
+                device.token = token;
+                device.update(["id", "status"]);
+            } else {
+                var devices = this.DeviceModel.findOne({UDID: deviceToken.udid, STATUS: DeviceModule.Device.Pending});
+                if (devices.length > 0) {
+                    device = devices[0];
+                    var token = device.token;
+                    if(deviceToken.token != null) {
+                        token.token = deviceToken.token;
+                    }
+                    if(deviceToken.unlockToken != null) {
+                        token.unlockToken = deviceToken.unlockToken;
+                    }
+                    if(deviceToken.magicToken != null) {
+                        token.magicToken = deviceToken.magicToken;
+                    }
+                    device.token = token;
+                    device.status = DeviceModule.Device.Active;
+                    device.update(["id", "status"]);
+
+                    //Call device monitor for the device - WSO2 Nira
+
+                } else {
+                    throw lang.DEVICE_TOKEN_UPDATE_EXCEPTION;
+                }
+            }
+        } catch (e) {
+            throw lang.DEVICE_TOKEN_UPDATE_EXCEPTION;
+        }
+    }
+
 
 	var generate = function(){
 		

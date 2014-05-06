@@ -15,8 +15,9 @@
  *
  *  Description : - Device object related functions 
  */
+
 var entity = require('entity');
-var Device = require('models/device.js').Device;
+var Device = require('models/Device.js').Device;
 var Operation = require('Operation.js').Operation;
 var AndroidDevice = require('models/AndroidDevice.js').AndroidDevice;
 var IOSDevice = require('models/IOSDevice.js').IOSDevice;
@@ -24,25 +25,16 @@ var IOSDevice = require('models/IOSDevice.js').IOSDevice;
 // entity models
 var DeviceModel = entity.model('Device');
 var OperationModel = entity.model('Operation');
+var PlatformModel = entity.model('Platform');
 
 var DeviceModule = {};
-DeviceModule.ANDROID = "ANDROID";
-DeviceModule.IOS = "IOS";
 
-//Device status
-DeviceModule.Device.Active = "A";
-DeviceModule.Device.InActive = "I";
-DeviceModule.Device.Deleted = "D";
-DeviceModule.Device.Pending = "P";
-
-DeviceModule.CONTENTTYPE.JSON = "application/json";
-DeviceModule.CONTENTTYPE.APPLECONFIG = "application/x-apple-aspen-config";
 
 // DeviceModule.WINDOWS = "3";
 // DeviceModule.RPIE = "4";
 
-DeviceModule.DEVICE_ACTIVE = "1";
-DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
+//DeviceModule.DEVICE_ACTIVE = "1";
+//DeviceModule.DEVICE_REGISTRATION_PENDING = "2";
 
 /*
     Plural Device object 
@@ -107,13 +99,32 @@ DeviceModule.notify = function(notification) {
 DeviceModule.getDevices = function(query) {
 
 };
+
+/*
+    Get device object by UDID
+*/
+DeviceModule.getDeviceObjectByUDID = function(udid) {
+    var devicesModel = DeviceModel.findOne({UDID: udid});
+    if (devices.length == 0) {
+        throw lang.DEVICE_NOT_FOUND;
+    }
+    var deviceModel = devicesModel[0];
+    var platformsModel = PlatformModel.findOne({id: deviceModel.platform_id});
+
+}
+
+DeviceModule.getDeviceObjectByDevice = function() {
+
+}
+
+
 /*
 	Return a device matching the id
  	Exceptions:-
  		DeviceNotFound
 */
 DeviceModule.getDevice = function(id) {
-    var devices =  DeviceModel.findOne({id: deviceid});   
+    var devices =  DeviceModel.findOne({ID: deviceid});
     if(devices.length==0){
         throw lang.DEVICE_NOT_FOUND;
     }
@@ -123,30 +134,86 @@ DeviceModule.getDevice = function(id) {
    Register a device to EMM
 */
 DeviceModule.registerDevice = function(user, options) {
-    var device;
-    var platforms = PlatformSchema.findOne({OS: options.platform, TYPE: options.platformType});
-    if (platforms.length == 0) {
+    var deviceObject;
+    var platformsModel = PlatformModel.findOne({"OS": options.platform, "TYPE": options.platformType});
+    if (platformsModel.length == 0) {
         throw lang.INVALID_PLATFORM;
     }
-    var platform = platforms[0];
-    var registerData;
-
+    var platformModel = platformsModel[0];
+    var registerData, deviceObject;
     try {
         switch (options.platform) {
-            case DeviceModule.ANDROID:
-                device = new AndroidDevice(user, platform, options, DeviceModule);
+            case CONSTANTS.ANDROID:
+                deviceObject = new AndroidDevice(user, platformModel, options, DeviceModule);
+                registerData = deviceObject.registerNewDevice();
                 break;
-            case DeviceModule.IOS:
-                device = new IOSDevice(user, platform, options, DeviceModule);
+            case CONSTANTS.IOS:
+                deviceObject = new IOSDevice(user, platformModel, options, DeviceModule);
                 break;
         }
-        registerData = device.registerNewDevice();
+
     } catch (e) {
         log.error(e);
         return null;
     }
 
     return registerData;
+
+}
+
+/*
+    Generate the profile for iOS
+ */
+DeviceModule.handleProfile = function(inputStream) {
+    try {
+
+        log.debug("Handle Profile Request!");
+        var signedData = IOSDevice.handleProfileRequest();
+        return signedData;
+    }catch (e) {
+        log.error(e);
+        return null;
+    }
+}
+
+/*
+    Update iOS tokens
+ */
+DeviceModule.extractDeviceTokens = function(inputStream) {
+    try {
+        var writer = new Packages.java.io.StringWriter();
+        //Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer, "UTF-8");
+        var contentString = writer.toString();
+
+        var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
+        var checkinMessageType = plistExtractor.extractTokens(contentString);
+        log.debug("CheckinMessageType >>>>>> " + checkinMessageType.getMessageType());
+
+        if (checkinMessageType.getMessageType() == "CheckOut") {
+            var udid = checkinMessageType.getUdid();
+//            var device = new Device();
+//            device.platform = CONSTANTS.IOS;
+//            device.UDID = udid;
+//            device.unRegister();
+//            IOSDevice.unRegister(udid);
+              var deviceObject = DeviceModule.getDeviceObjectByUDID(udid);
+
+        } else if(checkinMessageType.getMessageType() == "TokenUpdate") {
+            var deviceToken = {};
+            deviceToken.token = checkinMessageType.getToken();
+            deviceToken.unlockToken = checkinMessageType.getUnlockToken();
+            deviceToken.magicToken = checkinMessageType.getPushMagic();
+            deviceToken.udid = checkinMessageType.getUdid();
+
+            IOSDevice.UpdateTokens(deviceToken);
+        }
+        return checkinMessageType.getMessageType();
+
+    }catch (e) {
+        log.error(e);
+        return null;
+    }
+
 
 }
 

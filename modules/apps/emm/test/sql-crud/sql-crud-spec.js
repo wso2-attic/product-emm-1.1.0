@@ -1,5 +1,6 @@
 describe('sql-crud operation', function () {
     var entity = require('entity');
+    var schema = require('/modules/schema.js');
     var sql_crud = require('/modules/sql-crud.js').sqlCRUD;
 	try{
         var db = application.get("db");
@@ -10,23 +11,36 @@ describe('sql-crud operation', function () {
     }catch(e){
         log.error(e);
     }
-	var Device = new entity.Schema("Device", {
-      id : Number,
-      name : String,
-      description : String,
-      registrationDate : Date,
-      detail: String
-    }, {
-        tablename : "devices"
-    });
-    Device.plugin(sql_crud, {db: db});
+//	var Device = new entity.Schema("Device", {
+//      id : Number,
+//      name : String,
+//      description : String,
+//      registrationDate : Date,
+//      detail: String
+//    }, {
+//        tablename : "devices"
+//    });
+//
+//    var PlatformSchema = new entity.Schema("Platform", {
+//        id: Number,
+//        os: String,
+//        type: String,
+//        description: String
+//    }, {
+//        tablename: "platforms"
+//    });
+//    PlatformSchema.plugin(sql_crud, {
+//        db: db
+//    });
+//
+//    Device.plugin(sql_crud, {db: db});
 
     beforeEach(function () {
-    	db.query("CREATE TABLE `devices` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(45) DEFAULT NULL, `description` varchar(45) DEFAULT NULL, `registrationDate` timestamp DEFAULT NULL, `detail` clob DEFAULT NULL)");
-        this.DeviceModel = entity.model('Device');
+    	//db.query("CREATE TABLE `devices` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(45) DEFAULT NULL, `description` varchar(45) DEFAULT NULL, `registrationDate` timestamp DEFAULT NULL, `detail` clob DEFAULT NULL)");
+        //this.DeviceModel = entity.model('Device');
     });
     afterEach(function(){
-        db.query("DROP TABLE devices;");
+        //db.query("DROP TABLE devices;");
     });
     it('Saving of Object', function () {
         var device_1 = new this.DeviceModel();
@@ -35,6 +49,8 @@ describe('sql-crud operation', function () {
         device_1.description = "Damn right!";
         device_1.registrationDate = "2012-03-02 08:07:23.234";
         device_1.save();
+        var PlatformModel = entity.model('Platform');
+        PlatformModel.findOne({"id":"1"});
     });
     it('Updating of Object', function () {
         var device_1 = new this.DeviceModel();

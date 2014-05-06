@@ -3,8 +3,10 @@ Initilization logic
 **/
 var carbon = require('carbon');
 
+var entity = require('entity');
 var schema = require('/modules/schema.js');
 var lang = require('/config/lang/locale_en.json');
+var CONSTANTS = require('/modules/constants.js');
 /* 
 	Get the relevant configurations from carbon.xml	
 */
