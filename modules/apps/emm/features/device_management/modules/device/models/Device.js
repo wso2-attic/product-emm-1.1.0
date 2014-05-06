@@ -17,8 +17,8 @@
  */
 var entity = require('entity');
 var Device = function() {
-    var DeviceModel = entity.model('Device');
-    var deviceModel;
+    var DeviceEntity = entity.model('Device');
+    var device;
     var user;
 
     /*
@@ -31,6 +31,27 @@ var Device = function() {
         Removes the device from EMM
     */
     this.unRegister = function() {
+        try {
+            if(device != null) {
+                NotificationEntity.query(complexQueries.notification.setDeviceStatus, function(complexObject, model) {
+                }, [CONSTANTS.NOTIFIER.DELETED, device.id, CONSTANTS.NOTIFIER.PENDING]);
+
+                DevicePolicyEntity.query(complexQueries.devicePolicy.setDevicePolicyStatus, function(complexObject, model) {
+                }, [CONSTANTS.DEVICEPOLICY.DELETED, device.id, CONSTANTS.DEVICEPOLICY.ACTIVE]);
+
+                DeviceInfoEntity.query(complexQueries.deviceInfo.setDeviceInfoStatus, function(complexObject, model) {
+                }[CONSTANTS.DEVICEINFO.DELETED, device.id, CONSTANTS.DEVICEINFO.PENDING]);
+
+                DeviceEntity.query(complexQueries.device.setDeviceStatus, function(complexObject, model) {
+                }, [CONSTANTS.DEVICE.DELETED, device.id, CONSTANTS.DEVICE.ACTIVE]);
+
+                return true;
+            } else {
+                throw "Unknown device type";
+            }
+        } catch (e) {
+            throw lang.EXCEPTION;
+        }
 
     }
 
