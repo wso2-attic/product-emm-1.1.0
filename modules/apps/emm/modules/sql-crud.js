@@ -126,8 +126,10 @@ var sqlCRUD = function (schema, options) {
             var column = keys[i];
             if(typeof(entity[column])!=="function"){
                 // var columnType = props[column].type;
-                columns += String.toUpperCase(column)+","
-                values += "'"+entity[column]+"',";
+                if(entity[column]){
+                    columns += String.toUpperCase(column)+",";
+                    values += "'"+entity[column]+"',";   
+                }
             }
         };
         //Add ending brackets

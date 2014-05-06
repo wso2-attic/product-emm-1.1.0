@@ -1,5 +1,6 @@
 describe('device module', function() {
     var entity = require('entity');
+    var schema = require('/modules/schema.js');
     var DeviceModel = entity.model('Device');
     var OperationModel = entity.model('Operation');
     var PlatformModel = entity.model('Platform');
