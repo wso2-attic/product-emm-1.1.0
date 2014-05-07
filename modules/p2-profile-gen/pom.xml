@@ -352,6 +352,9 @@
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:2.2.1
 								</featureArtifactDef>
+								<feaureArtifactDef>
+                                    org.wso2.carbon:org.wso2.stratos.identity.saml2.sso.mgt.feature:${stratos.version}
+                                </feaureArtifactDef>
 								<!--Asset Store Feature list -->
                                 <!-- <featureArtifactDef>
 								    org.jaggeryjs:org.jaggeryjs.feature:0.9.0.ALPHA4.wso2v1
@@ -546,6 +549,10 @@
 									<id>org.wso2.carbon.identity.sso.saml.feature.group</id>
 									<version>4.2.2</version>
 								</feature>
+								<feature>
+                                    <id>org.wso2.stratos.identity.saml2.sso.mgt.feature.group</id>
+                                    <version>${stratos.version}</version>
+                                </feature>
 								 <feature>
 								     <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
 								     <version>4.2.1</version>

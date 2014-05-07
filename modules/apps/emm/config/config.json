@@ -2,8 +2,8 @@
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
-    "MDM_UI_URI": "/mdm/",
-    "MDM_API_URI": "/mdm/api/",
+    "MDM_UI_URI": "/emm/",
+    "MDM_API_URI": "/emm/api/",
     "MDM_THEME": "wso2sinine",
     "tenanted": true,
     "permissions": {
@@ -15,7 +15,7 @@
     },
     "ssoConfiguration": {
         "enabled": true,
-        "issuer": "mdm",
+        "issuer": "emm",
         "identityProviderURL": "%https.ip%/sso/samlsso.jag",
         "keyStorePassword": "wso2carbon",
         "identityAlias": "wso2carbon",

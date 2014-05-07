@@ -16,7 +16,7 @@ Bundle-Name: org.wso2.emm.emm-utils
 Created-By: Apache Maven Bundle Plugin
 Build-Jdk: 1.7.0_55
 Bundle-Version: 1.1.0
-Bnd-LastModified: 1399466240354
+Bnd-LastModified: 1399471937352
 Bundle-ManifestVersion: 2
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
 Bundle-Description: WSO2 Enterprise Mobility Manager (EMM)
