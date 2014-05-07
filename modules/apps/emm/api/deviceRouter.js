@@ -280,6 +280,13 @@ var device = (function () {
                 var result = device.sendToDevice(ctx);
             }
 		});
+
+        /*
+            Device contacts this api to get and update the pending operations
+         */
+        router.post('devices/pendingOperations', function(ctx) {
+
+        });
     };
     // prototype
     module.prototype = {

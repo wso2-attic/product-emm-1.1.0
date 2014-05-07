@@ -1204,13 +1204,17 @@ var device = (function () {
 
             if(ctx.udid != null){
                 var devices = db.query(sqlscripts.devices.select20, ctx.udid);
-                db.query(sqlscripts.device_awake.update3, ctx.udid);
-                var result = db.query(sqlscripts.devices.delete2, ctx.udid);
-                if(result == 1){
-                    db.query(sqlscripts.device_policy.update2, devices[0].id);
-                    return true;
-                }else{
-                    return false
+                if(devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
+                    db.query(sqlscripts.device_awake.update5, devices[0].id);
+                    var result = db.query(sqlscripts.devices.delete3, devices[0].id);
+                    if(result == 1){
+                        db.query(sqlscripts.device_policy.update2, devices[0].id);
+                        return true;
+                    }else{
+                        return false
+                    }
+                } else {
+                    return false;
                 }
             }else{
                 return false;
@@ -1228,7 +1232,6 @@ var device = (function () {
         	properties["device"] = deviceName;
 
             db.query(sqlscripts.devices.update4, osVersion, stringify(properties), wifiMac, deviceId + "");
-
         },
         getCurrentDeviceState:function(deviceId){
 

@@ -65,7 +65,8 @@ var devices = {
     'update8' : "UPDATE devices SET properties = ?, reg_id = ? WHERE udid = ?",
     
     'delete1' :"Delete from devices where reg_id = ?",
-    'delete2' :"DELETE FROM devices WHERE udid = ?"
+    'delete2' :"DELETE FROM devices WHERE udid = ?",
+    'delete3' : "DELETE FROM devices where id = ?"
 };
 
 var device_pending = {
@@ -97,7 +98,8 @@ var device_awake = {
     'update2' : "UPDATE device_awake SET sent_date = ?, call_count = call_count + 1 WHERE device_id = ? AND status = 'S'",
     'update3' : "UPDATE device_awake JOIN devices ON devices.id = device_awake.device_id SET device_awake.status = 'D' WHERE devices.udid = ? AND device_awake.status = 'S'",
     'update4' : "UPDATE device_awake JOIN devices ON devices.id = device_awake.device_id SET device_awake.status = 'P', device_awake.processed_date = ? WHERE devices.udid = ? AND device_awake.status = 'S'",
-    'update5' : "UPDATE device_awake SET device_awake.status = 'D' WHERE device_awake.device_id = ? AND device_awake.status = 'S'"
+    'update5' : "UPDATE device_awake SET device_awake.status = 'D' WHERE device_awake.device_id = ? AND device_awake.status = 'S'",
+    'update6' : "UPDATE device_awake SET status = 'P', processed_date = ? WHERE device_id = ? AND status = 'S'"
 };
 
 var notifications = {
