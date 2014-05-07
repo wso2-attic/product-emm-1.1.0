@@ -1283,7 +1283,7 @@ var device = (function () {
         	resultObj.wifi_mac = null;
         	
 	        if(result != null && result != undefined && result[0] != null && result[0] != undefined) {
-	        	resultObj.wifi_mac = result[0].wifi_mac;
+	        	resultObj.wifi_mac = result[0].mac;
 	        	return resultObj;
 	        }
 	        

@@ -50,15 +50,15 @@ var devices = {
     'select45':"SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices,platforms where platforms.type =? AND platforms.id = devices.platform_id  AND  devices.created_date between ? and ? and  devices.tenant_id = ?",
     'select46':"SELECT COUNT(*) as count FROM devices WHERE user_id = ? AND tenant_id = ?",
     'select47':"SELECT devices.id as id from devices JOIN platforms ON platforms.id = devices.platform_id WHERE type_name = 'Android' AND devices.tenant_id = ?",
-	'select48':"SELECT wifi_mac FROM devices WHERE udid = ?",
+	'select48':"SELECT mac FROM devices WHERE udid = ?",
 
-    'insert1' : "INSERT INTO devices (tenant_id, os_version, created_date, properties, reg_id, status, deleted, user_id, platform_id, vendor, udid, wifi_mac) VALUES(?, ?, ?, ?, ?,'A','0', ?, ?, ?,'0', ?)",
+    'insert1' : "INSERT INTO devices (tenant_id, os_version, created_date, properties, reg_id, status, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, ?, ?, ?,'A','0', ?, ?, ?,'0', ?)",
     'insert2' : "INSERT INTO devices (tenant_id, user_id, platform_id, reg_id, properties, created_date, status, byod, deleted, vendor, udid) SELECT tenant_id, user_id, platform_id, ?, ?, created_date, status, byod, 0, vendor, udid FROM device_pending WHERE udid = ?",
 
     'update1' : "UPDATE devices SET status = ? WHERE id = ?",
     'update2' : "UPDATE devices SET deleted = 0 WHERE reg_id = ? AND tenant_id = ?",
     'update3' : "UPDATE devices SET tenant_id = ?, user_id = ?, platform_id = ?, reg_id =? , properties = ?, status = ?, byod = ?, vendor = ?, udid = ?  WHERE udid = ?",
-    'update4' : "UPDATE devices SET os_version = ?, properties = ?, wifi_mac = ? WHERE id = ?",
+    'update4' : "UPDATE devices SET os_version = ?, properties = ?, mac = ? WHERE id = ?",
     'update5' : "UPDATE devices SET push_token = ? WHERE udid = ?",
     'update6' : "UPDATE devices SET os_version = ?, properties = ? WHERE id = ?",
     'update7' : "UPDATE devices SET properties = ? WHERE udid = ?",
@@ -115,6 +115,7 @@ var notifications = {
     'select10': "SELECT DISTINCT * FROM notifications WHERE received_data IS NOT NULL AND device_id = ? AND feature_code= ? ORDER BY sent_date ASC",
     'select11': "SELECT received_date, device_id, feature_code, user_id FROM notifications WHERE id = ? AND feature_code != '500P' AND feature_code != '529A' ORDER BY sent_date ASC",
     'select12': "select * from notifications where `device_id`=? and `feature_code`= ? and `status`='R' and `id` = (select MAX(`id`) from notifications where `device_id`=? and `feature_code`= ? and `status`='R') ORDER BY sent_date ASC",
+    'select13': "SELECT * FROM notifications WHERE device_id = ? AND status = 'P' ORDER BY sent_date ASC",
 
     'insert1' : "INSERT INTO notifications (device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) values(?, ?, ?, 'P', ?, ?, ?, ?, ?)",
     'insert2' : "INSERT INTO notifications (device_id, group_id, message, status, sent_date, feature_code, user_id, feature_description, tenant_id) values( ?, '1', ?, 'P', ?, ?, ?, ?, ?)",

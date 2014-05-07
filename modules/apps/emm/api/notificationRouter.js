@@ -31,6 +31,22 @@ var notification = (function () {
 		        response.status = 404;
 		    }
 		});
+
+        /*
+         Device contacts this api to get and update the pending operations
+         */
+        router.post('notifications/pendingOperations', function(ctx) {
+
+            var operations = notification.getAndroidOperations(ctx);
+            if(operations != null) {
+                //Pending Operations - Send Payload
+                response.status = 200;
+                response.content = operations;
+            } else {
+                response.status = 401;
+                response.content = "SUCCESS";
+            }
+        });
 		
     };
     // prototype
