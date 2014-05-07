@@ -44,7 +44,7 @@ var e = request.getParameter('authFailure');
 															
 								
 								
-								<form id="loginForm" action="/admin/commonauth" method="POST" >									     
+								<form id="loginForm" action="/commonauth" method="POST" >									     
 									      
 									        <input type="text" class="input-block-level" placeholder="Username" id="username" name="username">
 											<input type="password" class="input-block-level" placeholder="Password" id="password" name="password">	
