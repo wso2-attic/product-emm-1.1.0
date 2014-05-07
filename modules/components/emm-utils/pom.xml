@@ -10,14 +10,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>org.wso2.emm.emm-task</artifactId>
+    <artifactId>org.wso2.emm.emm-utils</artifactId>
     <packaging>bundle</packaging>
-    <name>WSO2 Enterprise Mobility Manager (EMM) - EMM-Task</name>
+    <name>WSO2 Enterprise Mobility Manager (EMM) - ManifestUtils</name>
     <url>http://maven.apache.org</url>
     <properties>
         <maven-scr-plugin.version>1.7.2</maven-scr-plugin.version>
         <maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
     </properties>
+
     <repositories>
         <repository>
             <id>wso2-maven2-repository</id>
@@ -64,18 +65,13 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                        <Service-Component>OSGI-INF/serviceComponents.xml</Service-Component>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Bundle-Version>1.1.0</Bundle-Version>
-                        <Private-Package>org.wso2.mobile.task</Private-Package>
-                        <Bundle-Activator>org.wso2.mobile.task.Activator</Bundle-Activator>
                         <Import-Package>
-                            org.osgi.framework,
-                            org.wso2.carbon.ntask.core.*,
-                            *;resolution:=optional
+                            *
                         </Import-Package>
                         <Export-Package>
-                            org.wso2.mobile.task.*
+                            *
                         </Export-Package>
                     </instructions>
                 </configuration>
@@ -85,20 +81,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.ntask.core</artifactId>
-            <version>4.2.2</version>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>4.2.0</version>
+            <groupId>com.googlecode.plist</groupId>
+            <artifactId>dd-plist</artifactId>
+            <version>1.8</version> <!-- corresponds to r108 -->
         </dependency>
     </dependencies>
 

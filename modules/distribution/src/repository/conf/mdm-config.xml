@@ -20,6 +20,8 @@
 <wso2mobile-mdm>
 
 	<ios-mdm-conf>
+		<!--EMM Device Monitor Frequency -->
+        <device-monitor-frequency>5</device-monitor-frequency>
 		<!-- iOS mdm endpoint urls -->
 		<ios-enroll-url>https://$(host):9443/mdm/scep</ios-enroll-url>
 		<ios-profile-url>https://$(host):9443/mdm/profile</ios-profile-url>
