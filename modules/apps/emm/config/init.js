@@ -20,7 +20,3 @@ application.put(app_TENANT_CONFIGS, {});
 
 // var deviceModule = require('../modules/device.js').device;
 // var device = new deviceModule(db);
-
-// var policyModule = require('../modules/policy.js').policy;
-// var policy = new policyModule(db);
-// policy.monitoring({});

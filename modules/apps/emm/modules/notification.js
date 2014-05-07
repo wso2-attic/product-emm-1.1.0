@@ -439,7 +439,58 @@ var notification = (function() {
 
 			db.query(sqlscripts.notifications.update1, deviceId, featureCode,
 					userId);
-		}
+		},
+
+        /*
+            Retrieve Pending operations for the device (Android)
+         */
+        getAndroidOperations: function(ctx) {
+            var regId = ctx.regId;
+            var recivedDate;
+            var devices = db.query(sqlscripts.devices.select19, regId);
+            if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
+                var responseData = ctx.data;
+                if (responseData != undefined && responseData != null) {
+                    //Update the notifications table
+                    for (var i=0; i<data.length; ++i) {
+                        var feature_code = responseData[i].featureCode;
+                        var featureData = responseData[i].data;
+                        var messageId = featureData[0].messageId;
+                        var sentMessage = featureData[0].data;
+                        recivedDate = common.getCurrentDateTime();
+
+                        db.query("UPDATE notifications SET sent_received_data = ?, received_date = ?, status = 'R' WHERE id = ?", sentMessage, recivedDate, messageId);
+                    }
+
+                }
+
+                log.info(" >>>>>> " + devices[0].id);
+
+                //Get pending operations for the device
+                var pendingOperations = db.query(sqlscripts.notifications.select13, devices[0].id);
+                if (pendingOperations != undefined && pendingOperations != null && pendingOperations[0] != undefined && pendingOperations[0] != null) {
+                    var payloadArray;
+                    for(var i=0; i<pendingOperations.length; ++i) {
+                        var operation = {};
+                        operation.featureCode = pendingOperations[i].feature_code;
+                        var messageArray;
+                        messageArray[0].messageId = pendingOperations[i].id;
+                        messageArray[0].data = pendingOperations[i].message;
+                        operation.data = messageArray;
+
+                        payloadArray[i] = operation;
+                    }
+                    log.info(" >>>>>> " + stringify(payloadArray));
+                    return payloadArray;
+                } else {
+                    //No pending operations
+                    recivedDate = common.getCurrentDateTime();
+                    db.query(sqlscripts.device_awake.update6, recivedDate, devices[0].id);
+                    return null;
+                }
+            }
+
+        }
 
 	};
 	// return module
