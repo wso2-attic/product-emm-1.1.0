@@ -1,259 +1,259 @@
 {
     "apiRoutes": {
-        "/mdm/api/users/{userid}/sendmail": {
+        "/emm/api/users/{userid}/sendmail": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/{userid}": {
+        "/emm/api/users/{userid}": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/unauthenicate/": {
+        "/emm/api/users/unauthenicate/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/{userid}": {
+        "/emm/api/users/{userid}": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/": {
+        "/emm/api/users/": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/{+userid}": {
+        "/emm/api/users/{+userid}": {
             'DELETE': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/{+username}/groups/": {
+        "/emm/api/users/{+username}/groups/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/{+username}/groups/": {
+        "/emm/api/users/{+username}/groups/": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/": {
+        "/emm/api/users/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/{userid}/devices": {
+        "/emm/api/users/{userid}/devices": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/users/invite": {
+        "/emm/api/users/invite": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/": {
+        "/emm/api/groups/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/invite": {
+        "/emm/api/groups/invite": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/{groupid}": {
+        "/emm/api/groups/{groupid}": {
             'DELETE': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/{groupid}/users/device_count": {
+        "/emm/api/groups/{groupid}/users/device_count": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/{groupid}/users": {
+        "/emm/api/groups/{groupid}/users": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/{groupid}/users": {
+        "/emm/api/groups/{groupid}/users": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups": {
+        "/emm/api/groups": {
             'POST': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/{groupid}": {
+        "/emm/api/groups/{groupid}": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/groups/{groupid}/operations/{operation}": {
+        "/emm/api/groups/{groupid}/operations/{operation}": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/notifications/devices/{deviceid}": {
+        "/emm/api/notifications/devices/{deviceid}": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/refresh/devices/{deviceid}/{operation}": {
+        "/emm/api/refresh/devices/{deviceid}/{operation}": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/permissions/": {
+        "/emm/api/permissions/": {
             'POST': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/permissions/": {
+        "/emm/api/permissions/": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/permissions/": {
+        "/emm/api/permissions/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policy/{policyid}": {
+        "/emm/api/policy/{policyid}": {
             'DELETE': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/{policyid}/enforce": {
+        "/emm/api/policies/{policyid}/enforce": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/": {
+        "/emm/api/policies/": {
             'POST': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/": {
+        "/emm/api/policies/": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/{policyid}": {
+        "/emm/api/policies/{policyid}": {
             'DELETE': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/": {
+        "/emm/api/policies/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/{policyid}/groups": {
+        "/emm/api/policies/{policyid}/groups": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/{policyid}/users": {
+        "/emm/api/policies/{policyid}/users": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/{policyid}/platforms": {
+        "/emm/api/policies/{policyid}/platforms": {
             'PUT': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/policies/{policyid}/groups": {
+        "/emm/api/policies/{policyid}/groups": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/permission/groups/{groupid}/features/": {
+        "/emm/api/permission/groups/{groupid}/features/": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/devices/{deviceid}/operations/{operation}": {
+        "/emm/api/devices/{deviceid}/operations/{operation}": {
             'POST': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/devices/{deviceid}/features": {
+        "/emm/api/devices/{deviceid}/features": {
             'GET': [
                 'Internal/everyone'
             ]
         },  
-        "/mdm/api/devices/{deviceid}": {
+        "/emm/api/devices/{deviceid}": {
             'POST': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/pending/devices/{udid}/operations": {
+        "/emm/api/pending/devices/{udid}/operations": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/dashboard/devices/all/percentage/byos": {
+        "/emm/api/dashboard/devices/all/percentage/byos": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/dashboard/devices/all/percentage/byownership": {
+        "/emm/api/dashboard/devices/all/percentage/byownership": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/dashboard/all/info": {
+        "/emm/api/dashboard/all/info": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/dashboard/devices/android/info": {
+        "/emm/api/dashboard/devices/android/info": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/dashboard/devices/ios/info": {
+        "/emm/api/dashboard/devices/ios/info": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/dashboard/policies/compliance": {
+        "/emm/api/dashboard/policies/compliance": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/webconsole/devices": {
+        "/emm/api/webconsole/devices": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/webconsole/listDevices": {
+        "/emm/api/webconsole/listDevices": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/webconsole/allUsers": {
+        "/emm/api/webconsole/allUsers": {
             'GET': [
                 'Internal/everyone'
             ]
         },
-        "/mdm/api/features": {
+        "/emm/api/features": {
             'GET': [
                 'Internal/everyone'
             ]
         }
     },
     "pageRoutes": {
-    	"users/configuration": ["Internal/mdmadmin", "admin"],
-    	"devices/management": ["Internal/mdmadmin", "admin"],
-    	"console/dashboard" : ["Internal/mdmadmin", "admin"]
+    	"users/configuration": ["Internal/emmadmin", "admin"],
+    	"devices/management": ["Internal/emmadmin", "admin"],
+    	"console/dashboard" : ["Internal/emmadmin", "admin"]
     }
 }
