@@ -34,9 +34,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.wso2.store</groupId>
+			<groupId>org.wso2.emm</groupId>
 			<artifactId>org.wso2.emm.admin.styles</artifactId>
-			<version>${ues.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -54,16 +54,16 @@
 							<goal>p2-feature-gen</goal>
 						</goals>
 						<configuration>
-							<id>org.wso2.emm.admin.styles</id>
+							<id>org.wso2.emm.styles</id>
 							<propertiesFile>../../etc/feature.properties</propertiesFile>
-<!--
+
 							<adviceFile>
 								<properties>
 									<propertyDef>org.wso2.carbon.p2.category.type:console</propertyDef>
-									<propertyDef>org.eclipse.equinox.p2.type.group:false</propertyDef>
+									<!-- <propertyDef>org.eclipse.equinox.p2.type.group:false</propertyDef> -->
 								</properties>
 							</adviceFile>
--->
+
 							<bundles>
 								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles</bundleDef>
 							</bundles>

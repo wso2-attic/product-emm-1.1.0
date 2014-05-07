@@ -22,11 +22,11 @@ var groupRouter = require('api/groupRouter.js').group;
 var reportRouter = require('api/reportRouter.js').reports;
 
 var GOOSE_CONFIGS = {
-    CONTEXT : "/mdm/api/", 
+    CONTEXT : "/emm/api/", 
     AUTH_SUPPORT : true
 };
 var ABSOLUTE_CONFIGS = {
-    SERVER_URL:"/mdm/",
+    SERVER_URL:"/emm/",
     IGNORE:[],
     API:"api",
     AUTH_SUPPORT: true

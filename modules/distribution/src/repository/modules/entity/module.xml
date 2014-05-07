@@ -1,6 +1,0 @@
-<module name="entity" xmlns="http://wso2.org/projects/jaggery/module.xml">
-    <script>
-        <name>entity</name>
-        <path>scripts/core/entity.js</path>
-    </script>
-</module>

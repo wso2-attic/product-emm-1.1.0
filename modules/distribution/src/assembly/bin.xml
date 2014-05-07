@@ -118,13 +118,13 @@
             </excludes>
             
         </fileSet>
-        <fileSet>
+<!--         <fileSet>
             <directory>src/repository/resources/jaggery/modules/</directory>
             <outputDirectory>wso2emm-${pom.version}/modules</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
-        </fileSet>
+        </fileSet> -->
          <!--copy jaxrs web app for OAuth feature-->
 		<fileSet>
             <directory>
@@ -159,7 +159,6 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/security/</directory>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/security/</outputDirectory>
             <includes>
-                <include>**/application-authenticators.xml</include>
                 <include>**/entitlement.properties</include>
 		<include>**/trusted-idp-config.xml</include>
             </includes>
@@ -310,6 +309,20 @@
                 <include>*/**</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/fakepublisher</directory>
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher</outputDirectory>
+            <includes>
+                <include>*/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/fakestore</directory>
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore</outputDirectory>
+            <includes>
+                <include>*/**</include>
+            </includes>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
@@ -437,6 +450,12 @@
             <fileMode>644</fileMode>
         </file>
         <file>
+            <source>src/repository/conf/application-authenticators.xml</source>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/security/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>target/wso2carbon-core-${carbon.kernal.version}/repository/conf/README</source>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
@@ -518,35 +537,35 @@
         <!-- End - Changes related to Carbon kernel 4.2.0 patches -->
 	<!--API Publisher Customization-->
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/publisher/publisherLogo/logo.png</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher/publisherLogo/logo.png</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher/site/themes/default/images</outputDirectory>
 	    <destName>logo.png</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/publisher/footer/template.jag</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher/footer/template.jag</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher/site/themes/default/templates/footer</outputDirectory>
 	    <destName>template.jag</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/publisher/localstyles.css</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher/localstyles.css</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher/site/themes/default/css</outputDirectory>
 	    <destName>localstyles.css</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/publisher/publisherTheme/appFac_04.jpg</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher/publisherTheme/appFac_04.jpg</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher/site/themes/default/images</outputDirectory>
 	    <destName>appFac_04.jpg</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/publisher/publisherSite/site.json</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher/publisherSite/site.json</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher/site/conf</outputDirectory>
 	    <destName>site.json</destName>
 	    <filtered>true</filtered>
@@ -555,46 +574,50 @@
 	<!--End API Publisher Customization-->
 	<!--API Store Customization-->
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/store/storeLogo/logo.png</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakestore/storeLogo/logo.png</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore/site/themes/fancy/images</outputDirectory>
 	    <destName>logo.png</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/publisher/publisherTheme/appFac_04.jpg</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher/publisherTheme/appFac_04.jpg</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore/site/themes/fancy/images</outputDirectory>
 	    <destName>appFac_04.jpg</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/store/storeSite/site.json</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakestore/storeSite/site.json</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore/site/conf</outputDirectory>
 	    <destName>site.json</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/store/styles-layout.css</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakestore/styles-layout.css</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore/site/themes/fancy/css</outputDirectory>
 	    <destName>styles-layout.css</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/store/base-page/template.jag</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakestore/base-page/template.jag</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore/site/themes/fancy/templates/page/base</outputDirectory>
 	    <destName>template.jag</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
         </file>
 	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/store/login/template.jag</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakestore/login/template.jag</source>
             <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore/site/themes/fancy/templates/user/login</outputDirectory>
 	    <destName>template.jag</destName>
 	    <filtered>true</filtered>
 	    <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/etc/tasks-config.xml</source>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
         </file>
 	<!--End API Store Customization-->
     </files>
