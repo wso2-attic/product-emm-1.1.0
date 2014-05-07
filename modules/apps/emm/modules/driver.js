@@ -1,43 +1,41 @@
-var common = require('/modules/common.js');
-var translate = function(results){
-    //log.debug("Data Before >>>>>> " + stringify(results));
-    var result;
-    var field;
-    var models = [];
-    for (var index in results) {
-        result = results[index];
-        var model = {};
-        for (var prop in result) {
-            if (result.hasOwnProperty(prop)) {
-                //log.debug(Object.prototype.toString.apply(result[prop]));
-                if (Object.prototype.toString.apply(result[prop]) == '[object Stream]') {
-                    model[prop.toLowerCase()] = stringify(result[prop]);
-                } else {
-                    model[prop.toLowerCase()] = result[prop];
+/* 
+    Usage - 
+        var driver = require('driver.js').driver(db);
+        driver.query();
+*/
+var driver = function(db){
+    var translate = function(results){
+        var models = [];
+        for (var i = results.length - 1; i >= 0; i--) {
+            var result = results[i];
+            var changed = {};
+            for (var prop in result) {
+                if (result.hasOwnProperty(prop)) {
+                    prop = prop.toUpperCase();
+                    if(result[field] == null) {
+                        changed[prop] = result[prop].toLowerCase();
+                    } else {
+                        changed[prop] = result[prop].toString().toLowerCase();
+                    }
+                    models.push(changed);
                 }
             }
-        }
-        models.push(model);
+        };
+        return models;
     }
-    //log.debug("Data After >>>> " + stringify(models));
-    return models;
-}
-var driver = {
-    execute : function(){
-        var query  = arguments[0];
+    this.query = function(){
+        // convert arguments to array
         var args = Array.prototype.slice.call(arguments, 0);
-        var argumentArray = args.slice(1, args.length);
-        if (argumentArray.length>0) {
-            var db = common.getDatabase();
-            result = db.query.apply(db, arguments) || [];
+        var query = args.shift();
+        if (args.length>0) {
+            result = db.query.apply(db, args) || [];
         }
         else {
-            result = common.getDatabase().query(query) || [];
+            result = db.query(query) || [];
         }
-
         var processed = translate(result);
         return processed;
     }
-};
+}
 
  
