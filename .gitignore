@@ -220,7 +220,6 @@ pip-log.txt
 #################
 .idea/ 
 org.wso2.emm.mdm.feature-1.0.0.zip
-modules/features/org.wso2.emm.feature/target
 modules/distribution/target
 modules/p2-profile-gen/target
 modules/components/jaggery-scxml-executors/target
@@ -238,7 +237,6 @@ modules/components/org.wso2.carbon.databridge.datasink.cassandra/target/timestam
 .idea
 *.iml
 wso2emm-parent.iml
-modules/components/mdm-ui/target
 
 modules/apps/mdm/.idea
 modules/apps/mdm/mdm.iml
@@ -264,4 +262,9 @@ modules/apps/store/.project
 modules/components/emm-gcm/target
 modules/components/emm-task/target
 modules/components/manifestUtils/target
+modules/components/emm-ui/target
+modules/components/emm-utils/target
+modules/components/mdm-ui/target
+
+modules/features/org.wso2.emm.feature/target
 modules/features/org.wso2.emm.styles.feature/target
