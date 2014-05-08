@@ -49,7 +49,7 @@ public class TaskServiceComponent {
             }
 
             String device_monitor_freq = EMMTaskConfig.getConfigEntry(EMMTaskConfig.DEVICE_MONITOR_FREQUENCY);
-            if (device_monitor_freq.isEmpty() && device_monitor_freq.contentEquals("0")) {
+            if (!device_monitor_freq.isEmpty() && !device_monitor_freq.contentEquals("0")) {
                 TaskManager taskManager = getTaskService().getTaskManager(EMMTaskConfig.TASK_MANAGER_NAME);
                 TriggerInfo triggerInfo = new TriggerInfo();
                 triggerInfo.setCronExpression("0 0/" + device_monitor_freq + " * * * ?");
