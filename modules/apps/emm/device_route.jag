@@ -5,32 +5,32 @@
         include("/invaliddevice.jag");
     } else {
         switch(request.getRequestURI()) {
-            case "/mdm/devicelogin":
+            case "/emm/devicelogin":
                 include("/ios_utils/devicelogin.jag");
                 break;
-            case "/mdm/deviceloginsign":
+            case "/emm/deviceloginsign":
                 include("/ios_utils/deviceloginsign.jag");
                 break;
-            case "/mdm/enroll":
+            case "/emm/enroll":
                 include("/ios_utils/enroll.jag");
                 break;
-            case "/mdm/ca":
+            case "/emm/ca":
                 include("/ios_utils/ca.jag");
                 break;
-            case "/mdm/enrollsuccess":
+            case "/emm/enrollsuccess":
                 include("/ios_utils/enrollsuccess.jag");
                 break;
-            case "/mdm/certificate":
+            case "/emm/certificate":
                 include("/ios_utils/deviceloginsign.jag");
                 break;
-            case "/mdm/devicestatusmonitor":
+            case "/emm/devicestatusmonitor":
                 include("/ios_utils/devicestatusmonitor.jag");
                 break;
-            case "/mdm/downloadapp":
+            case "/emm/downloadapp":
                 include("/downloadapp.jag");
                 break;
             default:
-                include("/ios_utils/mdmerror.jag");
+                include("/ios_utils/emmerror.jag");
                 break;
         }
     }

@@ -1,12 +1,12 @@
 <%
 	
-	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
-	var iosMdm = new iosMdmModule();
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
+	var iosEmm = new iosEmmModule();
 	var log = new Log();
 
     //log.debug("Server.jag received!!!!");
 
-	var payload = iosMdm.sendPushNotifications(request.getInputStream());
+	var payload = iosEmm.sendPushNotifications(request.getInputStream());
 	
 	if(payload != null) {
 		

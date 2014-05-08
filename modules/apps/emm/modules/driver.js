@@ -11,11 +11,11 @@ var driver = function(db){
             var changed = {};
             for (var prop in result) {
                 if (result.hasOwnProperty(prop)) {
-                    prop = prop.toUpperCase();
+                    prop = prop..toLowerCase();
                     if(result[field] == null) {
-                        changed[prop] = result[prop].toLowerCase();
+                        changed[prop] = result[prop];
                     } else {
-                        changed[prop] = result[prop].toString().toLowerCase();
+                        changed[prop] = result[prop].toString();
                     }
                     models.push(changed);
                 }

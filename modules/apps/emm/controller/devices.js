@@ -30,7 +30,7 @@ management = function(appController){
 	context.page = "management";
 	context.jsFile= "devices/management.js";
 	context.data = {		
-		tenantId:session.get("mdmConsoleUser").tenantId,
+		tenantId:session.get("emmConsoleUser").tenantId,
 		features: features,
 		groups: groups
 	};

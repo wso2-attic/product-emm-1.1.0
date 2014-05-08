@@ -10,11 +10,11 @@
     <title>iOS Enrollment</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/mdm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
-    <link href="/mdm/assets/boostrap3/css/main.css" rel="stylesheet">
-    <link href="/mdm/assets/boostrap3/css/signin.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/main.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/signin.css" rel="stylesheet">
 
-    <script src="/mdm/assets/boostrap3/js/jquery.js"></script>
+    <script src="/emm/assets/boostrap3/js/jquery.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>

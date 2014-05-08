@@ -7,8 +7,8 @@ var configs = require('/config/store.js').config();
 var log =new Log();
 var user = require('store').server.current(session);
 var process = require("process");
-var mdm = require('/modules/mdm.js').mdm;
-var mdmServer = new mdm();
+var emm = require('/modules/emm.js').emm;
+var emmServer = new emm();
 var server = require('store').server;
 
 var getTenantID = function() {
@@ -37,7 +37,7 @@ var getTenantDomainFromID = function() {
 */
 router.get('apps/users/{userid}/devices', function(ctx){
 	if(user!=undefined){
-		var result = mdmServer.getDevices(user.username, ctx.platform);
+		var result = emmServer.getDevices(user.username, ctx.platform);
 		print(result.data);
 	}else{
 		response.sendError(404);
@@ -75,9 +75,9 @@ router.post('apps/devices/{deviceid}/install', function(ctx){
 	};
 	if(asset.attributes.overview_platform.toUpperCase()=='WEBAPP'){
 		payload['title'] = asset.attributes.overview_name;
-		mdmServer.installWebClip(payload, ctx.deviceid);
+		emmServer.installWebClip(payload, ctx.deviceid);
 	}else{
-		mdmServer.install(payload, ctx.deviceid);
+		emmServer.install(payload, ctx.deviceid);
 	}
 });
 
@@ -86,7 +86,7 @@ router.post('apps/devices/{deviceid}/uninstall', function(ctx){
     var store = require("/modules/store.js").store(tenant, session);
 	var asset =  store.assetID(type, ctx.asset);
 	var install_asset = asset.attributes.overview_packagename; 
-	mdmServer.uninstall({identity: install_asset}, ctx.deviceid);
+	emmServer.uninstall({identity: install_asset}, ctx.deviceid);
 });
 var buildInstallParam = function(asset){
 	var installParam = configs.mam.archieve_location+asset.attributes.overview_url;

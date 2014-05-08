@@ -1,6 +1,6 @@
 <%
 (function(){
-    var dataConfi = require('/config/mdm.js').config(),
+    var dataConfi = require('/config/emm.js').config(),
             sso = require("sso"),
             process = require("process"),
             sessionId = session.getId(),
@@ -12,7 +12,7 @@
             address = require("/modules/address.js");
     var postUrl = address.getAddress("https");
     log.info("sdfsdf");
-    if (!session.get("mdmConsoleUserLogin")) {
+    if (!session.get("emmConsoleUserLogin")) {
         %>
 
                 <div>

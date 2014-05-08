@@ -125,7 +125,7 @@ var webconsole = (function () {
                 var flag = 0;
                 for(var j=0 ;j<roles.length;j++){
 
-                    if(roles[j]=='admin'||roles[j]=='Internal/mdmadmin'||roles[j]=='Internal/mamadmin'){
+                    if(roles[j]=='admin'||roles[j]=='Internal/emmadmin'||roles[j]=='Internal/mamadmin'){
 
                         flag = 1;
                         if(userType){

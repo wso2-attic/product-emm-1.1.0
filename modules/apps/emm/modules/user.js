@@ -4,7 +4,7 @@ var USER_OPTIONS = 'server.user.options';
 //Need to change this
 var USER_SPACE = '/_system/governance/';
 var user = (function () {
-    var config = require('/config/mdm.js').config();
+    var config = require('/config/emm.js').config();
     var routes = new Array();
 
 	var log = new Log();
@@ -77,7 +77,7 @@ var user = (function () {
 	    ];
 	    arrPermission[space] = permission;
         arrPermission["/permission/admin/login"] = ["ui.execute"];
-        if(roleState=="mdmadmin"){
+        if(roleState=="emmadmin"){
             arrPermission["/permission/admin/manage"] = ["ui.execute"];
         }
 		if(!um.roleExists("Internal/private_"+indexUser)){
@@ -89,7 +89,7 @@ var user = (function () {
 	var getUserType = function(user_roles){
         for (var i = user_roles.length - 1; i >= 0; i--) {
             var role = user_roles[i];
-            if(role=='admin'|| role=='Internal/mdmadmin'|| role=='Internal/mamadmin'){
+            if(role=='admin'|| role=='Internal/emmadmin'|| role=='Internal/mamadmin'){
                 return "Administrator";
             }else{
                 return "User";
@@ -149,8 +149,8 @@ var user = (function () {
                         if(ctx.type == 'user'){
                             um.addUser(ctx.username, generated_password,ctx.groups, claimMap, null);
                         }else if(ctx.type == 'administrator'){
-                            roleState = "mdmadmin";
-                            um.addUser(ctx.username, generated_password,new Array('Internal/mdmadmin'), claimMap, null);
+                            roleState = "emmadmin";
+                            um.addUser(ctx.username, generated_password,new Array('Internal/emmadmin'), claimMap, null);
                         }
                         createPrivateRolePerUser(ctx.username, roleState);
                         proxy_user.status = "SUCCESSFULL";
@@ -337,7 +337,7 @@ var user = (function () {
                 var flag = 0;
                 for(var j=0 ;j<roles.length;j++){
                     log.debug("Test iteration2"+roles[j]);
-                    if(roles[j]=='admin'||roles[j]=='Internal/mdmadmin'){                                                                                
+                    if(roles[j]=='admin'||roles[j]=='Internal/emmadmin'){
                         flag = 1;
                         break;
                     }else if(roles[j]==' Internal/publisher'||roles[j]=='Internal/reviewer'||roles[j]=='Internal/store'|| roles[j]=='Internal/mamadmin'){
@@ -421,8 +421,8 @@ var user = (function () {
 			if(ctx.generatedPassword){
 				password_text = "Your password to your login : "+ctx.generatedPassword;
 			}
-            content = "Dear "+ ctx.firstName+", "+config.email.emailTemplate+config.HTTPS_URL+"/mdm/api/device_enroll \n "+password_text+" \n"+config.email.companyName;
-            subject = "MDM Enrollment";
+            content = "Dear "+ ctx.firstName+", "+config.email.emailTemplate+config.HTTPS_URL+"/emm/api/device_enroll \n "+password_text+" \n"+config.email.companyName;
+            subject = "EMM Enrollment";
 
             var email = require('email');
             var sender = new email.Sender(config.email.smtp, config.email.port, config.email.senderAddress, config.email.emailPassword, "tls");

@@ -33,10 +33,10 @@ require('/modules/store.js').exec(function (ctx) {
     var rxtAttributes = utility.getRXTAttributes(tenantId, type);
     var devices = [];
     if(user!=null){
-        var mdm = require('/modules/mdm.js').mdm;
-        var mdmServer = new mdm();
+        var emm = require('/modules/emm.js').emm;
+        var emmServer = new emm();
         try{
-            var result = mdmServer.getDevices(user.username+"@"+user.tenantDomain);
+            var result = emmServer.getDevices(user.username+"@"+user.tenantDomain);
             devices = parse(result);
         }catch(e){
             log.debug(e);

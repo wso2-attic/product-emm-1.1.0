@@ -1,4 +1,4 @@
-var iosmdm = (function() {
+var iosemm = (function() {
 
 	var log = new Log();
 	var deviceModule = require('/modules/device.js').device;

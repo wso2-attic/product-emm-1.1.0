@@ -24,14 +24,14 @@ $(document).ready(function() {
                         "fnRender": function (oObj)                              
                         {                           
                            if(oObj.aData[3] == 'administrator'){
-                           	 return '<a href="/mdm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
-                                '<a href="/mdm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;'; 
+                           	 return '<a href="/emm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
+                                '<a href="/emm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;';
                                
                            	
                            }else{
-                           	 return '<a href="/mdm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
-                                '<a href="/mdm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;' +
-                                //'<a href="/mdm/users/edit?user='+ oObj.aData[0] +'" class="btn-edit-roles" data-item="'+ oObj.aData[0] +'" title="Edit"><i class="icon-edit"> </i> Edit</a>&nbsp;' + 
+                           	 return '<a href="/emm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
+                                '<a href="/emm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;' +
+                                //'<a href="/emm/users/edit?user='+ oObj.aData[0] +'" class="btn-edit-roles" data-item="'+ oObj.aData[0] +'" title="Edit"><i class="icon-edit"> </i> Edit</a>&nbsp;' +
                                 '<a href="#" class="btn-invite" data-item="'+ oObj.aData[0] +'" title="Invite"><i class="icon-envelope"> </i> Invite</a>&nbsp;' +
                            		 '<a href="#" class="btn-item-remove" data-item="'+ oObj.aData[0] +'" title="Remove"><i class="icon-remove"> </i> Remove</a>&nbsp;';
                            }
@@ -43,7 +43,7 @@ $(document).ready(function() {
                    ],	
 		
 		
-		"sAjaxSource" : "/mdm/api/webconsole/allUsers",
+		"sAjaxSource" : "/emm/api/webconsole/allUsers",
 		"fnServerParams": function ( aoData ) {
 			
 			usertype= $('.block-body #userTypeSelect option:selected').val();

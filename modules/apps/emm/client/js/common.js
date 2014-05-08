@@ -3,7 +3,7 @@ var apiConfig = getApiConfig();
 
 var uiConfig = getUIConfig('default');
 
-$.get('/mdm/console/info').done(function(data) {
+$.get('/emm/console/info').done(function(data) {
 			tenantDomain = JSON.parse(data).tenantDomain;
 			var uiConfig = getUIConfig('default');
 		}).fail(function() {
@@ -13,17 +13,17 @@ $.get('/mdm/console/info').done(function(data) {
 
 
 function getAppConfig(){
-	var appConfig = loadTextFileAjaxSync("/mdm/config/config.json", "application/json");	
+	var appConfig = loadTextFileAjaxSync("/emm/config/config.json", "application/json");
 	return JSON.parse(appConfig);
 }
 
 function getUIConfig(tenantDomain){
-	var uiConfig = loadTextFileAjaxSync("/mdm/config/tenants/" + tenantDomain +  "/ui.json", "application/json");	
+	var uiConfig = loadTextFileAjaxSync("/emm/config/tenants/" + tenantDomain +  "/ui.json", "application/json");
 	return JSON.parse(uiConfig);
 }
 
 function getApiConfig(){	
-	var apiConfig = loadTextFileAjaxSync("/mdm/config/apis.json", "application/json");
+	var apiConfig = loadTextFileAjaxSync("/emm/config/apis.json", "application/json");
 	return JSON.parse(apiConfig);
 }
 
@@ -31,8 +31,8 @@ function getApiConfig(){
 context = function() {	
 	
 	var appDefault = {				
-		resourcePath: uiConfig.MDM_UI_URI + "themes/" + uiConfig.MDM_THEME + "/img/",
-		serverURL: uiConfig.MDM_API_URI,
+		resourcePath: uiConfig.EMM_UI_URI + "themes/" + uiConfig.EMM_THEME + "/img/",
+		serverURL: uiConfig.EMM_API_URI,
 		appsImageService: uiConfig.APPS_IMAGE_SERVICE
 	};
 	return appDefault;
@@ -66,7 +66,7 @@ function loadTextFileAjaxSync(filePath, mimeType)
 getServiceURLs = function(item){	
 	
 	var tenantId = null;
-	$.get('/mdm/console/info').done(function(data) {
+	$.get('/emm/console/info').done(function(data) {
 			tenantId = JSON.parse(data).tenantId;
 			
 		}).fail(function() {

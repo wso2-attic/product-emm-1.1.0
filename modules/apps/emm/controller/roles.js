@@ -64,7 +64,7 @@ management = function(appController){
 		configOption : "roles",
 		groups: groups,
 		features: features,
-		tenantId:session.get("mdmConsoleUser").tenantId
+		tenantId:session.get("emmConsoleUser").tenantId
 	};
 	return context;
 
@@ -75,9 +75,9 @@ users = function(appController){
 	context = appController.context();
 	var role = request.getParameter('role');
 	if(!role){
-		role = session.get('mdmConsoleSelectedRole');
+		role = session.get('emmConsoleSelectedRole');
 	}
-	session.put('mdmConsoleSelectedRole', role)
+	session.put('emmConsoleSelectedRole', role)
 	try{
 		var users = group.getUsersOfGroup({'groupid':role});
 	}catch(e){
@@ -124,7 +124,7 @@ add = function(appController){
 	}catch(e){
 		var users = [];
 	}
-	log.debug(session.get("mdmConsoleUser"));
+	log.debug(session.get("emmConsoleUser"));
 	
 	context.title = context.title + " | Add Role";
 	context.page = "configuration";
@@ -132,7 +132,7 @@ add = function(appController){
 	context.data = {
 		configOption : "roles",
 		users: users,
-		tenantId:session.get("mdmConsoleUser").tenantId
+		tenantId:session.get("emmConsoleUser").tenantId
 	};
 	return context;
 };
@@ -140,7 +140,7 @@ add = function(appController){
 edit = function(appController){
 	context = appController.context();
 	var role = request.getParameter('group');
-	log.debug(session.get("mdmConsoleUser"));
+	log.debug(session.get("emmConsoleUser"));
 	
 	context.title = context.title + " | Edit Role";
 	context.page = "configuration";
@@ -148,7 +148,7 @@ edit = function(appController){
 	context.data = {
 		configOption : "roles",
 		role: role,
-		tenantId:session.get("mdmConsoleUser").tenantId
+		tenantId:session.get("emmConsoleUser").tenantId
 	};
 	return context;
 };
@@ -164,7 +164,7 @@ assign_users = function(appController){
 	}catch(e){
 		var users = [];
 	}
-	log.info(session.get("mdmConsoleUser"));
+	log.info(session.get("emmConsoleUser"));
 	context = appController.context();
 	context.title = context.title + " | Assign Users to group";
 	context.page = "configuration";
@@ -172,7 +172,7 @@ assign_users = function(appController){
 	context.data = {
 		configOption : "roles",
 		users: users,
-		tenantId:session.get("mdmConsoleUser").tenantId,
+		tenantId:session.get("emmConsoleUser").tenantId,
 		groupId: groupId
 	};
 	return context;
@@ -190,7 +190,7 @@ assign_permissions = function(appController){
 	context.jsFile= "roles/assign_permissions.js";
 	context.data = {
 		configOption : "roles",		
-		tenantId:session.get("mdmConsoleUser").tenantId,
+		tenantId:session.get("emmConsoleUser").tenantId,
 		groupId: groupId
 	};
 	return context;
