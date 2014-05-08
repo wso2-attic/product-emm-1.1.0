@@ -5,7 +5,7 @@ var group = (function () {
     var routes = new Array();
 	var log = new Log();
 	var db;
-
+    var driver;
     var sqlscripts = require('/sqlscripts/mysql.js');
 	var common = require('common.js');
     var claimEmail = "http://wso2.org/claims/emailaddress";
@@ -42,6 +42,7 @@ var group = (function () {
 	
     var module = function (dbs) {
 		db = dbs;
+        driver = require('driver').driver(db);
         //mergeRecursive(configs, conf);
     };
 
@@ -200,7 +201,7 @@ var group = (function () {
 					proxy_user.mobile = claimResult.get(claimMobile);
 					proxy_user.tenantId = tenantId;
 					proxy_user.roles = user.getRoles();
-					var resultDeviceCount = db.query(sqlscripts.devices.select25, users[i], proxy_user.tenantId);
+					var resultDeviceCount = driver.query(sqlscripts.devices.select25, users[i], proxy_user.tenantId);
 					proxy_user.no_of_devices = resultDeviceCount[0].device_count;
 					users_list.push(proxy_user);
 				}
@@ -250,7 +251,7 @@ var group = (function () {
             um.updateUserListOfRole(ctx.groupid , deletedUsers, newUsers);
         },
 	    getEffectiveRoleFromDeviceID:function(deviceID){
-            var devices = db.query(sqlscripts.devices.select1,deviceID);
+            var devices = driver.query(sqlscripts.devices.select1,deviceID);
             var username = devices[0].user_id;//username for pull policy payLoad
             var tenantID = devices[0].tenant_id;
             var roleList = user.getUserRoles({'username':username});

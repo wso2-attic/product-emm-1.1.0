@@ -7,27 +7,11 @@ var feature = (function () {
     var db;
     var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
+    var driver;
     var module = function (dbs) {
         db = dbs;
-        //mergeRecursive(configs, conf);
+        driver = require('driver').driver(db);
     };
-
-    function mergeRecursive(obj1, obj2) {
-        for (var p in obj2) {
-            try {
-                // Property in destination object set; update its value.
-                if (obj2[p].constructor == Object) {
-                    obj1[p] = MergeRecursive(obj1[p], obj2[p]);
-                } else {
-                    obj1[p] = obj2[p];
-                }
-            } catch (e) {
-                // Property in destination object not set; create it and set its value.
-                obj1[p] = obj2[p];
-            }
-        }
-        return obj1;
-    }
 
     var entitlement = null;
     var stub = null;
@@ -80,13 +64,13 @@ var feature = (function () {
         constructor: module,
         getAllFeatures: function(ctx){
         	var tenantID = common.getTenantID();
-            var featureList = db.query(sqlscripts.devices.select24, tenantID);
+            var featureList = driver.query(sqlscripts.devices.select24, tenantID);
 
             var obj = new Array();
             for(var i=0; i<featureList.length; i++){
                 var featureArr = {};
 
-                var ftype = db.query(sqlscripts.featuretype.select2, featureList[i].id);
+                var ftype = driver.query(sqlscripts.featuretype.select2, featureList[i].id);
                 //log.error(featureList[i]);
                 featureArr["name"] = featureList[i].name;
                 featureArr["feature_code"] = featureList[i].code;
@@ -105,7 +89,7 @@ var feature = (function () {
         getAllFeaturesForRoles: function(ctx){
             init();
             var array = new Array();
-            var featureGroupList = db.query(sqlscripts.featuregroup.select1);
+            var featureGroupList = driver.query(sqlscripts.featuregroup.select1);
 
             for(var i = 0;i<featureGroupList.length;i++){
                 var obj = {};
@@ -114,7 +98,7 @@ var feature = (function () {
                 obj.isFolder = true;
                 obj.key = featureGroupList[i].id;
 
-                obj.children = setFlag(db.query(sqlscripts.features.select3, stringify(featureGroupList[i].id)),ctx.groupid);
+                obj.children = setFlag(driver.query(sqlscripts.features.select3, stringify(featureGroupList[i].id)),ctx.groupid);
 
                 array[i] = obj;
             }

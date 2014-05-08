@@ -16,7 +16,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <maven-scr-plugin.version>1.7.2</maven-scr-plugin.version>
-        <maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
+        <maven-bundle-plugin.version>2.3.5</maven-bundle-plugin.version>
     </properties>
 
     <repositories>
@@ -60,7 +60,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>${maven-bunlde-plugin.version}</version>
+                <version>${maven-bundle-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>

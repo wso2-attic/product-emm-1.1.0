@@ -12,11 +12,12 @@ var webconsole = (function () {
     var routes = new Array();
     var log = new Log();
     var db;
+    var driver;
     var module = function (dbs) {
         group = new groupModule();
         user = new userModule();
         db = dbs;
-        //mergeRecursive(configs, conf);
+        driver = require('driver').driver(db);
     };
     var carbon = require('carbon');
     var server = function(){
@@ -74,7 +75,7 @@ var webconsole = (function () {
                 objRole.no_of_users = userList.length;
                 var deviceCountAll = 0;
                 for(var j = 0; j < userList.length; j++) {
-                    var resultDeviceCount = db.query(sqlscripts.devices.select25, String(userList[j]), common.getTenantID());
+                    var resultDeviceCount = driver.query(sqlscripts.devices.select25, String(userList[j]), common.getTenantID());
                     deviceCountAll += parseInt(resultDeviceCount[0].device_count);
                 }
                 objRole.no_of_devices = deviceCountAll;
@@ -190,7 +191,7 @@ var webconsole = (function () {
             var iDisplayLength = ctx.iDisplayLength;
 
             if(byod!= undefined && byod != null && byod != '' && platformId!= undefined && platformId != null && platformId != ''){
-                result = db.query(sqlscripts.devices.select32, "%"+userId+"%", common.getTenantID(), byod, platformId);
+                result = driver.query(sqlscripts.devices.select32, "%"+userId+"%", common.getTenantID(), byod, platformId);
                 var totalRecords = result.length;
                 var upperBound = parseInt(ctx.iDisplayStart)+parseInt(iDisplayLength);
                 var lowerBound = parseInt(ctx.iDisplayStart);
@@ -217,7 +218,7 @@ var webconsole = (function () {
                 finalObj.aaData = dataArray;
                 return finalObj;
             }else if(byod!= undefined && byod != null && byod != '' ){
-                result = db.query(sqlscripts.devices.select33, "%"+userId+"%", common.getTenantID(), byod);
+                result = driver.query(sqlscripts.devices.select33, "%"+userId+"%", common.getTenantID(), byod);
                 var totalRecords = result.length;
                 var upperBound = parseInt(ctx.iDisplayStart)+parseInt(iDisplayLength);
                 var lowerBound = parseInt(ctx.iDisplayStart);
@@ -244,7 +245,7 @@ var webconsole = (function () {
                 finalObj.aaData = dataArray;
                 return finalObj;
             }else if(platformId!= undefined && platformId != null && platformId != ''){
-                result = db.query(sqlscripts.devices.select34, "%"+userId+"%", common.getTenantID(), platformId);
+                result = driver.query(sqlscripts.devices.select34, "%"+userId+"%", common.getTenantID(), platformId);
                 var totalRecords = result.length;
                 var upperBound = parseInt(ctx.iDisplayStart)+parseInt(iDisplayLength);
                 var lowerBound = parseInt(ctx.iDisplayStart);
@@ -270,7 +271,7 @@ var webconsole = (function () {
                 finalObj.aaData = dataArray;
                 return finalObj;
             }else{
-                result = db.query(sqlscripts.devices.select35, "%"+userId+"%", common.getTenantID());
+                result = driver.query(sqlscripts.devices.select35, "%"+userId+"%", common.getTenantID());
                 var totalRecords = result.length;
                 var upperBound = parseInt(ctx.iDisplayStart)+parseInt(iDisplayLength);
                 var lowerBound = parseInt(ctx.iDisplayStart);

@@ -14,10 +14,6 @@
     <packaging>bundle</packaging>
     <name>WSO2 Enterprise Mobility Manager (EMM) - EMM-Task</name>
     <url>http://maven.apache.org</url>
-    <properties>
-        <maven-scr-plugin.version>1.7.2</maven-scr-plugin.version>
-        <maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
-    </properties>
     <repositories>
         <repository>
             <id>wso2-maven2-repository</id>
@@ -40,6 +36,10 @@
             </releases>
         </repository>
     </repositories>
+    <properties>
+        <maven-bundle-plugin.version>2.3.4</maven-bundle-plugin.version>
+        <maven-scr-plugin.version>1.7.2</maven-scr-plugin.version>
+    </properties>
 
     <build>
         <plugins>
@@ -59,7 +59,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>${maven-bunlde-plugin.version}</version>
+                <version>${maven-bundle-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>

@@ -98,7 +98,7 @@
 		<mvn.gpg>1.0-alpha-3</mvn.gpg>
 		<maven-site-plugin.version>3.0</maven-site-plugin.version>
 		<maven-src-plugin.version>1.7.2</maven-src-plugin.version>
-		<maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
+		<maven-bundle-plugin.version>2.3.5</maven-bundle-plugin.version>
 		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 		<maven-assembly-plugin.version>2.2-beta-2</maven-assembly-plugin.version>
 		<maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
