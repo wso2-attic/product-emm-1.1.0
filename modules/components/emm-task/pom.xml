@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>org.wso2.emm.emm-task</artifactId>
+    <artifactId>org.wso2.emm.task</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Enterprise Mobility Manager (EMM) - EMM-Task</name>
     <url>http://maven.apache.org</url>
@@ -63,7 +63,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Service-Component>OSGI-INF/serviceComponents.xml</Service-Component>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Bundle-Version>1.1.0</Bundle-Version>

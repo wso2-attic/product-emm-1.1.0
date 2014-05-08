@@ -127,6 +127,7 @@ var notifications = {
     'update5' : "UPDATE notifications SET status='R' WHERE id = ?",
     'update6' : "UPDATE notifications SET status='R', received_data = ? , received_date = ? WHERE id = ?",
     'update7' : "UPDATE notifications SET status = 'D' WHERE device_id = ? AND status = 'P'",
+    'update8' : "UPDATE notifications SET received_data = ?, received_date = ?, status = 'R' WHERE id = ?",
 
     'delete1' : "DELETE FROM notifications WHERE device_id = ? AND status='P' AND feature_code = ?",
     'delete2' : "DELETE FROM notifications WHERE device_id = ? AND status='R' AND feature_code = ?"

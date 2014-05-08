@@ -49,19 +49,21 @@ public class TaskServiceComponent {
             }
 
             String device_monitor_freq = EMMTaskConfig.getConfigEntry(EMMTaskConfig.DEVICE_MONITOR_FREQUENCY);
+            if (device_monitor_freq.isEmpty() && device_monitor_freq.contentEquals("0")) {
+                TaskManager taskManager = getTaskService().getTaskManager(EMMTaskConfig.TASK_MANAGER_NAME);
+                TriggerInfo triggerInfo = new TriggerInfo();
+                triggerInfo.setCronExpression("0 0/" + device_monitor_freq + " * * * ?");
+                TaskInfo taskInfo = new TaskInfo();
+                taskInfo.setName(EMMTaskConfig.TASK_NAME);
+                taskInfo.setTaskClass(EMMTaskConfig.TASK_MONITOR_CLASS);
+                taskInfo.setTriggerInfo(triggerInfo);
 
-            TaskManager taskManager = getTaskService().getTaskManager(EMMTaskConfig.TASK_MANAGER_NAME);
-            TriggerInfo triggerInfo = new TriggerInfo();
-            triggerInfo.setCronExpression("0 0/" + device_monitor_freq + " * * * ?");
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.setName(EMMTaskConfig.TASK_NAME);
-            taskInfo.setTaskClass(EMMTaskConfig.TASK_MONITOR_CLASS);
-            taskInfo.setTriggerInfo(triggerInfo);
+                taskManager.registerTask(taskInfo);
+                taskManager.rescheduleTask(taskInfo.getName());
+            }
 
-            //taskInfo.setProperties(new HashMap<String, String>());  //Need to be removed once bug is fixed in ntask 4.2.2
 
-            taskManager.registerTask(taskInfo);
-            taskManager.rescheduleTask(taskInfo.getName());
+
         } catch (Throwable e) {
             log.error(e.getMessage(), e);
             /* don't throw exception */
