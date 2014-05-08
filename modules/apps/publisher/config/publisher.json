@@ -4,7 +4,7 @@
         "http": "%http.ip%"
     },
     "user": {
-        "username": "admin@admin.com",
+        "username": "admin",
         "password": "admin"
     },
     "tenantConfigs": "/_system/config/publisher/configs/publisher.json",

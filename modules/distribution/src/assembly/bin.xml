@@ -467,11 +467,15 @@
             <fileMode>644</fileMode>
         </file>
         <file>
+            <source>src/repository/database/WSO2_EMM_DB.h2.db</source>
+            <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>src/repository/database/WSO2IDENTITY_DB.h2.db</source>
             <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>
             <fileMode>644</fileMode>
         </file>
-
 	   <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/database/WSO2AM_DB.h2.db</source>
             <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>

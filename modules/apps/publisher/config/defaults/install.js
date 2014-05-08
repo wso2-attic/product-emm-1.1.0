@@ -89,7 +89,7 @@ var installer = function () {
 
         //Create a registry instance
         var registry = new carbon.registry.Registry(server.instance(), {
-            username: 'admin@admin.com',
+            username: 'admin',
             tenantId: SUPER_TENANT_ID
         });
 
