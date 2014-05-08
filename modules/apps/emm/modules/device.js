@@ -2,7 +2,7 @@ var TENANT_CONFIGS = 'tenant.configs';
 var USER_MANAGER = 'user.manager';
 var common = require("/modules/common.js");
 var configFile = require('/config/emm.js').config();
-
+var driver;
 
 var device = (function () {
 
@@ -57,7 +57,7 @@ var device = (function () {
     var db;
     var module = function (dbs) {
         db = dbs;
-
+        driver = require('driver').driver(db);
         user = new userModule(db);
         group = new groupModule(db);
 
@@ -82,7 +82,7 @@ var device = (function () {
     }
     function getPolicyPayLoad(deviceId,category){
 
-        var devices = db.query(sqlscripts.devices.select1, deviceId);
+        var devices = driver.query(sqlscripts.devices.select1, deviceId);
         if (devices == null) {
             return null;
         } else if (devices[0].user_id == null) {
@@ -92,7 +92,7 @@ var device = (function () {
         var username = devices[0].user_id;// username for pull policy payLoad
 		var tenantID = devices[0].tenant_id;
 
-        var platforms = db.query(sqlscripts.devices.select5, deviceId);
+        var platforms = driver.query(sqlscripts.devices.select5, deviceId);
 
         var platformName = platforms[0].type_name;// platform name for pull
 													// policy payLoad
@@ -106,7 +106,7 @@ var device = (function () {
 
         var obj = {};
 
-        var upresult = db.query(sqlscripts.policies.select15, category,String(username), tenantID);
+        var upresult = driver.query(sqlscripts.policies.select15, category,String(username), tenantID);
 
         if(upresult!=undefined && upresult != null && upresult[0] != undefined && upresult[0] != null ){
             var policyPayLoad;
@@ -130,7 +130,7 @@ var device = (function () {
             return obj;
         }
 
-        var ppresult = db.query(sqlscripts.policies.select2, category,platformName, tenantID );
+        var ppresult = driver.query(sqlscripts.policies.select2, category,platformName, tenantID );
         if(ppresult!=undefined && ppresult != null && ppresult[0] != undefined && ppresult[0] != null ){
 
             var policyPayLoad;
@@ -152,7 +152,7 @@ var device = (function () {
             return obj;
         }
 
-        var gpresult = db.query(sqlscripts.policies.select3, category,role, tenantID);
+        var gpresult = driver.query(sqlscripts.policies.select3, category,role, tenantID);
         if(gpresult != undefined && gpresult != null && gpresult[0] != undefined && gpresult[0] != null){
             var policyPayLoad;
             var mdmPolicy = parse(gpresult[0].data);
@@ -179,14 +179,14 @@ var device = (function () {
         var deviceId = arguments[0];
         var category = arguments[1];
 
-        var devices = db.query(sqlscripts.devices.select1, deviceId);
+        var devices = driver.query(sqlscripts.devices.select1, deviceId);
         if (devices == null) {
             return null;
         } else if (devices[0].user_id == null) {
             return null;
         }
 
-        var devicePolicy = db.query(sqlscripts.policies.select16, deviceId, devices[0].tenant_id);
+        var devicePolicy = driver.query(sqlscripts.policies.select16, deviceId, devices[0].tenant_id);
 
         if (devicePolicy != null && devicePolicy != undefined && devicePolicy[0] != null && devicePolicy[0] != undefined) {
             var policyPayLoad;
@@ -302,7 +302,7 @@ var device = (function () {
         for (var i = deviceOsVersion.length; i < 4; i++) {
             deviceOsVersion += "0";
         }
-        var platformFeatures = db.query(sqlscripts.platformfeatures.select1, platformId, featureId);
+        var platformFeatures = driver.query(sqlscripts.platformfeatures.select1, platformId, featureId);
         var minVersion = platformFeatures[0].min_version;
         minVersion = minVersion.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "");
         for (var i = minVersion.length; i < 4; i++) {
@@ -324,19 +324,19 @@ var device = (function () {
         var policytype = ctx.policypriority;
         var device_policy;
 
-        var devices = db.query(sqlscripts.devices.select40, deviceid, tenantID);
+        var devices = driver.query(sqlscripts.devices.select40, deviceid, tenantID);
 
         if (devices != null && devices[0] != null) {
 
-            var policypriority = db.query(sqlscripts.policy_priority.select1, policytype);
+            var policypriority = driver.query(sqlscripts.policy_priority.select1, policytype);
 
             var datetime = common.getCurrentDateTime();
             if (revokepolicyid == null) {
                 //Revoke the policy specificed
-                device_policy = db.query(sqlscripts.device_policy.select1, deviceid, tenantID, policypriority[0].priority);
+                device_policy = driver.query(sqlscripts.device_policy.select1, deviceid, tenantID, policypriority[0].priority);
             } else {
                 //Revoke the policy using the revoke policy id
-                device_policy = db.query(sqlscripts.device_policy.select2, deviceid, tenantID, revokepolicyid, policypriority[0].priority);
+                device_policy = driver.query(sqlscripts.device_policy.select2, deviceid, tenantID, revokepolicyid, policypriority[0].priority);
             }
 
             //Check if device already has a policy if so then revoke it
@@ -348,7 +348,7 @@ var device = (function () {
                     revokepolicy.policyid = revokepolicyid;
                     sendMessageToAndroidDevice({'deviceid':deviceid, 'operation':'REVOKEPOLICY', 'data':revokepolicy});
                 }
-                db.query(sqlscripts.device_policy.update1, device_policy[0].id);
+                driver.query(sqlscripts.device_policy.update1, device_policy[0].id);
             }
         }
 
@@ -364,12 +364,12 @@ var device = (function () {
         var device_policy;
         var datetime = common.getCurrentDateTimeAdjusted("-1");
 
-        var devices = db.query(sqlscripts.devices.select40, deviceid, tenantID);
+        var devices = driver.query(sqlscripts.devices.select40, deviceid, tenantID);
 
         if (devices != null && devices[0] != null) {
 
-            var policypriority = db.query(sqlscripts.policy_priority.select1, policytype);
-            var existDevicePolicy = db.query(sqlscripts.device_policy.select3, deviceid, tenantID);
+            var policypriority = driver.query(sqlscripts.policy_priority.select1, policytype);
+            var existDevicePolicy = driver.query(sqlscripts.device_policy.select3, deviceid, tenantID);
 
             if (existDevicePolicy != null && existDevicePolicy[0] != null){
 
@@ -385,12 +385,12 @@ var device = (function () {
                         sendMessageToAndroidDevice({'deviceid':deviceid, 'operation':'REVOKEPOLICY', 'data':revokepolicy, 'newdatetime': datetime});
                     }
 
-                    db.query(sqlscripts.device_policy.update1, existDevicePolicy[0].id);
+                    driver.query(sqlscripts.device_policy.update1, existDevicePolicy[0].id);
                 }
             }
 
             if (policyid != null) {
-                device_policy = db.query(sqlscripts.device_policy.select4, deviceid, tenantID);
+                device_policy = driver.query(sqlscripts.device_policy.select4, deviceid, tenantID);
                 datetime = common.getCurrentDateTime();
                 if (device_policy[0] == null) {
                     //Check platform and accordingly insert to device_policy table
@@ -399,7 +399,7 @@ var device = (function () {
                         var payloadUidArray = new Array();
                         var policyArray = parse(stringify(ctx.data));
                         for(i=0; i<policyArray.length; ++i){
-                            var features = db.query(sqlscripts.features.select4, policyArray[i].code);
+                            var features = driver.query(sqlscripts.features.select4, policyArray[i].code);
                             if (features != null && features[0] != null) {
                                 var message = {};
                                 if (payloadIdentifiers[features[0].name]) {
@@ -413,11 +413,11 @@ var device = (function () {
                             }
                         }
 
-                        db.query(sqlscripts.device_policy.insert1, deviceid, tenantID, policyid, policypriority[0].id, stringify(payloadUidArray), datetime);
+                        driver.query(sqlscripts.device_policy.insert1, deviceid, tenantID, policyid, policypriority[0].id, stringify(payloadUidArray), datetime);
 
                     } else if (devices[0].platform_type == "Android") {
 
-                        db.query(sqlscripts.device_policy.insert2, deviceid, tenantID, policyid, policypriority[0].id, datetime);
+                        driver.query(sqlscripts.device_policy.insert2, deviceid, tenantID, policyid, policypriority[0].id, datetime);
                     }
                 }
             }
@@ -433,7 +433,7 @@ var device = (function () {
         var operationName = ctx.operation;
         var tenantID = common.getTenantIDFromDevice(deviceId);
 
-        var devices = db.query(sqlscripts.devices.select6, deviceId);
+        var devices = driver.query(sqlscripts.devices.select6, deviceId);
 
         if(devices == undefined || devices == null || devices[0]== undefined || devices[0] == null ){
             return false;
@@ -446,7 +446,7 @@ var device = (function () {
         var platformId = devices[0].platform_id;
         var regId = devices[0].reg_id;
 
-        var features = db.query(sqlscripts.features.select1, ctx.operation);
+        var features = driver.query(sqlscripts.features.select1, ctx.operation);
         if(features == undefined || features == null || features[0]== undefined || features[0] == null ){
             return false;
         }
@@ -460,7 +460,7 @@ var device = (function () {
 
         } else if(featureCode == "501P"){
             try{
-                db.query(sqlscripts.notifications.delete1, deviceId,featureCode);
+                driver.query(sqlscripts.notifications.delete1, deviceId,featureCode);
             }catch (e){
                 log.debug(e);
             }
@@ -471,10 +471,10 @@ var device = (function () {
         } else {
             currentDate = common.getCurrentDateTime();
         }
-        db.query(sqlscripts.notifications.insert1, deviceId, -1, payLoad, currentDate, featureCode, userID,featureDescription, tenantID);
+        driver.query(sqlscripts.notifications.insert1, deviceId, -1, payLoad, currentDate, featureCode, userID,featureDescription, tenantID);
 
         // SQL Check
-        var lastRecord = db.query(sqlscripts.general.select1);
+        var lastRecord = driver.query(sqlscripts.general.select1);
 
         var lastRecordJson = lastRecord[0];
         var token = lastRecordJson["LAST_INSERT_ID()"];
@@ -496,7 +496,7 @@ var device = (function () {
     function invokeInitialFunctions(ctx) {
         var db = application.get('db');
         var tenantID = common.getTenantID();
-        var devices = db.query(sqlscripts.devices.select7 ,ctx.deviceid);
+        var devices = driver.query(sqlscripts.devices.select7 ,ctx.deviceid);
         var deviceID = devices[0].id;
         var userId = devices[0].user_id;
 
@@ -537,7 +537,7 @@ var device = (function () {
             }
         }
 
-        var devices = db.query(sqlscripts.devices.select8, ctx.deviceid);
+        var devices = driver.query(sqlscripts.devices.select8, ctx.deviceid);
 
         if(devices == null || devices == undefined || devices[0] == null || devices[0] == undefined) {
             return;
@@ -569,7 +569,7 @@ var device = (function () {
         log.debug("iOS Device Token : "+ deviceToken);
         log.debug("iOS Magic Token : "+ pushMagicToken);
 
-        var users = db.query(sqlscripts.devices.select9, ctx.deviceid);
+        var users = driver.query(sqlscripts.devices.select9, ctx.deviceid);
         var userId = users[0].user_id;
         var datetime;
         if (ctx.newdatetime != null){
@@ -578,7 +578,7 @@ var device = (function () {
             datetime =  common.getCurrentDateTime();
         }
 
-        var features = db.query(sqlscripts.features.select2, ctx.operation);
+        var features = driver.query(sqlscripts.features.select2, ctx.operation);
 
         if(features == null || features == undefined || features[0] == null || features[0] == undefined) {
             return false;
@@ -588,13 +588,13 @@ var device = (function () {
         var featureDescription = features[0].description;
         if(featureCode == "501P"){
             try{
-                db.query(sqlscripts.notifications.delete1, ctx.deviceid,featureCode);
+                driver.query(sqlscripts.notifications.delete1, ctx.deviceid,featureCode);
             }catch (e){
                 log.debug(e);
             }
         } else if(ctx.operation == "NOTIFICATION") { 
         	
-            var deviceResults = db.query(sqlscripts.devices.select39, ctx.deviceid);
+            var deviceResults = driver.query(sqlscripts.devices.select39, ctx.deviceid);
             
             if(deviceResults != null &&  deviceResults[0] != null) {
             	
@@ -607,7 +607,7 @@ var device = (function () {
             
         } else if(ctx.operation == "MUTE") { 
         	
-            var deviceResults = db.query(sqlscripts.devices.select39, ctx.deviceid);
+            var deviceResults = driver.query(sqlscripts.devices.select39, ctx.deviceid);
             
             if(deviceResults != null &&  deviceResults[0] != null) {
             	
@@ -620,18 +620,18 @@ var device = (function () {
         }
 
         // Check if the feature code is a monitoring and status is "A" or "P"
-        var notifyExists = db.query(sqlscripts.notifications.select1, ctx.deviceid, featureCode);
+        var notifyExists = driver.query(sqlscripts.notifications.select1, ctx.deviceid, featureCode);
 
         var tenantID = common.getTenantIDFromDevice(ctx.deviceid);
 
         log.debug("notifyExists >>>>> " + stringify(notifyExists[0]));
         if (notifyExists[0].count == 0) {
             log.debug("Notification inserted!");
-            db.query(sqlscripts.notifications.insert2, ctx.deviceid, message, datetime, featureCode, userId, featureDescription, tenantID);
+            driver.query(sqlscripts.notifications.insert2, ctx.deviceid, message, datetime, featureCode, userId, featureDescription, tenantID);
         }
 
         var sendToAPNS = null;
-        var lastApnsTime = db.query(sqlscripts.device_awake.select1, ctx.deviceid);
+        var lastApnsTime = driver.query(sqlscripts.device_awake.select1, ctx.deviceid);
         log.debug("lastApnsTime >> " + stringify(lastApnsTime[0]));
         if (lastApnsTime != null && lastApnsTime[0] != null && lastApnsTime != undefined && lastApnsTime[0] != undefined) {
             // 1 hr = 60 * 60 = 3600 seconds
@@ -651,14 +651,14 @@ var device = (function () {
                 log.debug("Message send to iOS APNS");
                 common.initAPNS(deviceToken, pushMagicToken);
             } catch (e) {
-                db.query(sqlscripts.device_awake.update1, datetime, ctx.deviceid);
+                driver.query(sqlscripts.device_awake.update1, datetime, ctx.deviceid);
                 log.error(e);
                 return;
             }
             if (sendToAPNS == "INSERT") {
-                db.query(sqlscripts.device_awake.insert1, ctx.deviceid, datetime);
+                driver.query(sqlscripts.device_awake.insert1, ctx.deviceid, datetime);
             } else if (sendToAPNS == "UPDATE") {
-                db.query(sqlscripts.device_awake.update2, datetime, ctx.deviceid);
+                driver.query(sqlscripts.device_awake.update2, datetime, ctx.deviceid);
             }
         }
 
@@ -683,7 +683,7 @@ var device = (function () {
 
                 var appInstallInfo = messageArray[i].data;
                 //log.debug("appInstallInfo >>>>>>> " + appInstallInfo);
-                var platforms = db.query(sqlscripts.platforms.select4, device_id, appInstallInfo.os);
+                var platforms = driver.query(sqlscripts.platforms.select4, device_id, appInstallInfo.os);
                 if(platforms[0].count == 0) {
                     //This app is not compatible with this device
                     messageArray.splice(i,1);
@@ -691,7 +691,7 @@ var device = (function () {
                     ++i;
                 }
             } else {
-                deviceFeature = db.query(sqlscripts.platformfeatures.select2, device_id, messageArray[i].code);
+                deviceFeature = driver.query(sqlscripts.platformfeatures.select2, device_id, messageArray[i].code);
 
                 //log.debug("Device Feature: " + deviceFeature[0].count);
                 if (deviceFeature[0].count == 0) {
@@ -787,7 +787,7 @@ var device = (function () {
             log.debug("Device ID: " + ctx.deviceid);
             log.debug("Operation: " + ctx.operation);
 
-            var devices = db.query(sqlscripts.devices.select11, ctx.deviceid);
+            var devices = driver.query(sqlscripts.devices.select11, ctx.deviceid);
 
             if(devices == null || devices == undefined || 
             		devices[0] == null || devices[0] == undefined) {
@@ -819,12 +819,12 @@ var device = (function () {
                 role = role.substring(9);
             }
             var tenantID = common.getTenantID();
-            var featureList = db.query(sqlscripts.devices.select12, stringify(deviceId));
+            var featureList = driver.query(sqlscripts.devices.select12, stringify(deviceId));
             var obj = new Array();
             for(var i=0; i<featureList.length; i++){
                 var featureArr = {};
 
-                var ftype = db.query(sqlscripts.featuretype.select1, stringify(featureList[i].id));
+                var ftype = driver.query(sqlscripts.featuretype.select1, stringify(featureList[i].id));
 
                 featureArr["name"] = featureList[i].name;
                 featureArr["feature_code"] = featureList[i].code;
@@ -843,7 +843,7 @@ var device = (function () {
         },
         sendMsgToUserDevices: function(ctx){
         	var tenantID = common.getTenantID();
-            var device_list = db.query(sqlscripts.devices.select13, ctx.userid, tenantID);
+            var device_list = driver.query(sqlscripts.devices.select13, ctx.userid, tenantID);
             var succeeded="";
             var failed="";
             for(var i=0; i<device_list.length; i++){
@@ -865,7 +865,7 @@ var device = (function () {
             for(var i = 0; i < userList.length; i++) {
 
                 var objUser = {};
-                var result = db.query(sqlscripts.devices.select14, String(userList[i].email), tenantID);
+                var result = driver.query(sqlscripts.devices.select14, String(userList[i].email), tenantID);
 
                 for(var j = 0; j < result.length; j++) {
 
@@ -895,7 +895,7 @@ var device = (function () {
         monitor:function(ctx){
             log.debug("Monitor");
             db = common.getDatabase();
-            var result = db.query(sqlscripts.devices.select44);
+            var result = driver.query(sqlscripts.devices.select44);
             for(var i=0; i<result.length; i++){
                 var deviceId = result[i].id;
                 var operation = 'MONITORING';
@@ -914,7 +914,7 @@ var device = (function () {
         },
         changeDeviceState:function(deviceId,state){
         	var tenantID = common.getTenantID();
-            db.query(sqlscripts.devices.update1, state, stringify(deviceId));
+            driver.query(sqlscripts.devices.update1, state, stringify(deviceId));
         },
         saveDevicePolicy: saveDevicePolicy,
         removeDevicePolicy: removeDevicePolicy,
@@ -928,11 +928,11 @@ var device = (function () {
         },
         isRegistered: function(ctx){
             if(ctx.regid != undefined && ctx.regid != null && ctx.regid != ''){
-                var result = db.query(sqlscripts.devices.select17, ctx.regid);
+                var result = driver.query(sqlscripts.devices.select17, ctx.regid);
                 var state = (result != null && result != undefined && result[0] != null && result[0] != undefined);
                 return state;
             }else if(ctx.udid != undefined && ctx.udid != null && ctx.udid != ''){
-                var result = db.query(sqlscripts.devices.select18, ctx.udid);
+                var result = driver.query(sqlscripts.devices.select18, ctx.udid);
                 var state = (result != null && result != undefined && result[0] != null && result[0] != undefined);
                 return state;
             }
@@ -943,13 +943,13 @@ var device = (function () {
             var tenantUser = carbon.server.tenantUser(ctx.email);
             var userId = tenantUser.username;
             var tenantId = tenantUser.tenantId;
-            var platforms = db.query(sqlscripts.platforms.select1, ctx.platform);
+            var platforms = driver.query(sqlscripts.platforms.select1, ctx.platform);
             var platformId = platforms[0].id;
 
             var createdDate =  common.getCurrentDateTime();
 
             if(ctx.regid!=null){
-                var result = db.query(sqlscripts.devices.select19, ctx.regid);
+                var result = driver.query(sqlscripts.devices.select19, ctx.regid);
 
                 if(result[0]==null){
 
@@ -957,8 +957,8 @@ var device = (function () {
                     var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "reviewer","private_kasun:wso2mobile.com");
                     var roles = common.removeNecessaryElements(roleList,removeRoles);
                     var role = roles[0];
-                    db.query(sqlscripts.devices.insert1, tenantId, ctx.osversion, createdDate, ctx.properties, ctx.regid, userId, platformId, ctx.vendor, ctx.mac);
-                    var devices = db.query(sqlscripts.devices.select19, ctx.regid);
+                    driver.query(sqlscripts.devices.insert1, tenantId, ctx.osversion, createdDate, ctx.properties, ctx.regid, userId, platformId, ctx.vendor, ctx.mac);
+                    var devices = driver.query(sqlscripts.devices.select19, ctx.regid);
                     var deviceID = devices[0].id;
                     log.info("Android Device has been registered "+ctx.regid);
                     sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "hi"});
@@ -973,7 +973,7 @@ var device = (function () {
                     }
                     return true;
                 }else{
-                    db.query(sqlscripts.devices.update2, ctx.regid, tenantId);
+                    driver.query(sqlscripts.devices.update2, ctx.regid, tenantId);
                     return true;
                 }
             }else{
@@ -982,10 +982,10 @@ var device = (function () {
         },
         unRegisterAndroid:function(ctx){
             if(ctx.regid!=null){
-                var devices = db.query(sqlscripts.devices.select41, ctx.regid);
-                var result = db.query(sqlscripts.devices.delete1, ctx.regid);
+                var devices = driver.query(sqlscripts.devices.select41, ctx.regid);
+                var result = driver.query(sqlscripts.devices.delete1, ctx.regid);
                 if(result == 1){
-                    db.query(sqlscripts.device_policy.update2, devices[0].id);
+                    driver.query(sqlscripts.device_policy.update2, devices[0].id);
                     return true;
                 }else{
                     return false
@@ -1001,32 +1001,32 @@ var device = (function () {
             var userId = tenantUser.username;
             var tenantId = tenantUser.tenantId;
 
-            var platforms = db.query(sqlscripts.platforms.select1, ctx.platform);
+            var platforms = driver.query(sqlscripts.platforms.select1, ctx.platform);
             var platformId = platforms[0].id;
             var createdDate = common.getCurrentDateTime();
-            var devicesCheckUDID = db.query(sqlscripts.device_pending.select1, ctx.auth_token);
+            var devicesCheckUDID = driver.query(sqlscripts.device_pending.select1, ctx.auth_token);
 
             // Save device data into temporary table
             if(devicesCheckUDID != undefined && devicesCheckUDID != null && devicesCheckUDID[0] != undefined && devicesCheckUDID[0] != null){
 
-                db.query(sqlscripts.device_pending.update1, tenantId, userId, platformId, stringify(ctx.properties), createdDate, ctx.vendor, ctx.udid, ctx.auth_token);
+                driver.query(sqlscripts.device_pending.update1, tenantId, userId, platformId, stringify(ctx.properties), createdDate, ctx.vendor, ctx.udid, ctx.auth_token);
             } else {
 
-                db.query(sqlscripts.device_pending.insert1, tenantId, userId, platformId, stringify(ctx.properties), createdDate, ctx.vendor, ctx.udid, ctx.auth_token);
+                driver.query(sqlscripts.device_pending.insert1, tenantId, userId, platformId, stringify(ctx.properties), createdDate, ctx.vendor, ctx.udid, ctx.auth_token);
             }
 
             return true;
         },
         getPendingOperationsFromDevice: function(ctx){
 
-            var deviceList = db.query(sqlscripts.devices.select20, parse(ctx.udid));
+            var deviceList = driver.query(sqlscripts.devices.select20, parse(ctx.udid));
             if(deviceList[0]!=null) {
                 var deviceID = String(deviceList[0].id);
 
                 log.debug("deviceID >>>>> " + deviceID);
                 log.debug("Device List >>>> " + stringify(deviceList));
 
-                var pendingFeatureCodeList=db.query(sqlscripts.notifications.select3, deviceID);
+                var pendingFeatureCodeList=driver.query(sqlscripts.notifications.select3, deviceID);
 
                 log.debug("Pending >>>> " + stringify(pendingFeatureCodeList));
 
@@ -1054,7 +1054,7 @@ var device = (function () {
                                 arrEmptyReceivedData.push(receivedObject);
                             }
 
-                            db.query(sqlscripts.notifications.update2, stringify(arrEmptyReceivedData), id);
+                            driver.query(sqlscripts.notifications.update2, stringify(arrEmptyReceivedData), id);
                             received_data = parse(stringify(arrEmptyReceivedData));
 
                             log.debug("received message >>>>> " +stringify(received_data));
@@ -1079,7 +1079,7 @@ var device = (function () {
                                     received_data[i].status = "skipped";
                                 }
 
-                                db.query(sqlscripts.notifications.update2, stringify(received_data), id);
+                                driver.query(sqlscripts.notifications.update2, stringify(received_data), id);
 
                                 if(counter > 3) {
                                     continue;
@@ -1091,7 +1091,7 @@ var device = (function () {
 
                     } else {
 
-                        db.query(sqlscripts.notifications.update3, id);
+                        driver.query(sqlscripts.notifications.update3, id);
 
                     }
 
@@ -1105,7 +1105,7 @@ var device = (function () {
         },
         updateiOSTokens: function(ctx){
 
-            var result = db.query(sqlscripts.device_pending.select2, ctx.deviceid);
+            var result = driver.query(sqlscripts.device_pending.select2, ctx.deviceid);
             var updateResult;
 
             var tokenProperties = {};
@@ -1126,39 +1126,39 @@ var device = (function () {
                 }
                 properties["model"] = platform;
 
-                var userResultExist = db.query(sqlscripts.devices.select21, ctx.deviceid);
+                var userResultExist = driver.query(sqlscripts.devices.select21, ctx.deviceid);
                 if(userResultExist != null && userResultExist != undefined && userResultExist[0] != null && userResultExist[0] != undefined) {
                 	
-                	var devicePendingResult = db.query(sqlscripts.device_pending.select3, ctx.deviceid);
+                	var devicePendingResult = driver.query(sqlscripts.device_pending.select3, ctx.deviceid);
 	                   
 	                if(devicePendingResult != null && devicePendingResult != undefined && devicePendingResult[0] != null && devicePendingResult[0] != undefined) {
 	                	devicePendingResult = devicePendingResult[0];
 
-                        updateResult = db.query(sqlscripts.devices.update3, devicePendingResult.tenant_id, devicePendingResult.user_id, devicePendingResult.platform_id, stringify(tokenProperties), stringify(properties), devicePendingResult.status,
+                        updateResult = driver.query(sqlscripts.devices.update3, devicePendingResult.tenant_id, devicePendingResult.user_id, devicePendingResult.platform_id, stringify(tokenProperties), stringify(properties), devicePendingResult.status,
                             devicePendingResult.byod, devicePendingResult.vendor, devicePendingResult.udid, ctx.deviceid);
 
-                        var getDevice = db.query(sqlscripts.devices.select20, ctx.deviceid);
+                        var getDevice = driver.query(sqlscripts.devices.select20, ctx.deviceid);
                         if (getDevice != null && getDevice != undefined && getDevice[0] != null && getDevice != undefined) {
                             //Update from notifications, device_awake for this device id
-                            db.query(sqlscripts.device_awake.update5, getDevice[0].id);
-                            db.query(sqlscripts.notifications.update7, getDevice[0].id);
+                            driver.query(sqlscripts.device_awake.update5, getDevice[0].id);
+                            driver.query(sqlscripts.notifications.update7, getDevice[0].id);
 
                         }
 
 	                }
 	                
-	                db.query(sqlscripts.device_pending.update2, devicePendingResult.user_id);
+	                driver.query(sqlscripts.device_pending.update2, devicePendingResult.user_id);
 
                 } else {
                 	// Copy record from temporary table into device table and
 					// delete the record from the temporary table
-                    updateResult = db.query(sqlscripts.devices.insert2, stringify(tokenProperties), stringify(properties), ctx.deviceid);
-	                db.query(sqlscripts.device_pending.update3, ctx.deviceid);
+                    updateResult = driver.query(sqlscripts.devices.insert2, stringify(tokenProperties), stringify(properties), ctx.deviceid);
+	                driver.query(sqlscripts.device_pending.update3, ctx.deviceid);
                 }
                 if(updateResult != null && updateResult != undefined && updateResult == 1) {
 
                     setTimeout(function(){invokeInitialFunctions(ctx)}, 2000);
-//                    var devices = db.query(sqlscripts.devices.select7 ,ctx.deviceid);
+//                    var devices = driver.query(sqlscripts.devices.select7 ,ctx.deviceid);
 //                    var deviceID = devices[0].id;
 //                    sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "hi"});
 
@@ -1167,7 +1167,7 @@ var device = (function () {
 
             } else {
 
-                result = db.query(sqlscripts.devices.select7, ctx.deviceid);
+                result = driver.query(sqlscripts.devices.select7, ctx.deviceid);
                 if(result != null && result != undefined && result[0] != null && result[0] != undefined) {
 
                     var properties = parse(result[0].properties);
@@ -1181,13 +1181,13 @@ var device = (function () {
                     }
                     properties["model"] = platform;
 
-                    updateResult = db.query(sqlscripts.devices.update8, stringify(properties), stringify(tokenProperties), ctx.deviceid);
+                    updateResult = driver.query(sqlscripts.devices.update8, stringify(properties), stringify(tokenProperties), ctx.deviceid);
 
                     if(updateResult != null && updateResult != undefined && updateResult == 1) {
-                        var getDevice = db.query(sqlscripts.devices.select20, ctx.deviceid);
+                        var getDevice = driver.query(sqlscripts.devices.select20, ctx.deviceid);
                         if (getDevice != null && getDevice != undefined && getDevice[0] != null && getDevice != undefined) {
                             //Update from notifications, device_awake for this device id
-                            db.query(sqlscripts.device_awake.update5, getDevice[0].id);
+                            driver.query(sqlscripts.device_awake.update5, getDevice[0].id);
                         }
                         setTimeout(function(){invokeInitialFunctions(ctx)}, 2000);
                         return true;
@@ -1203,12 +1203,12 @@ var device = (function () {
             //sendMessageToIOSDevice({'deviceid':ctx.udid, 'operation': "ENTERPRISEWIPE", 'data': ""});
 
             if(ctx.udid != null){
-                var devices = db.query(sqlscripts.devices.select20, ctx.udid);
+                var devices = driver.query(sqlscripts.devices.select20, ctx.udid);
                 if(devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
-                    db.query(sqlscripts.device_awake.update5, devices[0].id);
-                    var result = db.query(sqlscripts.devices.delete3, devices[0].id);
+                    driver.query(sqlscripts.device_awake.update5, devices[0].id);
+                    var result = driver.query(sqlscripts.devices.delete3, devices[0].id);
                     if(result == 1){
-                        db.query(sqlscripts.device_policy.update2, devices[0].id);
+                        driver.query(sqlscripts.device_policy.update2, devices[0].id);
                         return true;
                     }else{
                         return false
@@ -1225,17 +1225,17 @@ var device = (function () {
         },
         updateDeviceProperties:function(deviceId, osVersion, deviceName, wifiMac) {
 
-            var deviceResult = db.query(sqlscripts.devices.select22, deviceId);
+            var deviceResult = driver.query(sqlscripts.devices.select22, deviceId);
 
             var properties = deviceResult[0].properties;
         	properties = parse(parse(stringify(properties)));
         	properties["device"] = deviceName;
 
-            db.query(sqlscripts.devices.update4, osVersion, stringify(properties), wifiMac, deviceId + "");
+            driver.query(sqlscripts.devices.update4, osVersion, stringify(properties), wifiMac, deviceId + "");
         },
         getCurrentDeviceState:function(deviceId){
 
-            var result = db.query(sqlscripts.devices.select16, stringify(deviceId));
+            var result = driver.query(sqlscripts.devices.select16, stringify(deviceId));
             if(result != undefined && result != null && result[0] != undefined && result[0] != null){
                 return result[0].status;
             }else{
@@ -1246,9 +1246,9 @@ var device = (function () {
 	        // Save the Push Token to the respective device using UDID
 	        if (ctx.pushToken != null || ctx.pushToken != undefined) {
 	            
-	            var result = db.query(sqlscripts.devices.select23, ctx.udid);
+	            var result = driver.query(sqlscripts.devices.select23, ctx.udid);
 	            if (result[0].count > 0) {
-	                db.query(sqlscripts.devices.update5, ctx.pushToken, ctx.udid);
+	                driver.query(sqlscripts.devices.update5, ctx.pushToken, ctx.udid);
 	            } else {
 	                return null;
 	            }
@@ -1256,12 +1256,12 @@ var device = (function () {
 	        }
 	        return null;
 	
-	        db.query(sqlscripts.devices.update6, osVersion, stringify(properties), deviceId);
+	        driver.query(sqlscripts.devices.update6, osVersion, stringify(properties), deviceId);
 	
 	    },
 	    updateLocation: function(ctx){
 	    	
-	        var result = db.query(sqlscripts.devices.select38, ctx.udid);
+	        var result = driver.query(sqlscripts.devices.select38, ctx.udid);
 	        
 	        if(result != null && result != undefined && result[0] != null && result[0] != undefined) {
 	
@@ -1270,7 +1270,7 @@ var device = (function () {
 	            properties["latitude"] = ctx.latitude;
 	            properties["longitude"] = ctx.longitude;
 	            
-	            db.query(sqlscripts.devices.update7, properties, ctx.udid);
+	            driver.query(sqlscripts.devices.update7, properties, ctx.udid);
 	
 	        }
 	
@@ -1278,7 +1278,7 @@ var device = (function () {
 	    },
 	    getWIFIMac: function(ctx){
 	    	
-	        var result = db.query(sqlscripts.devices.select48, ctx.udid);
+	        var result = driver.query(sqlscripts.devices.select48, ctx.udid);
         	var resultObj = {};
         	resultObj.wifi_mac = null;
         	

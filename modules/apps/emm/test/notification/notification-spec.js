@@ -9,8 +9,7 @@ describe('notification module', function() {
     var deviceModule = require('/modules/device.js').device;
     var notificationModule = require('/modules/notification.js').notification;
     var notification = new notificationModule(db);
-    var driverModule = require('/modules/driver.js').driver;
-    driver = new driverModule(db);
+    var driver = require('driver').driver(db);
 
     it('Get Pending operations for Android', function() {
 

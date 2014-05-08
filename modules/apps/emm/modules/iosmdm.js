@@ -4,6 +4,7 @@ var iosemm = (function() {
 	var deviceModule = require('/modules/device.js').device;
 	var db = application.get('db');
 	var device = new deviceModule(db);
+	var driver = require('driver').driver(db);
 	var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
 	var notificationModule = require('/modules/notification.js').notification;
@@ -74,9 +75,9 @@ var iosemm = (function() {
                 var commonUtil =  new Packages.org.wso2.mobile.ios.mdm.util.CommonUtil();
                 var profileResponse = commonUtil.copyInputStream(inputStream);
                 if (profileResponse.challengeToken != null) {
-                    db.query(sqlscripts.device_pending.update4, profileResponse.udid, profileResponse.challengeToken);
+                    driver.query(sqlscripts.device_pending.update4, profileResponse.udid, profileResponse.challengeToken);
                 }
-                var devices = db.query(sqlscripts.device_pending.select4, profileResponse.udid);
+                var devices = driver.query(sqlscripts.device_pending.select4, profileResponse.udid);
                 var tenantName = user.getTenantNameFromID(devices[0].tenant_id);
 
 				var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
@@ -180,7 +181,7 @@ var iosemm = (function() {
 						responseData = apnsStatus.getResponseData();
 					} else if ("NeedsRedemption" == apnsStatus.getState()) {
 
-						var notifications = db.query(sqlscripts.notifications.select4, commandUUID);
+						var notifications = driver.query(sqlscripts.notifications.select4, commandUUID);
 						var device_id = notifications[0].device_id;
 						var message = notifications[0].message;
 						message = parse(message);
@@ -226,7 +227,7 @@ var iosemm = (function() {
 
 
                 if (operation != null) {
-					var deviceInfo = db.query(sqlscripts.devices.select7, parse(ctx.udid));
+					var deviceInfo = driver.query(sqlscripts.devices.select7, parse(ctx.udid));
 					if(operation.message=="null"){
 						operation.message = deviceInfo[0].reg_id;
 					}
@@ -245,7 +246,7 @@ var iosemm = (function() {
                 //End of all Notifications pending for the device
                 var datetime =  common.getCurrentDateTime();
                 if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
-                    db.query(sqlscripts.device_awake.update6, datetime, devices[0].id);
+                    driver.query(sqlscripts.device_awake.update6, datetime, devices[0].id);
                 }
                 log.debug("Device awake completed!!");
 

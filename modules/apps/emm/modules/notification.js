@@ -8,13 +8,13 @@ var notification = (function() {
 	var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
     var deviceModule = require('/modules/device.js').device;
-    var driverModule = require('/modules/driver.js').driver;
 
     var device;
+    var driver;
     var module = function (dbs) {
         db = dbs;
         device = new deviceModule(db);
-        driver = new driverModule(db);
+        driver = require('driver').driver(db);
     };
 
     function mergeRecursive(obj1, obj2) {
@@ -39,7 +39,7 @@ var notification = (function() {
         constructor: module,
         getNotifications: function(ctx){
         	var tenantID = common.getTenantID();
-            var result = db.query(sqlscripts.notifications.select5, ctx.deviceid);
+            var result = driver.query(sqlscripts.notifications.select5, ctx.deviceid);
 
             var notifications = new Array();
             for (i=0; i<result.length; i++){
@@ -57,7 +57,7 @@ var notification = (function() {
             
             var identifier = ctx.msgID.replace("\"", "").replace("\"","")+"";
             var notificationId = identifier.split("-")[0];
-            var notifications = db.query(sqlscripts.notifications.select6, notificationId);
+            var notifications = driver.query(sqlscripts.notifications.select6, notificationId);
 
             //log.debug("identifier >>>>>> " + identifier);
             //log.debug("notifications >>>> " + stringify(notifications));
@@ -73,7 +73,7 @@ var notification = (function() {
 
                     var policySequence = identifier.split("-")[1];
 
-                    var pendingFeatureCodeList = db.query(sqlscripts.notifications.select7, notificationId);
+                    var pendingFeatureCodeList = driver.query(sqlscripts.notifications.select7, notificationId);
                     //log.debug("PendingFeature >>>> " + stringify(pendingFeatureCodeList));
 
                     var received_data = pendingFeatureCodeList[0].received_data;
@@ -107,13 +107,13 @@ var notification = (function() {
                         parsedReceivedData[operationCount].status = "received";
                     }
 
-                    db.query(sqlscripts.notifications.update4, stringify(parsedReceivedData), recivedDate, notificationId);
+                    driver.query(sqlscripts.notifications.update4, stringify(parsedReceivedData), recivedDate, notificationId);
 
                     if (pendingExist == true) {
                         return true;
                     } else {
                         //log.debug("Update notifications!!!!");
-                        db.query(sqlscripts.notifications.update5, notificationId);
+                        driver.query(sqlscripts.notifications.update5, notificationId);
                     }
 
 
@@ -133,7 +133,7 @@ var notification = (function() {
                             continue;
                         }
 
-                        var featureCodes = db.query(sqlscripts.features.select5, featureName);
+                        var featureCodes = driver.query(sqlscripts.features.select5, featureName);
 
                         if(featureCodes == null || featureCodes[0] == null || featureCodes[0].code == null) {
                             continue;
@@ -173,18 +173,18 @@ var notification = (function() {
                 		}
                 	}
                     try{
-                        db.query(sqlscripts.notifications.delete2, device_id,"501P");
+                        driver.query(sqlscripts.notifications.delete2, device_id,"501P");
                     }catch(e){
                         log.info(e);
                     }
 
-                    db.query(sqlscripts.notifications.update6, stringify(formattedData), recivedDate, identifier);
+                    driver.query(sqlscripts.notifications.update6, stringify(formattedData), recivedDate, identifier);
 
                 } else {
                     var policySeperator = identifier.indexOf("-");
 
                     if(policySeperator == -1) {
-                        db.query(sqlscripts.notifications.update6, ctx.data, recivedDate, identifier);
+                        driver.query(sqlscripts.notifications.update6, ctx.data, recivedDate, identifier);
                     }
                     
                     if(featureCode == "500A") {
@@ -194,7 +194,7 @@ var notification = (function() {
                     	var osVersion = dataObj["OSVersion"];
                     	var wifiMac = dataObj["WiFiMAC"];
                     	
-                    	var notifications = db.query(sqlscripts.notifications.select8, identifier);
+                    	var notifications = driver.query(sqlscripts.notifications.select8, identifier);
                         var deviceId = notifications[0].device_id;
                     	device.updateDeviceProperties(deviceId, osVersion, deviceName, wifiMac);
                     }
@@ -204,7 +204,7 @@ var notification = (function() {
         addNotification: function(ctx){
 			var recivedDate = common.getCurrentDateTime();
 
-			var result = db.query(sqlscripts.notifications.select9, ctx.msgID);
+			var result = driver.query(sqlscripts.notifications.select9, ctx.msgID);
 			
 			if(result == null || result == undefined || 
 					result[0] == null || result[0] == undefined) {
@@ -216,12 +216,12 @@ var notification = (function() {
 			var deviceId = result[0].device_id;
 			var featureCode = result[0].feature_code;
 
-			var messageIDs = db.query(sqlscripts.notifications.select9,
+			var messageIDs = driver.query(sqlscripts.notifications.select9,
 					ctx.msgID);
 			if (typeof messageIDs !== 'undefined' && messageIDs !== null
 					&& typeof messageIDs[0] !== 'undefined'
 					&& messageIDs[0] !== null) {
-				db.query(sqlscripts.notifications.update6, ctx.data,
+				driver.query(sqlscripts.notifications.update6, ctx.data,
 						recivedDate, ctx.msgID);
 			}
 		},
@@ -229,9 +229,9 @@ var notification = (function() {
 
 			log.debug("Operation >>>>>> " + ctx.operation);
 
-			var result = db.query(sqlscripts.notifications.select10,
+			var result = driver.query(sqlscripts.notifications.select10,
 					ctx.deviceid, ctx.operation);
-			var features = db.query(sqlscripts.features.select6, ctx.operation);
+			var features = driver.query(sqlscripts.features.select6, ctx.operation);
 			ctx.operation = String(features[0].name);
 			ctx.data = "hi";
 
@@ -245,14 +245,14 @@ var notification = (function() {
 
 			var response = {};
 
-			var deviceResult = db.query(sqlscripts.devices.select43,
+			var deviceResult = driver.query(sqlscripts.devices.select43,
 					ctx.deviceid);
 
 			if (deviceResult != null && deviceResult != undefined && ctx.operation == "INFO") {
 				var properties = deviceResult[0].properties;
 				var platformId = deviceResult[0].platform_id;
 
-				var platformResults = db.query(sqlscripts.platforms.select3,
+				var platformResults = driver.query(sqlscripts.platforms.select3,
 						platformId);
 
 				if (platformResults != null && platformResults != undefined) {
@@ -291,7 +291,7 @@ var notification = (function() {
 		},
 		getPolicyState : function(ctx) {
 
-            var result = db.query(sqlscripts.notifications.select10,
+            var result = driver.query(sqlscripts.notifications.select10,
                     ctx.deviceid, '501P');
             var newArray = new Array();
             if (result == null || result == undefined || result.length == 0) {
@@ -316,7 +316,7 @@ var notification = (function() {
                     var featureCode = arrayFromDatabase[i].code;
                     try {
                         var obj = {};
-                        var features = db.query(sqlscripts.features.select6,
+                        var features = driver.query(sqlscripts.features.select6,
                                 featureCode);
 
                         if (featureCode == "528B") {
@@ -358,7 +358,7 @@ var notification = (function() {
 
 			var complianceDevices = new Array();
 			var violatedDevices = new Array();
-			var devices = db.query(sqlscripts.devices.select15,common.getTenantID());
+			var devices = driver.query(sqlscripts.devices.select15,common.getTenantID());
 			for ( var i = 0; i < devices.length; i++) {
 				var compliances = this.getPolicyState({
 					'deviceid' : devices[i].id
@@ -426,7 +426,7 @@ var notification = (function() {
 		},
 		discardOldNotifications : function(ctx) {
 
-			var currentOperation = db.query(sqlscripts.notifications.select11,
+			var currentOperation = driver.query(sqlscripts.notifications.select11,
 					parseInt(ctx.id));
 
 			if (currentOperation == null || currentOperation[0] == null
@@ -440,7 +440,7 @@ var notification = (function() {
 			var featureCode = currentOperation[0].feature_code;
 			var userId = currentOperation[0].user_id;
 
-			db.query(sqlscripts.notifications.update1, deviceId, featureCode,
+			driver.query(sqlscripts.notifications.update1, deviceId, featureCode,
 					userId);
 		},
 
@@ -461,7 +461,6 @@ var notification = (function() {
                         var messageId = featureData[0].messageId;
                         var sentMessage = featureData[0].data;
                         receivedDate = common.getCurrentDateTime();
-
                         driver.query(sqlscripts.notifications.update8, sentMessage, receivedDate, messageId);
                     }
 

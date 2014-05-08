@@ -8,7 +8,7 @@
         }
     },
     "user": {
-        "username": "admin@admin.com",
+        "username": "admin",
         "password": "admin"
     },
     "userRoles": ["Internal/publisher"],
