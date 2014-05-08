@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1399471934743
+Bnd-LastModified: 1399526851079
 Build-Jdk: 1.7.0_55
 Built-By: chan
 Bundle-Activator: org.wso2.emm.admin.styles.internal.Activator
@@ -13,5 +13,5 @@ Carbon-Component: UIBundle
 Created-By: Apache Maven Bundle Plugin
 Fragment-Host: org.wso2.carbon.ui
 Import-Package: org.wso2.emm.admin.styles.internal;resolution:=optional,
- org.osgi.service.http,org.osgi.framework,org.wso2.carbon.ui
+ org.osgi.framework,org.wso2.carbon.ui,org.osgi.service.http
 Tool: Bnd-2.1.0.20130426-122213

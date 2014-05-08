@@ -443,10 +443,6 @@
             <outputDirectory>wso2emm-${pom.version}/repository/conf/multitenancy/</outputDirectory>
             <filtered>true</filtered>
         </file>
-<<<<<<< HEAD
-	
-=======
->>>>>>> feature/backend-refactor
         <file>
             <source>src/repository/conf/axis2/axis2.xml</source>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/axis2/</outputDirectory>
