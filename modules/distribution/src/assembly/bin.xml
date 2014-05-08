@@ -467,7 +467,7 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>src/repository/database/WSO2_EMM_DB.h2.db</source>
+            <source>src/repository/database/WSO2EMM_DB.h2.db</source>
             <outputDirectory>wso2emm-${pom.version}/repository/database</outputDirectory>
             <fileMode>644</fileMode>
         </file>
