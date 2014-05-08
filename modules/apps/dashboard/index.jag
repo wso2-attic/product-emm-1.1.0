@@ -29,55 +29,37 @@
 				<div class="row-fluid">					
 					
 					
-					
-					
-					
-
-
-						<div class="span4 block" style="height: 480px" >
-							<div class="block-header text-center">
-								<a class="heading-title" href="/mam">
-									<h3>Mobile Device Management</h3>
-								</a>
-							</div>
-							<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
-								
-								<a href="/mdm">
-								<img src="img/mdm.png">
-								</a>
-								
-								
-							</div>
-						</div>
-
 						
-						<div class="span8 block" >
-							<div class="block-header text-center">
-								<h3>Mobile Application Management</h3>
-							</div>
+						<div class="span12" >
+							
 							<div id="newest-app-list" class="container-fluid raw-fluid well-small" style="text-align:center">	
+							
+							
+							
 							
 							
 							<div class="span3-5 block" style="margin-left:25px" >
 								<div class="block-header">
-									<a class="heading-title" href="/mam">
-										<div class="block-header-title">App Management Console</div>
+									<a class="heading-title" href="/store">
+									<div class="block-header-title">Mobile Management Console</div>
 									</a>
 								</div>
 								<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
 									
-									<a href="/mam">
-									<img src="img/mam.png">
+									<a href="/emm">
+									<img src="img/mdm.png">
 									</a>
 									
 									
 								</div>
 							</div>
 							
+							
+							
 							<div class="span3-5 block" >
 								<div class="block-header">
 									<a class="heading-title" href="/store">
-									<div class="block-header-title">Mobile App  <br> Store</div>
+									<div class="block-header-title">Mobile App Store</div>
 									</a>
 								</div>
 								<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
@@ -93,7 +75,7 @@
 							<div class="span3-5 block">
 								<div class="block-header">
 									<a class="heading-title" href="/publisher">
-									<div class="block-header-title">Mobile App <br> Publisher<br></div>
+									<div class="block-header-title">Mobile App Publisher<br></div>
 									</a>								
 								</div>
 								<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
@@ -129,6 +111,7 @@
 				<div class="raw text-center footer-bar">
 					<img class="footer-logo" style="width:100px" src="img/footer.png">
 					Copyright (c) 2014 - WSO2 .Inc 
+					
 				</div>
 			</div>
 </footer>
