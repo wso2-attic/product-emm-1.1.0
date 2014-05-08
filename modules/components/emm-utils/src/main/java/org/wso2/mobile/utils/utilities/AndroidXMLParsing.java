@@ -1,4 +1,4 @@
-package org.wso2.mobile.mam.manifestUtils;/*
+/*
  * Copyright (c) 2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,8 @@ package org.wso2.mobile.mam.manifestUtils;/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.wso2.mobile.utils.utilities;
 
 public class AndroidXMLParsing {
     /**
