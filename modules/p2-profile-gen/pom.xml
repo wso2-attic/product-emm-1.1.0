@@ -402,8 +402,6 @@
 								<feature>
 									<id>org.jaggeryjs.feature.group</id>
 									<version>${jaggery.feature.version}</version>
-
-								</feature>
 								</feature>
 								<feature>
                                    <id>caramel.feature.group</id>

@@ -10,9 +10,9 @@
     <title>iOS Enrollment</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/mdm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
-    <link href="/mdm/assets/boostrap3/css/main.css" rel="stylesheet">
-    <link href="/mdm/assets/boostrap3/css/signin.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/main.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/signin.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
      <div class="navbar navbar-inverse navbar-fixed-top">
       
         <div class="navbar-header">         
-          <a class="navbar-brand" href="#">MDM Registration</a>
+          <a class="navbar-brand" href="#">EMM Registration</a>
         </div>   
  
      </div>
@@ -58,8 +58,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/mdm/assets/boostrap3/js/jquery.js"></script>
-    <script src="/mdm/assets/boostrap3/js/bootstrap.min.js"></script>
+    <script src="/emm/assets/boostrap3/js/jquery.js"></script>
+    <script src="/emm/assets/boostrap3/js/bootstrap.min.js"></script>
     <script>
 
 		var monitor;

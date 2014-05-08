@@ -25,25 +25,25 @@ login = function(appController){
 					userFeed.mobile = objUser["mobile"];
 					userFeed.tenentDomain = user.getTenantDomainFromID(stringify(objUser["tenantId"]));
 					var parsedRoles = parse(objUser["roles"]);
-					var isMDMAdmin = false;
+					var isEMMAdmin = false;
 					var isMAdmin = false;
 					for (var i = 0; i < parsedRoles.length; i++) {
-						if(parsedRoles[i] == 'Internal/mdmadmin') {
-							isMDMAdmin = true;
+						if(parsedRoles[i] == 'Internal/emmadmin') {
+							isEMMAdmin = true;
 							break;
 						}
 						if(parsedRoles[i] == 'admin') {
 							isAdmin = true;
-							isMDMAdmin = true;
+							isEMMAdmin = true;
 							break;
 						}
 					}				
 					
 					return;	
-					userFeed.isMDMAdmin = isMDMAdmin;
+					userFeed.isEMMAdmin = isEMMAdmin;
 					userFeed.isAdmin = isAdmin;
-					session.put("mdmConsoleUserLogin", "true");
-					session.put("mdmConsoleUser", userFeed);
+					session.put("emmConsoleUserLogin", "true");
+					session.put("emmConsoleUser", userFeed);
 					if(isAdmin){
 						response.sendRedirect('dashboard');
 					}else{
@@ -83,7 +83,7 @@ configuration = function(appController){
 	context.title = context.title + " | Configuration";	
 	context.page = "configuration";
 	context.data = {
-		configOption : "mdmsettings"		
+		configOption : "emmsettings"
 	};
 	return context;	
 };
@@ -99,6 +99,6 @@ management = function(appController){
 	
 };
 info = function(appController){		
-	print(session.get("mdmConsoleUser"));	
+	print(session.get("emmConsoleUser"));
 	return null;
 };

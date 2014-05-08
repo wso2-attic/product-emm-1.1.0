@@ -2,9 +2,9 @@
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
-    "MDM_UI_URI": "/emm/",
-    "MDM_API_URI": "/emm/api/",
-    "MDM_THEME": "wso2sinine",
+    "EMM_UI_URI": "/emm/",
+    "EMM_API_URI": "/emm/api/",
+    "EMM_THEME": "wso2sinine",
     "tenanted": true,
     "permissions": {
         "login": {
@@ -29,7 +29,7 @@
         "companyName": "WSO2",
         "senderAddress": "emm.wso2.mobile@gmail.com",
         "emailPassword": "wso2Mobile",
-        "emailTemplate": "\nYou have been registered to the WSO2 MDM. Below is the link to enroll.\n \n"
+        "emailTemplate": "\nYou have been registered to the WSO2 EMM. Below is the link to enroll.\n \n"
     },
     "device": {
         "android_location": "%http.ip%/emm/client_app/MDM-Agent1.0.apk",

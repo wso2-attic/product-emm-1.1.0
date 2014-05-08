@@ -1,11 +1,11 @@
 <%
-	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
 	var common = require('/modules/common.js');
-	var iosMdm = new iosMdmModule();
+	var iosEmm = new iosEmmModule();
 	var log = new Log();
 	var operation = request.getParameter("operation");
 	 
-	var data = iosMdm.getCA();
+	var data = iosEmm.getCA();
 
 	response.contentType = "application/x-x509-ca-cert";
 	

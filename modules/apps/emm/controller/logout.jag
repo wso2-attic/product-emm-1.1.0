@@ -1,16 +1,16 @@
 <%
 (function(){
-    var user = session.get("mdmConsoleUser");
+    var user = session.get("emmConsoleUser");
     if(user === null) {
-        response.sendRedirect('/mdm');
+        response.sendRedirect('/emm');
     } else {
-        var config = require('/config/mdm.js').config(),
+        var config = require('/config/emm.js').config(),
 				process = require('process'),
                 sso = require('sso'),
                 sso_sessions = application.get('sso_sessions'),
                 sessionId = session.getId(),
                 encodedSAMLLogoutRequest = sso.client.getEncodedSAMLLogoutRequest(user, sso_sessions[session.getId()], config.ssoConfiguration.issuer),
-                relayState = '/mdm',
+                relayState = '/emm',
                 host = process.getProperty('server.host'),
                 log = new Log(),
                 address = require("/modules/address.js");

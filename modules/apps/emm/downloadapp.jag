@@ -10,8 +10,8 @@
     <title>Device Enrollment</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/mdm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
-   <link href="/mdm/assets/boostrap3/css/main.css" rel="stylesheet">
+    <link href="/emm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+   <link href="/emm/assets/boostrap3/css/main.css" rel="stylesheet">
 
 
        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -60,7 +60,7 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="/mdm/assets/boostrap3/js/jquery.js"></script>
-<script src="/mdm/assets/boostrap3/js/bootstrap.min.js"></script>
+<script src="/emm/assets/boostrap3/js/jquery.js"></script>
+<script src="/emm/assets/boostrap3/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -63,7 +63,7 @@ var device = (function () {
         var isAdmin = function(userid){
             var roleList = user.getUserRoles({username:userid});
             for(var i=0; i<roleList.length;i++){
-                if(roleList[i]=='admin'||roleList[i]=='mdmadmin'){
+                if(roleList[i]=='admin'||roleList[i]=='emmadmin'){
                     return true;
                 }
             }
@@ -124,7 +124,7 @@ var device = (function () {
 
 
 		router.get('device_enroll', function(ctx){
-            response.sendRedirect("/mdm/downloadapp");
+            response.sendRedirect("/emm/downloadapp");
 		});
 
 		router.post('devices/register', function(ctx){

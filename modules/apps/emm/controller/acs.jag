@@ -30,7 +30,7 @@
     };
 
     var log = new Log(),
-            configs = require('/config/mdm.js').config(),
+            configs = require('/config/emm.js').config(),
             samlResponse = request.getParameter('SAMLResponse'),
 			process = require('process');
             sessionId = session.getId(),
@@ -85,23 +85,23 @@
 								userFeed.tenantDomain = user.getTenantDomainFromID(stringify(objUser["tenantId"]));
 								var parsedRoles = parse(objUser["roles"]);
 								userFeed.roles = parsedRoles;
-								var isMDMAdmin = false;
+								var isEMMAdmin = false;
 								var isAdmin = false;
 								for (var i = 0; i < parsedRoles.length; i++) {
-									if(parsedRoles[i] == 'Internal/mdmadmin') {
-										isMDMAdmin = true;
+									if(parsedRoles[i] == 'Internal/emmadmin') {
+                                        isEMMAdmin = true;
 										break;
 									}
 									if(parsedRoles[i] == 'admin') {
 										isAdmin = true;
-										isMDMAdmin = true;
+                                        isEMMAdmin = true;
 										break;
 									}
 								}	
-								userFeed.isMDMAdmin = isMDMAdmin;
+								userFeed.isEMMAdmin = isEMMAdmin;
 								userFeed.isAdmin = isAdmin;
-								session.put("mdmConsoleUserLogin", "true");
-								session.put("mdmConsoleUser", userFeed);
+								session.put("emmConsoleUserLogin", "true");
+								session.put("emmConsoleUser", userFeed);
 
                                 var entitlement = require('policy').entitlement;
                                 var backEndCookie = getBackendCookie(samlResponse);
@@ -115,9 +115,9 @@
 
                                 var groupModule = require('/modules/group.js').group;
                                 var group = new groupModule(db);
-                                if(!group.roleExists("Internal/mdmadmin")){
+                                if(!group.roleExists("Internal/emmadmin")){
                                     var userList = new Array();
-                                    group.addGroup({'name':'Internal/mdmadmin','users':userList});
+                                    group.addGroup({'name':'Internal/emmadmin','users':userList});
                                 }
                                 
 								var appController =require('/controller/app.js');
@@ -134,7 +134,7 @@
 
         } else {
             session.invalidate();
-            response.sendRedirect('/mdm');
+            response.sendRedirect('/emm');
         }
     }
 

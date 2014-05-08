@@ -4,8 +4,8 @@ var log = new Log();
 var sqlscripts = require('/sqlscripts/mysql.js');
 
 var getCurrentLoginUser = function(){
-    if(typeof session.get("mdmConsoleUser") != 'undefined' && session.get("mdmConsoleUser") != null){
-        var username = session.get("mdmConsoleUser").username;
+    if(typeof session.get("emmConsoleUser") != 'undefined' && session.get("emmConsoleUser") != null){
+        var username = session.get("emmConsoleUser").username;
         return username;
     }else{
         return null;
@@ -25,8 +25,8 @@ var getRecordsFilteredByDate = function(startDate,endDate,tableName){
 }
 var getTenantID = function() {
     if(!(typeof session === "undefined")){
-        if (session.get("mdmConsoleUser") && session.get("mdmConsoleUser").tenantId != 0) {
-            var tenantID = session.get("mdmConsoleUser").tenantId;
+        if (session.get("emmConsoleUser") && session.get("emmConsoleUser").tenantId != 0) {
+            var tenantID = session.get("emmConsoleUser").tenantId;
             //log.info("Tenant IDD :"+tenantID);
             return tenantID;
         } else {

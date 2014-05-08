@@ -1,7 +1,7 @@
 var selectbox = '<select name="featureList" id="featureList" class="dropdownimage" style="width:300px">';
 selectbox +=										'<option value="">-- Select an operation to Apply --</option>';
 selectbox +=											"{{#data.features}}{{#compare feature_type 'OPERATION'}}";
-selectbox +=											'<option value="{{name}}" data-image="https://localhost:9443/mdm/themes/wso2sinine/img/features/{{name}}.png">{{description}}</option>';
+selectbox +=											'<option value="{{name}}" data-image="https://localhost:9443/emm/themes/wso2sinine/img/features/{{name}}.png">{{description}}</option>';
 selectbox +=											'{{/compare}}{{/data.features}}';
 selectbox +=											'</select>';
 
@@ -26,7 +26,7 @@ oTable = $('#main-table').dataTable({
                       {                         
                         "fnRender": function (oObj)                              
                         {                           
-                            return "<a href='/mdm/users/devices?user="  + oObj.aData[2] + "#device-tab-"+ oObj.aData[0]+"'>"+  oObj.aData[2] +"</a>";
+                            return "<a href='/emm/users/devices?user="  + oObj.aData[2] + "#device-tab-"+ oObj.aData[0]+"'>"+  oObj.aData[2] +"</a>";
                         }
                       },
                       
@@ -36,7 +36,7 @@ oTable = $('#main-table').dataTable({
                        
 
                    ],	
-		"sAjaxSource" : "/mdm/api/webconsole/listDevices?",
+		"sAjaxSource" : "/emm/api/webconsole/listDevices?",
 		"fnServerParams": function ( aoData ) {
           	var roles = $('#inputRoles').val();
 			var user = $('#inputUser').val();

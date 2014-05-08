@@ -153,7 +153,7 @@ var group = (function () {
             var roles = this.getAllGroups({});
             for(var i=0;i<roles.length;i++){
                     var obj = {};
-                    if(roles[i] == 'admin'||roles[i] == 'Internal/mdmadmin'){
+                    if(roles[i] == 'admin'||roles[i] == 'Internal/emmadmin'){
                         obj.name = roles[i];
                         obj.type = 'administrator';
                         if(type == 'admin'){
@@ -254,7 +254,7 @@ var group = (function () {
             var username = devices[0].user_id;//username for pull policy payLoad
             var tenantID = devices[0].tenant_id;
             var roleList = user.getUserRoles({'username':username});
-            var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "Internal/reviewer","Internal/mdmadmin","Internal/publisher","Internal/store");
+            var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "Internal/reviewer","Internal/emmadmin","Internal/publisher","Internal/store");
             var roles = common.removeNecessaryElements(roleList,removeRoles);
             log.debug("Roles :"+stringify(roles));
             return roles[0];

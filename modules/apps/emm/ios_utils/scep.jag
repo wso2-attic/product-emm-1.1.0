@@ -1,22 +1,22 @@
 <%
-	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
 	var common = require('/modules/common.js');
-	var iosMdm = new iosMdmModule();
+	var iosEmm = new iosEmmModule();
 	var log = new Log();
 	var operation = request.getParameter("operation");
 	
 	if(operation == "GetCACert") {
 		
-		var scepResponse = iosMdm.getCACert();
+		var scepResponse = iosEmm.getCACert();
 
 		if (scepResponse.getResultCriteria() == "CA_CERT_FAILED") {
-			response.sendRedirect("mdmerror.jag");
+			response.sendRedirect("emmerror.jag");
 		} else if (scepResponse.getResultCriteria() == "CA_CERT_RECEIVED") {
 			response.contentType = "application/x-x509-ca-cert";
 		} else if (scepResponse.getResultCriteria() == "CA_RA_CERT_RECEIVED") {
 			response.contentType = "application/x-x509-ca-ra-cert";
 		} else {
-			response.sendRedirect("mdmerror.jag");
+			response.sendRedirect("emmerror.jag");
 		}
 		
 		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(scepResponse.getEncodedResponse());
@@ -26,11 +26,11 @@
 		
 		response.contentType = "text/plain";
 		
-		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(iosMdm.getCACaps());
+		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(iosEmm.getCACaps());
 		print(new Stream(byteArrayInputStream)); 
 		
 	} else if(operation == "PKIOperation") {
-		var pkiMessage = iosMdm.getPKIMessage(request.getInputStream());
+		var pkiMessage = iosEmm.getPKIMessage(request.getInputStream());
 					
 		response.contentType = "application/x-pki-message";
 		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(pkiMessage);	

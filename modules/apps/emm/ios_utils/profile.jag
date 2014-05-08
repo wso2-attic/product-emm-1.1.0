@@ -1,13 +1,13 @@
 <%
-	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
 	var common = require('/modules/common.js');
-	var iosMdm = new iosMdmModule();
+	var iosEmm = new iosEmmModule();
 	var log = new Log();
 
-	var signedData = iosMdm.handleProfileRequest(request.getInputStream());
+	var signedData = iosEmm.handleProfileRequest(request.getInputStream());
 		
 	if(signedData == null) {
-		response.sendRedirect("mdmerror.jag");
+		response.sendRedirect("emmerror.jag");
 		log.error("Invalid signed data");	
 	}
 

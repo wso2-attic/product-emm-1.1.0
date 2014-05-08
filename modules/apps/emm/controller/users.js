@@ -44,7 +44,7 @@ add = function(appController) {
 	context.data = {
 		configOption : "users",
 		groups : groups,
-		tenantId : session.get("mdmConsoleUser").tenantId
+		tenantId : session.get("emmConsoleUser").tenantId
 	};
 	context.auth_roles = ['Internal/everyone'];
 	return context;
@@ -79,9 +79,9 @@ view = function(appController) {
 	context = appController.context();
 	var userId = request.getParameter('user');
 	if (!userId) {
-		userId = session.get('mdmConsoleSelectedUser');
+		userId = session.get('emmConsoleSelectedUser');
 	}
-	session.put('mdmConsoleSelectedUser', userId);
+	session.put('emmConsoleSelectedUser', userId);
 	try {
 		var objUser = user.getUser({
 			"userid" : userId
@@ -115,9 +115,9 @@ devices = function(appController) {
 	context = appController.context();
 	var userId = request.getParameter('user');
 	if (!userId) {
-		userId = session.get('mdmConsoleSelectedUser');
+		userId = session.get('emmConsoleSelectedUser');
 	}
-	session.put('mdmConsoleSelectedUser', userId);
+	session.put('emmConsoleSelectedUser', userId);
 	try {
 		var objUser = user.getUser({
 			"userid" : userId
@@ -241,7 +241,7 @@ assign_groups = function(appController) {
 	context.data = {
 		configOption : "policies",
 		groups : groups,
-		tenantId : session.get("mdmConsoleUser").tenantId,
+		tenantId : session.get("emmConsoleUser").tenantId,
 		username : username
 
 	};

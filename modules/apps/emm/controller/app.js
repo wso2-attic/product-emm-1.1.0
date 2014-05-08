@@ -1,20 +1,20 @@
 var ui = require('../config/tenants/default/ui.json');
-var config = require('/config/mdm.js').config();
+var config = require('/config/emm.js').config();
 
 var configApis = require('../config/apis.json');
 var log = new Log();
 
 
 
-if(session.get("mdmConsoleUserLogin") != null){
-	var userSession = session.get("mdmConsoleUser");
+if(session.get("emmConsoleUserLogin") != null){
+	var userSession = session.get("emmConsoleUser");
 	var tenatDomain = userSession.tenantDomain;
 	ui = require('../config/tenants/' + tenatDomain + '/ui.json');
 }
 
 
-if(session.get("mdmConsoleUserLogin") != null){
-	var userSession = session.get("mdmConsoleUser");
+if(session.get("emmConsoleUserLogin") != null){
+	var userSession = session.get("emmConsoleUser");
 	var tenatDomain = userSession.tenantDomain;
 	ui = require('../config/tenants/' + tenatDomain + '/ui.json');
 }
@@ -29,7 +29,7 @@ appInfo = function() {
         headerTitle : ui.HEADING,
         title : ui.TITLE,
         copyright : ui.COPYRIGHT,
-        server_url: ui.MDM_UI_URI
+        server_url: ui.EMM_UI_URI
     };
     return appInfo;
 };
@@ -37,13 +37,14 @@ appInfo = function() {
 /*
 	Redirect to login page if the user is no loggedin
 */
-if(session.get("mdmConsoleUserLogin") == null && session.get("mdmConsoleUserLogin") != "true" && request.getRequestURI() != appInfo().server_url + "login"){
+
+if(session.get("emmConsoleUserLogin") == null && session.get("emmConsoleUserLogin") != "true" && request.getRequestURI() != appInfo().server_url + "login"){
     response.sendRedirect(appInfo().server_url + "login");
     throw require('/modules/absolute.js').appRedirect;
 }else{
-	if(!(session.get("mdmConsoleUser")['isMDMAdmin'] == true | session.get("mdmConsoleUser")['isAdmin'] == true)){
+	if(!(session.get("emmConsoleUser")['isEMMAdmin'] == true | session.get("emmConsoleUser")['isAdmin'] == true)){
 	 var user = request.getParameter('user');
-	 if(request.getParameter('user') != null && request.getParameter('user') != session.get("mdmConsoleUser")['username']){
+	 if(request.getParameter('user') != null && request.getParameter('user') != session.get("emmConsoleUser")['username']){
 		 response.sendError(403); 
 	 }
  	
@@ -59,13 +60,13 @@ if(session.get("mdmConsoleUserLogin") == null && session.get("mdmConsoleUserLogi
 	Common functions to call APIS in the backend. this is diconitinued after introdusing function calls
 */
 getServiceURLs = function(item){
-    var serverURL = config.HTTP_URL + ui.MDM_API_URI;
+    var serverURL = config.HTTP_URL + ui.EMM_API_URI;
     var urls = configApis.APIS;
     arguments[0] = urls[item];
     var returnURL;
-    if(session.get("mdmConsoleUser") != null) {
+    if(session.get("emmConsoleUser") != null) {
         var log = new Log();
-        returnURL = serverURL + String.format.apply(this, arguments) + "?tenantId=" + session.get("mdmConsoleUser").tenantId;
+        returnURL = serverURL + String.format.apply(this, arguments) + "?tenantId=" + session.get("emmConsoleUser").tenantId;
         log.debug("Calling URL From server: " + returnURL);
     } else {
         returnURL = serverURL + String.format.apply(this, arguments);
@@ -91,7 +92,7 @@ String.format = function() {
 
 
 index = function(){
-	var user = session.get("mdmConsoleUser");
+	var user = session.get("emmConsoleUser");
 	if(user!=null){
 		if(user.isAdmin){
 			response.sendRedirect('console/dashboard');
@@ -120,7 +121,7 @@ navigation = function(role) {
             break;
         default:
     };
-    var currentUser = session.get("mdmConsoleUser");
+    var currentUser = session.get("emmConsoleUser");
     var topNavigation = [];
     var configNavigation = [];
     if(currentUser){
@@ -136,7 +137,7 @@ navigation = function(role) {
                 {name : "Roles", link: appInfo().server_url + "roles/configuration", displayPage: "roles", icon:"icon-group"},
                 {name : "Policies", link: appInfo().server_url + "policies/configuration", displayPage: "policies", icon:"icon-lock"},
             ];
-        }else if(role == 'Internal/mdmadmin'){
+        }else if(role == 'Internal/emmadmin'){
             topNavigation = [
                 {name : "Dashboard"	, link: appInfo().server_url + "console/dashboard", displayPage: "dashboard", icon: "icon-th-large"},
                 {name : "Configurations", link: appInfo().server_url + "users/configuration", displayPage: "configuration", icon:"icon-wrench"},
@@ -170,7 +171,7 @@ navigation = function(role) {
 theme = function() {
 
     var theme = {
-        name : ui.MDM_THEME,
+        name : ui.EMM_THEME,
         default_layout : "1-column"
     };
 
@@ -185,17 +186,17 @@ theme = function() {
 
 context = function() {
     var contextData = {};
-    var currentUser = session.get("mdmConsoleUser");  
+    var currentUser = session.get("emmConsoleUser");
     if(currentUser){
         if(currentUser.isAdmin){
             contextData.user = {
                 name : "Admin",
                 role : "admin"
             };
-        }else if(currentUser.isMDMAdmin){
+        }else if(currentUser.isEMMAdmin){
             contextData.user = {
-                name : "MDM Admin",
-                role : "Internal/mdmadmin"
+                name : "EMM Admin",
+                role : "Internal/emmadmin"
             };
         }else{
             contextData.user = {
@@ -215,8 +216,8 @@ context = function() {
         title : this.appInfo().title,
         appInfo : this.appInfo(),
         theme : this.theme(),
-        userLogin : session.get("mdmConsoleUserLogin"),
-        currentUser : session.get("mdmConsoleUser"),
+        userLogin : session.get("emmConsoleUserLogin"),
+        currentUser : session.get("emmConsoleUser"),
         resourcePath: "../themes/" + this.theme().name + "/img/",
         contextData : contextData,
         navigation : this.navigation(contextData.user.role),
