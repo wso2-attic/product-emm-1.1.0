@@ -15,7 +15,6 @@ var user = (function () {
 	var server = function(){
 		return application.get("SERVER");
 	}
-	
 	var claimEmail = "http://wso2.org/claims/emailaddress";
 	var claimFirstName = "http://wso2.org/claims/givenname";
 	var claimLastName = "http://wso2.org/claims/lastname";
@@ -131,7 +130,7 @@ var user = (function () {
             log.debug("Check Params"+stringify(ctx));
             var claimMap = new java.util.HashMap();
             var roleState = null;
-            claimMap.put(claimEmail, ctx.username);
+            claimMap.put(claimEmail, ctx.email);
             claimMap.put(claimFirstName, ctx.first_name);
             claimMap.put(claimLastName, ctx.last_name);
             claimMap.put(claimMobile, ctx.mobile_no);
