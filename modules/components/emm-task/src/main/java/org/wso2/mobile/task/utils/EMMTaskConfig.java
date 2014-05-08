@@ -29,7 +29,7 @@ import java.util.Map;
 public class EMMTaskConfig {
 
     public static final String CONF_LOCATION = "conf.location";
-    public static final String MDM_CONFIG_XML = "mdm-config.xml";
+    public static final String EMM_CONFIG_XML = "mdm-config.xml";
     public static final String TASK_MANAGER_NAME = "Device-Monitoring";
     public static final String TASK_NAME = "Monitoring";
     public static final String SERVER_HOST = "server.host";
@@ -43,7 +43,7 @@ public class EMMTaskConfig {
     public static final String DEVICE_MONITOR_FREQUENCY = "device-monitor-frequency";
 
     public static final String TASK_MONITOR_CLASS = "org.wso2.mobile.task.TaskImplementor";
-    public static final String MONITOR_URL = "/mdm/api/devices/monitor";
+    public static final String MONITOR_URL = "/emm/api/devices/monitor";
 
     private static EMMTaskConfig emmTaskConfig;
     private static Map<String, String> configMap;
@@ -52,10 +52,10 @@ public class EMMTaskConfig {
     private static final Log log = LogFactory.getLog(EMMTaskConfig.class);
 
     /*
-      This function reads the MDM Config XML file
+      This function reads the EMM Config XML file
     */
-    private static Map<String, String> readMDMConfigurationXML() {
-        String confLocation = SystemProperties.getProperty(CONF_LOCATION) + File.separator + MDM_CONFIG_XML;
+    private static Map<String, String> readEMMConfigurationXML() {
+        String confLocation = SystemProperties.getProperty(CONF_LOCATION) + File.separator + EMM_CONFIG_XML;
 
         if (emmTaskConfig == null || configMap == null) {
             emmTaskConfig = new EMMTaskConfig();
@@ -84,11 +84,11 @@ public class EMMTaskConfig {
     }
 
     /*
-      This function retrieves the value for the key in the MDM config XML file
+      This function retrieves the value for the key in the EMM config XML file
     */
     public static String getConfigEntry(final String entry) {
 
-        Map<String, String> configurationMap = readMDMConfigurationXML();
+        Map<String, String> configurationMap = readEMMConfigurationXML();
         String configValue = configurationMap.get(entry);
         if (configValue == null) {
             log.error("Configuration entry not available");
