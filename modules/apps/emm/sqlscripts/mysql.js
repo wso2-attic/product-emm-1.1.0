@@ -116,6 +116,7 @@ var notifications = {
     'select11': "SELECT received_date, device_id, feature_code, user_id FROM notifications WHERE id = ? AND feature_code != '500P' AND feature_code != '529A' ORDER BY sent_date ASC",
     'select12': "select * from notifications where `device_id`=? and `feature_code`= ? and `status`='R' and `id` = (select MAX(`id`) from notifications where `device_id`=? and `feature_code`= ? and `status`='R') ORDER BY sent_date ASC",
     'select13': "SELECT * FROM notifications WHERE device_id = ? AND status = 'P' ORDER BY sent_date ASC",
+    'select14': "SELECT COUNT(*) FROM notifications WHERE device_id = ? AND feature_code = ? AND status = 'P'",
 
     'insert1' : "INSERT INTO notifications (device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) values(?, ?, ?, 'P', ?, ?, ?, ?, ?)",
     'insert2' : "INSERT INTO notifications (device_id, group_id, message, status, sent_date, feature_code, user_id, feature_description, tenant_id) values( ?, '1', ?, 'P', ?, ?, ?, ?, ?)",
@@ -127,6 +128,7 @@ var notifications = {
     'update5' : "UPDATE notifications SET status='R' WHERE id = ?",
     'update6' : "UPDATE notifications SET status='R', received_data = ? , received_date = ? WHERE id = ?",
     'update7' : "UPDATE notifications SET status = 'D' WHERE device_id = ? AND status = 'P'",
+    'update8' : "UPDATE notifications SET received_data = ?, received_date = ?, status = 'R' WHERE id = ?",
 
     'delete1' : "DELETE FROM notifications WHERE device_id = ? AND status='P' AND feature_code = ?",
     'delete2' : "DELETE FROM notifications WHERE device_id = ? AND status='R' AND feature_code = ?"
@@ -159,10 +161,10 @@ var policies = {
     'select15': "SELECT policies.id as policyid, policies.content as data, policies.mam_content as mam_data, policies.type FROM policies, user_policy_mapping where policies.category = ? AND policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = ? AND policies.tenant_id = ? ORDER BY policies.id DESC",
     'select16': "SELECT policies.id as policyid, policies.content as data, policies.mam_content as mam_data, policies.type as type, policy_priority.type as policytype FROM policies JOIN device_policy ON device_policy.policy_id = policies.id JOIN policy_priority ON policy_priority.id = device_policy.policy_priority_id WHERE device_policy.device_id = ? AND device_policy.tenant_id = ? AND device_policy.status = 'A' ORDER BY datetime DESC",
 
-    'insert1' : "insert into policies (name,content,type,category, tenant_id, mam_content) values (?,?,?,?,?, '[]')",
+    'insert1' : "insert into policies (name,content,type,category, tenant_id, mam_content) values (?,?,?,?,?, ?)",
     'insert2' : "insert into policies (name,content,type,category, tenant_id, mam_content) values (?,'[]', 1, 1,?, '[]')",
 
-    'update1' : "UPDATE policies SET content= ?,type = ? WHERE name = ? AND tenant_id = ?",
+    'update1' : "UPDATE policies SET content= ?, type = ?, mam_content = ? WHERE name = ? AND tenant_id = ?",
 
     'delete1' : "DELETE FROM policies where id = ? AND tenant_id = ?"
 };

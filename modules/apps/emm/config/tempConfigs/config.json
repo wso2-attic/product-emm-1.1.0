@@ -1,4 +1,6 @@
 {
+    "NOTIFIER" : "LOCAL",   //LOCAL or GCM
+    "NOTIFIER_INTERVAL" : 5,
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
@@ -24,24 +26,23 @@
         "keyStoreName": "/repository/resources/security/wso2carbon.jks"
     },
     "email": {
-        "smtp":"$(email_smtp)",
-        "port":"$(email_port)",
-        "companyName": "$(email_companyname)",
+        "smtp":"smtp.gmail.com",
+        "port":"25",
+        "companyName": "WSO2",
         "senderAddress": "$(senderAddress)",
-        "emailPassword": "$(senderPassword)",
-        "emailTemplate": "$(email_bodytemplate)"
+        "emailPassword": "****",
+        "emailTemplate": "\nYou have been registered to the WSO2 EMM. Below is the link to enroll.\n \n"
     },
     "device": {
-        "android_location": "$(device_android_location)",
+        "android_location": "%http.ip%/mdm/client_app/EMMAgent.apk",
         "ios": {
-            "location": "$(device_ios_location)",
-            "bundleid": "$(device_ios_bundleid)",
-            "version": "$(device_ios_version)",
-            "appname": "$(device_ios_appname)"
+            "location": "%http.ip%/mdm/client_app/EMMAgent.ipa",
+            "bundleid": "com.wso2.emmAgent",
+            "version": "1.1",
+            "appname": "EMM Agent"
         }
     },
     "mam": {
         "store_location": "%https.ip%/store/"
-    },
-    "monitor_interval" : "$(monitoring_frequency)"
+    }
 }

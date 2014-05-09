@@ -34,27 +34,37 @@
 
 
      <div class="container">
-     <br />
+        <br />
 
      <%
-     var userAgent= request.getHeader("User-Agent");
-     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+            var userAgent= request.getHeader("User-Agent");
+            if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+                if(userAgent.match(/Safari/i) && userAgent.match(/Version/i)) {
      %>
-        <form id="certificate" method="get" action="ca">
-            <p align = "center">The Root Certificate needs to be downloaded to your device before you can download to the EMM Agent.<br/><br />
-                <button class="btn btn-lg btn-primary btn-block">Download the Root Certificate</button>
-            </p>
-            <br /><br />
-        </form>
+            <form id="certificate" method="get" action="ca">
+                <p align = "center">The Root Certificate needs to be downloaded to your device before you can download to the EMM Agent.<br/><br />
+                    <button class="btn btn-lg btn-primary btn-block">Download the Root Certificate</button>
+                </p>
+                <br /><br />
+            </form>
+            <p class="text-center">If you are not registered with WSO2 EMM,  please download and install the Agent.</p>
 
+            <a href=<% var deviceModule = require('/modules/device.js').device;  var device = new deviceModule();  print(device.getAppForDevice());%> class="btn btn-lg btn-primary btn-block">Download Agent</a>
      <%
-     }
+                } else {
      %>
+            <p align = "center">Please open this page in Safari<br/><br/></p>
+     <%
+                }
+            } else {
+     %>
+            <p class="text-center">If you are not registered with WSO2 EMM,  please download and install the Agent.</p>
 
-     <p class="text-center">If you are not registered with WSO2 EMM,  please download and install the Agent.</p>
-
-  <a href=<% var deviceModule = require('/modules/device.js').device;  var device = new deviceModule();  print(device.getAppForDevice());%> class="btn btn-lg btn-primary btn-block">Download Agent</a>
-</div>
+            <a href=<% var deviceModule = require('/modules/device.js').device;  var device = new deviceModule();  print(device.getAppForDevice());%> class="btn btn-lg btn-primary btn-block">Download Agent</a>
+     <%
+            }
+     %>
+    </div>
 
 
 <!-- Bootstrap core JavaScript

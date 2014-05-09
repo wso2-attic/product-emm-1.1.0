@@ -4,10 +4,11 @@ var notification = (function() {
 	};
 	var routes = new Array();
 	var log = new Log();
-	var db;
+	var db, driver;
 	var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
-    var deviceModule = require('device.js').device;
+    var deviceModule = require('/modules/device.js').device;
+
     var device;
     var driver;
     var module = function (dbs) {
@@ -448,46 +449,44 @@ var notification = (function() {
          */
         getAndroidOperations: function(ctx) {
             var regId = ctx.regId;
-            var recivedDate;
+            var receivedDate;
             var devices = driver.query(sqlscripts.devices.select19, regId);
             if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
                 var responseData = ctx.data;
                 if (responseData != undefined && responseData != null) {
                     //Update the notifications table
-                    for (var i=0; i<data.length; ++i) {
-                        var feature_code = responseData[i].featureCode;
+                    for (var i=0; i<responseData.length; ++i) {
+                        var feature_code = responseData[i].code;
                         var featureData = responseData[i].data;
                         var messageId = featureData[0].messageId;
                         var sentMessage = featureData[0].data;
-                        recivedDate = common.getCurrentDateTime();
-
-                        driver.query("UPDATE notifications SET sent_received_data = ?, received_date = ?, status = 'R' WHERE id = ?", sentMessage, recivedDate, messageId);
+                        receivedDate = common.getCurrentDateTime();
+                        driver.query(sqlscripts.notifications.update8, sentMessage, receivedDate, messageId);
                     }
 
                 }
 
-                log.info(" >>>>>> " + devices[0].id);
-
                 //Get pending operations for the device
                 var pendingOperations = driver.query(sqlscripts.notifications.select13, devices[0].id);
                 if (pendingOperations != undefined && pendingOperations != null && pendingOperations[0] != undefined && pendingOperations[0] != null) {
-                    var payloadArray;
+                    var payloadArray = [];
                     for(var i=0; i<pendingOperations.length; ++i) {
                         var operation = {};
-                        operation.featureCode = pendingOperations[i].feature_code;
-                        var messageArray;
-                        messageArray[0].messageId = pendingOperations[i].id;
-                        messageArray[0].data = pendingOperations[i].message;
+                        operation.code = pendingOperations[i].feature_code;
+                        var messageArray = [];
+                        var message = {};
+                        message.messageId = pendingOperations[i].id;
+                        message.data = parse(pendingOperations[i].message);
+                        messageArray[0] = message;
                         operation.data = messageArray;
 
                         payloadArray[i] = operation;
                     }
-                    log.info(" >>>>>> " + stringify(payloadArray));
                     return payloadArray;
                 } else {
                     //No pending operations
-                    recivedDate = common.getCurrentDateTime();
-                    driver.query(sqlscripts.device_awake.update6, recivedDate, devices[0].id);
+                    //recivedDate = common.getCurrentDateTime();
+                    //driver.query(sqlscripts.device_awake.update6, recivedDate, devices[0].id);
                     return null;
                 }
             }

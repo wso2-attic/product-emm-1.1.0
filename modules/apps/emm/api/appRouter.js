@@ -159,6 +159,7 @@ var app = {
                 try {
                     store.installApp(installPayload);
                 } catch (e) {
+                    log.info(e);
                     response.status = 403;
                     return;
                 }

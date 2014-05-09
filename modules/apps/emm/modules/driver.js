@@ -11,23 +11,24 @@ var driver = function(db){
             var changed = {};
             for (var prop in result) {
                 if (result.hasOwnProperty(prop)) {
-                    prop = prop..toLowerCase();
-                    if(result[field] == null) {
-                        changed[prop] = result[prop];
+                    //prop = prop.toLowerCase();
+                    if(result[prop] == null) {
+                        changed[prop.toLowerCase()] = result[prop];
                     } else {
-                        changed[prop] = result[prop].toString();
+                        changed[prop.toLowerCase()] = result[prop].toString();
                     }
-                    models.push(changed);
+
                 }
             }
+            models.push(changed);
         };
         return models;
     }
     this.query = function(){
         // convert arguments to array
         var args = Array.prototype.slice.call(arguments, 0);
-        var query = args.shift();
-        if (args.length>0) {
+        var query = args[0];
+        if (args.length>1) {
             result = db.query.apply(db, args) || [];
         }
         else {

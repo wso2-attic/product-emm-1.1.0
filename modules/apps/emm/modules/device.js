@@ -457,37 +457,41 @@ var device = (function () {
         if (featureCode == "500P") {
             //Revoke policy and save to device_policy
             saveDevicePolicy(ctx);
-
-        } else if(featureCode == "501P"){
-            try{
-                driver.query(sqlscripts.notifications.delete1, deviceId,featureCode);
-            }catch (e){
-                log.debug(e);
-            }
         }
+
         var currentDate;
         if (ctx.newdatetime != null) {
             currentDate = ctx.newdatetime;
         } else {
             currentDate = common.getCurrentDateTime();
         }
-        driver.query(sqlscripts.notifications.insert1, deviceId, -1, payLoad, currentDate, featureCode, userID,featureDescription, tenantID);
+        var insertMessage = true;
+        if (featureCode == "501P" || featureCode == "500A" || featureCode == "502A" ) {
+            var pendingCount = driver.query(sqlscripts.notifications.select14, deviceId, featureCode);
+            if (pendingCount > 0) {
+                insertMessage = false;
+            }
+        }
+        if (insertMessage) {
+            driver.query(sqlscripts.notifications.insert1, deviceId, -1, payLoad, currentDate, featureCode, userID,featureDescription, tenantID);
+        }
 
         // SQL Check
         var lastRecord = driver.query(sqlscripts.general.select1);
-
         var lastRecordJson = lastRecord[0];
         var token = lastRecordJson["LAST_INSERT_ID()"];
         log.debug("Android registration id "+regId);
         log.debug("Current feature code "+featureCode);
         log.debug("Message token "+token);
-        if(featureCode=="500P" || featureCode=="502P"){
-            var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 30240, "POLICY");
-        }else{
-            log.debug("Sending");
-            var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 3);
+        if(configFile.NOTIFIER == "GCM") {
+            if(featureCode=="500P" || featureCode=="502P"){
+                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, "CONTACT SERVER", 30240, "POLICY");
+            }else{
+                log.debug("Sending");
+                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, "CONTACT SERVER", payLoad, 3);
+            }
+            log.debug(gcmMSG);
         }
-        log.debug(gcmMSG);
         return true;
     }
 
@@ -802,10 +806,10 @@ var device = (function () {
             }
         },
         sendToDevices:function(ctx){
-            log.debug(ctx.devices[0]);
+            log.debug(ctx);
             var devices =  ctx.devices;
             for(var i=0;i<devices.length;i++){
-                this.sendToDevice({'deviceid':devices[i],'operation':ctx.operation,'data':ctx.params.data});
+                this.sendToDevice({'deviceid':devices[i].deviceid,'operation':ctx.operation,'data':devices[i]});
             }
         },
         getFeaturesFromDevice: function(ctx){
@@ -924,7 +928,11 @@ var device = (function () {
         getSenderId: function(ctx){
             var androidConfig = require('/config/android.json');
             log.info(androidConfig);
-            return androidConfig.sender_id;
+            var message = {};
+            message.sender_id = androidConfig.sender_id;
+            message.notifier = configFile.NOTIFIER;
+            message.notifierInterval = configFile.NOTIFIER_INTERVAL;
+            return message;
         },
         isRegistered: function(ctx){
             if(ctx.regid != undefined && ctx.regid != null && ctx.regid != ''){

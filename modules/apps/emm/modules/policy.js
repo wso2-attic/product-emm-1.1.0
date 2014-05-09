@@ -182,7 +182,7 @@ var policy = (function () {
                 policyId = policy[0].id;
                 if(ctx.category==1){
                     if(policy!= undefined && policy != null && policy[0] != undefined && policy[0] != null){
-                        result = driver.query(sqlscripts.policies.update1, ctx.policyData, ctx.policyType, ctx.policyName, common.getTenantID());
+                        result = driver.query(sqlscripts.policies.update1, ctx.policyData, ctx.policyType, ctx.policyMamData, ctx.policyName, common.getTenantID());
                         this.enforcePolicy({"policyid":policyId});
                     }else{
                         result = this.addPolicy(ctx);
@@ -202,7 +202,7 @@ var policy = (function () {
                 if(existingPolicies != undefined && existingPolicies != null && existingPolicies[0] != undefined && existingPolicies[0] != null ){
                     return 409;
                 }
-                var result = driver.query(sqlscripts.policies.insert1, ctx.policyName,ctx.policyData,ctx.policyType, ctx.category, common.getTenantID());
+                var result = driver.query(sqlscripts.policies.insert1, ctx.policyName, ctx.policyData, ctx.policyType, ctx.category, common.getTenantID(), ctx.policyMamData);
             }
             return 201;
         },

@@ -12,11 +12,17 @@ var store = (function() {
     
     var userModule = require('user.js').user;
     var user = new userModule();
+
+    var deviceModule = require('device.js').device;
+    var device;
+
     var configsFile = require('/config/emm.js').config();
     var GET_APP_FEATURE_CODE = '502A';
-   
+    var driver;
     var module = function(dbs) {
         db = dbs;
+        driver = require('driver').driver(db);
+        device = new deviceModule(db);
     };
     var server = function() {
         return application.get("SERVER");
@@ -68,18 +74,18 @@ var store = (function() {
                     role = role.split('/')[1];
                     log.debug(role);
                 }
-                var resultDeviceCount = db.query("SELECT COUNT(id) AS device_count FROM devices WHERE user_id = ? AND tenant_id = ? and " + buildPlatformString(platform), String(role), getTenantID());
+                var resultDeviceCount = driver.query("SELECT COUNT(id) AS device_count FROM devices WHERE user_id = ? AND tenant_id = ? and " + buildPlatformString(platform), String(role), getTenantID());
                 deviceCountAll += parseInt(resultDeviceCount[0].device_count);
             }
         } else {
-            deviceCountAll = db.query("SELECT COUNT(id) AS device_count FROM devices WHERE tenant_id = ? and " + buildPlatformString(platform), getTenantID())[0].device_count;
+            deviceCountAll = driver.query("SELECT COUNT(id) AS device_count FROM devices WHERE tenant_id = ? and " + buildPlatformString(platform), getTenantID())[0].device_count;
             log.debug(deviceCountAll);
         }
         return deviceCountAll;
     };
     var getAllDeviceCountForUser = function(user, platform) {
         var deviceCountAll = 0;
-        var resultDeviceCount = db.query("SELECT COUNT(id) AS device_count FROM devices WHERE user_id = ? AND tenant_id = ? and " + buildPlatformString(platform), String(user), getTenantID());
+        var resultDeviceCount = driver.query("SELECT COUNT(id) AS device_count FROM devices WHERE user_id = ? AND tenant_id = ? and " + buildPlatformString(platform), String(user), getTenantID());
         deviceCountAll += parseInt(resultDeviceCount[0].device_count);
         return deviceCountAll;
     };
@@ -149,8 +155,8 @@ var store = (function() {
                 var userID = user.getUser({
                     userid: ctx.data.email
                 }).id;
-                var devices = db.query("select * from devices where devices.user_id=" + userID);
-                var devices = db.query("select * from devices where devices.user_id=" + userID);
+                var devices = driver.query("select * from devices where devices.user_id=" + userID);
+                var devices = driver.query("select * from devices where devices.user_id=" + userID);
                 devicesArray = new Array();
                 for (var i = 0; i < devices.length; i++) {
                     var deviceID = devices[i].id;
@@ -158,7 +164,7 @@ var store = (function() {
                     var propertiesJsonObj = parse(properties);
                     var name = propertiesJsonObj.device;
                     var model = propertiesJsonObj.model;
-                    var platforms = db.query("select platforms.type_name as platform from devices, platforms where platforms.id = devices.platform_id && devices.id=" + deviceID);
+                    var platforms = driver.query("select platforms.type_name as platform from devices, platforms where platforms.id = devices.platform_id && devices.id=" + deviceID);
                     var platform = platforms[0].platform
                     var packet = {};
                     packet.id = deviceID;
@@ -173,13 +179,13 @@ var store = (function() {
                 var userID = user.getUser({
                     userid: ctx.data.email
                 }).id;
-                var devices = db.query("select * from devices where devices.user_id=" + userID);
+                var devices = driver.query("select * from devices where devices.user_id=" + userID);
                 //    ctx.data.platform = "iOS";
-                var platforms = db.query("select * from platforms where type_name ='" + ctx.data.platform + "'");
+                var platforms = driver.query("select * from platforms where type_name ='" + ctx.data.platform + "'");
                 // platformId = platforms[0].id;
                 devicesArray = new Array();
                 for (var j = 0; j < platforms.length; j++) {
-                    var devices = db.query("select * from devices where devices.user_id=" + userID + " and devices.platform_id = " + platforms[j].id);
+                    var devices = driver.query("select * from devices where devices.user_id=" + userID + " and devices.platform_id = " + platforms[j].id);
                     for (var i = 0; i < devices.length; i++) {
                         var deviceID = devices[i].id;
                         var properties = devices[i].properties;
@@ -202,7 +208,7 @@ var store = (function() {
                 var userID = user.getUser({
                     userid: ctx.data.email
                 }).username;
-                var devices = db.query("select * from devices where devices.user_id='" + String(userID) + "'");
+                var devices = driver.query("select * from devices where devices.user_id='" + String(userID) + "'");
                 devicesArray = new Array();
                 for (var i = 0; i < devices.length; i++) {
                     var deviceID = devices[i].id;
@@ -210,7 +216,7 @@ var store = (function() {
                     var propertiesJsonObj = parse(properties);
                     var name = propertiesJsonObj.device;
                     var model = propertiesJsonObj.model;
-                    var platforms = db.query("select platforms.type_name as platform from devices, platforms where platforms.id = devices.platform_id && devices.id=" + deviceID);
+                    var platforms = driver.query("select platforms.type_name as platform from devices, platforms where platforms.id = devices.platform_id && devices.id=" + deviceID);
                     var platform = platforms[0].platform
                     var packet = {};
                     packet.id = deviceID;
@@ -296,7 +302,7 @@ var store = (function() {
             var query = buildDynamicQuery(platform, 1, getTenantID());
             var package_identifier = manipulatePackageId(package_identifier);
             var returnResult = {};
-            query = db.query(query, package_identifier);
+            query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
                 var userObj = user.getUser({
@@ -315,7 +321,9 @@ var store = (function() {
                     userVal.total_devices = getAllDeviceCountForUser(result.user_id, platform);
                     userVal.device_count = userVal.device_count + 1;
                     userVal.devices.push(result.device_id);
-                    userVal.roles = parse(userObj.roles);
+                    if(userObj.roles!=null){
+                        userVal.roles = parse(userObj.roles);
+                    }
                 }
             };
             return returnResult;
@@ -324,7 +332,7 @@ var store = (function() {
             var query = buildDynamicQuery(platform, 2, getTenantID());
             var package_identifier = manipulatePackageId(package_identifier);
             var returnResult = {};
-            query = db.query(query, package_identifier);
+            query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
                 var userObj = user.getUser({
@@ -353,7 +361,7 @@ var store = (function() {
             var query = buildDynamicQuery(platform, 1, getTenantID());
             var package_identifier = manipulatePackageId(package_identifier);
             var returnResult = {};
-            query = db.query(query, package_identifier);
+            query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
                 var userObj = user.getUser({
@@ -385,7 +393,7 @@ var store = (function() {
             };
             query = buildDynamicQuery(platform, 2, getTenantID());
             log.info(package_identifier);
-            query = db.query(query, package_identifier);
+            query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
                 var userObj = user.getUser({
@@ -421,7 +429,7 @@ var store = (function() {
             var query = buildDynamicQuery(platform, 1, getTenantID());
             var package_identifier = manipulatePackageId(package_identifier);
             var returnResult = {};
-            query = db.query(query, package_identifier);
+            query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
                 var userObj = user.getUser({
@@ -454,7 +462,7 @@ var store = (function() {
             var query = buildDynamicQuery(platform, 2, getTenantID());
             var package_identifier = manipulatePackageId(package_identifier);
             var returnResult = {};
-            query = db.query(query, package_identifier);
+            query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
                 var userObj = user.getUser({
@@ -486,10 +494,12 @@ var store = (function() {
         uninstallApp: function(payload) {
         },
         installApp: function(payload) {
+            payload = {devices: payload, operation: "INSTALLAPP"}
+            device.sendToDevices(payload);
         },
         getAllAppFromDevice: function(ctx) {
             var deviceId = ctx.deviceId;
-            var last_notification = db.query("select * from notifications where `device_id`=? and `feature_code`= '" + GET_APP_FEATURE_CODE + "' and `status`='R' and `id` = (select MAX(`id`) from notifications where `device_id`=? and `feature_code`= '" + GET_APP_FEATURE_CODE + "' and `status`='R')", deviceId, deviceId);
+            var last_notification = driver.query("select * from notifications where `device_id`=? and `feature_code`= '" + GET_APP_FEATURE_CODE + "' and `status`='R' and `id` = (select MAX(`id`) from notifications where `device_id`=? and `feature_code`= '" + GET_APP_FEATURE_CODE + "' and `status`='R')", deviceId, deviceId);
             last_notification[0].received_data = JSON.parse(unescape(last_notification[0].received_data));
             return last_notification[0];
         },
