@@ -378,7 +378,7 @@ var loadPayload = function(identifier , operationCode, data) {
 	return responseData;
 }
 var isDatabaseConfigured = function(){
-    db = new Database("EMM_DB");
+    db = new Database("WSO2_EMM_DB");
 }
 
 /* 
@@ -396,7 +396,7 @@ var getDatabase = function(){
   	}
     if(!db){
         try{
-            db = new Database("EMM_DB");
+            db = new Database("WSO2_EMM_DB");
             application.put(DB_SESSION,db);
         }catch(e){
             // log.error(e);
