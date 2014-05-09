@@ -132,7 +132,7 @@ var user = (function () {
             log.debug("Check Params"+stringify(ctx));
             var claimMap = new java.util.HashMap();
             var roleState = null;
-            claimMap.put(claimEmail, ctx.username);
+            claimMap.put(claimEmail, ctx.email);
             claimMap.put(claimFirstName, ctx.first_name);
             claimMap.put(claimLastName, ctx.last_name);
             claimMap.put(claimMobile, ctx.mobile_no);

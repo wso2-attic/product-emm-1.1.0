@@ -80,6 +80,8 @@ $("#btn-add").click(function() {
 	}
 
 
+    var policyMamData =  Array();
+    
 	//policy data for blacklisted apps
 	var policyDataBlackList = new Array(); 
 	$('#inputBlackListApps > option').each(function() { 		
@@ -87,7 +89,7 @@ $("#btn-add").click(function() {
 	});
 		
 	if(policyDataBlackList.length > 0){
-		policyData.push({code: "528B", data: policyDataBlackList});
+		policyMamData.push({code: "528B", data: policyDataBlackList});
 	}
 	
 	
@@ -99,7 +101,7 @@ $("#btn-add").click(function() {
 	});
 	
 	if(installedAppData.length > 0){
-		policyData.push({code: "509B", data: installedAppData});
+		policyMamData.push({code: "509B", data: installedAppData});
 	}
     //policy apps end
 
@@ -115,7 +117,7 @@ $("#btn-add").click(function() {
 		url : getServiceURLs("policiesCRUD", ""),
 		type : "PUT",
 		async : "false",
-		data: JSON.stringify({policyData: policyData, policyName: policyName, policyType: policyType, category: "1"}),		
+		data: JSON.stringify({policyMamData: policyMamData, policyData: policyData, policyName: policyName, policyType: policyType, category: "1"}),		
 		contentType : "application/json",
      	dataType : "json",
         statusCode: {
