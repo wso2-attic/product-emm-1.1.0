@@ -20,6 +20,7 @@ var deviceRouter = require('api/deviceRouter.js').device;
 var notificationRouter = require('api/notificationRouter.js').notification;
 var groupRouter = require('api/groupRouter.js').group;
 var reportRouter = require('api/reportRouter.js').reports;
+   
 
 var GOOSE_CONFIGS = {
     CONTEXT : "/emm/api/", 

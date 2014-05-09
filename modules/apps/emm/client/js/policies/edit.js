@@ -80,8 +80,6 @@ $("#btn-add").click(function() {
 	}
 
 
-	/* comment because this is not belong to mdm
-
 	//policy data for blacklisted apps
 	var policyDataBlackList = new Array(); 
 	$('#inputBlackListApps > option').each(function() { 		
@@ -97,14 +95,13 @@ $("#btn-add").click(function() {
 	
 	var installedAppData = new Array(); 
 	$('#inputInstallApps :selected').each(function(i, selected){ 
- 		installedAppData.push({identity: $(selected).val(), os: $(selected).data('os'), type: $(selected).data('type')});
+ 		installedAppData.push({identity: $(selected).val(), os: $(selected).data('os'), type: $(selected).data('type'),  name: $(selected).data('name')});
 	});
 	
 	if(installedAppData.length > 0){
 		policyData.push({code: "509B", data: installedAppData});
 	}
-	
-	*/
+    //policy apps end
 
     var n = noty({
         text : 'Saving policy, please wait....',
