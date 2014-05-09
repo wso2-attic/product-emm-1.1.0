@@ -30,13 +30,6 @@ import org.wso2.mobile.utils.persistence.JDBCPersistenceManager;
  * cardinality="1..1" policy="dynamic" bind="setDataSourceService" unbind="unsetDataSourceService"
  **/
 
-/**
- * 
- * This class is the osgi service class for EMMUtilsService. It will checks whether the user has provided
- *  -Dsetup argument during startup and if so it initialize to create the EMM db.
- *  
- */
-
 public class EMMUtilsServiceComponent {
 
     public static final String DSETUP_PATTERN = ".*-Dsetup.*";
