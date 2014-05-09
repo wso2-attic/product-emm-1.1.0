@@ -75,9 +75,9 @@
 							<bundles>
 								<bundleDef>slf4j.wso2:slf4j:1.5.10.wso2v1</bundleDef>
 								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:${project.version}</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.emm-gcm:${project.version}</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.emm-task:${project.version}</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.emm-utils:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.gcm:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.task:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.utils:${project.version}</bundleDef>
                                 <bundleDef>com.googlecode.plist:dd-plist:1.8</bundleDef>
 							</bundles>
 							<importBundles>

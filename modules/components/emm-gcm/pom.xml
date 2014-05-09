@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>org.wso2.emm.emm-gcm</artifactId>
+    <artifactId>org.wso2.emm.gcm</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Enterprise Mobility Manager (EMM) - EMM-GCM</name>
     <description>This bundle exports packages from gcm jar files</description>
@@ -51,7 +51,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
                             org.wso2.mobile.gcm.*,

@@ -28,7 +28,7 @@ var policy = (function () {
             if(result == 1){
                 response.status = 200;
             }else{
-                response.status = 404;
+                response.status = 200;
             }
 
         });
