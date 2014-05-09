@@ -481,13 +481,15 @@ var device = (function () {
         log.debug("Android registration id "+regId);
         log.debug("Current feature code "+featureCode);
         log.debug("Message token "+token);
-        if(featureCode=="500P" || featureCode=="502P"){
-            var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 30240, "POLICY");
-        }else{
-            log.debug("Sending");
-            var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 3);
+        if(configFile.NOTIFIER == "GCM") {
+            if(featureCode=="500P" || featureCode=="502P"){
+                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 30240, "POLICY");
+            }else{
+                log.debug("Sending");
+                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 3);
+            }
+            log.debug(gcmMSG);
         }
-        log.debug(gcmMSG);
         return true;
     }
 
@@ -924,7 +926,10 @@ var device = (function () {
         getSenderId: function(ctx){
             var androidConfig = require('/config/android.json');
             log.info(androidConfig);
-            return androidConfig.sender_id;
+            var message = {};
+            message.sender_id = androidConfig.sender_id;
+            message.notifier = configFile.NOTIFIER;
+            return message;
         },
         isRegistered: function(ctx){
             if(ctx.regid != undefined && ctx.regid != null && ctx.regid != ''){

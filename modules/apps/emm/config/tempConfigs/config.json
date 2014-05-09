@@ -1,4 +1,5 @@
 {
+    "NOTIFIER" : "LOCAL",   //LOCAL or GCM
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
@@ -42,6 +43,5 @@
     },
     "mam": {
         "store_location": "%https.ip%/store/"
-    },
-    "monitor_interval" : "$(monitoring_frequency)"
+    }
 }

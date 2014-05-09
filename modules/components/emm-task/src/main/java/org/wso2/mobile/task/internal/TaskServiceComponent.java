@@ -47,10 +47,9 @@ public class TaskServiceComponent {
             if (log.isDebugEnabled()) {
                 log.debug("Task Schedule bundle is activated ");
             }
-
+            TaskManager taskManager = getTaskService().getTaskManager(EMMTaskConfig.TASK_MANAGER_NAME);
             String device_monitor_freq = EMMTaskConfig.getConfigEntry(EMMTaskConfig.DEVICE_MONITOR_FREQUENCY);
             if (!device_monitor_freq.isEmpty() && !device_monitor_freq.contentEquals("0")) {
-                TaskManager taskManager = getTaskService().getTaskManager(EMMTaskConfig.TASK_MANAGER_NAME);
                 TriggerInfo triggerInfo = new TriggerInfo();
                 triggerInfo.setCronExpression("0 0/" + device_monitor_freq + " * * * ?");
                 TaskInfo taskInfo = new TaskInfo();
@@ -60,10 +59,9 @@ public class TaskServiceComponent {
 
                 taskManager.registerTask(taskInfo);
                 taskManager.rescheduleTask(taskInfo.getName());
+            } else {
+                taskManager.deleteTask(EMMTaskConfig.TASK_NAME);
             }
-
-
-
         } catch (Throwable e) {
             log.error(e.getMessage(), e);
             /* don't throw exception */
