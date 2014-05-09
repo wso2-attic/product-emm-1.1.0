@@ -1,8 +1,7 @@
 $("#btn-add").click(function() {
 	
 	$( 'form').parsley( 'validate' );	
-	if(!$('form').parsley('isValid')){		
-			
+	if(!$('form').parsley('isValid')){
 		noty({
 				text : 'Input validation failed!',
 				'layout' : 'center',
@@ -43,14 +42,7 @@ $("#btn-add").click(function() {
 				}
 			}else{
 				var checkVal = $(this).data("falseVal");
-				var requireData = $(this).data("requiredata");
 				if(checkVal !== ""){
-					if(requireData){
-						if($("#" + requireData).val() == ""){
-							return;
-						}
-					}
-					
 					if($(this).data("notfunction") == true){ 
 						params[prefix][suffix] = checkVal;
 					}else{
@@ -73,14 +65,12 @@ $("#btn-add").click(function() {
 	
 	var policyData =  Array();
 	
-	for (var param in params) { 
-		if(!isEmptyObj(params[param])){    	
-     		policyData.push({code: param, data: params[param]});
-     	}
+	for (var param in params) {     	
+     	policyData.push({code: param, data: params[param]});
 	}
 
-    //alert(JSON.stringify(policyData));
-	//return;
+
+
 
 	//policy data for blacklisted apps
 	var policyDataBlackList = new Array(); 
@@ -103,48 +93,38 @@ $("#btn-add").click(function() {
 	if(installedAppData.length > 0){
 		policyData.push({code: "509B", data: installedAppData});
 	}
-    //policy apps end
-
-    var n = noty({
-        text : 'Adding policy, please wait....',
-        'layout' : 'center',
-        timeout: false
-
-    });
+	
 		
 	jQuery.ajax({
 		url : getServiceURLs("policiesCRUD", ""),
 		type : "POST",
 		async : "false",
-		data: JSON.stringify({policyData: policyData, policyName: policyName, policyType: policyType, category: "1"}),		
+		data: JSON.stringify({policyData: policyData, policyName: policyName, policyType: policyType, category: "2"}),		
 		contentType : "application/json",
      	dataType : "json",
-        statusCode: {
-            400: function() {
-                n.setText('Error occured!');
-                n.setType('error');
-                n.setTimeout(1000);
-            },
-            404: function() {
-                n.setText('API not found!');
-                n.setType('error');
-                n.setTimeout(1000);
-            },
-            500: function() {
-                n.setText('Fatal error occured!');
-                n.setType('error');
-                n.setTimeout(1000);
-            },
-            201: function() {
-                n.setText('Policy added successfully!');
-                window.location.assign("configuration");
-            },
-            409: function() {
-                n.setText('Policy already exist!');
-                n.setType('error');
-                n.setTimeout(1000);
-            }
-        }
+     	statusCode: {
+			404: function() {
+				noty({
+					text : 'Error occured!',
+					'layout' : 'center',
+					'type': 'error'
+				});
+			},
+			500: function() {
+				noty({
+					text : 'Fatal error occured!',
+					'layout' : 'center',
+					'type': 'error'
+				});
+			},
+			201: function() {
+				noty({
+					text : 'Policy saved successfully!',
+					'layout' : 'center'
+				});
+				window.location.assign("configuration");
+			}
+		}		
 	});
 	
 		
@@ -155,87 +135,6 @@ $("#btn-add").click(function() {
 
 
 
-
-
-
-
-$( "#modalBlackListAppButton" ).click(function() {
-		$("#inputBlackListApps").append('<option data-type="'+ $("#modalBlackListType").val() +'" data-os="'+ $("#modalBlackListOS").val() +'" value="'+ $("#modalBlackListPackageName").val()  +'">' + $("#modalBlackListPackageName").val()  + '</option>');
-});
-
-$( "#modalBlackListAppRemove" ).click(function() {
-	 $("#inputBlackListApps :selected").each(function() {
-    		$(this).remove();
-	});
-});
-
-
-
-
-$(document).ready(function() {
-	
-	/*jQuery.ajax({
-		url : getServiceURLs("getMAMApps"),
-		type : "GET",
-		dataType : "json",
-		success : function(apps) {			
-			
-			for(var i = 0; i < apps.length; i++){
-				$('select[name="inputInstallApps_helper1"]').append('<option>'+ apps[i].name + '</option>');
-			}
-
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-
-		}
-	}); */
-	
-	
-	
-	
-
-});
-
-
-function isEmptyObj(obj) {
-    for(var prop in obj) {
-        if(obj.hasOwnProperty(prop))
-            return false;
-    }
-
-    return true;
-}
-
-
-//validations
-
-$( ".policy-input" ).change(function() {
-	
-	validations();
-
-});
-
-
-
-function validations(){
-	//remove allow simple when minimum complex characters are set
-	if(! ($('#519A-minComplexChars').val() == "" || $('#519A-minComplexChars').val() == "0")){
-		$('#519A-allowSimple').parent().parent().hide();
-		$('#519A-allowSimple').prop('checked', false);
-	}else{
-		$('#519A-allowSimple').parent().parent().show();
-	}
-	
-	
-	//remove encryption passcode when passcode policy is set
-	if($('#519A-maxFailedAttempts').val() != "" | $('#519A-minLength').val() != ""){
-		$('#511A-password').parent().parent().hide();
-		$('#511A-password').val("");
-	}else{
-		$('#511A-password').parent().parent().show();
-	}
-	
-}
 
 
 
@@ -295,46 +194,27 @@ $( "#modalBlackListAppRemove" ).click(function() {
 
 
 
-$( "#modalBlackListAppButton" ).click(function() {
-		var alreadyExist = false;
-		
-		
-		if($("#modalBlackListPackageName").val() == ""){
-			
-			noty({
-							text : 'Please add package/bundle name',
-							'layout' : 'center',
-							'type': 'error'
-			});
-			return;
-		}
-		
-		
-		$("#inputBlackListApps option").each(function(){
-    		if($(this).data('type') == $("#modalBlackListType").val() && $(this).val() == $("#modalBlackListPackageName").val() && $(this).data('os') == $("#modalBlackListOS").val() ){
-    			noty({
-							text : 'Added app already exist!',
-							'layout' : 'center',
-							'type': 'error'
-				});
-				alreadyExist = true;
-				return;
-    		}
-		});
+
+$(document).ready(function() {
 	
-		if(alreadyExist){
-			return;
+	/*jQuery.ajax({
+		url : getServiceURLs("getMAMApps"),
+		type : "GET",
+		dataType : "json",
+		success : function(apps) {			
+			
+			for(var i = 0; i < apps.length; i++){
+				$('select[name="inputInstallApps_helper1"]').append('<option>'+ apps[i].name + '</option>');
+			}
+
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+
 		}
-		$("#inputBlackListApps").append('<option data-type="'+ $("#modalBlackListType").val() +'" data-os="'+ $("#modalBlackListOS").val() +'" value="'+ $("#modalBlackListPackageName").val()  +'">' + $("#modalBlackListPackageName").val()  + '</option>');
-});
+	}); */
+	
+	
+	
+	
 
-$( "#modalBlackListAppRemove" ).click(function() {
-	 $("#inputBlackListApps :selected").each(function() {
-    		$(this).remove();
-	});
 });
-
-$( "#modalBlackListAppCreate" ).click(function() {
-	 $("#modalBlackListPackageName").val("");
-});
-
