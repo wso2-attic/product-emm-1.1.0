@@ -457,25 +457,27 @@ var device = (function () {
         if (featureCode == "500P") {
             //Revoke policy and save to device_policy
             saveDevicePolicy(ctx);
-
-        } else if(featureCode == "501P"){
-            try{
-                driver.query(sqlscripts.notifications.delete1, deviceId,featureCode);
-            }catch (e){
-                log.debug(e);
-            }
         }
+
         var currentDate;
         if (ctx.newdatetime != null) {
             currentDate = ctx.newdatetime;
         } else {
             currentDate = common.getCurrentDateTime();
         }
-        driver.query(sqlscripts.notifications.insert1, deviceId, -1, payLoad, currentDate, featureCode, userID,featureDescription, tenantID);
+        var insertMessage = true;
+        if (featureCode == "501P" || featureCode == "500A" || featureCode == "502A" ) {
+            var pendingCount = driver.query(sqlscripts.notifications.select14, deviceId, featureCode);
+            if (pendingCount > 0) {
+                insertMessage = false;
+            }
+        }
+        if (insertMessage) {
+            driver.query(sqlscripts.notifications.insert1, deviceId, -1, payLoad, currentDate, featureCode, userID,featureDescription, tenantID);
+        }
 
         // SQL Check
         var lastRecord = driver.query(sqlscripts.general.select1);
-
         var lastRecordJson = lastRecord[0];
         var token = lastRecordJson["LAST_INSERT_ID()"];
         log.debug("Android registration id "+regId);
@@ -483,10 +485,10 @@ var device = (function () {
         log.debug("Message token "+token);
         if(configFile.NOTIFIER == "GCM") {
             if(featureCode=="500P" || featureCode=="502P"){
-                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 30240, "POLICY");
+                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, "CONTACT SERVER", 30240, "POLICY");
             }else{
                 log.debug("Sending");
-                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, payLoad, 3);
+                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, "CONTACT SERVER", payLoad, 3);
             }
             log.debug(gcmMSG);
         }

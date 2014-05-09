@@ -29,16 +29,16 @@
         "port":"25",
         "companyName": "WSO2",
         "senderAddress": "emm.wso2.mobile@gmail.com",
-        "emailPassword": "wso2Mobile",
+        "emailPassword": "mobileWSO23Palm",
         "emailTemplate": "\nYou have been registered to the WSO2 EMM. Below is the link to enroll.\n \n"
     },
     "device": {
-        "android_location": "%http.ip%/emm/client_app/MDM-Agent1.0.apk",
+        "android_location": "%http.ip%/mdm/client_app/EMMAgent.apk",
         "ios": {
-            "location": "%http.ip%/emm/client_app/iOS-MDM-Agent.ipa",
-            "bundleid": "com.wso2.mdmAgent",
-            "version": "1.0",
-            "appname": "MDM Agent"
+            "location": "%http.ip%/mdm/client_app/EMMAgent.ipa",
+            "bundleid": "com.wso2.emmAgent",
+            "version": "1.1",
+            "appname": "EMM Agent"
         }
     },
     "mam": {

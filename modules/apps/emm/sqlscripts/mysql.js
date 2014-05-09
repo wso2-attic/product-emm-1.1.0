@@ -116,6 +116,7 @@ var notifications = {
     'select11': "SELECT received_date, device_id, feature_code, user_id FROM notifications WHERE id = ? AND feature_code != '500P' AND feature_code != '529A' ORDER BY sent_date ASC",
     'select12': "select * from notifications where `device_id`=? and `feature_code`= ? and `status`='R' and `id` = (select MAX(`id`) from notifications where `device_id`=? and `feature_code`= ? and `status`='R') ORDER BY sent_date ASC",
     'select13': "SELECT * FROM notifications WHERE device_id = ? AND status = 'P' ORDER BY sent_date ASC",
+    'select14': "SELECT COUNT(*) FROM notifications WHERE device_id = ? AND feature_code = ? AND status = 'P'",
 
     'insert1' : "INSERT INTO notifications (device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) values(?, ?, ?, 'P', ?, ?, ?, ?, ?)",
     'insert2' : "INSERT INTO notifications (device_id, group_id, message, status, sent_date, feature_code, user_id, feature_description, tenant_id) values( ?, '1', ?, 'P', ?, ?, ?, ?, ?)",

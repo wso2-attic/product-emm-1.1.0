@@ -485,8 +485,8 @@ var notification = (function() {
                     return payloadArray;
                 } else {
                     //No pending operations
-                    recivedDate = common.getCurrentDateTime();
-                    driver.query(sqlscripts.device_awake.update6, recivedDate, devices[0].id);
+                    //recivedDate = common.getCurrentDateTime();
+                    //driver.query(sqlscripts.device_awake.update6, recivedDate, devices[0].id);
                     return null;
                 }
             }
