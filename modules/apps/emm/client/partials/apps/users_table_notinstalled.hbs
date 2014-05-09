@@ -1,0 +1,22 @@
+<table class="table table-striped table-bordered main-table" >
+	<thead>
+		<tr>
+			<th><input type="checkbox" name="tick" value="" id="checkAllUserNotInstalled"></th>
+			<th>User</th>
+			<th>Roles</th>
+			<th>Not-Installed Device count</th>
+			<th>Total Device count</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#key_value this}} 
+			<tr>
+				<td><input type="checkbox" name="tick" data-user="{{key}}" value=""></td>
+				<td>{{key}}</td>
+				<td>{{value.roles}}</td>
+				<td>{{value.device_count}}</td>
+				<td>{{value.total_devices}}</td>
+			</tr>
+		{{/key_value}}
+	</tbody>
+</table>
