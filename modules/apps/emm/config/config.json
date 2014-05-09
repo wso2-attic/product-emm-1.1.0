@@ -1,0 +1,49 @@
+{
+    "HTTPS_URL": "%https.ip%",
+    "HTTP_URL": "%http.ip%",
+    "IOS_URL": "%https.ip%/devicelogin.html",
+    "EMM_UI_URI": "/emm/",
+    "EMM_API_URI": "/emm/api/",
+    "EMM_THEME": "wso2sinine",
+    "tenanted": true,
+    "permissions": {
+        "login": {
+            "/permission/admin/login": [
+                "ui.execute"
+            ]
+        }
+    },
+    "ssoConfiguration": {
+        "enabled": true,
+        "issuer": "emm",
+        "identityProviderURL": "%https.ip%/sso/samlsso.jag",
+        "keyStorePassword": "wso2carbon",
+        "identityAlias": "wso2carbon",
+        "responseSigningEnabled": "true",
+        "storeAcs": "%https.ip%/emm/acs",
+        "keyStoreName": "/repository/resources/security/wso2carbon.jks"
+    },
+    "email": {
+        "smtp":"$(email_smtp)",
+        "port":"$(email_port)",
+        "companyName": "$(email_companyname)",
+        "senderAddress": "$(senderAddress)",
+        "emailPassword": "$(senderPassword)",
+        "emailTemplate": "$(email_bodytemplate)"
+    },
+    "device": {
+        "android_location": "$(device_android_location)",
+        "ios": {
+            "location": "$(device_ios_location)",
+            "bundleid": "$(device_ios_bundleid)",
+            "version": "$(device_ios_version)",
+            "appname": "$(device_ios_appname)"
+        }
+    },
+    "mam": {
+        "store_location": "%https.ip%/store",
+        "publisher_location": "%https.ip%",
+        "archieve_location": "%http.ip%"
+    },
+    "monitor_interval" : "$(monitoring_frequency)"
+}

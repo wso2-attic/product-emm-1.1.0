@@ -141,7 +141,7 @@
         }
     });
     var viewRoles = function (packageId, platform, type, url, id) {
-        $.get('/mam/api/apps/roles/', {
+        $.get('/emm/api/apps/roles/', {
             'platform': platform,
             'packageid': packageId
         },function (data) {
@@ -180,7 +180,7 @@
                 $('#roles .btn-success').off('click').click(function () {
                     var roles = getSelectedRoles();
                     if (roles.length) {
-                        $.post('/mam/api/apps/roles/install', JSON.stringify({
+                        $.post('/emm/api/apps/roles/install', JSON.stringify({
                             'roles': roles,
                             'platform': platform,
                             'packageid': packageId,
@@ -219,7 +219,7 @@
                 $('#roles .btn-danger').off('click').click(function () {
                     var roles = getSelectedRoles();
                     if (roles.length) {
-                        $.post('/mam/api/apps/roles/uninstall', JSON.stringify({
+                        $.post('/emm/api/apps/roles/uninstall', JSON.stringify({
                             'roles': roles,
                             'platform': platform,
                             'packageid': packageId
@@ -271,7 +271,7 @@
     };
 
     var viewUsersInstalled = function (packageId, platform) {
-        $.get('/mam/api/apps/users/installed', {
+        $.get('/emm/api/apps/users/installed', {
             'platform': platform,
             'packageid': packageId
         },function (data) {
@@ -311,7 +311,7 @@
                     if (selectAll && (users.length > 1)) {
                         var roles = [];
                         roles.push('Internal/everyone');
-                        $.post('/mam/api/apps/roles/uninstall', JSON.stringify({
+                        $.post('/emm/api/apps/roles/uninstall', JSON.stringify({
                             'roles': roles,
                             'platform': platform,
                             'packageid': packageId
@@ -340,7 +340,7 @@
                     }
 
                     if (users.length && !selectAll) {
-                        $.post('/mam/api/apps/users/uninstall', JSON.stringify({
+                        $.post('/emm/api/apps/users/uninstall', JSON.stringify({
                             'users': users,
                             'platform': platform,
                             'packageid': packageId
@@ -393,7 +393,7 @@
     };
     var viewUsersNotInstalled = function (packageId, platform, type, url, id) {
 
-        $.get('/mam/api/apps/users/not-installed', {
+        $.get('/emm/api/apps/users/not-installed', {
             'platform': platform,
             'packageid': packageId
         },function (data) {
@@ -434,7 +434,7 @@
                         var roles = [];
                         roles.push('Internal/everyone');
 
-                        $.post('/mam/api/apps/roles/install', JSON.stringify({
+                        $.post('/emm/api/apps/roles/install', JSON.stringify({
                             'roles': roles,
                             'platform': platform,
                             'packageid': packageId
@@ -463,7 +463,7 @@
                     }
 
                     if (users.length && !selectAll) {
-                        $.post('/mam/api/apps/users/install', JSON.stringify({
+                        $.post('/emm/api/apps/users/install', JSON.stringify({
                             'users': users,
                             'platform': platform,
                             'packageid': packageId,
@@ -524,7 +524,7 @@
 		});
 	};
 	var compileHandlbarsTemplate = function(template_name, data, callback){
-		$.get('/mam/assets/partials/'+template_name+'.hbs', function(template){
+		$.get('/emm/client/partials/apps/'+template_name+'.hbs', function(template){
 			var tempInstance = Handlebars.compile(template);
 			var tempGen = tempInstance(JSON.parse(data));
 			callback(tempGen);

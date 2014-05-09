@@ -20,7 +20,7 @@ var deviceRouter = require('api/deviceRouter.js').device;
 var notificationRouter = require('api/notificationRouter.js').notification;
 var groupRouter = require('api/groupRouter.js').group;
 var reportRouter = require('api/reportRouter.js').reports;
-   
+var appRouter = require('api/appRouter.js').app;
 
 var GOOSE_CONFIGS = {
     CONTEXT : "/emm/api/", 
@@ -73,6 +73,8 @@ var deviceRouterInstance = new deviceRouter(db, router);
 var notificationRouterInstance = new notificationRouter(db, router);
 var groupRouterInstance = new groupRouter(db,router);
 var reportRouterInstance = new reportRouter (db,router);
+// New router method
+appRouter.route(db, router);
 
 router.post('store/users/devices', function(ctx){
     common.handleError(this, ctx, function(){
