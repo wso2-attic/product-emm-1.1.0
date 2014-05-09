@@ -5,7 +5,7 @@
 
     <datasources>
         <datasource>
-            <name>EMM_DB</name>
+            <name>WSO2_EMM_DB</name>
             <description>The datasource used for EMM</description>
             <jndiConfig>
                 <name>jdbc/WSO2EMMDB</name>

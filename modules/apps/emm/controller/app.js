@@ -128,7 +128,8 @@ navigation = function(role) {
             topNavigation = [
                 {name : "Dashboard"	, link: appInfo().server_url + "console/dashboard", displayPage: "dashboard", icon: "icon-th-large"},
                 {name : "Configurations", link: appInfo().server_url + "users/configuration", displayPage: "configuration", icon:"icon-wrench"},
-                {name : "Management"	, link: appInfo().server_url + "devices/management", displayPage: "management", icon:"icon-briefcase"},
+                {name : "Device Management"	, link: appInfo().server_url + "devices/management", displayPage: "management", icon:"icon-mobile-phone"},
+                {name : "App Management"	, link: appInfo().server_url + "apps/management", displayPage: "appmanagement", icon:"icon-qrcode"},
                  {name : "Reports"	, link: appInfo().server_url + "reports/", displayPage: "reports", icon:"icon-bar-chart"}               
             ];
             var configNavigation =	[
@@ -136,11 +137,12 @@ navigation = function(role) {
                 {name : "Roles", link: appInfo().server_url + "roles/configuration", displayPage: "roles", icon:"icon-group"},
                 {name : "Policies", link: appInfo().server_url + "policies/configuration", displayPage: "policies", icon:"icon-lock"},
             ];
-        }else if(role == 'Internal/emmadmin'){
+        }else if(role == 'Internal/mdmadmin'){
             topNavigation = [
                 {name : "Dashboard"	, link: appInfo().server_url + "console/dashboard", displayPage: "dashboard", icon: "icon-th-large"},
                 {name : "Configurations", link: appInfo().server_url + "users/configuration", displayPage: "configuration", icon:"icon-wrench"},
-                {name : "Management"	, link: appInfo().server_url + "devices/management", displayPage: "management", icon:"icon-briefcase"},
+                 {name : "Device Management"	, link: appInfo().server_url + "devices/management", displayPage: "management", icon:"icon-mobile-phone"},
+                {name : "App Management"	, link: appInfo().server_url + "apps/management", displayPage: "appmanagement", icon:"icon-qrcode"},
                  {name : "Reports"	, link: appInfo().server_url + "reports/", displayPage: "reports", icon:"icon-bar-chart"}
             ];
             var configNavigation =	[
