@@ -14,7 +14,8 @@ $("#btn-add").click(function() {
 	var firstname = $('#inputFirstName').val();
 	var lastname = $('#inputLastName').val();
 	var type = $('input[name="inputType"]:checked').val();
-	var username = $('#inputEmail').val();	
+	var username = $('#inputUsername').val();
+    var email = $('#inputEmail').val();
 	
 		
 	var userMAMGroups = $('#inputMAMGroups').val();
@@ -51,7 +52,8 @@ $("#btn-add").click(function() {
 	// alert(JSON.stringify(userGroupsArray));
 	jso = {
 		"tenant_id" : tenantId,
-		"username" : username,		
+		"username" : username,
+        "email" : email,
 		"first_name" : firstname,
 		"last_name" : lastname,
 		"type": type,

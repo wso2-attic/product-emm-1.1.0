@@ -127,3 +127,63 @@ devices_status = function(appController){
 	return context;	
 	
 };
+
+
+
+
+top_ten_apps = function(appController){	
+	
+	var results = null; 
+	
+	if(request.getMethod() == 'POST'){
+		
+		
+		var platform = request.getParameter('platform');
+		
+		var reportResults = report.getInstalledApps({platformType : platform});
+		
+		//print(reportResults);
+		
+		results = reportResults;
+	}
+	
+		
+	context = appController.context();
+	context.title = context.title + " | Reports";	
+	context.jsFile= "reports/reports.js";
+	context.page = "reports";
+	context.data = {
+		results: results,
+		inputData : {platform : platform}		
+	};
+	return context;	
+	
+};
+
+
+
+install_app_sum = function(appController){	
+	
+	var results = null; 
+	
+	if(request.getMethod() == 'POST'){
+		
+		var username = request.getParameter('username');
+		
+		var reportResults = report.getInstalledAppsByUser({userid: username});
+		
+		results = reportResults;
+	}
+	
+		
+	context = appController.context();
+	context.title = context.title + " | Reports";	
+	context.jsFile= "reports/reports.js";
+	context.page = "reports";
+	context.data = {
+		results: results,
+		inputData : {username: username}		
+	};
+	return context;	
+	
+};

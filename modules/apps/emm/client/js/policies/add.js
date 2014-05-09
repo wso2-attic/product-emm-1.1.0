@@ -82,8 +82,6 @@ $("#btn-add").click(function() {
     //alert(JSON.stringify(policyData));
 	//return;
 
-	/* comment because this is not belong to mdm
-
 	//policy data for blacklisted apps
 	var policyDataBlackList = new Array(); 
 	$('#inputBlackListApps > option').each(function() { 		
@@ -99,14 +97,13 @@ $("#btn-add").click(function() {
 	
 	var installedAppData = new Array(); 
 	$('#inputInstallApps :selected').each(function(i, selected){ 
- 		installedAppData.push({identity: $(selected).val(), os: $(selected).data('os'), type: $(selected).data('type')});
+ 		installedAppData.push({identity: $(selected).val(), os: $(selected).data('os'), type: $(selected).data('type'),  name: $(selected).data('name')});
 	});
 	
 	if(installedAppData.length > 0){
 		policyData.push({code: "509B", data: installedAppData});
 	}
-	
-	*/
+    //policy apps end
 
     var n = noty({
         text : 'Adding policy, please wait....',
@@ -239,4 +236,105 @@ function validations(){
 	}
 	
 }
+
+
+
+
+$( "#modalBlackListAppButton" ).click(function() {
+		var alreadyExist = false;
+		$("#inputBlackListApps option").each(function(){
+    		if($(this).data('type') == $("#modalBlackListType").val() && $(this).val() == $("#modalBlackListPackageName").val() && $(this).data('os') == $("#modalBlackListOS").val() ){
+    			noty({
+							text : 'Added app already exist!',
+							'layout' : 'center',
+							'type': 'error'
+				});
+				alreadyExist = true;
+				return;
+    		}
+		});
+	
+		if(alreadyExist){
+			return;
+		}
+		$("#inputBlackListApps").append('<option data-type="'+ $("#modalBlackListType").val() +'" data-os="'+ $("#modalBlackListOS").val() +'" value="'+ $("#modalBlackListPackageName").val()  +'">' + $("#modalBlackListPackageName").val()  + '</option>');
+});
+
+$( "#modalBlackListAppRemove" ).click(function() {
+	 
+	 
+	 noty({
+		text : 'Are you sure you want delete this app from blackisted list?',
+		buttons : [{
+			addClass : 'btn btn-cancel',
+			text : 'Cancel',
+			onClick : function($noty) {
+				$noty.close();
+
+			}
+			
+			
+		}, {
+			
+			addClass : 'btn btn-orange',
+			text : 'Ok',
+			onClick : function($noty) {
+				
+				 $("#inputBlackListApps :selected").each(function() {
+			    		$(this).remove();
+				});
+				$noty.close();	
+				
+			}
+			
+		}]
+	});	
+
+	
+});
+
+
+
+$( "#modalBlackListAppButton" ).click(function() {
+		var alreadyExist = false;
+		
+		
+		if($("#modalBlackListPackageName").val() == ""){
+			
+			noty({
+							text : 'Please add package/bundle name',
+							'layout' : 'center',
+							'type': 'error'
+			});
+			return;
+		}
+		
+		
+		$("#inputBlackListApps option").each(function(){
+    		if($(this).data('type') == $("#modalBlackListType").val() && $(this).val() == $("#modalBlackListPackageName").val() && $(this).data('os') == $("#modalBlackListOS").val() ){
+    			noty({
+							text : 'Added app already exist!',
+							'layout' : 'center',
+							'type': 'error'
+				});
+				alreadyExist = true;
+				return;
+    		}
+		});
+	
+		if(alreadyExist){
+			return;
+		}
+		$("#inputBlackListApps").append('<option data-type="'+ $("#modalBlackListType").val() +'" data-os="'+ $("#modalBlackListOS").val() +'" value="'+ $("#modalBlackListPackageName").val()  +'">' + $("#modalBlackListPackageName").val()  + '</option>');
+});
+
+$( "#modalBlackListAppRemove" ).click(function() {
+	 $("#inputBlackListApps :selected").each(function() {
+    		$(this).remove();
+	});
+});
+
+$( "#modalBlackListAppCreate" ).click(function() {
+	 $("#modalBlackListPackageName").val("");
+});
 

@@ -14,13 +14,15 @@ $("#btn-add").click(function() {
 	var firstname = $('#inputFirstName').val();
 	var lastname = $('#inputLastName').val();
 	var type = $('input[name="inputType"]:checked').val();
-	var username = $('#inputEmail').val();	
+	var username = $('#inputUsername').val();
+    var email = $('#inputEmail').val();	
 	
 	var existing_user = getURLParameter('user'); 	
 	
 	jso = {
 		"tenant_id" : tenantId,
 		"username" : username,
+        "email" : email,
 		"existing_username": existing_user,		
 		"first_name" : firstname,
 		"last_name" : lastname,
