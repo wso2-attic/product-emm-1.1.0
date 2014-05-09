@@ -161,10 +161,10 @@ var policies = {
     'select15': "SELECT policies.id as policyid, policies.content as data, policies.mam_content as mam_data, policies.type FROM policies, user_policy_mapping where policies.category = ? AND policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = ? AND policies.tenant_id = ? ORDER BY policies.id DESC",
     'select16': "SELECT policies.id as policyid, policies.content as data, policies.mam_content as mam_data, policies.type as type, policy_priority.type as policytype FROM policies JOIN device_policy ON device_policy.policy_id = policies.id JOIN policy_priority ON policy_priority.id = device_policy.policy_priority_id WHERE device_policy.device_id = ? AND device_policy.tenant_id = ? AND device_policy.status = 'A' ORDER BY datetime DESC",
 
-    'insert1' : "insert into policies (name,content,type,category, tenant_id, mam_content) values (?,?,?,?,?, '[]')",
+    'insert1' : "insert into policies (name,content,type,category, tenant_id, mam_content) values (?,?,?,?,?, ?)",
     'insert2' : "insert into policies (name,content,type,category, tenant_id, mam_content) values (?,'[]', 1, 1,?, '[]')",
 
-    'update1' : "UPDATE policies SET content= ?,type = ? WHERE name = ? AND tenant_id = ?",
+    'update1' : "UPDATE policies SET content= ?, type = ?, mam_content = ? WHERE name = ? AND tenant_id = ?",
 
     'delete1' : "DELETE FROM policies where id = ? AND tenant_id = ?"
 };
