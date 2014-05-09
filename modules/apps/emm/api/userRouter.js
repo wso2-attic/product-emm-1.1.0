@@ -92,7 +92,7 @@ var user = (function () {
 		router.post('users/', function(ctx){
             log.info("Users :"+stringify(ctx));
             var returnMsg = user.addUser(ctx);
-          /*  log.debug(returnMsg.status);
+            log.debug(returnMsg.status);
             if(returnMsg.status == 'ALLREADY_EXIST'){
                 response.status = 409;
                 response.content = "Already Exist";
@@ -111,7 +111,7 @@ var user = (function () {
                 response.content = "Session Expired";
             }else{
                 response.status = 400;
-            }*/
+            }
 		});
         router.delete('users/{+userid}', function(ctx){
             log.debug("Test User Delete");

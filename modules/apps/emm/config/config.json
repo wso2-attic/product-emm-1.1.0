@@ -27,8 +27,8 @@
         "smtp":"smtp.gmail.com",
         "port":"25",
         "companyName": "WSO2",
-        "senderAddress": "wso2mobile.emm@gmail.com",
-        "emailPassword": "shan12345",
+        "senderAddress": "gayan@wso2.com",
+        "emailPassword": "0718020933",
         "emailTemplate": "nYou have been registered to the WSO2Mobile MDM. Below is the link to enroll.nn"
     },
     "device": {
