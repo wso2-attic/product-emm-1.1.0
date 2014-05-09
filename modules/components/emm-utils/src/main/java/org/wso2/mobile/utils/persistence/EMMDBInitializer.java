@@ -27,8 +27,8 @@ import java.sql.*;
 import java.util.StringTokenizer;
 
 /**
- * This class handles emm database creation in the first start-up. It checks for the
- * SQL scripts for creating the tables inside $CARBON_HOME/dbscripts/emm directory.
+ * This class executes the sql script in dbscripts/emm folder to initialize the database 
+ * tables during startup.
  */
 public class EMMDBInitializer {
 
