@@ -12,12 +12,17 @@ var store = (function() {
     
     var userModule = require('user.js').user;
     var user = new userModule();
+
+    var deviceModule = require('device.js').device;
+    var device;
+
     var configsFile = require('/config/emm.js').config();
     var GET_APP_FEATURE_CODE = '502A';
     var driver;
     var module = function(dbs) {
         db = dbs;
         driver = require('driver').driver(db);
+        device = new deviceModule(db);
     };
     var server = function() {
         return application.get("SERVER");
@@ -489,6 +494,8 @@ var store = (function() {
         uninstallApp: function(payload) {
         },
         installApp: function(payload) {
+            payload = {devices: payload, operation: "INSTALLAPP"}
+            device.sendToDevices(payload);
         },
         getAllAppFromDevice: function(ctx) {
             var deviceId = ctx.deviceId;

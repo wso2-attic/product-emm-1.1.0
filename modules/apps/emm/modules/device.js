@@ -802,10 +802,10 @@ var device = (function () {
             }
         },
         sendToDevices:function(ctx){
-            log.debug(ctx.devices[0]);
+            log.debug(ctx);
             var devices =  ctx.devices;
             for(var i=0;i<devices.length;i++){
-                this.sendToDevice({'deviceid':devices[i],'operation':ctx.operation,'data':ctx.params.data});
+                this.sendToDevice({'deviceid':devices[i].deviceid,'operation':ctx.operation,'data':devices[i]});
             }
         },
         getFeaturesFromDevice: function(ctx){
