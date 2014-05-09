@@ -931,6 +931,7 @@ var device = (function () {
             var message = {};
             message.sender_id = androidConfig.sender_id;
             message.notifier = configFile.NOTIFIER;
+            message.notifierInterval = configFile.NOTIFIER_INTERVAL;
             return message;
         },
         isRegistered: function(ctx){
