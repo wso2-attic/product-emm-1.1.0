@@ -1,0 +1,6 @@
+<module name="driver" xmlns="http://wso2.org/projects/jaggery/module.xml">
+   <script>
+       <name>[driver]/driver.js</name>
+       <path>scripts/driver.js</path>
+   </script>
+</module>

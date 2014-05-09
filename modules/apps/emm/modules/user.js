@@ -9,6 +9,7 @@ var user = (function () {
 
 	var log = new Log();
 	var db;
+    var driver;
 	var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
 	var carbon = require('carbon');
@@ -22,7 +23,7 @@ var user = (function () {
 	
     var module = function (dbs) {
 		db = dbs;
-        //mergeRecursive(configs, conf);
+        driver = require('driver').driver(db);
     };
 
     /**
@@ -271,7 +272,7 @@ var user = (function () {
             return users_list;
         },
         deleteUser: function(ctx){
-            var result = db.query(sqlscripts.devices.select36, ctx.userid);
+            var result = driver.query(sqlscripts.devices.select36, ctx.userid);
             log.debug("Result :"+result);
             if(result != undefined && result != null && result != '' && result[0].length != undefined && result[0].length != null && result[0].length > 0){
                 return 404;
@@ -379,7 +380,7 @@ var user = (function () {
             try {
                 var tenantId = common.getTenantID();
                 if(tenantId){
-                    var devices = db.query(sqlscripts.devices.select46, ctx.userid, tenantId);
+                    var devices = driver.query(sqlscripts.devices.select46, ctx.userid, tenantId);
                     if (devices != null && devices != undefined && devices[0] != null && devices[0] != undefined) {
                         if (devices[0].count > 0) {
                             return true;
@@ -417,10 +418,10 @@ var user = (function () {
 				return null;
 			}
 			var user =  this.getUser({'userid': ctx.username, login:true});
-//            var result = db.query(sqlscripts.tenantplatformfeatures.select1,  stringify(user.tenantId));
+//            var result = driver.query(sqlscripts.tenantplatformfeatures.select1,  stringify(user.tenantId));
 //            if(result[0].record_count == 0) {
 //				for(var i = 1; i < 13; i++) {
-//                    var result = db.query(sqlscripts.tenantplatformfeatures.select2, stringify(user.tenantId), i);
+//                    var result = driver.query(sqlscripts.tenantplatformfeatures.select2, stringify(user.tenantId), i);
 //				}
 //			}
 		    return user;
@@ -457,7 +458,7 @@ var user = (function () {
             log.debug(common.getTenantID());
             log.debug("end");
 
-            var devices = db.query(sqlscripts.devices.select26, String(obj.userid), common.getTenantID());
+            var devices = driver.query(sqlscripts.devices.select26, String(obj.userid), common.getTenantID());
 
             return devices;
 		},

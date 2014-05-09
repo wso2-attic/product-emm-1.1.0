@@ -8,7 +8,7 @@ var user_group = (function () {
     var group = '';
     var common = require('common.js');
     var carbon = require('carbon');
-
+    var driver;
     var server = function(){
         return application.get("SERVER");
     }
@@ -40,7 +40,7 @@ var user_group = (function () {
         db = dbs;
         user = new userModule(db);
         group = new groupModule(db);
-
+        driver = require('driver').driver(db);
     };
 
     function mergeRecursive(obj1, obj2) {

@@ -1,15 +1,15 @@
-
 var device = (function () {
     var sqlscripts = require('/sqlscripts/mysql.js');
     var userModule = require('user.js').user;
     var common = require("/modules/common.js");
     var user;
+    var driver;
     var module = function (db,router) {
 		var deviceModule = require('modules/device.js').device;
 		var device = new deviceModule(db);
 		user = new userModule(db);
         var Handle = require("/modules/handlebars.js").Handlebars;
-
+        driver = require('driver');
         var validateDevice = function() {
 
             //Allow Android version 4.0.3 and above
