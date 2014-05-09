@@ -126,9 +126,9 @@ var store = (function() {
     ctx - url, platform, ctx.id, ctx.packageid
   */
     var buildInstallParam = function(ctx) {
-        var installParam = configsFile.archieve_location + ctx.url;
+        var installParam = configsFile.mam.archieve_location + ctx.url;
         if (ctx.platform.toUpperCase() == 'IOS') {
-            installParam = configsFile.archieve_location + "/mam/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
+            installParam = configsFile.mam.archieve_location + "/mam/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
         }
         if (ctx.type == "Market" || ctx.type == "VPP") {
             if (ctx.platform.toUpperCase() == 'IOS') {
@@ -231,7 +231,7 @@ var store = (function() {
             var fApps = [];
             var page = 1;
             do {
-                var url = configsFile.store_location + "/apis/assets/mobileapp" + "?domain=" + getTenantDomainFromID(getTenantID()) + "&page=" + page;
+                var url = configsFile.mam.store_location + "/apis/assets/mobileapp" + "?domain=" + getTenantDomainFromID(getTenantID()) + "&page=" + page;
                 log.info(url);
                 var data = get(url, {});
                 data = parse(data.data);
@@ -273,7 +273,7 @@ var store = (function() {
             if (!tenantDomain) {
                 tenantDomain = getTenantDomainFromID(getTenantID());
             }
-            var url = configsFile.store_location + "/apis/asset/mobileapp?id=" + id + "&domain=" + tenantDomain;
+            var url = configsFile.mam.store_location + "/apis/asset/mobileapp?id=" + id + "&domain=" + tenantDomain;
             var data = get(url, {});
             data = parse(data.data);
             return data;
