@@ -43,6 +43,11 @@
             <artifactId>org.wso2.emm.admin.styles</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.plist</groupId>
+            <artifactId>dd-plist</artifactId>
+            <version>1.8</version> <!-- corresponds to r108 -->
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -70,9 +75,10 @@
 							<bundles>
 								<bundleDef>slf4j.wso2:slf4j:1.5.10.wso2v1</bundleDef>
 								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:${project.version}</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.gcm:${project.version}</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.task:${project.version}</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.utils:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.gcm:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.task:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.utils:${project.version}</bundleDef>
+                                <bundleDef>com.googlecode.plist:dd-plist:1.8</bundleDef>
 							</bundles>
 							<importBundles>
 							</importBundles>
