@@ -49,7 +49,7 @@ public class EMMDBInitializer {
                 statement = conn.createStatement();
                 executeSQLScript();
                 conn.commit();
-                log.info("EMM tables are created successfully.");
+                log.info("EMM DB tables created successfully.");
             } catch (SQLException e) {
                 String msg = "Failed to create database tables for EMM. "
                         + e.getMessage();

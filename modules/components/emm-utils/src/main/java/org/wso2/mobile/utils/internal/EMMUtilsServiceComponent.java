@@ -34,7 +34,7 @@ public class EMMUtilsServiceComponent {
 
     public static final String DSETUP_PATTERN = ".*-Dsetup.*";
     public static final String SUN_JAVA_CMD = "sun.java.command";
-    public static final String EMM_DB_NAME = "EMM_DB";
+    public static final String EMM_DB_NAME = "WSO2_EMM_DB";
 
     private static final Log log = LogFactory.getLog(EMMUtilsServiceComponent.class);
 
@@ -42,9 +42,9 @@ public class EMMUtilsServiceComponent {
         try {
             String cmd = SystemProperties.getProperty(SUN_JAVA_CMD);
             if(isDatabaseSetupActivated(cmd)){
+            	log.info("Creating EMM DB setup ...");
                 JDBCPersistenceManager jdbcPersistenceManager = JDBCPersistenceManager.getInstance();
-                jdbcPersistenceManager.initializeDatabase();
-                log.info("Creating DB setup ...");
+                jdbcPersistenceManager.initializeDatabase();                
             }
         } catch (Throwable e) {
             log.error(e.getMessage(), e);
