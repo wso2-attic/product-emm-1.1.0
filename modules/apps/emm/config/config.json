@@ -1,5 +1,5 @@
 {
-    "NOTIFIER" : "LOCAL",   //LOCAL or GCM
+    "NOTIFIER" : "LOCAL",   
     "NOTIFIER_INTERVAL" : 5,
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
