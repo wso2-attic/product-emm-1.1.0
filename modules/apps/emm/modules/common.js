@@ -396,12 +396,15 @@ var getDatabase = function(){
   	}
     if(!db){
         try{
-            db = new Database("WSO2_EMM_DB");
+            db = new Database("EMM_DB");
             application.put(DB_SESSION,db);
         }catch(e){
             // log.error(e);
         }
     }
+    
+   
+    
     return db;
 }
 

@@ -11,6 +11,7 @@ var dashboard = (function() {
     var module = function(dbs) {
         db = dbs;
         driver = require('driver').driver(db);
+        log.info("Hiiiiiiiiiiiii>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" + db);
     };
     // prototype
     module.prototype = {
