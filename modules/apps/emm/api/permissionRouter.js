@@ -13,7 +13,7 @@ var permission = (function () {
             response.status = result.status;*/
         });
 
-        router.get('permission/groups/{group}/features', function(ctx){
+        router.get('permission/groups/features', function(ctx){
             log.debug("check policy router GET");
             log.debug(ctx);
             var result = permission.getPermission(ctx);

@@ -11,7 +11,7 @@ var permission = (function () {
     var common = require("common.js");
     var module = function (dbs) {
         db = dbs;
-        driver = require('/modules/driver.js').driver(db);
+        driver = require('driver').driver(db);
         //mergeRecursive(configs, conf);
     };
 
@@ -60,7 +60,8 @@ var permission = (function () {
 
         },
         getPermission:function(ctx){
-            log.info("getPermission");
+            log.info("getPermission :"+ctx.group);
+            log.info(db);
             var responseMsg = {};
             var featureArray = [];
             var featureObjOperations = {};
