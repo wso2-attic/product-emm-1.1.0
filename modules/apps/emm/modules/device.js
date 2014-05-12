@@ -959,9 +959,10 @@ var device = (function () {
 
             if(ctx.regid!=null){
                 var result = driver.query(sqlscripts.devices.select19, ctx.regid);
-
+                /*
+                    Check if device is registered
+                */
                 if(result[0]==null){
-
                     var roleList = user.getUserRoles({'username':userId});
                     var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "reviewer","private_kasun:wso2mobile.com");
                     var roles = common.removeNecessaryElements(roleList,removeRoles);
