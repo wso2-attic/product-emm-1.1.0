@@ -55,6 +55,11 @@
                 'Internal/everyone'
             ]
         },
+        "/emm/api/users/changepassword": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
         "/emm/api/groups/": {
             'GET': [
                 'Internal/everyone'
