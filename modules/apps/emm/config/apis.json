@@ -19,7 +19,7 @@
 		"userGroups": "users/{0}/groups",
 		"permissionsCRUD": "permissions",
 		"policiesCRUD": "policies/{0}",
-		"permissionFeatures": "permission/groups/{0}/features",
+		"permissionFeatures": "permission/groups/features?group={0}",
 		"getMAMApps": "mam/policy/installapps",
 		"usersInvite": "users/invite",
 		"groupsInvite": "groups/invite",
