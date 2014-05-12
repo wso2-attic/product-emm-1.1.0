@@ -38,17 +38,14 @@ var permission = (function () {
         constructor: module,
 
         assignPermissionToGroup: function(ctx){
-          log.info("assignPermissionToGroup");
           var responseMsg = {};
           var group = ctx.selectedGroup;
           var featureList = ctx.featureList;
           var resultCount1 = db.query("UPDATE permissions SET content = ? where role = ? AND tenant_id = ?",stringify(featureList),group,common.getTenantID());
-          log.info("resultCount1 :"+resultCount1);
           var resultCount2 = 0;
           if(!resultCount1>0){
               resultCount2 = driver.query("INSERT INTO permissions (role,content,tenant_id) values (?,?,?)",group,featureList,common.getTenantID());
           }
-          log.info("resultCount2 :"+resultCount2);
           if(resultCount1 > 0 || resultCount2 > 0){
             responseMsg.status = 201;
             return responseMsg.status;
@@ -60,8 +57,6 @@ var permission = (function () {
 
         },
         getPermission:function(ctx){
-            log.info("getPermission :"+ctx.group);
-            log.info(db);
             var responseMsg = {};
             var featureArray = [];
             var featureObjOperations = {};
@@ -70,7 +65,6 @@ var permission = (function () {
             featureObjOperations.isFolder = "true";
             featureObjOperations.key = 1;
             var roleFeatures = parse((driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",ctx.group,common.getTenantID()))[0].content);
-            log.info("roleFeatures :"+stringify(roleFeatures));
             var operationFeatures = driver.query("SELECT * FROM features WHERE PERMISSION_TYPE = 1");
 
             var children1 = [];
@@ -98,7 +92,7 @@ var permission = (function () {
             featureObjMessaging.key = 3;
             var msgFeatures = driver.query("SELECT * FROM features WHERE PERMISSION_TYPE = 2");
             var children2 = [];
-            for(var i=0;1<msgFeatures.length;i++){
+            for(var i=0;i<msgFeatures.length;i++){
                 var child = {};
                 child.value = msgFeatures[i].name;
                 child.title = msgFeatures[i].description;
