@@ -81,7 +81,7 @@ var user = (function () {
 	    ];
 	    arrPermission[space] = permission;
         arrPermission["/permission/admin/login"] = ["ui.execute"];
-        if(roleState=="emmadmin"){
+        if(roleState.toUpperCase()=="EMMADMIN"){
             arrPermission["/permission/admin/manage"] = ["ui.execute"];
         }
 		if(!um.roleExists("Internal/private_"+indexUser)){
@@ -92,8 +92,8 @@ var user = (function () {
 	}			
 	var getUserType = function(user_roles){
         for (var i = user_roles.length - 1; i >= 0; i--) {
-            var role = user_roles[i];
-            if(role=='admin'|| role=='Internal/emmadmin'|| role=='Internal/mamadmin'){
+            var role = user_roles[i].toUpperCase();
+            if(role=='ADMIN'|| role=='INTERNAL/EMMADMIN'|| role=='INTERNAL/MAMADMIN'){
                 return "Administrator";
             }else{
                 return "User";
@@ -150,9 +150,9 @@ var user = (function () {
                         proxy_user.status = "ALLREADY_EXIST";
                     } else {
 						var generated_password =  generatePassword();
-                        if(ctx.type == 'user'){
+                        if(ctx.type.toUpperCase() == 'USER'){
                             um.addUser(ctx.username, generated_password,ctx.groups, claimMap, null);
-                        }else if(ctx.type == 'administrator'){
+                        }else if(ctx.type.toUpperCase() == 'ADMINISTRATOR'){
                             roleState = "emmadmin";
                             um.addUser(ctx.username, generated_password,new Array('Internal/emmadmin'), claimMap, null);
                         }
@@ -340,11 +340,12 @@ var user = (function () {
                 var roles = this.getUserRoles({'username':users[i].username});
                 var flag = 0;
                 for(var j=0 ;j<roles.length;j++){
-                    log.debug("Test iteration2"+roles[j]);
-                    if(roles[j]=='admin'||roles[j]=='Internal/emmadmin'){
+                    var role = roles[j].toUpperCase();
+                    log.debug("Test iteration2"+role);
+                    if((role=='ADMIN')||(role=='INTERNAL/EMMADMIN')){
                         flag = 1;
                         break;
-                    }else if(roles[j]==' Internal/publisher'||roles[j]=='Internal/reviewer'||roles[j]=='Internal/store'|| roles[j]=='Internal/mamadmin'){
+                    }else if((role=='INTERNAL/PUBLISHER')||(role=='INTERNAL/REVIEWER')||(role=='INTERNAL/STORE')|| (role=='INTERNAL/MAMADMIN')){
                         flag = 2;
                         break;
                     }else{
@@ -502,7 +503,7 @@ var user = (function () {
         getLicenseByDomain: function() {
             var message = "";
             var domain;
-            if (arguments[0].trim() == "") {
+            if (!(arguments[0]) || (arguments[0].trim() == "")) {
                 domain = "carbon.super";
             } else {
                 domain = arguments[0];
