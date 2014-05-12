@@ -1,46 +1,146 @@
 <div class="container">
-    
+
     <div class="raw-fluid">
-		<div class="span12">{{>config-navigation}}</div>
-	</div>
+        <div class="span12">{{>config-navigation}}</div>
+    </div>
 
-	<div class="raw-fluid">
-		<div class="span12">
+    <div class="raw-fluid">
+        <div class="span12">
 
-			<div class="raw-fluid">
-				<div class="block">
-					<div class="block-header">
-						<div class="block-header-title pull-left">
-							Tenant Configurations
-						</div>
+            <div class="raw-fluid">
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-header-title pull-left">
+                            Tenant Configurations
+                        </div>
 
-					</div>
+                    </div>
 
-					<div class="block-body">
-						<form class="form-horizontal" data-validate="parsley">
-                            
+                    <div class="block-body">
+                        <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="post">
+
                             <div class="control-group">
-								<label class="control-label" for="inputFirstName">Theme</label>
-								<div class="controls">
-									<input type="text" id="inputUsername" class="input-xlarge" data-required="true">
-								</div>
-							</div>
+                                <label class="control-label" for="inputTheme">Theme</label>
+                                <div class="controls">
+                                    <input type="text" id="uiTheme" name="uiTheme" class="input-xlarge" data-required="true">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inputCopyright">Title</label>
+                                <div class="controls">
+                                    <input type="text" id="uiTitle" name="uiTitle" class="input-xxlarge" data-required="true">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inputCopyright">Copyright Footer Text</label>
+                                <div class="controls">
+                                    <input type="text" id="uiCopyright" name="uiCopyright" class="input-xxlarge" data-required="true">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inputLicence">Licence Agreement</label>
+                                <div class="controls">
+                                    <textarea id="uiLicence" name="uiLicence" rows="10" class="input-xxlarge"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                <label class="control-label" for="inputOSConf">OS Configurations</label>
+                                <div class="controls">
+
+
+                                    <ul class="nav nav-tabs" id="oSTab">
+                                        <li>
+                                            <a href="#android"><i class="icon-android"></i> Android</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#ios"><i class="icon-apple"></i> iOS</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content" >
+
+                                        <div class="tab-pane active" id="android">
+
+
+                                            <div class="control-group">
+                                                <label class="control-label">API keys</label>
+                                                <div class="controls">
+                                                    <textarea id="androidApiKeys" name="androidApiKeys" rows="4" class="input-xxlarge" ></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label">Sender IDs</label>
+                                                <div class="controls">
+                                                    <textarea id="androidSenderIds" name="androidSenderIds" rows="4" class="input-xxlarge" ></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>   
+
+                                        <div class="tab-pane" id="ios">
+
+
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS APNS Certificate</label>
+                                                <div class="controls">
+                                                    <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS APNS Certificate Password</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >Mode</label>
+                                                <div class="controls">
+                                                    <select id="iosMode" name="iosMode">
+											             <option value="production">Production</option>
+											             <option value="developer">Developer</option>
+										          </select>
+                                                </div>
+                                            </div>
+
+                                        </div>   
+                                    </div>
+
+
+                                </div>
+                            </div>
                             
-						</form>
-					</div>
-				</div>
-			</div>
+                            
+                            <hr>
+							<div class="offset1-5" >
+								<input type="submit" class="btn btn-orange" id="btn-add" href="#" value="Save">
+							</div>
 
-		</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-	</div>
+        </div>
+
+    </div>
 
 </div>
 
 
 <style>
-	.info-container{
-		display: none
-	}
-	
+    .info-container{
+        display: none
+    }
+
 </style>
