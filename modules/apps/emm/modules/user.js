@@ -432,8 +432,8 @@ var user = (function () {
             var sender = new email.Sender(config.email.smtp, config.email.port, config.email.senderAddress, config.email.emailPassword, "tls");
             sender.from = config.email.senderAddress;
 
-            log.info("Email sent to -> "+ctx.username);
-            sender.to = stringify(ctx.username);
+            log.info("Email sent to -> "+ctx.email);
+            sender.to = stringify(ctx.email);
             sender.subject = subject;
             sender.text = content;
             try{

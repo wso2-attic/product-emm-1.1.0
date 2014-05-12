@@ -255,3 +255,8 @@ var device_policy = {
     "update3" : ""
 
 }
+
+var platform = {
+    'select1' : "SELECT * FROM platforms"
+};
+

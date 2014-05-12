@@ -4,7 +4,7 @@ configuration = function(appController) {
 	context.page = "configuration";
 	context.jsFile = "tenant/configuration.js";
 	context.data = {
-		
+		configOption : "tenant",
 	};
 	return context;
 };

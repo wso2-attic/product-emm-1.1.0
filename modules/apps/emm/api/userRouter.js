@@ -79,8 +79,8 @@ var user = (function () {
 			log.debug('email sending to user');
 			var u = user.getUser(ctx)[0];
 			if(u!=null){
-				user.sendEmail(u.username, u.first_name);
-				log.debug('Email sent to user with id '+u.username);
+				user.sendEmail(u.email, u.first_name);
+				log.debug('Email sent to user with id '+u.email);
 				return;
 			}
 			response.status = 404;
@@ -172,8 +172,8 @@ var user = (function () {
             log.debug('email sending to user');
 			var u = user.getUser(ctx);
 			if(u!=null){
-				user.sendEmail({'username':String(u.username), 'firstName': String(u.firstName)});
-				log.debug('Email sent to user with id '+u.username);
+				user.sendEmail({'email':String(u.email), 'firstName': String(u.firstName)});
+				log.debug('Email sent to user with id '+u.email);
 				return;
 			}
 			response.status = 404;

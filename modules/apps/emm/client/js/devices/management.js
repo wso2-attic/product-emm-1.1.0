@@ -87,7 +87,27 @@ jQuery.ajax({
 });
 
 
+$( document ).ready(function() {
+            
+        jQuery.ajax({
+		url : getServiceURLs("platformCRUD", ""),
+		type : "GET",
+		contentType : "application/json",
+		dataType : "json",
+		success: function(platforms){
+            var html = '<option value="">--All--</option>';
+	       	$.each( platforms, function( key, platform ) {
+                //alert(JSON.stringify(platform));
+                html += "<option value='"+ platform.id +"'>" + platform.name + "</option>";
+            });
+            
+            $("#inputOS").html(html);
+	    }		
+	});  
+            
+            
 
+});
 
 
 

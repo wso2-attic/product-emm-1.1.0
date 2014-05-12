@@ -167,7 +167,7 @@ var user_group = (function () {
         sendEmailToGroup: function(ctx){
             var users = group.getUsersOfGroup(ctx);
             for(var i=0;i<users.length;i++){
-                user.sendEmail({'username':users[i].email});
+                user.sendEmail({'email':users[i].email});
             }
         }
     };

@@ -18,7 +18,7 @@ var group = (function () {
         router.put('groups/invite', function(ctx){
             var users= group.getUsersOfGroup(ctx);
 			for (var i = users.length - 1; i >= 0; i--){
-				user.sendEmail(user.getUser({userid: users[i].username+"@"+ user.getTenantDomainFromID(common.getTenantID())}));
+				user.sendEmail(user.getUser({email: users[i].email+"@"+ user.getTenantDomainFromID(common.getTenantID())}));
 			};
             response.status = 200;
         });
