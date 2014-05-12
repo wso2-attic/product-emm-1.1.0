@@ -823,12 +823,13 @@ var device = (function () {
                 role = role.substring(9);
             }
             var tenantID = common.getTenantID();
-            var featureList = driver.query(sqlscripts.devices.select12, stringify(deviceId));
+            log.info(deviceId);
+            var featureList = driver.query(sqlscripts.devices.select12, deviceId);
             var obj = new Array();
             for(var i=0; i<featureList.length; i++){
                 var featureArr = {};
 
-                var ftype = driver.query(sqlscripts.featuretype.select1, stringify(featureList[i].id));
+                var ftype = driver.query(sqlscripts.featuretype.select1, featureList[i].id);
 
                 featureArr["name"] = featureList[i].name;
                 featureArr["feature_code"] = featureList[i].code;
@@ -958,9 +959,10 @@ var device = (function () {
 
             if(ctx.regid!=null){
                 var result = driver.query(sqlscripts.devices.select19, ctx.regid);
-
+                /*
+                    Check if device is registered
+                */
                 if(result[0]==null){
-
                     var roleList = user.getUserRoles({'username':userId});
                     var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "reviewer","private_kasun:wso2mobile.com");
                     var roles = common.removeNecessaryElements(roleList,removeRoles);

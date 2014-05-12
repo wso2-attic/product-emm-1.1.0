@@ -343,14 +343,14 @@
 								</featureArtifactDef>
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.databridge.commons.server.feature:4.2.1
-								</featureArtifactDef>
+								</featureArtifactDef>-->
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.databridge.cassandra.feature:${carbon.platform.version}
 								</featureArtifactDef>
-								<featureArtifactDef>
+								<!-- <featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.databridge.streamdefn.cassandra.feature:${carbon.platform.version}
-								</featureArtifactDef> -->
-
+								</featureArtifactDef> 
+								-->
 								<!-- Stratos features    -->
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.stratos.common.feature:2.2.1

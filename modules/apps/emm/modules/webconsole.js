@@ -122,7 +122,10 @@ var webconsole = (function () {
                 var userObj = user.getUser({"userid": all_users[i]});
                 var proxyObj = [userObj.username, userObj.email, userObj.firstName, userObj.lastName];
                 var roles = userObj.roles;
-                roles = parse(roles);
+                if(typeof roles == "undefined"){
+                    log.info("test");
+                    break main;
+                }
                 var flag = 0;
                 for(var j=0 ;j<roles.length;j++){
 

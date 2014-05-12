@@ -3,6 +3,8 @@ var USER_MANAGER = 'user.manager';
 var USER_OPTIONS = 'server.user.options';
 //Need to change this
 var USER_SPACE = '/_system/governance/';
+var EMM_USER_SESSION = "emmConsoleUser";
+
 var user = (function () {
     var config = require('/config/emm.js').config();
     var routes = new Array();
@@ -13,10 +15,10 @@ var user = (function () {
 	var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
 	var carbon = require('carbon');
+    var current_user = session.get(EMM_USER_SESSION);
 	var server = function(){
 		return application.get("SERVER");
 	}
-	
 	var claimEmail = "http://wso2.org/claims/emailaddress";
 	var claimFirstName = "http://wso2.org/claims/givenname";
 	var claimLastName = "http://wso2.org/claims/lastname";
@@ -78,7 +80,7 @@ var user = (function () {
 	    ];
 	    arrPermission[space] = permission;
         arrPermission["/permission/admin/login"] = ["ui.execute"];
-        if(roleState=="emmadmin"){
+        if(roleState.toUpperCase()=="EMMADMIN"){
             arrPermission["/permission/admin/manage"] = ["ui.execute"];
         }
 		if(!um.roleExists("Internal/private_"+indexUser)){
@@ -89,8 +91,8 @@ var user = (function () {
 	}			
 	var getUserType = function(user_roles){
         for (var i = user_roles.length - 1; i >= 0; i--) {
-            var role = user_roles[i];
-            if(role=='admin'|| role=='Internal/emmadmin'|| role=='Internal/mamadmin'){
+            var role = user_roles[i].toUpperCase();
+            if(role=='ADMIN'|| role=='INTERNAL/EMMADMIN'|| role=='INTERNAL/MAMADMIN'){
                 return "Administrator";
             }else{
                 return "User";
@@ -147,9 +149,9 @@ var user = (function () {
                         proxy_user.status = "ALLREADY_EXIST";
                     } else {
 						var generated_password =  generatePassword();
-                        if(ctx.type == 'user'){
+                        if(ctx.type.toUpperCase() == 'USER'){
                             um.addUser(ctx.username, generated_password,ctx.groups, claimMap, null);
-                        }else if(ctx.type == 'administrator'){
+                        }else if(ctx.type.toUpperCase() == 'ADMINISTRATOR'){
                             roleState = "emmadmin";
                             um.addUser(ctx.username, generated_password,new Array('Internal/emmadmin'), claimMap, null);
                         }
@@ -173,7 +175,13 @@ var user = (function () {
         getUser: function(ctx){
             try {
                 var proxy_user = {};
-                var tenantUser = carbon.server.tenantUser(ctx.userid);
+                var username = ctx.userid;
+
+                if(username.indexOf("@")<1){
+                    username = username+"@carbon.super";
+                }
+                var tenantUser = carbon.server.tenantUser(username);
+
                 if(ctx.login){
                     var um = userManager(tenantUser.tenantId);
                 }else{
@@ -190,7 +198,6 @@ var user = (function () {
                 proxy_user.username = tenantUser.username;
                 proxy_user.tenantId = tenantUser.tenantId;
                 proxy_user.roles = stringify(user_roles);
-            //  proxy_user.roles = String(user_roles);
                 proxy_user.user_type = getUserType(user_roles);
                 if(proxy_user.roles.indexOf('admin') >= 0){
                     if(proxy_user.firstName ==null){
@@ -200,6 +207,7 @@ var user = (function () {
                 }
                 return proxy_user;
             } catch(e) {
+                log.error(e);
                 var error = 'Error occurred while retrieving user.';
                 return error;
             }
@@ -219,7 +227,7 @@ var user = (function () {
                     var claimResult = user.getClaimsForSet(claims,null);
                     var proxy_user = {};
                     proxy_user.username = users[i];
-                    proxy_user.email = proxy_user.username;
+                    proxy_user.email = claimResult.get(claimEmail);
                     proxy_user.firstName = claimResult.get(claimFirstName);
                     proxy_user.lastName = claimResult.get(claimLastName);
                     proxy_user.mobile = claimResult.get(claimMobile);
@@ -246,6 +254,7 @@ var user = (function () {
                 var removeUsers = new Array("wso2.anonymous.user","admin","admin@admin.com");
                 var users = common.removeNecessaryElements(allUsers,removeUsers);
                 users_list = users;
+                log.info("User_List :"+users_list);
             }else{
                 print('Error in getting the tenantId from session');
             }
@@ -286,7 +295,12 @@ var user = (function () {
         /*Get list of roles belongs to particular user*/
         getUserRoles: function(ctx){
             log.debug("User Name >>>>>>>>>"+ctx.username);
-            var tenantUser = carbon.server.tenantUser(ctx.username);
+            var username = ctx.username;
+
+            if(username.indexOf("@")<1){
+                username = username+"@carbon.super";
+            }
+            var tenantUser = carbon.server.tenantUser(username);
             var um = userManager(common.getTenantID());
             var roles = um.getRoleListOfUser(tenantUser.username);
             var roleList = common.removePrivateRole(roles);
@@ -337,11 +351,12 @@ var user = (function () {
                 var roles = this.getUserRoles({'username':users[i].username});
                 var flag = 0;
                 for(var j=0 ;j<roles.length;j++){
-                    log.debug("Test iteration2"+roles[j]);
-                    if(roles[j]=='admin'||roles[j]=='Internal/emmadmin'){
+                    var role = roles[j].toUpperCase();
+                    log.debug("Test iteration2"+role);
+                    if((role=='ADMIN')||(role=='INTERNAL/EMMADMIN')){
                         flag = 1;
                         break;
-                    }else if(roles[j]==' Internal/publisher'||roles[j]=='Internal/reviewer'||roles[j]=='Internal/store'|| roles[j]=='Internal/mamadmin'){
+                    }else if((role=='INTERNAL/PUBLISHER')||(role=='INTERNAL/REVIEWER')||(role=='INTERNAL/STORE')|| (role=='INTERNAL/MAMADMIN')){
                         flag = 2;
                         break;
                     }else{
@@ -499,7 +514,7 @@ var user = (function () {
         getLicenseByDomain: function() {
             var message = "";
             var domain;
-            if (arguments[0].trim() == "") {
+            if (!(arguments[0]) || (arguments[0].trim() == "")) {
                 domain = "carbon.super";
             } else {
                 domain = arguments[0];
@@ -547,13 +562,24 @@ var user = (function () {
             } catch(e) {
                 var tenantConfig = require('/config/tenants/default/config.json');
             }
-
             data.userid = ctx.user_id;
             data.domain = tenantConfig.touchdown.domain;
             data.email = ctx.user_id;
             data.server = tenantConfig.touchdown.server;
 
             return data;
+        }, 
+        changePassword: function(ctx){
+            var new_password = ctx.new_password;
+            var old_password = ctx.old_password;
+            if(current_user){
+                var um = userManager(common.getTenantID());
+                um.changePassword(current_user.username, new_password, old_password);
+                response.status=200;
+            }else{
+                print("User not found");
+                response.status=401;
+            }
         }
     };
     return module;

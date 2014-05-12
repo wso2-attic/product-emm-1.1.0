@@ -31,7 +31,6 @@ var notification = (function () {
 		        response.status = 404;
 		    }
 		});
-
         /*
          Device contacts this api to get and update the pending operations
          */

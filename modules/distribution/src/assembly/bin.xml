@@ -111,13 +111,29 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/</outputDirectory>
             <includes>
                 <include>*/**</include>
-
             </includes>
             <excludes>
                 <exclude>**/social/</exclude>
+                <exclude>**/fakepublisher/</exclude>
+                <exclude>**/fakestore/</exclude>
             </excludes>
-            
         </fileSet>
+
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakepublisher</directory>
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher</outputDirectory>
+            <includes>
+                <include>*/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/deployment/server/jaggeryapps/fakestore</directory>
+            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore</outputDirectory>
+            <includes>
+                <include>*/**</include>
+            </includes>
+        </fileSet>
+
 <!--         <fileSet>
             <directory>src/repository/resources/jaggery/modules/</directory>
             <outputDirectory>wso2emm-${pom.version}/modules</outputDirectory>
@@ -309,20 +325,8 @@
                 <include>*/**</include>
             </includes>
         </fileSet>
-        <fileSet>
-            <directory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/fakepublisher</directory>
-            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher</outputDirectory>
-            <includes>
-                <include>*/**</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/fakestore</directory>
-            <outputDirectory>wso2emm-${pom.version}/repository/deployment/server/jaggeryapps/productapistore</outputDirectory>
-            <includes>
-                <include>*/**</include>
-            </includes>
-        </fileSet>
+
+
     </fileSets>
     <dependencySets>
         <dependencySet>

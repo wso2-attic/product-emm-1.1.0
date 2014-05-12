@@ -22,7 +22,7 @@
            <p>You are now redirected to Stratos Identity. If the
            redirection fails, please click the post button.</p>
 
-            <form id="logoutForm" method="post" action="<%=postUrl%>/admin/samlsso">
+            <form id="logoutForm" method="post" action="<%=postUrl%>/samlsso">
             <p>
                 <input type="hidden" name="SAMLRequest"
                       value="<%= encodedSAMLLogoutRequest %>"/>
