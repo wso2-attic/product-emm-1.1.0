@@ -334,6 +334,10 @@ $("#modalChangePasswordButton").click(function() {
         //usersChangePassword
         $("#modalChangePassword").modal('hide');
          var n = noty({	});
+        
+        $("#modalChangePasswordTxtOldPassword").val("");
+        $("#modalChangePasswordTxtPassword").val("");
+        $("#modalChangePasswordTxtPasswordConf").val("");
 
         jQuery.ajax({
             url : getServiceURLs("usersChangePassword", ""),
