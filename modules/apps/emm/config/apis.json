@@ -27,7 +27,8 @@
 		"performDevicesOperation": "devices/operations/{0}",
 		"policiesEnforce": "policies/{0}/enforce",
 		"hasDevicesEnrolled" : "users/devices/enrolled/{0}",
-        "platformCRUD" : "platforms"
+        "platformCRUD" : "platforms",
+        "usersChangePassword" : "users/changepassword"
     }
 
 }

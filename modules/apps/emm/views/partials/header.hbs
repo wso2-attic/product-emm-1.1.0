@@ -1,28 +1,60 @@
 <header>
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-	<a class="brand" href="#" style="padding:0px; padding-left:20px"><img src="{{resourcePath}}mobile-emm.png" style="height:40px"></a> 
-		 <!--  <a class="brand" href="#">{{appInfo.headerTitle}}</a>  -->
-		  {{#compare userLogin 'true'}}
-			{{>top-navigation}}
-		  {{/compare}}	
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <a class="brand" href="#" style="padding:0px; padding-left:20px"><img src="{{resourcePath}}mobile-emm.png" style="height:40px"></a> 
+            <!--  <a class="brand" href="#">{{appInfo.headerTitle}}</a>  -->
+            {{#compare userLogin 'true'}}
+            {{>top-navigation}}
+            {{/compare}}	
 
-			
-			{{#compare userLogin 'true'}}
-			<ul class="nav pull-right">					
-				<li class="dropdown">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-user icon-white"> </i> Welcome {{currentUser.firstName}} <i class="icon-sort-down"></i></a>
-					<ul class="dropdown-menu">						
-						<li>
-							<a href="{{appInfo.server_url}}logout">Logout</a>
-						</li>										
-					</ul>
-				</li>
-			</ul>
-			{{/compare}}	
 
-		</div>
+            {{#compare userLogin 'true'}}
+            <ul class="nav pull-right">					
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon-user icon-white"> </i> Welcome {{currentUser.firstName}} <i class="icon-sort-down"></i></a>
+                    <ul class="dropdown-menu">	
+                        <li>
+                            <a href="#modalChangePassword"  data-toggle="modal">Change Password</a>
+                        </li>
 
-	</div>
+                        <li>
+                            <a href="{{appInfo.server_url}}logout">Logout</a>
+                        </li>
+
+
+                    </ul>
+                </li>
+            </ul>
+            {{/compare}}	
+
+        </div>
+
+    </div>
 
 </header>
+
+
+<!-- Change Password Modal -->
+<div id="modalChangePassword" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="myModalLabel">Change Password</h4>
+    </div>
+    <div class="modal-body">
+        <div class="raw-fluid">
+            <div class="feature-lable">
+                Password:
+            </div>
+            <input type="password" id="modalChangePasswordTxtPassword" class="feature-input" data-required="true">
+        </div>
+        <div class="raw-fluid">
+            <div class="feature-lable">
+                Confirm Password:
+            </div>
+            <input type="password" id="modalChangePasswordTxtPasswordConf" class="feature-input" data-required="true">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-orange" id="modalChangePasswordButton">Save changes</button>
+    </div>
+</div>
