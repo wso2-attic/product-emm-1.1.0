@@ -1,7 +1,7 @@
 /*
 MDM module for communicating with MDM backend
 */
-var mdm = (function () {
+var emm = (function () {
 	var log = new Log();
 	var configs = require('/config/store.js').config();
 	var conf;
