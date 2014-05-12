@@ -317,6 +317,7 @@ function getURLParameter(name) {
 
 
 $("#modalChangePasswordButton").click(function() {
+    var oldPassword = $("#modalChangePasswordTxtOldPassword").val();
     var password = $("#modalChangePasswordTxtPassword").val();
     var passwordConfirm = $("#modalChangePasswordTxtPasswordConf").val();
     
@@ -337,7 +338,7 @@ $("#modalChangePasswordButton").click(function() {
         jQuery.ajax({
             url : getServiceURLs("usersChangePassword", ""),
             type : "POST",		
-            data : JSON.stringify({password: password}),		
+            data : JSON.stringify({old_password: oldPassword, new_password: password}),		
             contentType : "application/json",
             dataType : "json",
             statusCode: {
