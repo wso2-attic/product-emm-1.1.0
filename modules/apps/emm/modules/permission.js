@@ -64,7 +64,13 @@ var permission = (function () {
             featureObjOperations.value = "MDM_OPERATION";
             featureObjOperations.isFolder = "true";
             featureObjOperations.key = 1;
-            var roleFeatures = parse((driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",ctx.group,common.getTenantID()))[0].content);
+            var roleFeaturesArray = driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",ctx.group,common.getTenantID());
+            var roleFeatures;
+            if(roleFeaturesArray == ""){
+                roleFeatures = [];
+            }else{
+                roleFeatures = parse(roleFeaturesArray[0].content); 
+            }    
             var operationFeatures = driver.query("SELECT * FROM features WHERE PERMISSION_TYPE = 1");
 
             var children1 = [];
