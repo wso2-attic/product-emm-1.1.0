@@ -359,7 +359,7 @@ $("#modalChangePasswordButton").click(function() {
                 },
                 200: function() {				
                     n.setText('Password changed successfully!');	
-                    window.location.assign("configuration");
+                    n.setTimeout(1000);		
                 }
             }				
         });
