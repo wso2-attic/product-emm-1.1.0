@@ -1,5 +1,4 @@
 var user = (function () {
-	
     var module = function (db,router) {
 		var userModule = require('/modules/user.js').user;
 		var user = new userModule(db);
@@ -57,11 +56,19 @@ var user = (function () {
 			session.put("user", null);
 			response.status=200;
 		});
+		router.post('users/changepassword/',function(ctx){
+			try{
+				user.changePassword(ctx);
+			}catch(e){
+				log.error(e);
+				print("Error occurred while changing password")
+			}
+		});
         router.get('users/devices/enrolled/{+userid}', function(ctx){
             var hasDevices = user.hasDevicesenrolled(ctx);
             if (hasDevices == null) {
                 response.status = 404;
-                response.content = "Error occurred!";
+                print("Error occurred!");
             } else {
                 response.status = 200;
                 response.content = hasDevices;

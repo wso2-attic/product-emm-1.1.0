@@ -3,6 +3,8 @@ var USER_MANAGER = 'user.manager';
 var USER_OPTIONS = 'server.user.options';
 //Need to change this
 var USER_SPACE = '/_system/governance/';
+var EMM_USER_SESSION = "emmConsoleUser";
+
 var user = (function () {
     var config = require('/config/emm.js').config();
     var routes = new Array();
@@ -13,6 +15,7 @@ var user = (function () {
 	var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
 	var carbon = require('carbon');
+    var current_user = session.get(EMM_USER_SESSION);
 	var server = function(){
 		return application.get("SERVER");
 	}
@@ -190,7 +193,6 @@ var user = (function () {
                 proxy_user.username = tenantUser.username;
                 proxy_user.tenantId = tenantUser.tenantId;
                 proxy_user.roles = stringify(user_roles);
-            //  proxy_user.roles = String(user_roles);
                 proxy_user.user_type = getUserType(user_roles);
                 if(proxy_user.roles.indexOf('admin') >= 0){
                     if(proxy_user.firstName ==null){
@@ -200,6 +202,7 @@ var user = (function () {
                 }
                 return proxy_user;
             } catch(e) {
+                log.error(e);
                 var error = 'Error occurred while retrieving user.';
                 return error;
             }
@@ -547,13 +550,24 @@ var user = (function () {
             } catch(e) {
                 var tenantConfig = require('/config/tenants/default/config.json');
             }
-
             data.userid = ctx.user_id;
             data.domain = tenantConfig.touchdown.domain;
             data.email = ctx.user_id;
             data.server = tenantConfig.touchdown.server;
 
             return data;
+        }, 
+        changePassword: function(ctx){
+            var new_password = ctx.new_password;
+            var old_password = ctx.old_password;
+            if(current_user){
+                var um = userManager(common.getTenantID());
+                um.changePassword(current_user.username, new_password, old_password);
+                response.status=200;
+            }else{
+                print("User not found");
+                response.status=401;
+            }
         }
     };
     return module;
