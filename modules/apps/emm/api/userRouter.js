@@ -1,4 +1,4 @@
-var user = (function () {
+var user = (function (){
 	var log = new Log();
     var module = function (db,router) {
 		var userModule = require('/modules/user.js').user;
@@ -57,11 +57,19 @@ var user = (function () {
 			session.put("user", null);
 			response.status=200;
 		});
+		router.post('users/changepassword/',function(ctx){
+			try{
+				user.changePassword(ctx);
+			}catch(e){
+				log.error(e);
+				print("Error occurred while changing password")
+			}
+		});
         router.get('users/devices/enrolled/{+userid}', function(ctx){
             var hasDevices = user.hasDevicesenrolled(ctx);
             if (hasDevices == null) {
                 response.status = 404;
-                response.content = "Error occurred!";
+                print("Error occurred!");
             } else {
                 response.status = 200;
                 response.content = hasDevices;
@@ -72,8 +80,8 @@ var user = (function () {
 			log.debug('email sending to user');
 			var u = user.getUser(ctx)[0];
 			if(u!=null){
-				user.sendEmail(u.username, u.first_name);
-				log.debug('Email sent to user with id '+u.username);
+				user.sendEmail(u.email, u.first_name);
+				log.debug('Email sent to user with id '+u.email);
 				return;
 			}
 			response.status = 404;
@@ -166,8 +174,8 @@ var user = (function () {
             log.debug('email sending to user');
 			var u = user.getUser(ctx);
 			if(u!=null){
-				user.sendEmail({'username':String(u.username), 'firstName': String(u.firstName)});
-				log.debug('Email sent to user with id '+u.username);
+				user.sendEmail({'email':String(u.email), 'firstName': String(u.firstName)});
+				log.debug('Email sent to user with id '+u.email);
 				return;
 			}
 			response.status = 404;

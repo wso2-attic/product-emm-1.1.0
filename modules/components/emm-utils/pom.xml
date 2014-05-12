@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>org.wso2.emm.emm-utils</artifactId>
+    <artifactId>org.wso2.emm.utils</artifactId>
     <packaging>bundle</packaging>
-    <name>WSO2 Enterprise Mobility Manager (EMM) - ManifestUtils</name>
+    <name>WSO2 Enterprise Mobility Manager (EMM) - EMM-Utils</name>
     <url>http://maven.apache.org</url>
     <properties>
         <maven-scr-plugin.version>1.7.2</maven-scr-plugin.version>
@@ -64,14 +64,17 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Bundle-Version>1.1.0</Bundle-Version>
+                        <Private-Package>org.wso2.mobile.utils.internal</Private-Package>
+                        <Bundle-Activator>org.wso2.mobile.utils.Activator</Bundle-Activator>
                         <Import-Package>
                             *
                         </Import-Package>
                         <Export-Package>
-                            *
+                            org.wso2.mobile.utils.*,
+                            com.googlecode.plist.*
                         </Export-Package>
                     </instructions>
                 </configuration>
@@ -94,6 +97,21 @@
             <groupId>com.googlecode.plist</groupId>
             <artifactId>dd-plist</artifactId>
             <version>1.8</version> <!-- corresponds to r108 -->
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.logging</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.ndatasource.core</artifactId>
+            <version>4.2.0</version>
         </dependency>
     </dependencies>
 

@@ -1,4 +1,4 @@
-package org.wso2.mobile.mam.manifestUtils;/*
+/*
  * Copyright (c) 2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,8 @@ package org.wso2.mobile.mam.manifestUtils;/*
  * limitations under the License.
  */
 
+package org.wso2.mobile.utils.utilities;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,16 +23,29 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
 import com.dd.plist.BinaryPropertyListParser;
 import com.dd.plist.NSDictionary;
 
 public class ZipFileReading {
+	
+	//ios CF Bundle keys
+	public static final String IPA_BUNDLE_VERSION_KEY = "CFBundleVersion";
+	public static final String IPA_BUNDLE_NAME_KEY = "CFBundleName";
+	public static final String IPA_BUNDLE_IDENTIFIER_KEY = "CFBundleIdentifier";
+	
+	//Android attributes
+	public static final String APK_VERSION_KEY = "versionName";
+	public static final String APK_PACKAGE_KEY = "package";
+	
     public static Document loadXMLFromString(String xml) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -59,8 +74,8 @@ public class ZipFileReading {
             doc.getDocumentElement().normalize();
             JSONObject obj = new JSONObject();
             obj.put("version",
-                    doc.getDocumentElement().getAttribute("versionName"));
-            obj.put("package", doc.getDocumentElement().getAttribute("package"));
+                    doc.getDocumentElement().getAttribute(APK_VERSION_KEY));
+            obj.put("package", doc.getDocumentElement().getAttribute(APK_PACKAGE_KEY));
             xml = obj.toJSONString();
         } catch (Exception e) {
             xml = "Exception occured " + e;
@@ -78,8 +93,7 @@ public class ZipFileReading {
             try {
                 ZipEntry entry;
                 while ((entry = stream.getNextEntry()) != null) {
-                    if (entry.getName().equals(
-                            "Payload/" + name + ".app/Info.plist")) {
+                   	if (entry.getName().matches("^(Payload/)(.)+(.app/Info.plist)$")) {
                         InputStream is = stream;
 
                         int nRead;
@@ -90,22 +104,22 @@ public class ZipFileReading {
                         }
 
                         buffer.flush();
-
+                        break;
                     }
                 }
+                NSDictionary rootDict = (NSDictionary) BinaryPropertyListParser
+                        .parse(buffer.toByteArray());
+                JSONObject obj = new JSONObject();
+                obj.put("version", rootDict.objectForKey(IPA_BUNDLE_VERSION_KEY).toString());
+                obj.put("name", rootDict.objectForKey(IPA_BUNDLE_NAME_KEY).toString());
+                obj.put("package",
+                        rootDict.objectForKey(IPA_BUNDLE_IDENTIFIER_KEY).toString());
+                plist = obj.toJSONString();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 stream.close();
             }
-            NSDictionary rootDict = (NSDictionary) BinaryPropertyListParser
-                    .parse(buffer.toByteArray());
-            JSONObject obj = new JSONObject();
-            obj.put("version", rootDict.objectForKey("CFBundleVersion").toString());
-            obj.put("name", rootDict.objectForKey("CFBundleName").toString());
-            obj.put("package",
-                    rootDict.objectForKey("CFBundleIdentifier").toString());
-            plist = obj.toJSONString();
         } catch (Exception e) {
             plist = "Exception occured " + e;
             e.printStackTrace();

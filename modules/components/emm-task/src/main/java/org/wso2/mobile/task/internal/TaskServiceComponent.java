@@ -47,21 +47,21 @@ public class TaskServiceComponent {
             if (log.isDebugEnabled()) {
                 log.debug("Task Schedule bundle is activated ");
             }
-
-            String device_monitor_freq = EMMTaskConfig.getConfigEntry(EMMTaskConfig.DEVICE_MONITOR_FREQUENCY);
-
             TaskManager taskManager = getTaskService().getTaskManager(EMMTaskConfig.TASK_MANAGER_NAME);
-            TriggerInfo triggerInfo = new TriggerInfo();
-            triggerInfo.setCronExpression("0 0/" + device_monitor_freq + " * * * ?");
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.setName(EMMTaskConfig.TASK_NAME);
-            taskInfo.setTaskClass(EMMTaskConfig.TASK_MONITOR_CLASS);
-            taskInfo.setTriggerInfo(triggerInfo);
+            String device_monitor_freq = EMMTaskConfig.getConfigEntry(EMMTaskConfig.DEVICE_MONITOR_FREQUENCY);
+            if (!device_monitor_freq.isEmpty() && !device_monitor_freq.contentEquals("0")) {
+                TriggerInfo triggerInfo = new TriggerInfo();
+                triggerInfo.setCronExpression("0 0/" + device_monitor_freq + " * * * ?");
+                TaskInfo taskInfo = new TaskInfo();
+                taskInfo.setName(EMMTaskConfig.TASK_NAME);
+                taskInfo.setTaskClass(EMMTaskConfig.TASK_MONITOR_CLASS);
+                taskInfo.setTriggerInfo(triggerInfo);
 
-            //taskInfo.setProperties(new HashMap<String, String>());  //Need to be removed once bug is fixed in ntask 4.2.2
-
-            taskManager.registerTask(taskInfo);
-            taskManager.rescheduleTask(taskInfo.getName());
+                taskManager.registerTask(taskInfo);
+                taskManager.rescheduleTask(taskInfo.getName());
+            } else {
+                taskManager.deleteTask(EMMTaskConfig.TASK_NAME);
+            }
         } catch (Throwable e) {
             log.error(e.getMessage(), e);
             /* don't throw exception */
