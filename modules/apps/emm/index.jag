@@ -39,7 +39,6 @@ var EMM_USER_SESSION = "emmConsoleUser";
 var log = new Log();
 var configs = require('config/emm.js').config();
 var db = common.getDatabase();
-
 var current_user = session.get(EMM_USER_SESSION);
 var current_user_roles = undefined;
 if(current_user != undefined){

@@ -399,7 +399,7 @@ var getDatabase = function(){
             db = new Database("WSO2_EMM_DB");
             application.put(DB_SESSION,db);
         }catch(e){
-            // log.error(e);
+            log.error(e);
         }
     }
     

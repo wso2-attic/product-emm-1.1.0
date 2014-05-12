@@ -19,7 +19,6 @@ var user = (function () {
 	var server = function(){
 		return application.get("SERVER");
 	}
-	
 	var claimEmail = "http://wso2.org/claims/emailaddress";
 	var claimFirstName = "http://wso2.org/claims/givenname";
 	var claimLastName = "http://wso2.org/claims/lastname";
@@ -176,7 +175,13 @@ var user = (function () {
         getUser: function(ctx){
             try {
                 var proxy_user = {};
-                var tenantUser = carbon.server.tenantUser(ctx.userid);
+                var username = ctx.userid;
+
+                if(username.indexOf("@")<1){
+                    username = username+"@carbon.super";
+                }
+                var tenantUser = carbon.server.tenantUser(username);
+
                 if(ctx.login){
                     var um = userManager(tenantUser.tenantId);
                 }else{
@@ -222,7 +227,7 @@ var user = (function () {
                     var claimResult = user.getClaimsForSet(claims,null);
                     var proxy_user = {};
                     proxy_user.username = users[i];
-                    proxy_user.email = proxy_user.username;
+                    proxy_user.email = claimResult.get(claimEmail);
                     proxy_user.firstName = claimResult.get(claimFirstName);
                     proxy_user.lastName = claimResult.get(claimLastName);
                     proxy_user.mobile = claimResult.get(claimMobile);
@@ -249,6 +254,7 @@ var user = (function () {
                 var removeUsers = new Array("wso2.anonymous.user","admin","admin@admin.com");
                 var users = common.removeNecessaryElements(allUsers,removeUsers);
                 users_list = users;
+                log.info("User_List :"+users_list);
             }else{
                 print('Error in getting the tenantId from session');
             }
@@ -289,7 +295,12 @@ var user = (function () {
         /*Get list of roles belongs to particular user*/
         getUserRoles: function(ctx){
             log.debug("User Name >>>>>>>>>"+ctx.username);
-            var tenantUser = carbon.server.tenantUser(ctx.username);
+            var username = ctx.username;
+
+            if(username.indexOf("@")<1){
+                username = username+"@carbon.super";
+            }
+            var tenantUser = carbon.server.tenantUser(username);
             var um = userManager(common.getTenantID());
             var roles = um.getRoleListOfUser(tenantUser.username);
             var roleList = common.removePrivateRole(roles);
