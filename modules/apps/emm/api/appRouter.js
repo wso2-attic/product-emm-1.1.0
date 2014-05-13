@@ -68,7 +68,7 @@ var app = {
             var result = store.getAppsFromStore(ctx.paging);
             response.content = result;
         });
-        /* 
+        /*
 		 Sample call - https://localhost:9443/mam/api/apps/roles/installed?platform=iOS&packageid=com.naveenium.foursquare
 		*/
         router.get('apps/roles', function(ctx) {
@@ -79,7 +79,7 @@ var app = {
                 response.status = 400;
             }
         });
-		/* 
+		/*
 		 Sample call - https://localhost:9443/mam/api/apps/roles/installed?platform=iOS&packageid=com.naveenium.foursquare
 		*/
         router.get('apps/users/installed', function(ctx) {
@@ -90,7 +90,7 @@ var app = {
                 response.status = 400;
             }
         });
-        /* 
+        /*
 		 Sample call - https://localhost:9443/mam/api/apps/roles/not-installed?platform=iOS&packageid=com.naveenium.foursquare
 		*/
         router.get('apps/users/not-installed', function(ctx) {

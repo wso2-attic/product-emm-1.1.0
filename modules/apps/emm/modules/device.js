@@ -262,21 +262,15 @@ var device = (function () {
         entitlement.setAuthCookie(backEndCookie);
         stub = entitlement.setEntitlementServiceParameters();
     }
-    function checkPermission(role, deviceId, operationName, that){
+    function checkPermission(role,featureName){
         log.debug("checkPermission");
-        log.debug(role);
-        log.debug(operationName);
-        if(role == "user"){
-            return true;    
-        }
-        var decision = entitlement.evaluatePolicy(getXMLRequestString(role,"POST",operationName),stub);
-        decision = decision.toString().substring(28,34);
-        log.debug("decision :"+decision);
-        if(decision=="Permit"){
+        var roleFeatures = parse((driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",role,common.getTenantID()))[0].content);
+        for(var j= 0; j< roleFeatures.length; j++){
+            if(featureName == roleFeatures[j]){
                 return true;
-        }else{
-                return false;
+            }
         }
+        return false;
     }
 
     function policyByOsType(jsonData,os){
@@ -835,7 +829,7 @@ var device = (function () {
                 featureArr["feature_code"] = featureList[i].code;
                 featureArr["feature_type"] = ftype[0].name;
                 featureArr["description"] = featureList[i].description;
-                featureArr["enable"] = checkPermission(role,deviceId, featureList[i].name, this);
+                featureArr["enable"] = checkPermission(role, featureList[i].name);
                 // featureArr["enable"] = true;
                 if(featureList[i].template === null || featureList[i].template === ""){
 
@@ -959,9 +953,10 @@ var device = (function () {
 
             if(ctx.regid!=null){
                 var result = driver.query(sqlscripts.devices.select19, ctx.regid);
-
+                /*
+                    Check if device is registered
+                */
                 if(result[0]==null){
-
                     var roleList = user.getUserRoles({'username':userId});
                     var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "reviewer","private_kasun:wso2mobile.com");
                     var roles = common.removeNecessaryElements(roleList,removeRoles);

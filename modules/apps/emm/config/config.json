@@ -1,6 +1,4 @@
 {
-    "NOTIFIER" : "LOCAL",   
-    "NOTIFIER_INTERVAL" : 5,
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
@@ -30,21 +28,20 @@
         "port":"25",
         "companyName": "WSO2",
         "senderAddress": "",
-        "emailPassword": "****",
-        "emailTemplate": "\nYou have been registered to the WSO2 EMM. Below is the link to enroll.\n \n"
+        "emailPassword": "",
+        "emailTemplate": "nYou have been registered to the WSO2Mobile MDM. Below is the link to enroll.nn"
     },
     "device": {
-        "android_location": "%http.ip%/mdm/client_app/EMMAgent.apk",
+        "android_location": "%http.ip%/emm/client_app/MDMAgent1.0.apk",
         "ios": {
-            "location": "%http.ip%/mdm/client_app/EMMAgent.ipa",
-            "bundleid": "com.wso2.emmAgent",
-            "version": "1.1",
-            "appname": "EMM Agent"
+            "location": "%http.ip%/emm/client_app/iOS-MDM-Agent.ipa",
+            "bundleid": "com.wso2.mobile",
+            "version": "IOS_IPAVERSION",
+            "appname": "MDM Agent"
         }
     },
     "mam": {
-        "store_location": "%https.ip%/store",
-        "publisher_location": "%https.ip%",
-        "archieve_location": "%http.ip%"
-    }
+        "store_location": "%https.ip%/store"
+    },
+    "monitor_interval" : "2"
 }
