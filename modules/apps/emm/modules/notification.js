@@ -455,9 +455,11 @@ var notification = (function() {
                 var devices = driver.query(sqlscripts.devices.select19, regId);
                 if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
                     // log.info(ctx.data);
-                    var responseData = ctx.data
+                    var responseData = ctx.data;
                     if (responseData != undefined && responseData != null) {
+                        // log.info(responseData);
                        var responseData = parse(responseData).data; 
+
                         //Update the notifications table
                         for (var i=0; i<responseData.length; ++i) {
                             var feature_code = responseData[i].code;

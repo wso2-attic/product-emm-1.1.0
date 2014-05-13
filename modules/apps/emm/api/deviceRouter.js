@@ -112,11 +112,9 @@ var device = (function () {
 		    var result = device.isRegistered(ctx);
             log.debug(result);
 		    if(result){
-                log.debug("Check isRegistered registered");
 		        print("registered");
 		        response.status = 200;
 		    }else{
-                log.debug("Check isRegistered notregistered");
                 print("notregistered");
 		        response.status = 404;
 		    }

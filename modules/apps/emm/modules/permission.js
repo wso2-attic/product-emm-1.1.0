@@ -1,23 +1,18 @@
 
 var permission = (function () {
-
-    var userModule = require('user.js').user;
-    var user;
-
-    var groupModule = require('group.js').group;
-    var group;
-
+    var log = new Log();
     var configs = {
         CONTEXT: "/"
     };
     var routes = new Array();
     var log = new Log();
     var db;
-
+    var driver;
+    var common = require("common.js");
+    var sqlscripts = require('/sqlscripts/mysql.js');
     var module = function (dbs) {
         db = dbs;
-        user = new userModule(db);
-        group = new groupModule(db);
+        driver = require('driver').driver(db);
         //mergeRecursive(configs, conf);
     };
 
@@ -39,115 +34,112 @@ var permission = (function () {
         return obj1;
     }
 
-    var SAML_RESPONSE_TOKEN_SESSION_KEY = "SAML_TOKEN";
-    var SAML_ASSERTION_TOKEN_SESSION_KEY = "SAML_ASSERTION_TOKEN";
-    var SSO_NAME = "SSORelyingParty.Name";
-
-    var getToken = function (){
-        if(session.get(SAML_RESPONSE_TOKEN_SESSION_KEY)){
-            return session.get(SAML_RESPONSE_TOKEN_SESSION_KEY);
-        } else if(session.get(SAML_ASSERTION_TOKEN_SESSION_KEY)){
-            return session.get(SAML_ASSERTION_TOKEN_SESSION_KEY);
-        } else {
-            return null;
-        }
-    };
-
-    var getBackendCookie = function (samlToken) {
-        var token = getToken();
-        var token = null;
-        var encodedToken = token && token.replace(/>/g, '&gt;').replace(/</g,'&lt;');
-        var xhr = new XMLHttpRequest();
-        xhr.setRequestHeader('SOAPAction', 'urn:login');
-        xhr.setRequestHeader('Content-Type', 'application/soap+xml');
-        var endPoint = "https://localhost:9443/admin/services/"+"SAML2SSOAuthenticationService";
-        xhr.open("POST", endPoint);
-        var payload = '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sso="http://sso.saml2.authenticator.identity.carbon.wso2.org" xmlns:xsd="http://dto.sso.saml2.authenticator.identity.carbon.wso2.org/xsd"><soap:Header/><soap:Body><sso:login><sso:authDto><xsd:response>'+samlToken+'</xsd:response></sso:authDto></sso:login></soap:Body></soap:Envelope>';
-        xhr.send(payload);
-        var cookieString = xhr.getResponseHeader("Set-Cookie");
-        return cookieString;
-    };
-
-
-    function init(pid){
-        xacml = <Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  PolicyId={pid} RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0">
-            <Target></Target></Policy>;
-        return xacml;
-    }
-
-    function getRule(resource,action,subject,ruleId){
-        var xacml=
-            <Rule Effect="Permit" RuleId={ruleId}>
-                <Target>
-                    <AnyOf>
-                        <AllOf>
-                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-regexp-match">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">{resource}</AttributeValue>
-                                <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"></AttributeDesignator>
-                            </Match>
-                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">{action}</AttributeValue>
-                                <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"></AttributeDesignator>
-                            </Match>
-                            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">{subject}</AttributeValue>
-                                <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="true"></AttributeDesignator>
-                            </Match>
-                        </AllOf>
-                    </AnyOf>
-                </Target>
-            </Rule>;
-        return xacml;
-    }
-
-
     // prototype
     module.prototype = {
         constructor: module,
 
         assignPermissionToGroup: function(ctx){
-            var log = new Log();
-            var group = ctx.selectedGroup;
-            if(group.indexOf("Internal")!==-1){
-                group = group.substring(9);
-            }
-            var featureList = ctx.featureList;
-            var xacml = null;
-            xacml = init(group);
-            var featureConcat = "("+featureList[0];
-            for(var i = 1; i < featureList.length ; i++){
-                featureConcat = featureConcat+"|"+featureList[i];
-            }
-            featureConcat = featureConcat+")";
-            var action = 'POST';
-            var subject = group;
-            var resource =featureConcat;
-            xacml.add = getRule(resource, action, subject,'rule1');
-
-            var file = new File("policy.txt");
-            file.open("w+");
-            file.write(xacml);
-            var xacmlFile = file.readAll();
-            file.close();
-            var entitlement = require('policy').entitlement;
-            try{
-                var samlResponse = session.get("samlresponse");
-                /*if(typeof samlResponse == 'undefined' || samlResponse == null || samlResponse ==""){
-                    return "error";
-                }*/
-                var saml = require("/modules/saml.js").saml;
-                var backEndCookie = saml.getBackendCookie(samlResponse);
-                entitlement.setAuthCookie(backEndCookie);
-                var entitlementPolicyAdminService = entitlement.setEntitlementPolicyAdminServiceParameters();
-                entitlement.removePolicy(group,entitlementPolicyAdminService);
-                entitlement.addPolicy(xacmlFile,entitlementPolicyAdminService,group);
-            }catch(e){
-                log.debug("ERROR :"+e);
-            }
-            return "success";
+          var responseMsg = {};
+          var group = ctx.selectedGroup;
+          var featureList = ctx.featureList;
+          var resultCount1 = db.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
+          var resultCount2 = 0;
+          if(!resultCount1>0){
+              resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
+          }
+          if(resultCount1 > 0 || resultCount2 > 0){
+            responseMsg.status = 201;
+            return responseMsg.status;
+          }
+          responseMsg.status = 400;
+          return responseMsg.status;
         },
         deletePolicy:function(ctx){
 
+        },
+        getPermission:function(ctx){
+            var responseMsg = {};
+            var featureArray = [];
+            var featureObjOperations = {};
+            featureObjOperations.title = "Operations";
+            featureObjOperations.value = "MDM_OPERATION";
+            featureObjOperations.isFolder = "true";
+            featureObjOperations.key = 1;
+            var roleFeaturesArray = driver.query(sqlscripts.permissions.select1,ctx.group,common.getTenantID());
+            var roleFeatures;
+            if(roleFeaturesArray == ""){
+                roleFeatures = [];
+            }else{
+                roleFeatures = parse(roleFeaturesArray[0].content); 
+            }    
+            var operationFeatures = driver.query(sqlscripts.features.select7);
+
+            var children1 = [];
+            for(var i=0;i<operationFeatures.length;i++){
+                var child = {};
+                child.value = operationFeatures[i].name;
+                child.title = operationFeatures[i].description;
+                for(var j= 0; j< roleFeatures.length; j++){
+                    log.info(operationFeatures[i].name+"=="+roleFeatures[j]);
+                    if(operationFeatures[i].name == roleFeatures[j]){
+                        child.select = true;
+                        break;
+                    }
+                    child.select = false;
+                }
+                children1.push(child);
+            }
+            featureObjOperations.children = children1;
+            featureArray.push(featureObjOperations);
+
+            var featureObjMessaging = {};
+            featureObjMessaging.title = "Messaging";
+            featureObjMessaging.value = "MMM";
+            featureObjMessaging.isFolder = "true";
+            featureObjMessaging.key = 3;
+            var msgFeatures = driver.query(sqlscripts.features.select8);
+            var children2 = [];
+            for(var i=0;i<msgFeatures.length;i++){
+                var child = {};
+                child.value = msgFeatures[i].name;
+                child.title = msgFeatures[i].description;
+                for(var j= 0; j< roleFeatures.length; j++){
+                    if(msgFeatures[i].name == roleFeatures[j]){
+                        child.select = true;
+                        break;
+                    }
+                    child.select = false;
+                }
+                children2.push(child);
+            }
+            featureObjMessaging.children = children2;
+            featureArray.push(featureObjMessaging);
+
+            var featureObjConfiguration = {};
+            featureObjConfiguration.title = "Configuration";
+            featureObjConfiguration.value = "MDM_CONFIGURATION";
+            featureObjConfiguration.isFolder = "true";
+            featureObjConfiguration.key = 4;
+            var configurationFeatures = driver.query(sqlscripts.features.select9);
+            var children3 = [];
+            for(var i=0;i<configurationFeatures.length;i++){
+                var child = {};
+                child.value = configurationFeatures[i].name;
+                child.title = configurationFeatures[i].description;
+                for(var j= 0; j< roleFeatures.length; j++){
+                    if(configurationFeatures[i].name == roleFeatures[j]){
+                        child.select = true;
+                        break;
+                    }
+                    child.select = false;
+                }
+                children3.push(child);
+            }
+            featureObjConfiguration.children = children3;
+            featureArray.push(featureObjConfiguration);
+            responseMsg.content = featureArray;
+            responseMsg.status = 200;
+            return responseMsg;
         }
     };
     // return module

@@ -1,4 +1,5 @@
-var user = (function () {
+var user = (function (){
+	var log = new Log();
     var module = function (db,router) {
 		var userModule = require('/modules/user.js').user;
 		var user = new userModule(db);
@@ -97,6 +98,7 @@ var user = (function () {
 		   	}
 		});
 		router.post('users/', function(ctx){
+            log.info("Users :"+stringify(ctx));
             var returnMsg = user.addUser(ctx);
             log.debug(returnMsg.status);
             if(returnMsg.status == 'ALLREADY_EXIST'){
