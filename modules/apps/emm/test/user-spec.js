@@ -1,6 +1,4 @@
 describe('utility-password', function () {
-    var EMM_USER_SESSION = "emmConsoleUser";
-    var current_user = session.put(EMM_USER_SESSION, {username: "admin"});
 	try{
         db = new Database("WSO2_EMM_DB");
     }catch(e){
