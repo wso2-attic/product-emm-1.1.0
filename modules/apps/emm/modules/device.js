@@ -497,8 +497,8 @@ var device = (function () {
         var deviceID = devices[0].id;
         var userId = devices[0].user_id;
 
-        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "hi"});
-        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "hi"});
+        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "null"});
+        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "null"});
 
         var mdmPolicy = getPolicyPayLoad(deviceID,1);
         if(mdmPolicy != undefined && mdmPolicy != null){
@@ -963,8 +963,8 @@ var device = (function () {
                     var devices = driver.query(sqlscripts.devices.select19, ctx.regid);
                     var deviceID = devices[0].id;
                     log.info("Android Device has been registered "+ctx.regid);
-                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "hi"});
-                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "hi"});
+                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "null"});
+                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "null"});
 
                     var mdmPolicy = getPolicyPayLoad(deviceID,1);
                     log.debug("PayLoad >>> " + mdmPolicy);

@@ -268,9 +268,7 @@ function loadAppList(tabId, deviceId) {
 		type : "GET",
 		dataType : "json",
 		success : function(appList) {
-			
-			
-			appList.received_data = JSON.parse(appList.received_data);
+			appList.received_data = JSON.parse(appList.received_data)[0].data;
 			
 			
 			//limit to 100
