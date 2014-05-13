@@ -9,6 +9,7 @@ var permission = (function () {
     var db;
     var driver;
     var common = require("common.js");
+    var sqlscripts = require('/sqlscripts/mysql.js');
     var module = function (dbs) {
         db = dbs;
         driver = require('driver').driver(db);
@@ -41,10 +42,10 @@ var permission = (function () {
           var responseMsg = {};
           var group = ctx.selectedGroup;
           var featureList = ctx.featureList;
-          var resultCount1 = db.query("UPDATE permissions SET content = ? where role = ? AND tenant_id = ?",stringify(featureList),group,common.getTenantID());
+          var resultCount1 = db.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
           var resultCount2 = 0;
           if(!resultCount1>0){
-              resultCount2 = driver.query("INSERT INTO permissions (role,content,tenant_id) values (?,?,?)",group,featureList,common.getTenantID());
+              resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
           }
           if(resultCount1 > 0 || resultCount2 > 0){
             responseMsg.status = 201;
@@ -64,14 +65,14 @@ var permission = (function () {
             featureObjOperations.value = "MDM_OPERATION";
             featureObjOperations.isFolder = "true";
             featureObjOperations.key = 1;
-            var roleFeaturesArray = driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",ctx.group,common.getTenantID());
+            var roleFeaturesArray = driver.query(sqlscripts.permissions.select1,ctx.group,common.getTenantID());
             var roleFeatures;
             if(roleFeaturesArray == ""){
                 roleFeatures = [];
             }else{
                 roleFeatures = parse(roleFeaturesArray[0].content); 
             }    
-            var operationFeatures = driver.query("SELECT * FROM features WHERE PERMISSION_TYPE = 1");
+            var operationFeatures = driver.query(sqlscripts.features.select7);
 
             var children1 = [];
             for(var i=0;i<operationFeatures.length;i++){
@@ -96,7 +97,7 @@ var permission = (function () {
             featureObjMessaging.value = "MMM";
             featureObjMessaging.isFolder = "true";
             featureObjMessaging.key = 3;
-            var msgFeatures = driver.query("SELECT * FROM features WHERE PERMISSION_TYPE = 2");
+            var msgFeatures = driver.query(sqlscripts.features.select8);
             var children2 = [];
             for(var i=0;i<msgFeatures.length;i++){
                 var child = {};
@@ -119,7 +120,7 @@ var permission = (function () {
             featureObjConfiguration.value = "MDM_CONFIGURATION";
             featureObjConfiguration.isFolder = "true";
             featureObjConfiguration.key = 4;
-            var configurationFeatures = driver.query("SELECT * FROM features WHERE PERMISSION_TYPE = 3");
+            var configurationFeatures = driver.query(sqlscripts.features.select9);
             var children3 = [];
             for(var i=0;i<configurationFeatures.length;i++){
                 var child = {};

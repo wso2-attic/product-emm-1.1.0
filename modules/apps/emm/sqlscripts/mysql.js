@@ -140,7 +140,10 @@ var features = {
     'select3' : "SELECT name as value, description as title from features where group_id = ?",
     'select4' : "SELECT name FROM features WHERE code = ?",
     'select5' : "SELECT code FROM features WHERE name = ?",
-    'select6' : "SELECT * FROM features WHERE code = ?"
+    'select6' : "SELECT * FROM features WHERE code = ?",
+    'select7' : "SELECT * FROM features WHERE PERMISSION_TYPE = 1",
+    'select8' : "SELECT * FROM features WHERE PERMISSION_TYPE = 2",
+    'select9' : "SELECT * FROM features WHERE PERMISSION_TYPE = 3"
 };
 
 var policies = {
@@ -260,3 +263,8 @@ var platform = {
     'select1' : "SELECT * FROM platforms"
 };
 
+var permissions = {
+    'select1' : "SELECT content FROM permissions where role = ? AND tenant_id = ?",
+    'update1' : "UPDATE permissions SET content = ? where role = ? AND tenant_id = ?",
+    'insert1' :"INSERT INTO permissions (role,content,tenant_id) values (?,?,?)"
+};
