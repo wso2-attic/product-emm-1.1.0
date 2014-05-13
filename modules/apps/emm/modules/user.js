@@ -150,6 +150,7 @@ var user = (function () {
                     } else {
 						var generated_password =  generatePassword();
                         if(ctx.type.toUpperCase() == 'USER'){
+                            roleState = "";
                             um.addUser(ctx.username, generated_password,ctx.groups, claimMap, null);
                         }else if(ctx.type.toUpperCase() == 'ADMINISTRATOR'){
                             roleState = "emmadmin";
