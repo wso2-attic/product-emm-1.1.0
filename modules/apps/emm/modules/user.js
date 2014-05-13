@@ -255,7 +255,6 @@ var user = (function () {
                 var removeUsers = new Array("wso2.anonymous.user","admin","admin@admin.com");
                 var users = common.removeNecessaryElements(allUsers,removeUsers);
                 users_list = users;
-                log.info("User_List :"+users_list);
             }else{
                 print('Error in getting the tenantId from session');
             }
