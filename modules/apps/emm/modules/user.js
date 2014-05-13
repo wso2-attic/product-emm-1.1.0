@@ -455,6 +455,14 @@ var user = (function () {
 			}
         },
 
+        /*get user enrollment info*/
+        getEnrollmentInfo: function(ctx){
+            var info = {};
+            info.password = ctx.generatedPassword;
+            info.enroll_url = config.HTTPS_URL+"/emm/api/device_enroll";
+            return info;
+        },
+
         /*Get all devices belongs to particular user*/
 		getDevices: function(obj){
             log.debug("begin");

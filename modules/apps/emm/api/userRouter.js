@@ -3,7 +3,8 @@ var user = (function (){
     var module = function (db,router) {
 		var userModule = require('/modules/user.js').user;
 		var user = new userModule(db);
-		
+        var common = require("/modules/common.js");
+
 		router.post('users/authenticate/', function(ctx){
 
 			var objUser = user.authenticate(ctx);
@@ -104,13 +105,19 @@ var user = (function (){
             if(returnMsg.status == 'ALLREADY_EXIST'){
                 response.status = 409;
                 response.content = "Already Exist";
-            }else if(returnMsg.status == 'SUCCESSFULL' ){
+            }else if(returnMsg.status == 'SUCCESSFULL' ) {
                 ctx.generatedPassword = returnMsg.generatedPassword;
                 ctx.firstName = returnMsg.firstName;
-                log.debug("Email :"+ctx.generatedPassword);
-                user.sendEmail(ctx);
-                response.status = 201;
-                response.content = "Successfull";
+                if (common.isEmailConfigured()) {
+                    log.debug("Email :" + ctx.generatedPassword);
+                    user.sendEmail(ctx);
+                    response.status = 201;
+                    response.content = 'SUCCESSFUL';
+                } else {
+                    log.debug("User Info :" + ctx.generatedPassword);
+                    response.status = 201;
+                    response.content = user.getEnrollmentInfo(ctx);
+                }
             }else if(returnMsg.status == 'BAD_REQUEST'){
                 response.status = 400;
                 response.content = "Name not According to Policy";
