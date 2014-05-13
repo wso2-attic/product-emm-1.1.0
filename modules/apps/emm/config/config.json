@@ -1,6 +1,6 @@
 {
     "NOTIFIER" : "LOCAL",   
-    "NOTIFIER_INTERVAL" : 5,
+    "NOTIFIER_INTERVAL" : "1",
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
