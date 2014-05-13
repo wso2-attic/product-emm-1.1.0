@@ -38,11 +38,19 @@ CREATE TABLE features(
 	DELETED INT DEFAULT NULL,
 	GROUP_ID INT DEFAULT NULL,
 	TYPE_ID INT DEFAULT NULL,
-	MONITOR INT DEFAULT 0
+	MONITOR INT DEFAULT 0,
+	PERMISSION_TYPE INT DEFAULT 0 
 );
 
-INSERT INTO features VALUES (1,'LOCK','503A','Device Lock',0,1,1,0),(2,'WIPE','504A','Wipe',0,1,1,0),(3,'CLEARPASSCODE','505A','Clear',0,1,1,0),(4,'APPLIST','502A','Get All Applications',0,2,2,1),(5,'LOCATION','501A','Location',0,1,2,0),(6,'INFO','500A','Device Information',0,5,2,1),(7,'NOTIFICATION','506A','Message',0,3,1,0),(8,'WIFI','507A','Wifi',0,4,1,0),(9,'CAMERA','508A','Camera',0,1,1,0),(12,'MUTE','513A','Mute Device',0,1,1,0),(13,'INSTALLAPP','509A','Install Application',0,2,3,0),(14,'UNINSTALLAPP','510A','Uninstall Application',0,2,3,0),(15,'ENCRYPT','511A','Encrypt Storage',0,1,1,0),(16,'APN','512A','APN',0,4,1,0),(21,'WEBCLIP','518A','Create Webclips',0,4,3,0),(22,'PASSWORDPOLICY','519A','Passcode Policy',0,4,1,0),(23,'EMAIL','520A','Email Configuration',0,4,1,0),(24,'GOOGLECALENDAR','521A','Calender Subscription',0,4,1,0),(26,'VPN','523A','VPN',0,4,1,0),(27,'LDAP','524A','LDAP',0,4,1,0),(29,'CHANGEPASSWORD','526A','Set Passcode',0,4,1,0),(30,'ENTERPRISEWIPE','527A','Enterprise Wipe',0,1,1,0),(31,'POLICY','500P','Policy Enforcement',0,4,2,0),(32,'MONITORING','501P','Policy Monitoring ',0,5,2,1),(33,'BLACKLISTAPPS','528B','Blacklist Apps',0,2,1,0),(34,'REVOKEPOLICY','502P','Revoke Policy',0,4,2,0);
+INSERT INTO features VALUES (1,'LOCK','503A','Device Lock',0,1,1,0,1),(2,'WIPE','504A','Wipe',0,1,1,0,1),(3,'CLEARPASSCODE','505A','Clear',0,1,1,0,1),(4,'APPLIST','502A','Get All Applications',0,2,2,1,0),(5,'LOCATION','501A','Location',0,1,2,0,0),(6,'INFO','500A','Device Information',0,5,2,1,0),(7,'NOTIFICATION','506A','Message',0,3,1,0,0),(8,'WIFI','507A','Wifi',0,4,1,0,3),(9,'CAMERA','508A','Camera',0,1,1,0,1),(12,'MUTE','513A','Mute Device',0,1,1,0,1),(13,'INSTALLAPP','509A','Install Application',0,2,3,0,0),(14,'UNINSTALLAPP','510A','Uninstall Application',0,2,3,0,0),(15,'ENCRYPT','511A','Encrypt Storage',0,1,1,0,1),(16,'APN','512A','APN',0,4,1,0,3),(21,'WEBCLIP','518A','Create Webclips',0,4,3,0,3),(22,'PASSWORDPOLICY','519A','Passcode Policy',0,4,1,0,3),(23,'EMAIL','520A','Email Configuration',0,4,1,0,3),(24,'GOOGLECALENDAR','521A','Calender Subscription',0,4,1,0,3),(26,'VPN','523A','VPN',0,4,1,0,3),(27,'LDAP','524A','LDAP',0,4,1,0,3),(29,'CHANGEPASSWORD','526A','Set Passcode',0,4,1,0,3),(30,'ENTERPRISEWIPE','527A','Enterprise Wipe',0,1,1,0,1),(31,'POLICY','500P','Policy Enforcement',0,4,2,0,0),(32,'MONITORING','501P','Policy Monitoring ',0,5,2,1,0),(33,'BLACKLISTAPPS','528B','Blacklist Apps',0,2,1,0,0),(34,'REVOKEPOLICY','502P','Revoke Policy',0,4,2,0,0);
 
+DROP TABLE IF EXISTS permissions;
+CREATE TABLE permissions(
+	ID INT PRIMARY KEY auto_increment,
+	ROLE VARCHAR(45) DEFAULT NULL,
+	CONTENT TEXT DEFAULT NULL,
+	TENANT_ID INT DEFAULT NULL
+);
 
 DROP TABLE IF EXISTS featuretype;
 CREATE TABLE featuretype(
@@ -192,6 +200,14 @@ CREATE TABLE policy_priority(
 	ID INT PRIMARY KEY auto_increment,
 	TYPE VARCHAR(45) DEFAULT NULL,
 	PRIORITY INT DEFAULT NULL
+);
+
+DROP TABLE IF EXISTS permissions;
+CREATE TABLE permissions (
+    id INTEGER AUTO_INCREMENT,
+    role VARCHAR(30),
+    content VARCHAR(255),
+    PRIMARY KEY (id)
 );
 
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (1, 'USERS', 1);
