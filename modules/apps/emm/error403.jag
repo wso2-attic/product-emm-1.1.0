@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Error</title>		
+		<title>Error</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset=utf-8 />
 		<!-- Bootstrap -->
@@ -13,13 +13,13 @@
 		<header>
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
-		
+
 			</div>
-	
+
 		</div>
-	
-	</header>		
-		
+
+	</header>
+
 		<div class="container" style="padding-top: 60px">
 			<div class="text-center">
 				<h3>403: Access to the specified resource has been forbidden</h3>
@@ -28,9 +28,8 @@
 
 		<script src="/emm/assets/jquery/jquery-min.js"></script>
 		<script src="/emm/assets/bootstrap/js/bootstrap.min.js"></script>
-		
-		
+
+
 
 	</body>
 </html>
-
