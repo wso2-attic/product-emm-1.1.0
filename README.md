@@ -5,6 +5,7 @@ Welcome to the WSO2 Enterprise Mobility Manager (EMM) 1.0.0 release
 
 Key Features
 ------------
+
 1.  Self-service device enrollment and management with end-user MDM console
 2.  Policy-driven device management for security, data, and device features (Camera, Password Policy)
 3.  Deploy policies over-the-air 

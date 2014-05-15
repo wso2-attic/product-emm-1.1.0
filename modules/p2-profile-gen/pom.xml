@@ -538,10 +538,6 @@
 									<version>4.2.1</version>
 								</feature>
 								<feature>
-									<id>org.wso2.carbon.identity.xacml.feature.group</id>
-									<version>4.2.1</version>
-								</feature>
-								<feature>
 									<id>org.wso2.carbon.claim.mgt.feature.group</id>
 									<version>4.2.0</version>
 								</feature>
