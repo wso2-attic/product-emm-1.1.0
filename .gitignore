@@ -240,8 +240,6 @@ wso2emm-parent.iml
 
 modules/apps/mdm/.idea
 modules/apps/mdm/mdm.iml
-modules/apps/mdm/config/android.json
-modules/apps/mdm/config/config.json
 modules/apps/mdm/client_app/*
 
 modules/apps/emm/.idea
