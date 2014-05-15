@@ -347,7 +347,7 @@ $("#modalChangePasswordButton").click(function() {
             dataType : "json",
             statusCode: {
                 400: function() {				
-                    n.setText('Error occured!');	
+                    n.setText('Error occured while changing the password!');	
                     n.setType('error');
                     n.setTimeout(1000);			
                 },
