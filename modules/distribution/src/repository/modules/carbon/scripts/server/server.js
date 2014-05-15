@@ -1,6 +1,6 @@
 (function (server) {
     var log = new Log();
-
+    var process = require("process");
     var login = function (url, username, password) {
         var res, options, payload,
             ws = require('ws'),
@@ -78,6 +78,39 @@
         realm = realmService.getTenantUserRealm(user.tenantId);
         return realm.getUserStoreManager().authenticate(user.username, password);
     };
+
+     /*
+      Description:- If the HostName is provided in carbon.xml it will be used to return the
+      address with the valid port. If HostName is not mentioned -local ip will be used
+      to return the address.
+      Usage:- Scenario where the address of the server is required based on host or ip
+      Parameters:- Transport is https or http.
+    */
+    server.address = function(transport){
+        var  host = process.getProperty('server.host'),
+        ip = process.getProperty('carbon.local.ip');
+        var port;
+        if(transport=="http"){
+          port = process.getProperty('mgt.transport.http.proxyPort');
+          if(!port){
+            //can use http.port as well
+            port = process.getProperty('mgt.transport.http.port');
+          }
+        }else if(transport=="https"){
+          port = process.getProperty('mgt.transport.https.proxyPort');
+          if(!port){
+            //can use https.port as well
+            port = process.getProperty('mgt.transport.https.port');
+          }
+        }
+        var postUrl;
+        if(host==null || host=="localhost"){
+          postUrl  = transport+"://" + ip + ":" + port;
+        }else{
+          postUrl = transport+"://" + host+ ":" +port;
+        }
+        return postUrl;
+    }
 
     Server.prototype.login = function (username, password) {
         var cookie = login(this.url, username, password);
