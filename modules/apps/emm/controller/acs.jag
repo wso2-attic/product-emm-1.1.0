@@ -1,156 +1,69 @@
 <%
-(function () {
-    var SAML_RESPONSE_TOKEN_SESSION_KEY = "SAML_TOKEN";
-    var SAML_ASSERTION_TOKEN_SESSION_KEY = "SAML_ASSERTION_TOKEN";
-    var SSO_NAME = "SSORelyingParty.Name";
-    var common = require('/modules/common.js');
-    var getToken = function (){
-        if(session.get(SAML_RESPONSE_TOKEN_SESSION_KEY)){
-            return session.get(SAML_RESPONSE_TOKEN_SESSION_KEY);
-        } else if(session.get(SAML_ASSERTION_TOKEN_SESSION_KEY)){
-            return session.get(SAML_ASSERTION_TOKEN_SESSION_KEY);
-        } else {
-            return null;
-        }
-    };
-
-    var getBackendCookie = function (samlToken) {
-        var token = getToken();
-        var token = null;
-        var encodedToken = token && token.replace(/>/g, '&gt;').replace(/</g,'&lt;');
-        var xhr = new XMLHttpRequest();
-        xhr.setRequestHeader('SOAPAction', 'urn:login');
-        xhr.setRequestHeader('Content-Type', 'application/soap+xml');
-        var endPoint = "https://localhost:9443/admin/services/"+"SAML2SSOAuthenticationService";
-        xhr.open("POST", endPoint);
-        var payload = '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sso="http://sso.saml2.authenticator.identity.carbon.wso2.org" xmlns:xsd="http://dto.sso.saml2.authenticator.identity.carbon.wso2.org/xsd"><soap:Header/><soap:Body><sso:login><sso:authDto><xsd:response>'+samlToken+'</xsd:response></sso:authDto></sso:login></soap:Body></soap:Envelope>';
-        xhr.send(payload);
-        var cookieString = xhr.getResponseHeader("Set-Cookie");
-        return cookieString;
-    };
-
-    var log = new Log(),
-            configs = require('/config/emm.js').config(),
-            samlResponse = request.getParameter('SAMLResponse'),
-			process = require('process');
-            sessionId = session.getId(),
-            samlRequest = request.getParameter('SAMLRequest'),
-            relayState = request.getParameter('RelayState'),
-            sso = require('sso'),
-            keyStoreProps = {
-                KEY_STORE_NAME: process.getProperty('carbon.home') + configs.ssoConfiguration.keyStoreName,
-                KEY_STORE_PASSWORD: configs.ssoConfiguration.keyStorePassword,
-                IDP_ALIAS: configs.ssoConfiguration.identityAlias
-            },
-            sso_sessions = application.get('sso_sessions');
-			var samlRespObj;
-    if (!sso_sessions) {
-        application.put('sso_sessions', {});
-        sso_sessions = application.get('sso_sessions');
-    }
-    if (samlResponse != null) {
-        samlRespObj = sso.client.getSamlObject(samlResponse);
-        if (!sso.client.isLogoutResponse(samlRespObj)) {
-
-            // validating the signature
-            if (configs.ssoConfiguration.responseSigningEnabled) {
-
-                if (sso.client.validateSignature(samlRespObj, keyStoreProps)) {
-                    log.info("Saml object session ID :"+samlRespObj.sessionId);
-                    var sessionObj = sso.client.decodeSAMLLoginResponse(samlRespObj, samlResponse, sessionId);
-
-                    if (sessionObj.sessionIndex != null || sessionObj.sessionIndex != 'undefined') {
-                        session.put("LOGGED_IN_USER", sessionObj.loggedInUser);
-                        session.put("Loged", "true");
-                        sso_sessions[sso_sessions[sessionObj.sessionIndex] = sessionObj.sessionId] = sessionObj.sessionIndex;
-
-                            log.info('user is set :::' + sessionObj.loggedInUser);
-	                        session.put("Loged", "true");
-							log.info(">> Logged");
-	                        sso_sessions[sessionObj.sessionIndex] = sessionObj.sessionId;
-						    var username = sessionObj.loggedInUser;
-					        var userModule = require('/modules/user.js').user;
-							var db = application.get('db');
-							var user = new userModule(db);
-							var objUser = user.getUser({'userid': username, login: true});
-							if(objUser != null){
-								var userFeed = {};
-								userFeed.tenantId = stringify(objUser["tenantId"]);
-								userFeed.username = objUser["username"];
-								userFeed.email = objUser["email"];
-								userFeed.firstName = objUser["firstName"];
-								userFeed.lastName = objUser["lastName"];
-								userFeed.mobile = objUser["mobile"];
-								log.debug(" >>>>>>>>> acs.jag");
-								userFeed.tenantDomain = user.getTenantDomainFromID(stringify(objUser["tenantId"]));
-								var parsedRoles = parse(objUser["roles"]);
-								userFeed.roles = parsedRoles;
-								var isEMMAdmin = false;
-								var isAdmin = false;
-								for (var i = 0; i < parsedRoles.length; i++) {
-									if(parsedRoles[i] == 'Internal/emmadmin') {
-                                        isEMMAdmin = true;
-										break;
-									}
-									if(parsedRoles[i] == 'admin') {
-										isAdmin = true;
-                                        isEMMAdmin = true;
-										break;
-									}
-								}	
-								userFeed.isEMMAdmin = isEMMAdmin;
-								userFeed.isAdmin = isAdmin;
-								session.put("emmConsoleUserLogin", "true");
-								session.put("emmConsoleUser", userFeed);
-
-                                var entitlement = require('policy').entitlement;
-                                var backEndCookie = getBackendCookie(samlResponse);
-                                entitlement.setAuthCookie(backEndCookie);
-
-                                session.put("entitlement",entitlement);
-                                session.put("samlresponse",samlResponse);
-                                 //  session.put("epas_stub",entitlementPolicyAdminService);
-
-                                var db = common.getDatabase();
-
-                                var groupModule = require('/modules/group.js').group;
-                                var group = new groupModule(db);
-                                if(!group.roleExists("Internal/emmadmin")){
-                                    var userList = new Array();
-                                    group.addGroup({'name':'Internal/emmadmin','users':userList});
-                                }
-                                
-								var appController =require('/controller/app.js');
-								if(isAdmin){
-									response.sendRedirect('console/dashboard');
-								}else{
-									response.sendRedirect(appController.appInfo().server_url + 'users/devices?user=' + userFeed.username);
-								}
-                        }
-
-                    }
-                }
+var dataConfi = require('/config/emm.js').config();
+var sso = require("/modules/sso.js").sso;
+var log = new Log();
+var keyStoreParams = {
+    keyStoreName: dataConfi.ssoConfiguration.keyStoreName,
+    keyStorePassword: dataConfi.ssoConfiguration.keyStorePassword,
+    identityAlias: dataConfi.ssoConfiguration.identityAlias
+}
+sso.configure(dataConfi.ssoConfiguration.issuer, "emm", keyStoreParams);
+sso.acs(function(loggedInUser) {
+    session.put("LOGGED_IN_USER", loggedInUser);
+    session.put("Loged", "true");
+    var username = loggedInUser;
+    var userModule = require('/modules/user.js').user;
+    var db = application.get('db');
+    var user = new userModule(db);
+    var objUser = user.getUser({
+        'userid': username,
+        login: true
+    });
+    if (objUser != null) {
+        var userFeed = {};
+        userFeed.tenantId = stringify(objUser["tenantId"]);
+        userFeed.username = objUser["username"];
+        userFeed.email = objUser["email"];
+        userFeed.firstName = objUser["firstName"];
+        userFeed.lastName = objUser["lastName"];
+        userFeed.mobile = objUser["mobile"];
+        userFeed.tenantDomain = user.getTenantDomainFromID(stringify(objUser["tenantId"]));
+        var parsedRoles = parse(objUser["roles"]);
+        userFeed.roles = parsedRoles;
+        var isEMMAdmin = false;
+        var isAdmin = false;
+        for (var i = 0; i < parsedRoles.length; i++) {
+            if (parsedRoles[i] == 'Internal/emmadmin') {
+                isEMMAdmin = true;
+                break;
             }
-
+            if (parsedRoles[i] == 'admin') {
+                isAdmin = true;
+                isEMMAdmin = true;
+                break;
+            }
+        }
+        userFeed.isEMMAdmin = isEMMAdmin;
+        userFeed.isAdmin = isAdmin;
+        session.put("emmConsoleUserLogin", "true");
+        session.put("emmConsoleUser", userFeed);
+        var db = common.getDatabase();
+        var groupModule = require('/modules/group.js').group;
+        var group = new groupModule(db);
+        if (!group.roleExists("Internal/emmadmin")) {
+            var userList = new Array();
+            group.addGroup({
+                'name': 'Internal/emmadmin',
+                'users': userList
+            });
+        }
+        var appController = require('/controller/app.js');
+        if (isAdmin) {
+            response.sendRedirect('console/dashboard');
         } else {
-            session.invalidate();
-            response.sendRedirect('/emm');
+            response.sendRedirect(appController.appInfo().server_url + 'users/devices?user=' + userFeed.username);
         }
     }
-
-    // if saml request is a log out request, then invalidate session.
-    if (samlRequest != null) {
-        var index = sso.client.decodeSAMLLogoutRequest(sso.client.getSamlObject(samlRequest));
-        log.info('BACKEND LOGOUT RECIEVED FROM STORE THE INDEX IS ######' + index);
-
-        var jSessionId = application.get('sso_sessions')[index];
-
-        delete application.get('sso_sessions')[index];
-
-
-        log.info('store Session Id :::' + jSessionId);
-
-        session.invalidate();
-    }
-}());
-%>
+}, function() {
+    response.sendRedirect('/emm');
+}); %>

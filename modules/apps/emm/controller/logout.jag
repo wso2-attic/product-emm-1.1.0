@@ -1,42 +1,15 @@
 <%
-(function(){
-    var user = session.get("emmConsoleUser");
-    if(user === null) {
-        response.sendRedirect('/emm');
-    } else {
-        var config = require('/config/emm.js').config(),
-				process = require('process'),
-                sso = require('sso'),
-                sso_sessions = application.get('sso_sessions'),
-                sessionId = session.getId(),
-                encodedSAMLLogoutRequest = sso.client.getEncodedSAMLLogoutRequest(user, sso_sessions[session.getId()], config.ssoConfiguration.issuer),
-                relayState = '/emm',
-                host = process.getProperty('server.host'),
-                log = new Log(),
-                address = require("/modules/address.js");
-                
-        var postUrl = address.getAddress("https");
-        log.info("store session index : " + sso_sessions[session.getId()]);
-        %>
-        <div>
-           <p>You are now redirected to Stratos Identity. If the
-           redirection fails, please click the post button.</p>
-
-            <form id="logoutForm" method="post" action="<%=postUrl%>/samlsso">
-            <p>
-                <input type="hidden" name="SAMLRequest"
-                      value="<%= encodedSAMLLogoutRequest %>"/>
-                <input type="hidden" name="RelayState" value="<%= relayState %>"/>
-                 <input type="hidden" name="SSOAuthSessionID" value="<%= sessionId %>"/>
-                <button type="submit">POST</button>
-            </p>
-            </form>
-        </div>
-        <script type = "text/javascript" >
-                       document.forms[0].submit();
-        </script>
-
-         <%
+var user = session.get("emmConsoleUser");
+if (user === null) {
+    response.sendRedirect('/emm');
+} else {
+    var dataConfi = require('/config/emm.js').config();
+    var sso = require("/modules/sso.js").sso;
+    var keyStoreParams = {
+        keyStoreName: dataConfi.ssoConfiguration.keyStoreName,
+        keyStorePassword: dataConfi.ssoConfiguration.keyStorePassword,
+        identityAlias: dataConfi.ssoConfiguration.identityAlias
     }
-}());
-%>
+    sso.configure(dataConfi.ssoConfiguration.issuer, "emm", keyStoreParams);
+    sso.logout(user);
+} %>
