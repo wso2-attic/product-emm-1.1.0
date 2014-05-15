@@ -454,11 +454,16 @@ var notification = (function() {
                 // there is a problem here | if regId is empty the query returns everything
                 var devices = driver.query(sqlscripts.devices.select19, regId);
                 if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
+                    // log.info(ctx.data);
                     var responseData = ctx.data;
                     if (responseData != undefined && responseData != null) {
+                        // log.info(responseData);
+                       var responseData = parse(responseData).data; 
+
                         //Update the notifications table
                         for (var i=0; i<responseData.length; ++i) {
                             var feature_code = responseData[i].code;
+                            // log.info(responseData[i]);
                             var featureData = responseData[i].data;
                             var messageId = featureData[0].messageId;
                             var sentMessage = featureData[0].data;
@@ -470,6 +475,7 @@ var notification = (function() {
 
                     //Get pending operations for the device
                     var pendingOperations = driver.query(sqlscripts.notifications.select13, devices[0].id);
+                    // log.info(pendingOperations);
                     if (pendingOperations != undefined && pendingOperations != null && pendingOperations[0] != undefined && pendingOperations[0] != null) {
                         var payloadArray = [];
                         for(var i=0; i<pendingOperations.length; ++i) {
@@ -494,6 +500,8 @@ var notification = (function() {
                 }else{
                     return null;
                 }
+            }else{
+                return null;
             }
         }
 

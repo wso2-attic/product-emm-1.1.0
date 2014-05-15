@@ -1,4 +1,6 @@
 {
+    "NOTIFIER" : "LOCAL",   
+    "NOTIFIER_INTERVAL" : "1",
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
@@ -43,5 +45,5 @@
     "mam": {
         "store_location": "%https.ip%/store"
     },
-    "monitor_interval" : "2"
+    "monitor_interval" : "1"
 }

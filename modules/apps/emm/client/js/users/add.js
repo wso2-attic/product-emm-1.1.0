@@ -92,9 +92,29 @@ $("#btn-add").click(function() {
 				n.setType('error');
 				n.setTimeout(1000);			
 			},
-			201: function() {				
-				n.setText('User Added successfully!');	
-				window.location.assign("configuration");
+			201: function(data) {
+               if(data.responseText != 'SUCCESSFUL'){
+                  n.setTimeout(0);	
+                    noty({
+                       text : '<b>User Added successfully!</b> <br>' + '<u>User Password</u>: ' + data.password + '<br>' + '<u>Enroll URL</u>: ' + data.enroll_url,
+                        buttons : [{
+                            addClass : 'btn btn-orange',
+                            text : 'OK',
+                            onClick : function($noty) {
+                                $noty.close();
+                                window.location.assign("configuration");    
+                            }
+
+
+                        }]
+                    });
+
+                   
+               }else{
+                   n.setText('User Added successfully!');	
+				   window.location.assign("configuration");
+               }
+				
 			},
 			409: function() {				
 				n.setText('User already exist!');	

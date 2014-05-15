@@ -255,7 +255,6 @@ var user = (function () {
                 var removeUsers = new Array("wso2.anonymous.user","admin","admin@admin.com");
                 var users = common.removeNecessaryElements(allUsers,removeUsers);
                 users_list = users;
-                log.info("User_List :"+users_list);
             }else{
                 print('Error in getting the tenantId from session');
             }
@@ -454,6 +453,14 @@ var user = (function () {
 			}catch(e){
 				log.info(e);
 			}
+        },
+
+        /*get user enrollment info*/
+        getEnrollmentInfo: function(ctx){
+            var info = {};
+            info.password = ctx.generatedPassword;
+            info.enroll_url = config.HTTPS_URL+"/emm/api/device_enroll";
+            return info;
         },
 
         /*Get all devices belongs to particular user*/

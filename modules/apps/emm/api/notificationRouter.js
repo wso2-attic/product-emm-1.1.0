@@ -35,14 +35,16 @@ var notification = (function () {
          Device contacts this api to get and update the pending operations
          */
         router.post('notifications/pendingOperations', function(ctx) {
-
             var operations = notification.getAndroidOperations(ctx);
             if(operations != null) {
                 //Pending Operations - Send Payload
+                log.debug("Operations sent");
                 response.status = 200;
-                response.content = operations;
+                print(operations);
+                // log.info(operations);
             } else {
                 response.status = 401;
+                log.debug("Operations finished");
                 response.content = "SUCCESS";
             }
         });

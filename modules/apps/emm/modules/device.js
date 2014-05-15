@@ -187,7 +187,6 @@ var device = (function () {
         }
 
         var devicePolicy = driver.query(sqlscripts.policies.select16, deviceId, devices[0].tenant_id);
-
         if (devicePolicy != null && devicePolicy != undefined && devicePolicy[0] != null && devicePolicy[0] != undefined) {
             var policyPayLoad;
             var mdmPolicy = parse(devicePolicy[0].data);
@@ -447,7 +446,7 @@ var device = (function () {
         var featureCode = features[0].code;
         var featureId = features[0].id;
         var featureDescription = features[0].description;
-
+            
         if (featureCode == "500P") {
             //Revoke policy and save to device_policy
             saveDevicePolicy(ctx);
@@ -498,8 +497,8 @@ var device = (function () {
         var deviceID = devices[0].id;
         var userId = devices[0].user_id;
 
-        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "hi"});
-        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "hi"});
+        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "null"});
+        sendMessageToIOSDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "null"});
 
         var mdmPolicy = getPolicyPayLoad(deviceID,1);
         if(mdmPolicy != undefined && mdmPolicy != null){
@@ -922,7 +921,6 @@ var device = (function () {
         <!-- android specific functions -->
         getSenderId: function(ctx){
             var androidConfig = require('/config/android.json');
-            log.info(androidConfig);
             var message = {};
             message.sender_id = androidConfig.sender_id;
             message.notifier = configFile.NOTIFIER;
@@ -965,8 +963,8 @@ var device = (function () {
                     var devices = driver.query(sqlscripts.devices.select19, ctx.regid);
                     var deviceID = devices[0].id;
                     log.info("Android Device has been registered "+ctx.regid);
-                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "hi"});
-                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "hi"});
+                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "null"});
+                    sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "null"});
 
                     var mdmPolicy = getPolicyPayLoad(deviceID,1);
                     log.debug("PayLoad >>> " + mdmPolicy);

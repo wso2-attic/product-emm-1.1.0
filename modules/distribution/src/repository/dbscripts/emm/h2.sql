@@ -202,14 +202,6 @@ CREATE TABLE policy_priority(
 	PRIORITY INT DEFAULT NULL
 );
 
-DROP TABLE IF EXISTS permissions;
-CREATE TABLE permissions (
-    id INTEGER AUTO_INCREMENT,
-    role VARCHAR(30),
-    content VARCHAR(255),
-    PRIMARY KEY (id)
-);
-
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (1, 'USERS', 1);
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (2, 'PLATFORMS', 2);
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (3, 'ROLES', 3);

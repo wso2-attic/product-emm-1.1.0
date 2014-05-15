@@ -2,6 +2,7 @@ var DB_SESSION = "db";
 
 var log = new Log();
 var sqlscripts = require('/sqlscripts/mysql.js');
+var config = require('/config/emm.js').config();
 
 var getCurrentLoginUser = function(){
     if(typeof session.get("emmConsoleUser") != 'undefined' && session.get("emmConsoleUser") != null){
@@ -464,5 +465,16 @@ var checkAuth = function(ctx){
        return authState;
     }else{
         response.sendError(403);
+    }
+}
+
+/*
+ Function that returns whether the email settings has been configured or not
+ */
+var isEmailConfigured = function(){
+    if(config.email.senderAddress && config.email.emailPassword){
+        return true;
+    }else{
+        return false;
     }
 }
