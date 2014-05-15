@@ -38,7 +38,7 @@ appInfo = function() {
 	Redirect to login page if the user is no loggedin
 */
 if(session.get("emmConsoleUserLogin") == null && session.get("emmConsoleUserLogin") != "true" && request.getRequestURI() != appInfo().server_url + "login"){
-    response.sendRedirect(appInfo().server_url + "login");
+    response.sendRedirect(appInfo().server_url + "login?"+request.getQueryString());
     throw require('/modules/absolute.js').appRedirect;
 }else{
 	if(!(session.get("emmConsoleUser")['isEMMAdmin'] == true | session.get("emmConsoleUser")['isAdmin'] == true)){
