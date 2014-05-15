@@ -912,7 +912,7 @@ var device = (function () {
         },
         changeDeviceState:function(deviceId,state){
         	var tenantID = common.getTenantID();
-            driver.query(sqlscripts.devices.update1, state, stringify(deviceId));
+            driver.query(sqlscripts.devices.update1, state, deviceId);
         },
         saveDevicePolicy: saveDevicePolicy,
         removeDevicePolicy: removeDevicePolicy,
