@@ -45,5 +45,5 @@
     "mam": {
         "store_location": "%https.ip%/store"
     },
-    "monitor_interval" : "5"
+    "monitor_interval" : "1"
 }
