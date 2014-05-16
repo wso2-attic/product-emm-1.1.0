@@ -21,7 +21,7 @@
 
 	<ios-mdm-conf>
 		<!--EMM Device Monitor Frequency -->
-        <device-monitor-frequency>5</device-monitor-frequency>
+        <device-monitor-frequency>1</device-monitor-frequency>
 		<!-- iOS mdm endpoint urls -->
 		<ios-enroll-url>https://localhost:9443/mdm/scep</ios-enroll-url>
 		<ios-profile-url>https://localhost:9443/mdm/profile</ios-profile-url>
