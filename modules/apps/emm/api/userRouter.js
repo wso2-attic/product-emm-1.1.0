@@ -62,6 +62,7 @@ var user = (function (){
 			try{
 				user.changePassword(ctx);
 			}catch(e){
+                response.status = 400;
 				log.error(e);
 				print("Error occurred while changing password")
 			}
