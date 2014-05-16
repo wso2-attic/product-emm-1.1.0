@@ -11,6 +11,9 @@ var policy = new policyModule(db);
 var userModule = require('/modules/user.js').user;
 var user = new userModule(db);
 
+var storeModule = require('/modules/store.js').store;
+var store = new storeModule(db);
+
 
 
 configuration = function(appController){	
@@ -189,6 +192,16 @@ add = function(appController){
 	}catch(e){
 		var features = [];
 	}
+    
+    
+    try{
+		var installedApps =  store.getAppsFromStoreFormatted();
+        
+	}catch(e){
+		var installedApps = [];
+	}
+    
+    print("hiii");
 		
 	context.jsFile= "policies/add.js";
 	context.title = context.title + " | Configuration";	
@@ -196,7 +209,8 @@ add = function(appController){
 	context.data = {
 			configOption : "policies",
 			groups: groups,
-			features: features
+			features: features,
+            installedApps: installedApps
 	};
 	return context;
 };
@@ -209,6 +223,13 @@ edit = function(appController){
 	
 	var policyId = request.getParameter('policy');
 	var policyName = request.getParameter('policy');
+    
+    
+    try{
+		var installedApps =  store.getAppsFromStoreFormatted();
+	}catch(e){
+		var installedApps = [];
+	}
 	
 	
 	context.jsFile= "policies/edit.js";
@@ -217,7 +238,8 @@ edit = function(appController){
 	context.data = {
 			configOption : "policies",
 			policyId: policyId,
-			policyName: policyName
+			policyName: policyName,
+            installedApps: installedApps
 			
 	}
 	return context;

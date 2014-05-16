@@ -34,7 +34,7 @@
         "emailTemplate": "nYou have been registered to the WSO2Mobile MDM. Below is the link to enroll.nn"
     },
     "device": {
-        "android_location": "%http.ip%/emm/client_app/MDMAgent1.0.apk",
+        "android_location": "%http.ip%/emm/client_app/emm-agent-android.apk",
         "ios": {
             "location": "%http.ip%/emm/client_app/iOS-MDM-Agent.ipa",
             "bundleid": "com.wso2.mobile",
