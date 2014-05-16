@@ -42,11 +42,11 @@ var emm = (function () {
     module.prototype = {
         constructor: module,
         install: function(payload, device){
-			var url =  configs.mdm.api+'/devices/'+device+'/AppInstall';
+			var url =  configs.emm.api+'/devices/'+device+'/AppInstall';
 			var result = jsonPost(url, payload);
 		},
 		installWebClip: function(payload, device){
-			var url =  configs.mdm.api+'/devices/'+device+'/WEBCLIP';
+			var url =  configs.emm.api+'/devices/'+device+'/WEBCLIP';
 			var result = jsonPost(url, payload);
 		},
 		getDevices: function(username, platform){
@@ -61,15 +61,15 @@ var emm = (function () {
 			return result;
 		},
 		uninstall: function(payload, device){
-			var url = configs.mdm.api+'/devices/'+device+'/AppUNInstall';
+			var url = configs.emm.api+'/devices/'+device+'/AppUNInstall';
 			var result = jsonPost(url, payload);
 		},
 		installBulk: function(data){
-			var url =  configs.mdm.api+'/devices/AppInstall';
+			var url =  configs.emm.api+'/devices/AppInstall';
 			var result = jsonPost(url, data);
 		},
 		uninstallBulk: function(data){
-			var url =  configs.mdm.api+'/devices/AppUNInstall';
+			var url =  configs.emm.api+'/devices/AppUNInstall';
 			var result = jsonPost(url, data);
 		}
     };
