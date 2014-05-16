@@ -940,8 +940,7 @@ var device = (function () {
         },
         registerAndroid: function(ctx){
             var log = new Log();
-          // ctx.email = ctx.email+"@carbon.super";
-            var tenantUser = carbon.server.tenantUser(ctx.email);
+            var tenantUser = carbon.server.tenantUser(ctx.username);
             var userId = tenantUser.username;
             var tenantId = tenantUser.tenantId;
             var platforms = driver.query(sqlscripts.platforms.select1, ctx.platform);
