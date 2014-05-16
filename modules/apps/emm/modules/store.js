@@ -149,6 +149,7 @@ var store = (function() {
     module.prototype = {
         constructor: module,
         getAllDevicesFromEmail: function(ctx) {
+            log.info("EMM called >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             var devicesArray;
             if (ctx.data.platform == 'webapp') {
                 user.getUser(ctx.user)
@@ -201,7 +202,7 @@ var store = (function() {
                     }
                 }
             } else {
-                log.debug(ctx.data.email);
+                
                 log.debug(stringify(user.getUser({
                     userid: ctx.data.email
                 })));

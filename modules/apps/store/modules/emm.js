@@ -50,7 +50,8 @@ var emm = (function () {
 			var result = jsonPost(url, payload);
 		},
 		getDevices: function(username, platform){
-			var url = configs.mdm.api+'/store/users/devices';
+			
+			var url = configs.emm.api+'/store/users/devices';
 			var payload = {email: String(username)};
 			if(platform!=null){
 				payload.platform = platform;
