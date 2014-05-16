@@ -331,8 +331,8 @@ function loadGeneralInformation(tabId, deviceId) {
 		dataType : "json",
 		success : function(genInfo) {
 
-			genInfo.received_data = JSON.parse(genInfo.received_data);
-
+			genInfo.received_data = JSON.parse(genInfo.received_data)[0].data;
+            //alert(JSON.stringify(genInfo.received_data]));
 			$.get('../client/partials/users/geninfo.hbs', function(templateData) {
 				var template = Handlebars.compile(templateData);
 				$("#gen-info-" + tabId).html(template({
@@ -341,6 +341,7 @@ function loadGeneralInformation(tabId, deviceId) {
 				}));
 				// $('.gen-info').tooltip();
 				var receivedData = genInfo.received_data;
+                
 				//var receivedData = {};
 				//receivedData.location_obj = {};
 				//receivedData.location_obj.latitude = "6.9123661";
