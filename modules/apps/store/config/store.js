@@ -10,6 +10,7 @@ var config;
             if ((typeof value === 'string') && value.indexOf('%https.ip%') > -1) {
                 return value.replace('%https.ip%', address.getAddress("https"));
             }else if ((typeof value === 'string') && value.indexOf('%http.ip%') > -1) {
+            	log.info(address.getAddress("http"));
                 return value.replace('%http.ip%', address.getAddress("http"));
             }
             return  value;

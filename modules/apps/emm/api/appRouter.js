@@ -25,9 +25,9 @@ var getApp = function(id, tenantDomain){
 	return app;
 }
 var buildInstallParam = function(ctx){
-	var installParam = configs.archieve_location+ctx.url;
+	var installParam = configs.mam.archieve_location+ctx.url;
 	if (ctx.platform.toUpperCase() == 'IOS'){
-		installParam = configs.archieve_location+"/mam/api/apps/install/ios/"+ctx.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+		installParam = configs.mam.archieve_location+"/mam/api/apps/install/ios/"+ctx.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
 	}
 	if(ctx.type == "Market" || ctx.type == "VPP"){
 		if(ctx.platform.toUpperCase() == 'IOS'){

@@ -438,6 +438,7 @@ var getToken = function (){
     }
 };
 var getBackendCookie = function (samlToken) {
+    return true;
     var token = getToken();
     var token = null;
     var encodedToken = token && token.replace(/>/g, '&gt;').replace(/</g,'&lt;');

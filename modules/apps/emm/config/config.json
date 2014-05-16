@@ -43,7 +43,8 @@
         }
     },
     "mam": {
-        "store_location": "%https.ip%/store"
+        "store_location": "%https.ip%/store",
+         "archieve_location": "%http.ip%"
     },
     "monitor_interval" : "1"
 }
