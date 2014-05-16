@@ -1,3 +1,5 @@
+var appsLoded = false;
+
 $("#btn-add").click(function() {
 
     $( 'form').parsley( 'validate' );	
