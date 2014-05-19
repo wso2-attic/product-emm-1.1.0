@@ -36,16 +36,15 @@ var notification = (function () {
          */
         router.post('notifications/pendingOperations', function(ctx) {
             var operations = notification.getAndroidOperations(ctx);
-            if(operations != null) {
-                //Pending Operations - Send Payload
-                log.debug("Operations sent");
+            log.info("Pending >>>>> " + stringify(operations));
+
+            if(operations == "527A") {
+                //Unregister the android agent
+                response.status = 200;
+                response.content = "527A";
+            } else {
                 response.status = 200;
                 print(operations);
-                // log.info(operations);
-            } else {
-                response.status = 401;
-                log.debug("Operations finished");
-                response.content = "SUCCESS";
             }
         });
 		

@@ -473,8 +473,17 @@ var notification = (function() {
 
                     }
 
-                    //Get pending operations for the device
-                    var pendingOperations = driver.query(sqlscripts.notifications.select13, devices[0].id);
+                    var pendingOperations;
+
+                    //Check if there is a Enterprise Wipe
+                    var enterpriseWipe = driver.query(sqlscripts.notifications.select14 , devices[0].id, "527A");
+                    if(enterpriseWipe != undefined && enterpriseWipe != null && enterpriseWipe[0] != undefined && enterpriseWipe[0] != null) {
+                        pendingOperations = enterpriseWipe;
+                    } else {
+                        //Get pending operations for the device
+                        pendingOperations = driver.query(sqlscripts.notifications.select13, devices[0].id);
+                    }
+
                     // log.info(pendingOperations);
                     if (pendingOperations != undefined && pendingOperations != null && pendingOperations[0] != undefined && pendingOperations[0] != null) {
                         var payloadArray = [];
@@ -497,6 +506,7 @@ var notification = (function() {
                         //driver.query(sqlscripts.device_awake.update6, recivedDate, devices[0].id);
                         return null;
                     }
+
                 }else{
                     return null;
                 }
