@@ -36,6 +36,7 @@ var buildInstallParam = function(ctx){
 			installParam = ctx.packageid;
 		}
 	}
+    log.info("installParam >>>>>>> " + installParam);
 	return installParam;
 }
 //Inserts a VPP code into the payload if the app type is VPP
@@ -259,7 +260,7 @@ var app = {
         router.get("apps/install/ios/{id}", function(ctx) {
             var app = getApp(ctx.id, ctx.tenantDomain);
             var iosManifest = compileTemplate("/template.hbs", {
-                url: configs.archieve_location + "" + app.attributes.overview_url,
+                url: configs.mam.archieve_location + "" + app.attributes.overview_url,
                 bundleid: app.attributes.overview_packagename,
                 bundleversion: app.attributes.overview_bundleversion,
                 appname: app.attributes.overview_name

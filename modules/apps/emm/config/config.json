@@ -31,20 +31,19 @@
         "companyName": "WSO2",
         "senderAddress": "",
         "emailPassword": "",
-        "emailTemplate": "nYou have been registered to the WSO2Mobile MDM. Below is the link to enroll.nn"
+        "emailTemplate": "nYou have been registered to the WSO2 Mobile EMM. Below is the link to enroll.nn"
     },
     "device": {
         "android_location": "%http.ip%/emm/client_app/emm-agent-android.apk",
         "ios": {
-            "location": "%http.ip%/emm/client_app/iOS-MDM-Agent.ipa",
+            "location": "%http.ip%/emm/client_app/emm-agent-ios.ipa",
             "bundleid": "com.wso2.mobile",
             "version": "IOS_IPAVERSION",
-            "appname": "MDM Agent"
+            "appname": "EMM Agent"
         }
     },
     "mam": {
         "store_location": "%https.ip%/store",
          "archieve_location": "%http.ip%"
-    },
-    "monitor_interval" : "1"
+    }
 }

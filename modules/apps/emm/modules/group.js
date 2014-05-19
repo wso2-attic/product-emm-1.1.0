@@ -187,7 +187,8 @@ var group = (function () {
 			if(tenantId){
 				var um = userManager(common.getTenantID());
 				var allUsers = um.getUserListOfRole(ctx.groupid);
-                var removeUsers = new Array("wso2.anonymous.user","admin");
+                //var removeUsers = new Array("wso2.anonymous.user","admin");
+                var removeUsers = new Array("wso2.anonymous.user");
                 var users = common.removeNecessaryElements(allUsers,removeUsers);
 				for(var i = 0; i < users.length; i++) {
 					var user = um.getUser(users[i]);
