@@ -254,7 +254,6 @@ modules/apps/publisher/.idea/
 modules/apps/publisher/publisher.iml
 modules/apps/publisher/.project
 modules/apps/publisher/upload
-modules/apps/publisher/config/mam-config.json
 
 modules/apps/store/.idea
 modules/apps/store/store.iml
