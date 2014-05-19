@@ -430,7 +430,7 @@
             Enable/Disable the API Startup Publisher
         -->
 	
-	<Enabled>false</Enabled>
+	<Enabled>true</Enabled>
 	
 	<!--
 	Configuration to create APIs for local endpoints. 
@@ -441,7 +441,47 @@
 	-->
 	<LocalAPIs>
 		<LocalAPI>	
-			<Context>/resource</Context>
+			<Context>/emm/api/devices/sender_id</Context>
+			<Provider>admin</Provider>
+			<Version>1.0.0</Version>
+			<IconPath>none</IconPath>
+			<DocumentURL>none</DocumentURL>
+			<AuthType>Any</AuthType>
+		</LocalAPI>
+		<LocalAPI>	
+			<Context>/emm/api/devices/isregistered</Context>
+			<Provider>admin</Provider>
+			<Version>1.0.0</Version>
+			<IconPath>none</IconPath>
+			<DocumentURL>none</DocumentURL>
+			<AuthType>Any</AuthType>
+		</LocalAPI>
+		<LocalAPI>	
+			<Context>/emm/api/devices/license</Context>
+			<Provider>admin</Provider>
+			<Version>1.0.0</Version>
+			<IconPath>none</IconPath>
+			<DocumentURL>none</DocumentURL>
+			<AuthType>Any</AuthType>
+		</LocalAPI>
+		<LocalAPI>	
+			<Context>/emm/api/devices/register</Context>
+			<Provider>admin</Provider>
+			<Version>1.0.0</Version>
+			<IconPath>none</IconPath>
+			<DocumentURL>none</DocumentURL>
+			<AuthType>Any</AuthType>
+		</LocalAPI>
+		<LocalAPI>	
+			<Context>/emm/api/devices/unregister</Context>
+			<Provider>admin</Provider>
+			<Version>1.0.0</Version>
+			<IconPath>none</IconPath>
+			<DocumentURL>none</DocumentURL>
+			<AuthType>Any</AuthType>
+		</LocalAPI>
+		<LocalAPI>	
+			<Context>/emm/api/devices/pendingOperations</Context>
 			<Provider>admin</Provider>
 			<Version>1.0.0</Version>
 			<IconPath>none</IconPath>
