@@ -201,7 +201,6 @@ add = function(appController){
 		var installedApps = [];
 	}
     
-    print("hiii");
 		
 	context.jsFile= "policies/add.js";
 	context.title = context.title + " | Configuration";	

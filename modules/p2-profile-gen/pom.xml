@@ -203,14 +203,20 @@
 								<featureArtifactDef>
 									org.jaggeryjs:org.jaggeryjs.feature:${jaggery.feature.version}
 								</featureArtifactDef>
-								 <featureArtifactDef>
-																		caramel:caramel.feature:${caramel.feature.version}
+								<featureArtifactDef>
+									caramel:caramel.feature:${caramel.feature.version}
                                 </featureArtifactDef>
-                               <!--  <featureArtifactDef>
+
+                               <!--  
+								<featureArtifactDef>
                                 	org.wso2.store.modules:store.feature:${store.feature.version}
-                                </featureArtifactDef> -->
+                                </featureArtifactDef> 
+								-->
                                 
-                                <featureArtifactDef> sugarcane:sugarcane.feature:${sugarcane.feature.version} </featureArtifactDef>
+                                <!-- Jaggery TestFramework -->
+								<featureArtifactDef>org.jaggeryjs.modules:jaggery-test.feature:1.0.0</featureArtifactDef>
+
+
 								<!-- Server features -->
 								<featureArtifactDef>
 									org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:4.2.2
@@ -408,10 +414,12 @@
                                    <version>${caramel.feature.version}</version>
                                </feature>
                               
-								<feature> 
-									<id>sugarcane.feature.group</id>
-									<version>${sugarcane.feature.version}</version> 
-								</feature>
+							<!-- Jaggery TestFramework -->
+							<feature>
+								<id>org.jaggeryjs.modules.jaggery-test.feature.group</id>
+								<version>1.0.0</version>
+							</feature>
+	
 							<!-- Server Features -->
 								<feature>
 									<id>org.wso2.carbon.webapp.mgt.server.feature.group</id>

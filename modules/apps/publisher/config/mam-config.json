@@ -1,0 +1,10 @@
+{
+	'filePreciseLocation': "/upload/",
+	"email": {
+	    "smtp":"$(email_smtp)",
+        "port":"$(email_port)",
+        "companyName": "$(email_companyname)",
+        "senderAddress": "$(senderAddress)",
+		"emailPassword": "$(senderPassword)"
+    }
+}
