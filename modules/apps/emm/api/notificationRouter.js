@@ -17,7 +17,7 @@ var notification = (function () {
 		    var result = notification.addIosNotification(ctx);
 		});
 
-		router.post('notifications', function(ctx){
+		router.post('notifications/1.0.0', function(ctx){
 		    var result = notification.addNotification(ctx);
 		});
 
