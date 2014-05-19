@@ -36,7 +36,7 @@ var notification = (function () {
          */
         router.post('notifications/pendingOperations', function(ctx) {
             var operations = notification.getAndroidOperations(ctx);
-            log.info("Pending >>>>> " + stringify(operations));
+            log.debug("Pending >>>>> " + stringify(operations));
 
             if(operations == "527A") {
                 //Unregister the android agent

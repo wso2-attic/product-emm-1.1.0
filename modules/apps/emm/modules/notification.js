@@ -468,17 +468,19 @@ var notification = (function() {
                             var messageId = featureData[0].messageId;
                             var sentMessage = featureData[0].data;
                             receivedDate = common.getCurrentDateTime();
-                            driver.query(sqlscripts.notifications.update8, sentMessage, receivedDate, messageId);
+                            if (messageId != 'null' && messageId != null) {
+                                driver.query(sqlscripts.notifications.update8, sentMessage, receivedDate, messageId);
+                            }
                         }
-
                     }
 
                     var pendingOperations;
 
                     //Check if there is a Enterprise Wipe
-                    var enterpriseWipe = driver.query(sqlscripts.notifications.select14 , devices[0].id, "527A");
+                    var enterpriseWipe = driver.query(sqlscripts.notifications.select15 , devices[0].id, "527A");
                     if(enterpriseWipe != undefined && enterpriseWipe != null && enterpriseWipe[0] != undefined && enterpriseWipe[0] != null) {
                         pendingOperations = enterpriseWipe;
+                        driver.query(sqlscripts.notifications.update5, enterpriseWipe[0].id);
                     } else {
                         //Get pending operations for the device
                         pendingOperations = driver.query(sqlscripts.notifications.select13, devices[0].id);
@@ -493,7 +495,11 @@ var notification = (function() {
                             var messageArray = [];
                             var message = {};
                             message.messageId = pendingOperations[i].id;
-                            message.data = parse(pendingOperations[i].message);
+                            if(pendingOperations[i].message != null) {
+                                message.data = parse(pendingOperations[i].message);
+                            } else {
+                                message.data = null;
+                            }
                             messageArray[0] = message;
                             operation.data = messageArray;
 
