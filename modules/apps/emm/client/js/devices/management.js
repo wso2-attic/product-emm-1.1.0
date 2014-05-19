@@ -33,13 +33,13 @@ oTable = $('#main-table').dataTable({
         null,
         null,
         null,
-        {                         
+       /* {                         
             "sWidth": "40%",
             "fnRender": function (oObj)                              
             {
                 return '<a href="#" class="btn-item-remove" data-item="'+ oObj.aData[0] +'" title="Remove"><i class="icon-remove"> </i> Remove</a>&nbsp;';
             }
-        }
+        } */
 
 
     ],	
@@ -170,7 +170,7 @@ $( "#main-table" ).on( "click", ".btn-item-remove", function() {
                                 text : 'device is deleted successfully!',
                                 'layout' : 'center'
                             });
-                            window.location.assign("configuration");
+                            window.location.assign("management");
                         }
                     }
 
