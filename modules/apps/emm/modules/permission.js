@@ -47,7 +47,7 @@ var permission = (function () {
           if(!resultCount1>0){
               resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
           }
-          if(resultCount1 > 0 || resultCount2 > 0){
+          if(resultCount1 > 0 || (resultCount2 && resultCount2.length == 0)){
             responseMsg.status = 201;
             return responseMsg.status;
           }
@@ -80,7 +80,6 @@ var permission = (function () {
                 child.value = operationFeatures[i].name;
                 child.title = operationFeatures[i].description;
                 for(var j= 0; j< roleFeatures.length; j++){
-                    log.info(operationFeatures[i].name+"=="+roleFeatures[j]);
                     if(operationFeatures[i].name == roleFeatures[j]){
                         child.select = true;
                         break;

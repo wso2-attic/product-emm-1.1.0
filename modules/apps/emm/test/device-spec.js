@@ -383,6 +383,19 @@ describe('get wifimac operation', function () {
             tearDown();
         }
     });
+
+    it('Test get wifimac from non existing device', function () {
+        try {
+            tearUp();
+            ctx = {"udid": "APA92bEa"};
+            var result = device.getWIFIMac(ctx);
+            expect(result.wifi_mac).toBeUndefined();
+        } catch (e) {
+            log.error(e);
+        } finally {
+            tearDown();
+        }
+    });
 });
 
 describe('is registered operation', function () {
@@ -563,7 +576,7 @@ describe('get current device status operations', function () {
         } catch (e) {
             log.error(e);
         } finally {
-            driver.query("delete from devices where udid = ?",udid);
+            driver.query("delete from devices");
             tearDown();
         }
     });
@@ -576,6 +589,116 @@ describe('get current device status operations', function () {
         } catch (e) {
             log.error(e);
         }finally {
+            tearDown();
+        }
+    });
+});
+
+describe('get pending operations', function () {
+    var device_module = require('/modules/device.js').device;
+    var db, device, driver;
+    var udid = "APA91bEa";
+    var ctx = new Object();
+    ctx.udid = stringify(udid);
+
+    function tearUp() {
+        try {
+            db = new Database("WSO2_EMM_DB");
+            device = new device_module(db);
+            driver = require('driver').driver(db);
+        } catch (e) {
+            log.error(e);
+        }
+    }
+
+    function tearDown() {
+        db.close();
+    }
+
+    it('Test get pending operations from a device', function () {
+        try {
+            tearUp();
+            driver.query("insert into devices(id, tenant_id, user_id, platform_id, reg_id, os_version, properties, created_date, status, byod, vendor, udid, push_token, mac) values ('1',  '-1234', 'user', '2', '', '7.1', '{\"device\":\"iPhone\",\"model\":\"5c\",\"imsi\":\"413025010690522\",\"imei\":\"358401043931186\"}', '2014-05-07 18:40:45', 'A', '1', 'Apple', 'APA91bEa', NULL, '92:1C:52:F3:53:52')");
+            driver.query("insert into notifications(id, group_id, user_id, device_id, message, status, sent_date, feature_code, feature_description, tenant_id) values ('1', '-1', 'user', '1', 'hi', 'P', '2014-05-07 18:10:46', '500A', 'Device Information', '-1234')");
+            var result = device.getPendingOperationsFromDevice(ctx);
+            var expectedResult = JSON.parse('{"feature_code" : "500A", "message" : "hi", "id" : "1", "received_data" : null}');
+            expect(result).toEqual(expectedResult);
+        } catch (e) {
+            log.error(e);
+        } finally {
+            driver.query("delete from devices");
+            driver.query("delete from notifications");
+            tearDown();
+        }
+    });
+
+    it('Test get pending operations from non-existing device', function () {
+        try {
+            tearUp();
+            var result = device.getPendingOperationsFromDevice(ctx);
+            expect(result).toBe(null);
+        } catch (e) {
+            log.error(e);
+        }finally {
+            tearDown();
+        }
+    });
+});
+
+describe('update location operations', function () {
+    var device_module = require('/modules/device.js').device;
+    var db, device, driver,properties;
+    var udid = 'APA91bEa';
+
+    function tearUp() {
+        try {
+            db = new Database("WSO2_EMM_DB");
+            device = new device_module(db);
+            driver = require('driver').driver(db);
+        } catch (e) {
+            log.error(e);
+        }
+    }
+
+    function tearDown() {
+        db.close();
+    }
+
+    it('Test update location', function () {
+        try {
+            tearUp();
+            driver.query("insert into devices(id, tenant_id, user_id, platform_id, reg_id, os_version, properties, created_date, status, byod, vendor, udid, push_token, mac) values ('1',  '-1234', 'user', '2', '', '7.1', '{\"device\":\"iPhone\",\"model\":\"5c\",\"imsi\":\"413025010690522\",\"imei\":\"358401043931186\"}', '2014-05-07 18:40:45', 'A', '1', 'Apple', 'APA91bEa', NULL, '92:1C:52:F3:53:52')");
+            var ctx = new Object();
+            ctx.latitude = "1.0";
+            ctx.longitude = "1.0";
+            ctx.udid = udid;
+            device.updateLocation(ctx);
+            var dev = driver.query("SELECT properties FROM devices WHERE udid = ?", udid);
+            properties = parse(dev[0].properties);
+            expect(properties["latitude"]).toBe('1.0');
+            expect(properties["longitude"]).toBe('1.0');
+        } catch (e) {
+            log.error(e);
+        } finally {
+            driver.query("delete from devices");
+            tearDown();
+        }
+    });
+
+    it('Test update location on non-existing device', function () {
+        try {
+            tearUp();
+            var ctx = new Object();
+            ctx.latitude = "1.0";
+            ctx.longitude = "1.0";
+            ctx.udid = udid;
+            device.updateLocation(ctx);
+            var dev = driver.query("SELECT properties FROM devices WHERE udid = ?", udid);
+            expect(dev.length).toBe(0);
+        } catch (e) {
+            log.error(e);
+        } finally {
+            driver.query("delete from devices");
             tearDown();
         }
     });

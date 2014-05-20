@@ -95,7 +95,7 @@ describe('user-operations', function () {
 
     var user_module = require('/modules/user.js').user;
     var user, db, userRole;
-    var ctx = {"first_name": "Firstname", "last_name": "Lastname", "mobile_no": "0123456789", "groups": [], "type": ""};
+    var ctx = {"first_name": "Firstname", "last_name": "Lastname", "mobile_no": "0123456789", "groups": ['subscriber'], "type": "user"};
 
     function initModule() {
         try {

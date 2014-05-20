@@ -1023,7 +1023,6 @@ var device = (function () {
             return true;
         },
         getPendingOperationsFromDevice: function(ctx){
-
             var deviceList = driver.query(sqlscripts.devices.select20, parse(ctx.udid));
             if(deviceList[0]!=null) {
                 var deviceID = String(deviceList[0].id);
