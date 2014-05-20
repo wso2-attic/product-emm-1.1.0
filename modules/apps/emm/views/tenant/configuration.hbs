@@ -97,44 +97,42 @@
                                              <div class="control-group">
                                                 <label class="control-label" >Common Name (CN)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPCommonName" name="iosSCEPCommonName" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPCommonName" name="iosSCEPCommonName" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >Country (C)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPCountry" name="iosSCEPCountry" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPCountry" name="iosSCEPCountry" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >State (ST)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPState" name="iosSCEPState" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPState" name="iosSCEPState" class="input-xlarge">
                                                 </div>
                                             </div>
-                                            
-                                           
-                                            
+
                                             <div class="control-group">
                                                 <label class="control-label" >Locality (L)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPLocality" name="iosSCEPLocality" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPLocality" name="iosSCEPLocality" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                              <div class="control-group">
                                                 <label class="control-label" >Organisation (O)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPOrganisation" name="iosSCEPOrganisation" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPOrganisation" name="iosSCEPOrganisation" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >Organisation Unit (OU)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPOrganisationUnit" name="iosSCEPOrganisationUnit" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPOrganisationUnit" name="iosSCEPOrganisationUnit" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
@@ -149,28 +147,42 @@
                                                     <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
                                                 </div>
                                             </div>
-                                            
-                                            
+
                                             <div class="control-group">
                                                 <label class="control-label" >iOS APNS Certificate Password</label>
                                                 <div class="controls">
                                                     <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
                                                 </div>
                                             </div>
-                                            
-                                            
+
+                                            <div class="control-group">
+                                                <label class="control-label" >Mode</label>
+                                                <div class="controls">
+                                                    <select id="iosAPNSMode" name="iosAPNSMode">
+											             <option value="production">Production</option>
+											             <option value="developer">Developer</option>
+										          </select>
+                                                </div>
+                                            </div>
+
                                             <div class="control-group">
                                                 <label class="control-label" >iOS MDM Certificate</label>
                                                 <div class="controls">
                                                     <input type="file" id="iosMDMCert" name="iosMDMCert" class="input-xxlarge">
                                                 </div>
                                             </div>
-                                            
+
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS MDM Certificate Password</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosMDMPass" name="iosMDMSPass" class="input-xlarge">
+                                                </div>
+                                            </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >Mode</label>
                                                 <div class="controls">
-                                                    <select id="iosMode" name="iosMode">
+                                                    <select id="iosMDMMode" name="iosMDMMode">
 											             <option value="production">Production</option>
 											             <option value="developer">Developer</option>
 										          </select>

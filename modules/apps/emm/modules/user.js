@@ -4,6 +4,16 @@ var USER_OPTIONS = 'server.user.options';
 //Need to change this
 var USER_SPACE = '/_system/governance/';
 var EMM_USER_SESSION = "emmConsoleUser";
+var storeRegistry = require('store').server;
+
+var iOSMDMCertificate = '/_system/config/emm/MDMCert.pfx';
+var iOSAppCertificate = '/_system/config/emm/WSO2Agent.pfx';
+var seapConfiguration = '/_system/config/emm/SEAPConfig';
+var androidGCMKeys = '/_system/config/emm/AndroidGCM';
+var tenantLicense = '/_system/config/emm/TenantLicense';
+var copyright = '/_system/config/emm/Copyright';
+var tenantTheme = '/_system/config/emm/TenantTheme';
+var emailConfiguration = '/_system/config/emm/EmailConfig';
 
 var user = (function () {
     var config = require('/config/emm.js').config();
@@ -401,6 +411,85 @@ var user = (function () {
             }
         },
 
+        /*
+        Save tenant configuration to the Registry
+         */
+        saveTenantConfiguration: function(ctx) {
+            try {
+
+                //log.info(" >>>>> " + stringify(ctx));
+
+                var tenantId = common.getTenantID();
+                var iOSMDMFile = ctx.iosMDMCert.toString();
+                var iOSMDMPassword = ctx.iosMDMPass;
+                var iOSAPNSFile = ctx.iosAPNSCert;
+                var iOSAPNSPassword = ctx.iosAPNSPass;
+                var iOSMDMProduction, iOSAPNSProduction;
+                var iOSMDMStream = "", iOSAPNSStream = "";
+                if(ctx.iosAPNSMode == "production") {
+                    iOSAPNSProduction = true;
+                } else {
+                    iOSAPNSProduction = false;
+                }
+                if(ctx.iosMDMMode == "production") {
+                    iOSMDMProduction = true;
+                } else {
+                    iOSMDMProduction = false;
+                }
+
+                log.info(" >>>> " + iOSMDMFile);
+
+                iOSMDMFile.open("r");
+                iOSMDMStream = iOSMDMFile.getStream();
+                iOSAPNSFile.open("r");
+                iOSAPNSStream = iOSAPNSFile.getStream();
+
+                var registry = storeRegistry.systemRegistry(tenantId);
+                registry.put(iOSMDMCertificate, {
+                    content: iOSMDMStream,
+                    properties: {Password: iOSMDMPassword, Production: iOSMDMProduction}
+                });
+
+                registry.put(iOSAppCertificate, {
+                    content: iOSAPNSStream,
+                    properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction}
+                });
+
+                //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
+                registry.put(seapConfiguration, {
+                    properties: {CN: ctx.iosSCEPCommonName, C: ctx.iosSCEPCountry, ST: ctx.iosSCEPState, L: ctx.iosSCEPLocality, O: ctx.iosSCEPOrganisation, OU: ctx.iosSCEPOrganisationUnit}
+                });
+
+                //Android GCM keys
+                registry.put(androidGCMKeys, {
+                    properties: {APIKeys: ctx.androidApiKeys, SenderIds: ctx.androidSenderIds}
+                });
+
+                registry.put(tenantLicense, {
+                    content: ctx.uiLicence
+                });
+
+                registry.put(copyright, {
+                    properties: {Title: ctx.uiTitle, Footer: ctx.uiCopyright}
+                });
+
+                registry.put(tenantTheme, {
+                    content: ctx.uiTheme
+                });
+
+                /*
+                registry.put(emailConfiguration, {
+                    properties: {SMTP: ctx, Port: ctx, CompanyName: ctx, SenderAddress: ctx, EmailPassword: ctx}
+                });
+                */
+
+                return true;
+
+            } catch (e) {
+                log.error(e);
+                return null;
+            }
+        },
 
         /*end of other user manager functions*/
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/

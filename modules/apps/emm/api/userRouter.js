@@ -45,7 +45,8 @@ var user = (function (){
 			response.status=401;
 		    print("Authentication Failed");
 		});
-		router.get('users/authenticate/', function(ctx){
+
+        router.get('users/authenticate/', function(ctx){
 			var obj = session.get("user");
 			if(obj!=null){
 		        print(obj);
@@ -192,7 +193,23 @@ var user = (function (){
 		router.post('users/{userid}/operations/{operation}',function(ctx){
 			device.sendMsgToUserDevices(ctx);
 		});
-
+        /*
+        Api that sends the Tenant configurations
+         */
+        router.post('tenant/configuration',function(ctx){
+            try{
+                log.info(" >>>> " + request.getInputStream());
+//                var status = user.saveTenantConfiguration(ctx);
+//                if(status != null) {
+//                    response.status = 200;
+//                } else {
+//                    response.status = 400;
+//                }
+            }catch(e){
+                log.error(e);
+                response.status = 400;
+            }
+        });
     };
     // prototype
     module.prototype = {
