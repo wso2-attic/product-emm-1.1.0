@@ -29,14 +29,14 @@
         "smtp":"smtp.gmail.com",
         "port":"25",
         "companyName": "WSO2",
-        "senderAddress": "$(senderAddress)",
+        "senderAddress": "",
         "emailPassword": "****",
         "emailTemplate": "\nYou have been registered to the WSO2 EMM. Below is the link to enroll.\n \n"
     },
     "device": {
         "android_location": "%http.ip%/mdm/client_app/EMMAgent.apk",
         "ios": {
-            "location": "%http.ip%/mdm/client_app/EMMAgent.ipa",
+            "location": "%http.ip%/emm/client_app/EMMAgent.ipa",
             "bundleid": "com.wso2.emmAgent",
             "version": "1.1",
             "appname": "EMM Agent"
