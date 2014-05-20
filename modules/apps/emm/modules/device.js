@@ -961,7 +961,7 @@ var device = (function () {
                     driver.query(sqlscripts.devices.insert1, tenantId, ctx.osversion, createdDate, ctx.properties, ctx.regid, userId, platformId, ctx.vendor, ctx.mac);
                     var devices = driver.query(sqlscripts.devices.select19, ctx.regid);
                     var deviceID = devices[0].id;
-                    log.info("Android Device has been registered "+ctx.regid);
+                    log.debug("Android Device has been registered "+ctx.regid);
                     sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "INFO", 'data': "null"});
                     sendMessageToAndroidDevice({'deviceid':deviceID, 'operation': "APPLIST", 'data': "null"});
 
@@ -984,12 +984,16 @@ var device = (function () {
         unRegisterAndroid:function(ctx){
             if(ctx.regid!=null){
                 var devices = driver.query(sqlscripts.devices.select41, ctx.regid);
-                var result = driver.query(sqlscripts.devices.delete1, ctx.regid);
-                if(result == 1){
-                    driver.query(sqlscripts.device_policy.update2, devices[0].id);
-                    return true;
-                }else{
-                    return false
+                if(devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
+                    var result = driver.query(sqlscripts.devices.delete1, ctx.regid);
+                    if(result && result.length == 0){
+                        driver.query(sqlscripts.device_policy.update2, devices[0].id);
+                        return true;
+                    }else{
+                        return false
+                    }
+                } else {
+                    return false;
                 }
             }else{
                 return false;
@@ -1208,7 +1212,7 @@ var device = (function () {
                 if(devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
                     driver.query(sqlscripts.device_awake.update5, devices[0].id);
                     var result = driver.query(sqlscripts.devices.delete3, devices[0].id);
-                    if(result == 1){
+                    if(result && result.length == 0){
                         driver.query(sqlscripts.device_policy.update2, devices[0].id);
                         return true;
                     }else{
@@ -1256,9 +1260,6 @@ var device = (function () {
 	            return "SUCCESS";
 	        }
 	        return null;
-	
-	        driver.query(sqlscripts.devices.update6, osVersion, stringify(properties), deviceId);
-	
 	    },
 	    updateLocation: function(ctx){
 	    	
