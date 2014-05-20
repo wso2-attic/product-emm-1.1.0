@@ -108,7 +108,7 @@ var device = (function () {
         router.get('devices/monitor', function(ctx) {
             device.monitor(ctx);
         });
-		router.post('devices/isregistered', function(ctx){
+		router.post('devices/isregistered/1.0.0', function(ctx){
 		    var result = device.isRegistered(ctx);
             log.debug(result);
 		    if(result){
@@ -125,7 +125,7 @@ var device = (function () {
             response.sendRedirect("/emm/downloadapp");
 		});
 
-		router.post('devices/register', function(ctx){
+		router.post('devices/register/1.0.0', function(ctx){
 		    var userAgent= request.getHeader("User-Agent");
 		    var android = userAgent.indexOf("Android");
 
@@ -151,7 +151,7 @@ var device = (function () {
 		    print(result);
 		});
 
-		router.post('devices/unregister', function(ctx){
+		router.post('devices/unregister/1.0.0', function(ctx){
 		    var result = device.unRegisterAndroid(ctx);
 		});
 		
@@ -232,7 +232,7 @@ var device = (function () {
 		    var result = device.updateiOSTokens(ctx);
 		});
 
-        router.get('devices/license', function(ctx){
+        router.get('devices/license/1.0.0', function(ctx){
             //var result = device.testingService();
             var result = device.getLicenseAgreement(ctx);
             if (result == "400") {
@@ -243,7 +243,7 @@ var device = (function () {
             }
         });
 
-        router.get('devices/sender_id', function(ctx){
+        router.get('devices/sender_id/1.0.0', function(ctx){
             var result = device.getSenderId(ctx);
             print(result);
             response.status = 200;
