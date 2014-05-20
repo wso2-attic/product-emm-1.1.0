@@ -17,7 +17,7 @@ var notification = (function () {
 		    var result = notification.addIosNotification(ctx);
 		});
 
-		router.post('notifications', function(ctx){
+		router.post('notifications/1.0.0', function(ctx){
 		    var result = notification.addNotification(ctx);
 		});
 
@@ -34,7 +34,7 @@ var notification = (function () {
         /*
          Device contacts this api to get and update the pending operations
          */
-        router.post('notifications/pendingOperations', function(ctx) {
+        router.post('notifications/pendingOperations/1.0.0', function(ctx) {
             var operations = notification.getAndroidOperations(ctx);
             log.debug("Pending >>>>> " + stringify(operations));
 

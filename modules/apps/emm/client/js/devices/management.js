@@ -17,19 +17,36 @@ oTable = $('#main-table').dataTable({
     "bProcessing" : true,
     "bServerSide" : true,
     "bFilter" : false,
-
+    
     aoColumns: [
-
         {"bVisible":    false },
-        {"sWidth": "20%"},
-
-        {                         
+        {              
+            "mData": null,
             "fnRender": function (oObj)                              
             {                           
-                return "<a href='/emm/users/devices?user="  + oObj.aData[2] + "#device-tab-"+ oObj.aData[0]+"'>"+  oObj.aData[2] +"</a>";
+                
+               
+                var srcImage = "https://localhost:9443/assets/wso2mobile/img/models/" + oObj.aData[1] + ".png";
+                if(!urlExists(srcImage)){			
+                         srcImage =  context().resourcePath + "none.png";			
+                }
+                
+                
+                return  "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>" +     "<div style=\"text-align:center\"><img class=\"device-image\" style=\"height:75px\" src=\"" + srcImage  + "\"> </div> "  +"</a>";
+                
+                
+                
+                
             }
         },
-
+        {   "sWidth": "20%", 
+             "mData": null,
+            "fnRender": function (oObj)                              
+            {                           
+                return "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>"+  oObj.aData[2] +"</a>";
+            }
+        },
+        null,
         null,
         null,
         null,
@@ -54,6 +71,9 @@ oTable = $('#main-table').dataTable({
         aoData.push( { "name": "username", "value": user } );
         aoData.push( { "name": "byod", "value": ownership } );
         aoData.push( { "name": "platform_id", "value": os } );
+        
+        
+        
     }
 
 });

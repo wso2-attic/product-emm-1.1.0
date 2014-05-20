@@ -1,56 +1,53 @@
-<div class="apps">
-    <h3>Apps</h3>
-
-    <div class="filter-box">
-        <form class="form-search pull-right" style="display: none">
-            <select>
-                <option>iOS</option>
-                <option>Android</option>
-                <option>Webclips</option>
-            </select>
-            <input type="text" placeholder="Search apps">
-            <button type="submit" class="btn">Search</button>
-        </form>
-    </div>
+<div class="container">
+    <div class="apps">
+        <h3>Mobile Apps</h3>
 
 
-    <div class="well">
-        <div class="list_carousel">
-            <ul id="foo2">
-                {{#each data.apps}}
-                    <li>
-                        <div class="app_box">
-                            <a href="#appid" data-packageid="{{this.attributes.overview_packagename}}"
-                               data-platform="{{this.attributes.overview_platform}}"
-                               data-type="{{this.attributes.overview_type}}" data-url="{{this.attributes.overview_url}}"
-                               data-id="{{this.id}}">
-                                <p class="text-center"><b> {{#elipsis 12 this.attributes.overview_name}}{{/elipsis}}</b>
-                                	 </p>
-                                	 <div style="position: absolute">
-                                	 <img  src="/store/extensions/assets/mobileapp/themes/store/img/{{this.attributes.overview_platform}}.png" style="width: 20px;"/>
-                                	</div>
-                               
-                                <img src="{{../config.publisher_location}}{{this.attributes.images_thumbnail}}"
-                                     class="icon img-polaroid" style="width:75px">
-                            </a>
-                        </div>
-                    </li>
-                {{/each}}
-            </ul>
+        <div class="filter-box">
+            <form class="form-search">
+                <select id="mobile-apps-platform-filter" class="hide">
+                    <option value="all">All</option>
+                    <option value="ios">iOS</option>
+                    <option value="android">Android</option>
+                </select>
+                <input id="mobile-apps-search" type="text" placeholder="Search apps">
+            </form>
         </div>
-    </div>
 
-    <div class="container">
-        <div class="clearfix"></div>
-        <a id="prev2" class="prev" href="#">&lt;</a>
-        <a id="next2" class="next" href="#">&gt;</a>
+        <div class="well well-apps">
+            <div id="app-list-bar" class="owl-carousel owl-theme">
 
-        <div id="pager2" class="pager"></div>
+
+                {{#each data.apps}}
+
+                <div class="app_box" class="item" data-name="{{this.attributes.overview_name}}" data-platform="{{this.attributes.overview_platform}}"> 
+                    <div style="width:80px" class="text-center"><b> {{#elipsis 12 this.attributes.overview_name}}{{/elipsis}}</b>
+                    </div>
+                    <a href="#appid" data-packageid="{{this.attributes.overview_packagename}}"
+                       data-platform="{{this.attributes.overview_platform}}"
+                       data-type="{{this.attributes.overview_type}}" data-url="{{this.attributes.overview_url}}"
+                       data-id="{{this.id}}">
+
+                        <div style="position: absolute">
+                            <img  src="/store/extensions/assets/mobileapp/themes/store/img/{{this.attributes.overview_platform}}.png" style="width: 20px;"/>
+                        </div>
+
+                        <img src="{{../config.publisher_location}}{{this.attributes.images_thumbnail}}"
+                             class="icon img-polaroid" style="width:75px">
+                    </a>
+                </div>
+
+                {{/each}}
+            </div>
+        </div>
+
+
+
+
+
     </div>
 
 </div>
-
-<div style="clear: both"></div>
 
 <div class="container stakes">
     <ul class="nav nav-tabs">
@@ -66,8 +63,8 @@
     <div class="tab-content">
         <div class="tab-pane active" id="roles">
             <ul class="nav nav-pills">
-                <button class="btn pull-right btn-danger uninstall-btn">Uninstall</button>
-                <button class="btn pull-right btn-success install-btn">Install</button>
+                <button class="btn pull-right btn-danger uninstall-btn">Uninstall</button> <span style="padding-left: 20px"></span>
+                <button class="btn pull-right btn-orange install-btn">Install</button>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="roles_app_status">
