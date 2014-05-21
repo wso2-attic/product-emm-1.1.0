@@ -2,7 +2,12 @@
 $(document).ready(function() { 
     
 		 $('#tenetForm').ajaxForm(function(e) { 
-            alert("Thank you for your submit!");
+            var n = noty({
+					text : 'Settings saved!',
+					'layout' : 'center',
+					timeout: 1000				
+								
+	        });
              
         }); 
     
