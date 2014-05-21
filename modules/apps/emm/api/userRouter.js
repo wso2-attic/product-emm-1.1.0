@@ -228,10 +228,6 @@ var user = (function (){
                 response.status = 400;
             }
         });
-
-        router.get('testing123/testing', function(ctx) {
-           user.getTenantName("carbon.super");
-        });
     };
     // prototype
     module.prototype = {

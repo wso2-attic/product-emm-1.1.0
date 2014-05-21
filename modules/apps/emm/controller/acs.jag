@@ -58,6 +58,9 @@ sso.acs(function(loggedInUser) {
             });
         }
         var appController = require('/controller/app.js');
+        var tenantId = parseInt(common.getTenantID());
+        user.defaultTenantConfiguration(tenantId);
+
         if (isAdmin) {
             response.sendRedirect('console/dashboard');
         } else {

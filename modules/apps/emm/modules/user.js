@@ -415,7 +415,7 @@ var user = (function () {
                     + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
                     + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2", '
                     + '"androidNotifier": "LOCAL"}';
-                this.saveTenantConfiguration(defaultData, null, null, tenantId, "true");
+                this.saveTenantConfiguration(parse(defaultData), null, null, tenantId, "true");
             }
         },
 
@@ -478,12 +478,14 @@ var user = (function () {
                         }
                     }
 
-                    //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
-                    registry.put(config.registry.seapConfiguration, {
-                        content: config.registry.seapConfiguration,
-                        properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
-                            O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
-                    });
+                    if(ctx.iosSCEPCommonName.trim() != null) {
+                        //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
+                        registry.put(config.registry.seapConfiguration, {
+                            content: config.registry.seapConfiguration,
+                            properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
+                                O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
+                        });
+                    }
 
                     //Android GCM keys
                     if((ctx.androidApiKeys == null || ctx.androidApiKeys.trim() == "") || (ctx.androidSenderIds == null || ctx.androidSenderIds.trim() == "")) {
@@ -513,6 +515,10 @@ var user = (function () {
                         content: ctx.uiLicence.trim()
                     });
                 }
+
+                ctx.uiTitle.trim();
+                ctx.uiCopyright.trim();
+
 
                 registry.put(config.registry.copyright, {
                     content: config.registry.copyright,
