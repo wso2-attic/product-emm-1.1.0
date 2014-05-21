@@ -263,10 +263,13 @@ var device = (function () {
     }
     function checkPermission(role,featureName){
         log.debug("checkPermission");
-        var roleFeatures = parse((driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",role,common.getTenantID()))[0].content);
-        for(var j= 0; j< roleFeatures.length; j++){
-            if(featureName == roleFeatures[j]){
-                return true;
+        var result = driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",role,common.getTenantID());
+        if(result != null && result[0] != null){
+            var roleFeatures = parse(result[0].content);
+            for(var j= 0; j< roleFeatures.length; j++){
+                if(featureName == roleFeatures[j]){
+                    return true;
+                }
             }
         }
         return false;
@@ -816,7 +819,6 @@ var device = (function () {
                 role = role.substring(9);
             }
             var tenantID = common.getTenantID();
-            log.info(deviceId);
             var featureList = driver.query(sqlscripts.devices.select12, deviceId);
             var obj = new Array();
             for(var i=0; i<featureList.length; i++){

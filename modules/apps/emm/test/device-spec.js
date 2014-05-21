@@ -223,7 +223,7 @@ describe('Device Module', function () {
             try {
                 tearUp();
                 var deviceOp = device.updateiOSTokens(tokens);
-                expect(deviceOp).toBe(true);
+                expect(deviceOp).toBe(false);
             } catch (e) {
                 log.error(e);
             } finally {
@@ -264,12 +264,13 @@ describe('Device Module', function () {
 
     describe('Get features from device operation - Device Module', function () {
         var device_module = require('/modules/device.js').device;
-        var db, device;
+        var db, device ,driver;
 
         function initModule() {
             try {
                 db = new Database("WSO2_EMM_DB");
                 device = new device_module(db);
+                driver = require('driver').driver(db);
             } catch (e) {
                 log.error(e);
             }
@@ -279,13 +280,41 @@ describe('Device Module', function () {
             db.close();
         }
 
-        var ctx = {"username": "user", "deviceid": "3", "role": "user"};
+        var ctx = {"username": "user", "deviceid": "2", "role": "user"};
+
+        it('Test getFeaturesFromDevice from ios device', function () {
+            try {
+                initModule();
+                driver.query("insert into devices(id, tenant_id, user_id, platform_id, reg_id, os_version, properties, created_date, status, byod, vendor, udid, push_token, mac) values ('2',  '-1234', 'user', '2', '', '7.1', '{\"device\":\"iPhone\",\"model\":\"5c\",\"imsi\":\"413025010690522\",\"imei\":\"358401043931186\"}', '2014-05-07 18:40:45', 'A', '1', 'Apple', 'APA91bEa', NULL, '92:1C:52:F3:53:52')");
+                var features = device.getFeaturesFromDevice(ctx);
+                expect(features.length).not.toBe(0);
+            } catch (e) {
+                log.error(e);
+            } finally {
+                driver.query("delete from devices");
+                closeDB();
+            }
+        });
 
         it('Test getFeaturesFromDevice from android device', function () {
             try {
                 initModule();
+                driver.query("insert into devices(id, tenant_id, user_id, platform_id, reg_id, os_version, properties, created_date, status, byod, vendor, udid, push_token, mac) values ('2',  '-1234', 'user', '1', 'APA91bEa', '4.1.2', '{\"device\":\"GT-I9100G\",\"model\":\"GT-I9100G\",\"imsi\":\"413025000690522\",\"imei\":\"358401042931186\"}', '2014-05-07 18:40:45', 'A', '1', 'samsung', '0', NULL, '92:1C:52:F3:53:52')");
                 var features = device.getFeaturesFromDevice(ctx);
-                expect(features).toBe(true);
+                expect(features.length).not.toBe(0);
+            } catch (e) {
+                log.error(e);
+            } finally {
+                driver.query("delete from devices");
+                closeDB();
+            }
+        });
+
+        it('Test getFeaturesFromDevice from non existing device', function () {
+            try {
+                initModule();
+                var features = device.getFeaturesFromDevice(ctx);
+                expect(features.length).toBe(0);
             } catch (e) {
                 log.error(e);
             } finally {
