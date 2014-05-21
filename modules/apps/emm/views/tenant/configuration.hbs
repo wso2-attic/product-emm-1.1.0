@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="block-body">
-                        <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="post">
+                        <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="POST">
                             
                            
                             <h5 class="setting-conf-title">Look and Feel</h5>
@@ -50,14 +50,14 @@
                             <div class="control-group">
                                 <label class="control-label" >SMTP Host</label>
                                 <div class="controls">
-                                    <input type="text" id="emailSmtpHost" name="emailSmtpHost" class="input-xlarge" data-required="true">
+                                    <input type="text" id="emailSmtpHost" name="emailSmtpHost" class="input-xlarge" >
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <label class="control-label" >SMTP Port</label>
                                 <div class="controls">
-                                    <input type="text" id="emailSmtpPort" name="emailSmtpPort" class="input-medium" data-required="true">
+                                    <input type="text" id="emailSmtpPort" name="emailSmtpPort" class="input-medium" >
                                 </div>
                             </div>
                             
@@ -65,21 +65,21 @@
                             <div class="control-group">
                                 <label class="control-label" >Company Name</label>
                                 <div class="controls">
-                                    <input type="text" id="emailComapnyName" name="emailComapnyName" class="input-xlarge" data-required="true">
+                                    <input type="text" id="emailComapnyName" name="emailComapnyName" class="input-xlarge" >
                                 </div>
                             </div>
                             
                             <div class="control-group">
                                 <label class="control-label" for="inputCopyright">Sender Email Address</label>
                                 <div class="controls">
-                                    <input type="text" id="emailSenderAddress" name="emailSenderAddress" class="input-xlarge" data-required="true">
+                                    <input type="text" id="emailSenderAddress" name="emailSenderAddress" class="input-xlarge">
                                 </div>
                             </div>
                             
                              <div class="control-group">
                                 <label class="control-label" for="inputCopyright">Sender Email Password</label>
                                 <div class="controls">
-                                    <input type="text" id="emailSenderPassword" name="emailSenderPassword" class="input-xlarge" data-required="true">
+                                    <input type="text" id="emailSenderPassword" name="emailSenderPassword" class="input-xlarge" >
                                 </div>
                             </div>
                             
@@ -193,6 +193,7 @@
                                                 <label class="control-label" >iOS APNS Certificate</label>
                                                 <div class="controls">
                                                     <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
+                                                    <input type="hidden" value="false" id="iosAPNSCertModified" name="iosAPNSCertModified" class="input-xxlarge">
                                                 </div>
                                             </div>
 
@@ -217,6 +218,7 @@
                                                 <label class="control-label" >iOS MDM Certificate</label>
                                                 <div class="controls">
                                                     <input type="file" id="iosMDMCert" name="iosMDMCert" class="input-xxlarge">
+                                                    <input type="hidden" value="false" id="iosMDMCertModified" name="iosMDMCertModified" class="input-xxlarge">
                                                 </div>
                                             </div>
 
