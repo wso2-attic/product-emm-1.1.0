@@ -203,7 +203,6 @@ var notification = (function() {
         },
         addNotification: function(ctx){
 			var recivedDate = common.getCurrentDateTime();
-
 			var result = driver.query(sqlscripts.notifications.select9, ctx.msgID);
 			
 			if(result == null || result == undefined || 
@@ -233,7 +232,6 @@ var notification = (function() {
 					ctx.deviceid, ctx.operation);
 			var features = driver.query(sqlscripts.features.select6, ctx.operation);
 			ctx.operation = String(features[0].name);
-			ctx.data = "hi";
 
 			if (result == null || result == undefined || result.length == 0) {
 				return {};

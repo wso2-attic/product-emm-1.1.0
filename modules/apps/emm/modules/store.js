@@ -159,7 +159,6 @@ var store = (function() {
                     userid: ctx.data.email
                 }).id;
                 var devices = driver.query("select * from devices where devices.user_id=" + userID);
-                var devices = driver.query("select * from devices where devices.user_id=" + userID);
                 devicesArray = new Array();
                 for (var i = 0; i < devices.length; i++) {
                     var deviceID = devices[i].id;
