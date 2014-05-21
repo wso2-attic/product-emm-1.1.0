@@ -16,7 +16,8 @@ if(session.get("emmConsoleUserLogin") != null){
 if(session.get("emmConsoleUserLogin") != null){
 	var userSession = session.get("emmConsoleUser");
 	var tenatDomain = userSession.tenantDomain;
-	ui = require('../config/tenants/' + tenatDomain + '/ui.json');
+	//ui = require('../config/tenants/' + tenatDomain + '/ui.json');
+    ui = require('../config/ui.json');
 }
 
 
