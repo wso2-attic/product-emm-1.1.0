@@ -9,6 +9,7 @@
     "getCurrentUser": "users/current",
     "groupsCRUD": "groups/{0}",
     "usersCRUD": "users/{0}",
+    "devicesCRUD": "devices/{0}",
     "usersEDIT": "users/groups?userid={0}",
     "getDeviceAppList": "refresh/devices/{0}/502A",
     "getDeviceGenInfo": "refresh/devices/{0}/500A",

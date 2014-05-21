@@ -206,6 +206,7 @@ var webconsole = (function () {
                     }
                     var device = [];
                     device.push( result[i].id);
+                    device.push( parse(result[i].properties).model);
                     device.push( parse(result[i].properties).imei);
                     device.push( result[i].user_id);
                     device.push( result[i].name);
@@ -233,6 +234,7 @@ var webconsole = (function () {
                     }
                     var device = [];
                     device.push( result[i].id);
+                    device.push( parse(result[i].properties).model);
                     device.push( parse(result[i].properties).imei);
                     device.push( result[i].user_id);
                     device.push( result[i].name);
@@ -259,6 +261,7 @@ var webconsole = (function () {
                     }
                     var device = [];
                     device.push( result[i].id);
+                    device.push( parse(result[i].properties).model);
                     device.push( parse(result[i].properties).imei);
                     device.push( result[i].user_id);
                     device.push( result[i].name);
@@ -285,6 +288,7 @@ var webconsole = (function () {
                     }
                     var device = [];
                     device.push( result[i].id);
+                    device.push( parse(result[i].properties).model);
                     device.push( parse(result[i].properties).imei);
                     device.push( result[i].user_id);
                     device.push( result[i].name);

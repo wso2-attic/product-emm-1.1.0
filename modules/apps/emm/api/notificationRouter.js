@@ -17,7 +17,7 @@ var notification = (function () {
 		    var result = notification.addIosNotification(ctx);
 		});
 
-		router.post('notifications', function(ctx){
+		router.post('notifications/1.0.0', function(ctx){
 		    var result = notification.addNotification(ctx);
 		});
 
@@ -34,18 +34,17 @@ var notification = (function () {
         /*
          Device contacts this api to get and update the pending operations
          */
-        router.post('notifications/pendingOperations', function(ctx) {
+        router.post('notifications/pendingOperations/1.0.0', function(ctx) {
             var operations = notification.getAndroidOperations(ctx);
-            if(operations != null) {
-                //Pending Operations - Send Payload
-                log.debug("Operations sent");
+            log.debug("Pending >>>>> " + stringify(operations));
+
+            if(operations == "527A") {
+                //Unregister the android agent
+                response.status = 200;
+                response.content = "527A";
+            } else {
                 response.status = 200;
                 print(operations);
-                // log.info(operations);
-            } else {
-                response.status = 401;
-                log.debug("Operations finished");
-                response.content = "SUCCESS";
             }
         });
 		

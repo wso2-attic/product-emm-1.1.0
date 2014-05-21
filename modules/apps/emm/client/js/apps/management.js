@@ -5,6 +5,12 @@
 	//
 	// Iterate over an object, setting 'key' and 'value' for each property in
 	// the object.
+        
+        
+     $("#app-list-bar").owlCarousel({
+         navigation : true,
+         items: 10
+     });  
 	
 	
 	$('#foo2').carouFredSel({
@@ -531,4 +537,36 @@
 		});
 	};
 });
+
+
+$( "#mobile-apps-platform-filter" ).change(function() {
+    var platform = $(this).val();
+    if(platform == 'all'){
+        return;   
+    }
+    $( ".app_box" ).each(function( index ) {
+        if($(this).data('platform') == platform){
+            $(this).show();
+        }else{
+            $(this).hide()
+        }
+    });
+});
+
+
+$( "#mobile-apps-search" ).keyup(function() {
+    var search = $(this).val();
+    $( ".app_box" ).each(function( index ) {
+      
+        if($(this).data('name').toLowerCase().indexOf(search) > -1){
+            $(this).show();
+        }else{
+            $(this).hide();
+        }
+    });
+});
+
+function wordInString(s, word){
+  return new RegExp( '\\b' + word + '\\b', 'i').test(s);
+}
     

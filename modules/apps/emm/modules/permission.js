@@ -97,6 +97,7 @@ var permission = (function () {
             featureObjMessaging.isFolder = "true";
             featureObjMessaging.key = 3;
             var msgFeatures = driver.query(sqlscripts.features.select8);
+            log.info("msgFeatures :"+stringify(msgFeatures));
             var children2 = [];
             for(var i=0;i<msgFeatures.length;i++){
                 var child = {};

@@ -11,23 +11,26 @@
                 <div class="block">
                     <div class="block-header">
                         <div class="block-header-title pull-left">
-                            Tenant Configurations
+                            Settings
                         </div>
 
                     </div>
 
                     <div class="block-body">
                         <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="post">
+                            
+                           
+                            <h5 class="setting-conf-title">Look and Feel</h5>
 
                             <div class="control-group">
-                                <label class="control-label" for="inputTheme">Theme</label>
+                                <label class="control-label" for="inputTheme">UI Theme</label>
                                 <div class="controls">
                                     <input type="text" id="uiTheme" name="uiTheme" class="input-xlarge" data-required="true">
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label" for="inputCopyright">Title</label>
+                                <label class="control-label" for="inputCopyright">Browser Title</label>
                                 <div class="controls">
                                     <input type="text" id="uiTitle" name="uiTitle" class="input-xxlarge" data-required="true">
                                 </div>
@@ -39,6 +42,9 @@
                                     <input type="text" id="uiCopyright" name="uiCopyright" class="input-xxlarge" data-required="true">
                                 </div>
                             </div>
+                            
+                            
+                          <h5 class="setting-conf-title">Licence Settings</h5>
 
                             <div class="control-group">
                                 <label class="control-label" for="inputLicence">Licence Agreement</label>
@@ -85,7 +91,57 @@
                                         </div>   
 
                                         <div class="tab-pane" id="ios">
+                                            
+                                            <h5>iOS SCEP Certificate Configurations</h5>
+                                            
+                                             <div class="control-group">
+                                                <label class="control-label" >Common Name (CN)</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosSCEPCommonName" name="iosSCEPCommonName" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >Country (C)</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosSCEPCountry" name="iosSCEPCountry" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >State (ST)</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosSCEPState" name="iosSCEPState" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                           
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >Locality (L)</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosSCEPLocality" name="iosSCEPLocality" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                             <div class="control-group">
+                                                <label class="control-label" >Organisation (O)</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosSCEPOrganisation" name="iosSCEPOrganisation" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >Organisation Unit (OU)</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosSCEPOrganisationUnit" name="iosSCEPOrganisationUnit" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            
 
+                                            <h5>iOS APNS Configurations</h5>
 
                                             <div class="control-group">
                                                 <label class="control-label" >iOS APNS Certificate</label>
@@ -99,6 +155,14 @@
                                                 <label class="control-label" >iOS APNS Certificate Password</label>
                                                 <div class="controls">
                                                     <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS MDM Certificate</label>
+                                                <div class="controls">
+                                                    <input type="file" id="iosMDMCert" name="iosMDMCert" class="input-xxlarge">
                                                 </div>
                                             </div>
                                             
