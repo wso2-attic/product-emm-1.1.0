@@ -405,11 +405,27 @@ var user = (function () {
         },
 
         /*
+            Save default values to the tenant
+         */
+        defaultTenantConfiguration: function(tenantId) {
+
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var properties = this.getTenantCopyRight(tenantId);
+            if(properties != null) {
+                var defaultData = '{"emailSmtpHost" : "smtp.gmail.com", "emailTemplate" : "You have been registered to the WSO2 EMM. Below is the link to enroll.", '
+                    + '"uiTitle" : "", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
+                    + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
+                    + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2" }';
+                this.saveTenantConfiguration(defaultData, null, null, tenantId, "true");
+            }
+        },
+
+        /*
          Save tenant configuration to the Registry
          */
         saveTenantConfiguration: function(ctx, iOSMDMFile, iOSAPNSFile, tenantId, defaultConfig)  {
 
-            log.info(" >>>>> " + stringify(ctx));
+            //log.info(" >>>>> " + stringify(ctx));
 
             if(tenantId != null) {
                 tenantId = parseInt(common.getTenantID());
@@ -419,8 +435,9 @@ var user = (function () {
             try {
 
                 if (defaultConfig == null) {
-                    var iOSMDMPassword = ctx.iosMDMSPass.trim();
-                    var iOSAPNSPassword = ctx.iosAPNSPass.trim();
+                    defaultConfig = "false";
+                    var iOSMDMPassword = ctx.iosMDMPass;
+                    var iOSAPNSPassword = ctx.iosAPNSPass;
                     var iOSMDMProduction, iOSAPNSProduction;
                     var iOSMDMStream = "", iOSAPNSStream = "";
                     if(ctx.iosAPNSMode == "production") {
@@ -434,32 +451,37 @@ var user = (function () {
                         iOSMDMProduction = "false";
                     }
 
-                    if (iOSMDMFile == null) {
-                        registry.remove(config.registry.iOSMDMCertificate);
-                    } else {
-                        iOSMDMFile.open("r");
-                        iOSMDMStream = iOSMDMFile.getStream();
-                        registry.put(config.registry.iOSMDMCertificate, {
-                            content: iOSMDMStream,
-                            properties: {Password: iOSMDMPassword, Production: iOSMDMProduction}
-                        });
-                        iOSMDMFile.close();
+                    if(ctx.iosMDMCertModified) {
+                        if (iOSMDMFile == null) {
+                            registry.remove(config.registry.iOSMDMCertificate);
+                        } else {
+                            iOSMDMFile.open("r");
+                            iOSMDMStream = iOSMDMFile.getStream();
+                            registry.put(config.registry.iOSMDMCertificate, {
+                                content: iOSMDMStream,
+                                properties: {Password: iOSMDMPassword, Production: iOSMDMProduction, Filename: iOSMDMFile.getName()}
+                            });
+                            iOSMDMFile.close();
+                        }
                     }
 
-                    if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
-                        registry.remove(config.registry.iOSAppCertificate);
-                    }else {
-                        iOSAPNSFile.open("r");
-                        iOSAPNSStream = iOSAPNSFile.getStream();
-                        registry.put(config.registry.iOSAppCertificate, {
-                            content: iOSAPNSStream,
-                            properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction}
-                        });
-                        iOSAPNSFile.close();
+                    if(ctx.iosAPNSCertModified) {
+                        if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
+                            registry.remove(config.registry.iOSAppCertificate);
+                        }else {
+                            iOSAPNSFile.open("r");
+                            iOSAPNSStream = iOSAPNSFile.getStream();
+                            registry.put(config.registry.iOSAppCertificate, {
+                                content: iOSAPNSStream,
+                                properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction, Filename: iOSAPNSFile.getName()}
+                            });
+                            iOSAPNSFile.close();
+                        }
                     }
 
                     //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
                     registry.put(config.registry.seapConfiguration, {
+                        content: config.registry.seapConfiguration,
                         properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
                             O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
                     });
@@ -469,6 +491,7 @@ var user = (function () {
                         registry.remove(config.registry.androidGCMKeys);
                     } else {
                         registry.put(config.registry.androidGCMKeys, {
+                            content: config.registry.androidGCMKeys,
                             properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim()}
                         });
                     }
@@ -477,7 +500,8 @@ var user = (function () {
                         registry.remove(config.registry.emailConfiguration);
                     } else {
                         registry.put(config.registry.emailConfiguration, {
-                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(), CompanyName: ctx.emailComapnyName.trim(),
+                            content: config.registry.emailConfiguration,
+                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(), CompanyName: ctx.emailCompanyName.trim(),
                                 SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
                         });
                     }
@@ -492,7 +516,8 @@ var user = (function () {
                 }
 
                 registry.put(config.registry.copyright, {
-                    properties: {Theme: ctx.uiTheme.trim(), Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
+                    content: config.registry.copyright,
+                    properties: {Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
                 });
 
                 return true;
@@ -504,12 +529,109 @@ var user = (function () {
         },
 
         /*
+            Retrieve the Tenant configuration
+         */
+        getTenantConfiguration: function(ctx) {
+
+            var tenantId = parseInt(common.getTenantID());
+            var androidGCMKeys = this.getAndroidGCMKeys(tenantId);
+
+            var iOSMDMConfigurations = this.getiOSMDMConfigurations(tenantId);
+            var iOSAPNSConfigurations = this.getiOSAPNSConfigurations(tenantId);
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
+
+            var seapConfiguration = this.getSEAPConfiguration(tenantId);
+            var license = this.getTenantLicense(tenantId);
+            var tenantCopyRight = this.getTenantCopyRight(tenantId);
+            var emailConfigurationsss = this.getEmailConfigurations(tenantId);
+
+            var jsonBuilder = {};
+
+            if(androidGCMKeys != null) {
+                jsonBuilder.androidApiKeys = androidGCMKeys.APIKeys;
+                jsonBuilder.androidSenderIds = androidGCMKeys.SenderIds;
+            } else {
+                jsonBuilder.androidApiKeys = "";
+                jsonBuilder.androidSenderIds = "";
+            }
+
+            if(iOSMDMConfigurations != null) {
+                log.info(" <<<<< " + stringify(iOSMDMConfigurations));
+                jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password;
+                if(iOSMDMConfigurations.properties.Production = "true") {
+                    jsonBuilder.iosMDMMode = "production";
+                } else {
+                    jsonBuilder.iosMDMMode = "developer";
+                }
+            } else {
+                jsonBuilder.iosMDMSPass = "";
+                jsonBuilder.iosMDMMode = "production";
+            }
+
+            if(iOSAPNSConfigurations != null) {
+                jsonBuilder.iosAPNSPass = iOSAPNSConfigurations.properties.Password;
+                if(iOSAPNSConfigurations.properties.Production = "true") {
+                    jsonBuilder.iosAPNSMode = "production";
+                } else {
+                    jsonBuilder.iosAPNSMode = "developer";
+                }
+            } else {
+                jsonBuilder.iosAPNSPass = "";
+                jsonBuilder.iosAPNSMode = "production";
+            }
+
+            if(emailConfigurations != null) {
+                jsonBuilder.emailSmtpHost = emailConfigurations.SMTP;
+                jsonBuilder.emailSmtpPort = emailConfigurations.Port;
+                jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress;
+                jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword;
+                jsonBuilder.emailCompanyName = emailConfigurations.CompanyName;
+                jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate;
+
+            }
+
+            if(seapConfiguration != null) {
+                jsonBuilder.iosSCEPCommonName = seapConfiguration.CN;
+                jsonBuilder.iosSCEPCountry = seapConfiguration.C;
+                jsonBuilder.iosSCEPState = seapConfiguration.ST;
+                jsonBuilder.iosSCEPLocality = seapConfiguration.L;
+                jsonBuilder.iosSCEPOrganisation = seapConfiguration.O;
+                jsonBuilder.iosSCEPOrganisationUnit = seapConfiguration.OU;
+            } else {
+                jsonBuilder.iosSCEPCommonName = "";
+                jsonBuilder.iosSCEPCountry = "";
+                jsonBuilder.iosSCEPState = "";
+                jsonBuilder.iosSCEPLocality = "";
+                jsonBuilder.iosSCEPOrganisation = "";
+                jsonBuilder.iosSCEPOrganisationUnit = "";
+            }
+
+            if(license) {
+                jsonBuilder.uiLicence = license.toString();
+            }
+
+            if(tenantCopyRight != null) {
+                jsonBuilder.uiTitle = tenantCopyRight.Title;
+                jsonBuilder.uiCopyright = tenantCopyRight.Footer;
+            } else {
+                jsonBuilder.uiTitle = "";
+                jsonBuilder.uiCopyright = "";
+            }
+
+            return jsonBuilder;
+        },
+
+        /*
             Retreive the Properties from Registry
          */
         getPropertiesFromRegistry: function(tenantId, registryPath) {
             var registry = storeRegistry.systemRegistry(tenantId);
             var resource = registry.get(registryPath);
-            return resource.properties();
+            if(resource != null) {
+                return resource.properties();
+            } else {
+                return null;
+            }
         },
 
         /*
@@ -526,10 +648,14 @@ var user = (function () {
         getiOSMDMConfigurations: function(tenantId) {
             var registry = storeRegistry.systemRegistry(tenantId);
             var resource = registry.get(config.registry.iOSMDMCertificate);
-            var iOSMDMConfiguration = {};
-            iOSMDMConfiguration.inputStream = resource.content;
-            iOSMDMConfiguration.properties = resource.properties();
-            return iOSMDMConfiguration;
+            if(resource != null) {
+                var iOSMDMConfiguration = {};
+                iOSMDMConfiguration.inputStream = resource.content;
+                iOSMDMConfiguration.properties = resource.properties();
+                return iOSMDMConfiguration;
+            } else {
+                return null;
+            }
         },
 
         /*
@@ -538,10 +664,14 @@ var user = (function () {
         getiOSAPNSConfigurations: function(tenantId) {
             var registry = storeRegistry.systemRegistry(tenantId);
             var resource = registry.get(config.registry.iOSAppCertificate);
-            var iOSAppConfiguration = {};
-            iOSAppConfiguration.inputStream = resource.content;
-            iOSAppConfiguration.properties = resource.properties();
-            return iOSAppConfiguration;
+            if(resource != null) {
+                var iOSAppConfiguration = {};
+                iOSAppConfiguration.inputStream = resource.content;
+                iOSAppConfiguration.properties = resource.properties();
+                return iOSAppConfiguration;
+            } else {
+                return null;
+            }
         },
 
         /*
@@ -566,7 +696,11 @@ var user = (function () {
         getTenantLicense: function(tenantId){
             var registry = storeRegistry.systemRegistry(tenantId);
             var resoucre = registry.get(config.registry.tenantLicense);
-            return resoucre.content;
+            if(resoucre != null) {
+                return resoucre.content;
+            } else {
+                return null;
+            }
         },
 
         /*

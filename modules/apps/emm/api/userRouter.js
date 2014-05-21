@@ -195,7 +195,7 @@ var user = (function (){
 		});
 
         /*
-        Api that sends the Tenant configurations
+            Api that sends the Tenant configurations
          */
         router.post('tenant/configuration',function(ctx){
 
@@ -207,6 +207,23 @@ var user = (function (){
                     response.status = 400;
                 }
             }catch(e){
+                log.error(e);
+                response.status = 400;
+            }
+        });
+
+        /*
+            Api to retrieve the Tenant Configurations
+         */
+        router.get('tenant/configuration', function(ctx) {
+
+            try {
+                var configData = user.getTenantConfiguration(ctx);
+                log.info(" >>>> " + stringify(configData));
+                print(configData);
+//                response.content = configData;
+//                response.contentType = "application/json";
+            } catch(e) {
                 log.error(e);
                 response.status = 400;
             }
