@@ -1,15 +1,15 @@
 
 $("#btn-add").click(function() {
 	
-	$( 'form').parsley( 'validate' );	
-	if(!$('form').parsley('isValid')){
-		noty({
-				text : 'Input validation failed!',
-				'layout' : 'center',
-				'type' : 'error'
-		});		
-		return;
-	}
+        $( 'form').parsley( 'validate' );	
+        if(!$('form').parsley('isValid')){
+            noty({
+                    text : 'Input validation failed!',
+                    'layout' : 'center',
+                    'type' : 'error'
+            });		
+            return;
+        }
 
 	var firstname = $('#inputFirstName').val();
 	var lastname = $('#inputLastName').val();
