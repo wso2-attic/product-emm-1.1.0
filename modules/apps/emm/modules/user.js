@@ -4,38 +4,31 @@ var USER_OPTIONS = 'server.user.options';
 //Need to change this
 var USER_SPACE = '/_system/governance/';
 var EMM_USER_SESSION = "emmConsoleUser";
-var storeRegistry = require('store').server;
 
-var iOSMDMCertificate = '/_system/config/emm/MDMCert.pfx';
-var iOSAppCertificate = '/_system/config/emm/WSO2Agent.pfx';
-var seapConfiguration = '/_system/config/emm/SEAPConfig';
-var androidGCMKeys = '/_system/config/emm/AndroidGCM';
-var tenantLicense = '/_system/config/emm/TenantLicense';
-var copyright = '/_system/config/emm/Copyright';
-var tenantTheme = '/_system/config/emm/TenantTheme';
-var emailConfiguration = '/_system/config/emm/EmailConfig';
 
 var user = (function () {
     var config = require('/config/emm.js').config();
     var routes = new Array();
 
-	var log = new Log();
-	var db;
+    var log = new Log();
+    var db;
     var driver;
-	var common = require("/modules/common.js");
+    var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
-	var carbon = require('carbon');
+    var carbon = require('carbon');
     var current_user = session.get(EMM_USER_SESSION);
-	var server = function(){
-		return application.get("SERVER");
-	}
-	var claimEmail = "http://wso2.org/claims/emailaddress";
-	var claimFirstName = "http://wso2.org/claims/givenname";
-	var claimLastName = "http://wso2.org/claims/lastname";
-	var claimMobile = "http://wso2.org/claims/mobile";
-	
+    var server = function(){
+        return application.get("SERVER");
+    }
+    var claimEmail = "http://wso2.org/claims/emailaddress";
+    var claimFirstName = "http://wso2.org/claims/givenname";
+    var claimLastName = "http://wso2.org/claims/lastname";
+    var claimMobile = "http://wso2.org/claims/mobile";
+
+    var storeRegistry = require('store').server;
+
     var module = function (dbs) {
-		db = dbs;
+        db = dbs;
         driver = require('driver').driver(db);
     };
 
@@ -55,51 +48,51 @@ var user = (function () {
         }
     };
 
-	var configs = function (tenantId) {
-	    var configg = application.get(TENANT_CONFIGS);
-		if (!tenantId) {
-	        return configg;
-	    }
-	    return configs[tenantId] || (configs[tenantId] = {});
-	};			
-	/**
-	 * Returns the user manager of the given tenant.
-	 * @param tenantId
-	 * @return {*}
-	 */
-	var userManager = function (tenantId) {
-	    var config = configs(tenantId);
-	    if (!config || !config[USER_MANAGER]) {
-			var um = new carbon.user.UserManager(server, tenantId);
-			config[USER_MANAGER] = um;
-	        return um;
-	    }
-	    return configs(tenantId)[USER_MANAGER];
-	};
-	
-	var createPrivateRolePerUser = function(username, roleState){
-		var um = userManager(common.getTenantID());
-		var indexUser = username.replace("@", ":");
-		var arrPermission = {};
+    var configs = function (tenantId) {
+        var configg = application.get(TENANT_CONFIGS);
+        if (!tenantId) {
+            return configg;
+        }
+        return configs[tenantId] || (configs[tenantId] = {});
+    };
+    /**
+     * Returns the user manager of the given tenant.
+     * @param tenantId
+     * @return {*}
+     */
+    var userManager = function (tenantId) {
+        var config = configs(tenantId);
+        if (!config || !config[USER_MANAGER]) {
+            var um = new carbon.user.UserManager(server, tenantId);
+            config[USER_MANAGER] = um;
+            return um;
+        }
+        return configs(tenantId)[USER_MANAGER];
+    };
+
+    var createPrivateRolePerUser = function(username, roleState){
+        var um = userManager(common.getTenantID());
+        var indexUser = username.replace("@", ":");
+        var arrPermission = {};
         var space = userSpace(username, common.getTenantID());
-	    var permission = [
-                carbon.registry.actions.GET,
-                carbon.registry.actions.PUT,
-                carbon.registry.actions.DELETE,
-                carbon.registry.actions.AUTHORIZE
-	    ];
-	    arrPermission[space] = permission;
+        var permission = [
+            carbon.registry.actions.GET,
+            carbon.registry.actions.PUT,
+            carbon.registry.actions.DELETE,
+            carbon.registry.actions.AUTHORIZE
+        ];
+        arrPermission[space] = permission;
         arrPermission["/permission/admin/login"] = ["ui.execute"];
         if(roleState.toUpperCase()=="EMMADMIN"){
             arrPermission["/permission/admin/manage"] = ["ui.execute"];
         }
-		if(!um.roleExists("Internal/private_"+indexUser)){
+        if(!um.roleExists("Internal/private_"+indexUser)){
             var private_role = "Internal/private_"+indexUser;
-			um.addRole(private_role, [username], arrPermission);
+            um.addRole(private_role, [username], arrPermission);
             um.authorizeRole(private_role, arrPermission);
-		}
-	}			
-	var getUserType = function(user_roles){
+        }
+    }
+    var getUserType = function(user_roles){
         for (var i = user_roles.length - 1; i >= 0; i--) {
             var role = user_roles[i].toUpperCase();
             if(role=='ADMIN'|| role=='INTERNAL/EMMADMIN'|| role=='INTERNAL/MAMADMIN'){
@@ -125,16 +118,16 @@ var user = (function () {
         }
         return obj1;
     }
-	
-	function generatePassword() {
-	    var length = 6,
-	        charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-	        retVal = "";
-	    for (var i = 0, n = charset.length; i < length; ++i) {
-	        retVal += charset.charAt(Math.floor(Math.random() * n));
-	    }
-	    return retVal;
-	}
+
+    function generatePassword() {
+        var length = 6,
+            charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        return retVal;
+    }
     // prototype
     module.prototype = {
         constructor: module,
@@ -158,7 +151,7 @@ var user = (function () {
                         proxy_user.error = 'User already exist with the email address.';
                         proxy_user.status = "ALLREADY_EXIST";
                     } else {
-						var generated_password =  generatePassword();
+                        var generated_password =  generatePassword();
                         if(ctx.type.toUpperCase() == 'USER'){
                             roleState = "";
                             um.addUser(ctx.username, generated_password,ctx.groups, claimMap, null);
@@ -169,7 +162,7 @@ var user = (function () {
                         createPrivateRolePerUser(ctx.username, roleState);
                         proxy_user.status = "SUCCESSFULL";
                         proxy_user.firstName = ctx.first_name;
-						proxy_user.generatedPassword = generated_password;
+                        proxy_user.generatedPassword = generated_password;
                     }
                 }
                 else{
@@ -299,7 +292,7 @@ var user = (function () {
         },
 
         /*End of User CRUD Operations (Create, Retrieve, Update, Delete)*/
-/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /*other user manager functions*/
 
         /*Get list of roles belongs to particular user*/
@@ -412,76 +405,95 @@ var user = (function () {
         },
 
         /*
-        Save tenant configuration to the Registry
+         Save tenant configuration to the Registry
          */
-        saveTenantConfiguration: function(ctx) {
+        saveTenantConfiguration: function(ctx, iOSMDMFile, iOSAPNSFile, tenantId, defaultConfig)  {
+
+            log.info(" >>>>> " + stringify(ctx));
+
+            if(tenantId != null) {
+                tenantId = parseInt(common.getTenantID());
+            }
+            var registry = storeRegistry.systemRegistry(tenantId);
+
             try {
 
-                //log.info(" >>>>> " + stringify(ctx));
+                if (defaultConfig == null) {
+                    var iOSMDMPassword = ctx.iosMDMSPass.trim();
+                    var iOSAPNSPassword = ctx.iosAPNSPass.trim();
+                    var iOSMDMProduction, iOSAPNSProduction;
+                    var iOSMDMStream = "", iOSAPNSStream = "";
+                    if(ctx.iosAPNSMode == "production") {
+                        iOSAPNSProduction = "true";
+                    } else {
+                        iOSAPNSProduction = "false";
+                    }
+                    if(ctx.iosMDMMode == "production") {
+                        iOSMDMProduction = "true";
+                    } else {
+                        iOSMDMProduction = "false";
+                    }
 
-                var tenantId = common.getTenantID();
-                var iOSMDMFile = ctx.iosMDMCert.toString();
-                var iOSMDMPassword = ctx.iosMDMPass;
-                var iOSAPNSFile = ctx.iosAPNSCert;
-                var iOSAPNSPassword = ctx.iosAPNSPass;
-                var iOSMDMProduction, iOSAPNSProduction;
-                var iOSMDMStream = "", iOSAPNSStream = "";
-                if(ctx.iosAPNSMode == "production") {
-                    iOSAPNSProduction = true;
-                } else {
-                    iOSAPNSProduction = false;
+                    if (iOSMDMFile == null) {
+                        registry.remove(config.registry.iOSMDMCertificate);
+                    } else {
+                        iOSMDMFile.open("r");
+                        iOSMDMStream = iOSMDMFile.getStream();
+                        registry.put(config.registry.iOSMDMCertificate, {
+                            content: iOSMDMStream,
+                            properties: {Password: iOSMDMPassword, Production: iOSMDMProduction}
+                        });
+                        iOSMDMFile.close();
+                    }
+
+                    if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
+                        registry.remove(config.registry.iOSAppCertificate);
+                    }else {
+                        iOSAPNSFile.open("r");
+                        iOSAPNSStream = iOSAPNSFile.getStream();
+                        registry.put(config.registry.iOSAppCertificate, {
+                            content: iOSAPNSStream,
+                            properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction}
+                        });
+                        iOSAPNSFile.close();
+                    }
+
+                    //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
+                    registry.put(config.registry.seapConfiguration, {
+                        properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
+                            O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
+                    });
+
+                    //Android GCM keys
+                    if((ctx.androidApiKeys == null || ctx.androidApiKeys.trim() == "") || (ctx.androidSenderIds == null || ctx.androidSenderIds.trim() == "")) {
+                        registry.remove(config.registry.androidGCMKeys);
+                    } else {
+                        registry.put(config.registry.androidGCMKeys, {
+                            properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim()}
+                        });
+                    }
+
+                    if(ctx.emailSenderAddress.trim() == "" || ctx.emailSmtpHost.trim() == "" || ctx.emailSmtpPort.trim() == null){
+                        registry.remove(config.registry.emailConfiguration);
+                    } else {
+                        registry.put(config.registry.emailConfiguration, {
+                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(), CompanyName: ctx.emailComapnyName.trim(),
+                                SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
+                        });
+                    }
                 }
-                if(ctx.iosMDMMode == "production") {
-                    iOSMDMProduction = true;
+
+                if(ctx.uiLicence == null || ctx.uiLicence.trim() == null) {
+                    registry.remove(config.registry.tenantLicense);
                 } else {
-                    iOSMDMProduction = false;
+                    registry.put(config.registry.tenantLicense, {
+                        content: ctx.uiLicence.trim()
+                    });
                 }
 
-                log.info(" >>>> " + iOSMDMFile);
-
-                iOSMDMFile.open("r");
-                iOSMDMStream = iOSMDMFile.getStream();
-                iOSAPNSFile.open("r");
-                iOSAPNSStream = iOSAPNSFile.getStream();
-
-                var registry = storeRegistry.systemRegistry(tenantId);
-                registry.put(iOSMDMCertificate, {
-                    content: iOSMDMStream,
-                    properties: {Password: iOSMDMPassword, Production: iOSMDMProduction}
+                registry.put(config.registry.copyright, {
+                    properties: {Theme: ctx.uiTheme.trim(), Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
                 });
-
-                registry.put(iOSAppCertificate, {
-                    content: iOSAPNSStream,
-                    properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction}
-                });
-
-                //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
-                registry.put(seapConfiguration, {
-                    properties: {CN: ctx.iosSCEPCommonName, C: ctx.iosSCEPCountry, ST: ctx.iosSCEPState, L: ctx.iosSCEPLocality, O: ctx.iosSCEPOrganisation, OU: ctx.iosSCEPOrganisationUnit}
-                });
-
-                //Android GCM keys
-                registry.put(androidGCMKeys, {
-                    properties: {APIKeys: ctx.androidApiKeys, SenderIds: ctx.androidSenderIds}
-                });
-
-                registry.put(tenantLicense, {
-                    content: ctx.uiLicence
-                });
-
-                registry.put(copyright, {
-                    properties: {Title: ctx.uiTitle, Footer: ctx.uiCopyright}
-                });
-
-                registry.put(tenantTheme, {
-                    content: ctx.uiTheme
-                });
-
-                /*
-                registry.put(emailConfiguration, {
-                    properties: {SMTP: ctx, Port: ctx, CompanyName: ctx, SenderAddress: ctx, EmailPassword: ctx}
-                });
-                */
 
                 return true;
 
@@ -491,41 +503,115 @@ var user = (function () {
             }
         },
 
+        /*
+            Retreive the Properties from Registry
+         */
+        getPropertiesFromRegistry: function(tenantId, registryPath) {
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resource = registry.get(registryPath);
+            return resource.properties();
+        },
+
+        /*
+            Retrieve the Android GCM Keys for tenant from registry
+         */
+        getAndroidGCMKeys: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.androidGCMKeys);
+            return properties;
+        },
+
+        /*
+            Retrieve MDM Configurations
+         */
+        getiOSMDMConfigurations: function(tenantId) {
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resource = registry.get(config.registry.iOSMDMCertificate);
+            var iOSMDMConfiguration = {};
+            iOSMDMConfiguration.inputStream = resource.content;
+            iOSMDMConfiguration.properties = resource.properties();
+            return iOSMDMConfiguration;
+        },
+
+        /*
+            Retrieve APNS Configurations
+         */
+        getiOSAPNSConfigurations: function(tenantId) {
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resource = registry.get(config.registry.iOSAppCertificate);
+            var iOSAppConfiguration = {};
+            iOSAppConfiguration.inputStream = resource.content;
+            iOSAppConfiguration.properties = resource.properties();
+            return iOSAppConfiguration;
+        },
+
+        /*
+            Retrieve email configuration for tenant from registry
+         */
+        getEmailConfigurations: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.emailConfiguration);
+            return properties;
+        },
+
+        /*
+            Retrieve SEAP configuration
+         */
+        getSEAPConfiguration: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.seapConfiguration);
+            return properties;
+        },
+
+        /*
+            Retrieve License
+         */
+        getTenantLicense: function(tenantId){
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resoucre = registry.get(config.registry.tenantLicense);
+            return resoucre.content;
+        },
+
+        /*
+            Retrieve Copyright
+         */
+        getTenantCopyRight: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.copyright);
+            return properties;
+        },
+
         /*end of other user manager functions*/
-/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /*other functions*/
 
         /*authentication for devices only*/
         authenticate: function(ctx){
-			ctx.username = ctx.username;
-			log.info("username "+ctx.username);
+            ctx.username = ctx.username;
+            log.info("username "+ctx.username);
             try {
                 var authStatus = server().authenticate(ctx.username, ctx.password);
             } catch (e){
                 return null;
             }
 
-			log.info(">>auth "+authStatus);
-			if(!authStatus) {
-				return null;
-			}
-			var user =  this.getUser({'userid': ctx.username, login:true});
+            log.info(">>auth "+authStatus);
+            if(!authStatus) {
+                return null;
+            }
+            var user =  this.getUser({'userid': ctx.username, login:true});
 //            var result = driver.query(sqlscripts.tenantplatformfeatures.select1,  stringify(user.tenantId));
 //            if(result[0].record_count == 0) {
 //				for(var i = 1; i < 13; i++) {
 //                    var result = driver.query(sqlscripts.tenantplatformfeatures.select2, stringify(user.tenantId), i);
 //				}
 //			}
-		    return user;
-		},
+            return user;
+        },
 
         /*send email to particular user*/
         sendEmail: function(ctx){
-			var password_text = "";
-			if(ctx.generatedPassword){
-				password_text = "Your password to your login : "+ctx.generatedPassword;
-			}
+            var password_text = "";
+            if(ctx.generatedPassword){
+                password_text = "Your password to your login : "+ctx.generatedPassword;
+            }
             content = "Dear "+ ctx.firstName+", "+config.email.emailTemplate+config.HTTPS_URL+"/emm/api/device_enroll \n "+password_text+" \n"+config.email.companyName;
             subject = "EMM Enrollment";
 
@@ -538,10 +624,10 @@ var user = (function () {
             sender.subject = subject;
             sender.text = content;
             try{
-				sender.send();
-			}catch(e){
-				log.info(e);
-			}
+                sender.send();
+            }catch(e){
+                log.info(e);
+            }
         },
 
         /*get user enrollment info*/
@@ -553,7 +639,7 @@ var user = (function () {
         },
 
         /*Get all devices belongs to particular user*/
-		getDevices: function(obj){
+        getDevices: function(obj){
             log.debug("begin");
             log.debug(String(obj.userid));
             log.debug(common.getTenantID());
@@ -562,7 +648,7 @@ var user = (function () {
             var devices = driver.query(sqlscripts.devices.select26, String(obj.userid), common.getTenantID());
 
             return devices;
-		},
+        },
 
         //To get the tenant name using the tenant domain
         getTenantNameByUser: function() {
@@ -588,7 +674,7 @@ var user = (function () {
             ctx.tenantId = arguments[0];
             var tenantDomain = carbon.server.tenantDomain(ctx);
             log.debug("Domain >>>>>>> " + tenantDomain);
-            
+
             return this.getTenantName(tenantDomain);
         },
 
@@ -643,12 +729,12 @@ var user = (function () {
             } catch (e) {
                 tenantDomain = "default";
             }
-			
-			var file = new File('/config/tenants/' + tenantDomain + '/config.json');
+
+            var file = new File('/config/tenants/' + tenantDomain + '/config.json');
             if (!file.isExists()){
-            	tenantDomain = "default";
+                tenantDomain = "default";
             }
-			
+
             return tenantDomain;
         },
         getTouchDownConfig: function(ctx) {
@@ -665,7 +751,7 @@ var user = (function () {
             data.server = tenantConfig.touchdown.server;
 
             return data;
-        }, 
+        },
         changePassword: function(ctx){
             var new_password = ctx.new_password;
             var old_password = ctx.old_password;

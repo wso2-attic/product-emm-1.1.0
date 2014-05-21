@@ -1,5 +1,5 @@
 {
-    "NOTIFIER" : "LOCAL",   
+    "NOTIFIER" : "LOCAL",
     "NOTIFIER_INTERVAL" : "1",
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
@@ -44,6 +44,15 @@
     },
     "mam": {
         "store_location": "%https.ip%/store",
-         "archieve_location": "%http.ip%"
+        "archieve_location": "%http.ip%"
+    },
+    "registry": {
+        "iOSMDMCertificate" : "/_system/config/emm/MDMCert.pfx",
+        "iOSAppCertificate" : "/_system/config/emm/WSO2Agent.pfx",
+        "seapConfiguration" : "/_system/config/emm/SEAPConfig",
+        "androidGCMKeys" : "/_system/config/emm/AndroidGCM",
+        "tenantLicense" : "/_system/config/emm/TenantLicense",
+        "copyright" : "/_system/config/emm/Copyright",
+        "emailConfiguration" : "/_system/config/emm/EmailConfig"
     }
 }

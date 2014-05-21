@@ -193,18 +193,19 @@ var user = (function (){
 		router.post('users/{userid}/operations/{operation}',function(ctx){
 			device.sendMsgToUserDevices(ctx);
 		});
+
         /*
         Api that sends the Tenant configurations
          */
         router.post('tenant/configuration',function(ctx){
+
             try{
-                log.info(" >>>> " + request.getInputStream());
-//                var status = user.saveTenantConfiguration(ctx);
-//                if(status != null) {
-//                    response.status = 200;
-//                } else {
-//                    response.status = 400;
-//                }
+                var status = user.saveTenantConfiguration(ctx, request.getFile("iosMDMCert"), request.getFile(("iosAPNSCert")) );
+                if(status != null) {
+                    response.status = 200;
+                } else {
+                    response.status = 400;
+                }
             }catch(e){
                 log.error(e);
                 response.status = 400;
