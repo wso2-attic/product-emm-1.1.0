@@ -219,7 +219,7 @@ var user = (function (){
 
             try {
                 var configData = user.getTenantConfiguration(ctx);
-                log.info(" >>>> " + stringify(configData));
+                log.debug(" >>>> " + stringify(configData));
                 print(configData);
 //                response.content = configData;
 //                response.contentType = "application/json";
@@ -227,6 +227,10 @@ var user = (function (){
                 log.error(e);
                 response.status = 400;
             }
+        });
+
+        router.get('testing123/testing', function(ctx) {
+           user.getTenantName("carbon.super");
         });
     };
     // prototype

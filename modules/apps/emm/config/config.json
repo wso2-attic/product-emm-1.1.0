@@ -1,5 +1,5 @@
 {
-    "NOTIFIER" : "LOCAL",
+    "DEFAULTNOTIFIER" : "LOCAL",
     "NOTIFIER_INTERVAL" : "1",
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
@@ -53,6 +53,7 @@
         "androidGCMKeys" : "/_system/config/emm/AndroidGCM",
         "tenantLicense" : "/_system/config/emm/TenantLicense",
         "copyright" : "/_system/config/emm/Copyright",
-        "emailConfiguration" : "/_system/config/emm/EmailConfig"
+        "emailConfiguration" : "/_system/config/emm/EmailConfig",
+        "monitorConfiguration" : "/_system/config/emm/MonitorConfig"
     }
 }

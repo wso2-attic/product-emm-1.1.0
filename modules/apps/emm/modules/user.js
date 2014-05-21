@@ -43,7 +43,7 @@ var user = (function () {
             var indexUser = username.replace("@", ":");
             return USER_SPACE + '/' + indexUser;
         } catch (e) {
-            log.info(e);
+            log.error(e);
             return null;
         }
     };
@@ -408,14 +408,13 @@ var user = (function () {
             Save default values to the tenant
          */
         defaultTenantConfiguration: function(tenantId) {
-
-            var registry = storeRegistry.systemRegistry(tenantId);
             var properties = this.getTenantCopyRight(tenantId);
-            if(properties != null) {
+            if(properties == null) {
                 var defaultData = '{"emailSmtpHost" : "smtp.gmail.com", "emailTemplate" : "You have been registered to the WSO2 EMM. Below is the link to enroll.", '
                     + '"uiTitle" : "", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
                     + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
-                    + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2" }';
+                    + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2", '
+                    + '"androidNotifier": "LOCAL"}';
                 this.saveTenantConfiguration(defaultData, null, null, tenantId, "true");
             }
         },
@@ -451,7 +450,7 @@ var user = (function () {
                         iOSMDMProduction = "false";
                     }
 
-                    if(ctx.iosMDMCertModified) {
+                    if(ctx.iosMDMCertModified == "true") {
                         if (iOSMDMFile == null) {
                             registry.remove(config.registry.iOSMDMCertificate);
                         } else {
@@ -465,7 +464,7 @@ var user = (function () {
                         }
                     }
 
-                    if(ctx.iosAPNSCertModified) {
+                    if(ctx.iosAPNSCertModified == "true") {
                         if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
                             registry.remove(config.registry.iOSAppCertificate);
                         }else {
@@ -492,7 +491,7 @@ var user = (function () {
                     } else {
                         registry.put(config.registry.androidGCMKeys, {
                             content: config.registry.androidGCMKeys,
-                            properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim()}
+                            properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim(), AndroidMonitorType:ctx.androidNotifier.trim()}
                         });
                     }
 
@@ -543,20 +542,20 @@ var user = (function () {
             var seapConfiguration = this.getSEAPConfiguration(tenantId);
             var license = this.getTenantLicense(tenantId);
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
-            var emailConfigurationsss = this.getEmailConfigurations(tenantId);
 
             var jsonBuilder = {};
 
             if(androidGCMKeys != null) {
                 jsonBuilder.androidApiKeys = androidGCMKeys.APIKeys;
                 jsonBuilder.androidSenderIds = androidGCMKeys.SenderIds;
+                jsonBuilder.androidNotifier = androidGCMKeys.AndroidMonitorType;
             } else {
                 jsonBuilder.androidApiKeys = "";
                 jsonBuilder.androidSenderIds = "";
+                jsonBuilder.androidSenderIds = "0";
             }
 
             if(iOSMDMConfigurations != null) {
-                log.info(" <<<<< " + stringify(iOSMDMConfigurations));
                 jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password;
                 if(iOSMDMConfigurations.properties.Production = "true") {
                     jsonBuilder.iosMDMMode = "production";
@@ -719,14 +718,14 @@ var user = (function () {
         /*authentication for devices only*/
         authenticate: function(ctx){
             ctx.username = ctx.username;
-            log.info("username "+ctx.username);
+            log.debug("username "+ctx.username);
             try {
                 var authStatus = server().authenticate(ctx.username, ctx.password);
             } catch (e){
                 return null;
             }
 
-            log.info(">>auth "+authStatus);
+            log.debug("auth >>>> " + authStatus);
             if(!authStatus) {
                 return null;
             }
@@ -742,25 +741,32 @@ var user = (function () {
 
         /*send email to particular user*/
         sendEmail: function(ctx){
-            var password_text = "";
-            if(ctx.generatedPassword){
-                password_text = "Your password to your login : "+ctx.generatedPassword;
-            }
-            content = "Dear "+ ctx.firstName+", "+config.email.emailTemplate+config.HTTPS_URL+"/emm/api/device_enroll \n "+password_text+" \n"+config.email.companyName;
-            subject = "EMM Enrollment";
 
-            var email = require('email');
-            var sender = new email.Sender(config.email.smtp, config.email.port, config.email.senderAddress, config.email.emailPassword, "tls");
-            sender.from = config.email.senderAddress;
+            var tenantId = parseInt(common.common.getTenantID());
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
 
-            log.info("Email sent to -> "+ctx.email);
-            sender.to = stringify(ctx.email);
-            sender.subject = subject;
-            sender.text = content;
-            try{
-                sender.send();
-            }catch(e){
-                log.info(e);
+            if(emailConfigurations != null) {
+                var password_text = "";
+                if(ctx.generatedPassword){
+                    password_text = "Your password to your login : "+ctx.generatedPassword;
+                }
+                content = "Dear " + ctx.firstName +", \n" + emailConfigurations.EmailTemplate[0] +" \n \n"
+                        + config.HTTPS_URL + "/emm/api/device_enroll \n " + password_text + " \n" + emailConfigurations.CompanyName[0];
+                subject = "EMM Enrollment";
+
+                var email = require('email');
+                var sender = new email.Sender(emailConfigurations.SMTP[0], emailConfigurations.Port[0], emailConfigurations.SenderAddress[0], emailConfigurations.EmailPassword[0], "tls");
+                sender.from = emailConfigurations.SenderAddress[0];
+
+                log.info("Email sent to -> " + ctx.email);
+                sender.to = stringify(ctx.email);
+                sender.subject = subject;
+                sender.text = content;
+                try{
+                    sender.send();
+                }catch(e){
+                    log.info(e);
+                }
             }
         },
 
@@ -800,54 +806,67 @@ var user = (function () {
         },
 
         getTenantNameFromID: function (){
+            var tenantId;
             if (arguments[0] == "-1234") {
                 return this.getTenantName("carbon.super");
             }
 
-            var ctx = {};
-            ctx.tenantId = arguments[0];
-            var tenantDomain = carbon.server.tenantDomain(ctx);
-            log.debug("Domain >>>>>>> " + tenantDomain);
+            var tenantId = parseInt(arguments[0]);
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
 
-            return this.getTenantName(tenantDomain);
+            if(emailConfigurations != null) {
+                return emailConfigurations.CompanyName[0];
+            } else {
+                return "WSO2";
+            }
         },
 
+        /*
+            Get Tenant Name from Domain
+         */
         getTenantName: function() {
             try {
-                var file = new File('/config/tenants/' + arguments[0] + '/config.json');
-                if (file.isExists()){
-                    var tenantConfig = require('/config/tenants/' + arguments[0] + '/config.json');
-                    return tenantConfig.name;
+                var options = {};
+                options.domain = arguments[0];
+                var tenantId = carbon.server.tenantId(options);
+                if (tenantId == null){
+                    tenantId = "-1234";
+                }
+                var emailConfigurations = this.getEmailConfigurations(tenantId);
+                if(emailConfigurations != null) {
+                    return emailConfigurations.CompanyName[0];
                 } else {
-                    var tenantConfig = require('/config/tenants/default/config.json');
-                    return tenantConfig.name;
+                    return "WSO2";
                 }
             } catch(e) {
-                var tenantConfig = require('/config/tenants/default/config.json');
-                return tenantConfig.name;
+                return "WSO2";
             }
         },
 
+        /*
+            Retrieve the Policy Agreement for the Tenant
+         */
         getLicenseByDomain: function() {
-            var message = "";
-            var domain;
+            var options = {};
             if (!(arguments[0]) || (arguments[0].trim() == "")) {
-                domain = "carbon.super";
+                options.domain = "carbon.super";
             } else {
-                domain = arguments[0];
+                options.domain = arguments[0];
             }
 
-            var file = new File("/config/tenants/" + domain + '/license.txt');
-            if (file.isExists()){
-                file.open("r");
-                message = file.readAll();
-                file.close();
-            } else {
-                log.error("License is not configured for tenant.");
-                message = "400";
+            try {
+                var tenantId = carbon.server.tenantId(options);
+                if (tenantId == null){
+                    tenantId = "-1234";
+                }
+            } catch (e) {
+                tenantId = "-1234";
             }
+
+            var message = this.getTenantLicense(parseInt(tenantId));
             return message;
         },
+
         getTenantDomainFromID: function() {
             if (arguments[0] == "-1234") {
                 return "carbon.super";
