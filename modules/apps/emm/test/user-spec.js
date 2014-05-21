@@ -314,3 +314,60 @@ describe('user-operations', function () {
         }
     });
 });
+
+describe('User Add Operation - User Module', function () {
+    try {
+        db = new Database("WSO2_EMM_DB");
+    } catch (e) {
+        log.error(e);
+    }
+    var user_module = require('/modules/user.js').user;
+    var user, db;
+    var ctx = {"first_name": "Firstname", "last_name": "Lastname", "mobile_no": "0123456789", "groups": [], "type": ""};
+    var userRole;
+
+    function initModule() {
+        try {
+            db = new Database("WSO2_EMM_DB");
+            user = new user_module(db);
+        } catch (e) {
+            log.error(e);
+        }
+    }
+
+    function closeDB() {
+        db.close();
+    }
+
+    beforeEach(function () {
+        ctx.username = "user@test.com";
+        ctx.userid = "user@test.com";
+        userRole = "subscriber";
+    });
+
+    it('Test addUser user', function () {
+        try {
+            initModule();
+            ctx.type = "user";
+            ctx.groups.push(userRole);
+            var userOp = user.addUser(ctx);
+            expect(userOp.status).toEqual("SUCCESSFULL");
+        } catch (e) {
+            log.error(e);
+        } finally {
+            closeDB();
+        }
+    });
+
+    it('Test addUser with partial data', function () {
+        try {
+            initModule();
+            var userOp = user.addUser({"first_name": "Firstname", "last_name": "Lastname", "mobile_no": "0123456789"});
+            expect(userOp.status).toEqual("BAD_REQUEST");
+        } catch (e) {
+            log.error(e);
+        } finally {
+            closeDB();
+        }
+    });
+});
