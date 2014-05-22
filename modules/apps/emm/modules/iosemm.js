@@ -6,20 +6,20 @@ var iosemm = (function() {
 	var device = new deviceModule(db);
 	var driver = require('driver').driver(db);
 	var common = require("/modules/common.js");
-    var sqlscripts = require('/sqlscripts/db.js');
+	var sqlscripts = require('/sqlscripts/db.js');
 	var notificationModule = require('/modules/notification.js').notification;
 	var notification = new notificationModule(db);
-    var userModule = require('user.js').user;
+	var userModule = require('user.js').user;
 	var mobilityManagerService = new Packages.org.wso2.carbon.emm.ios.core.service.iOSMobilityManagerService();
 	mobilityManagerService = mobilityManagerService.getInstance();
-    var user = '';
+	var user = '';
 
 	var module = function() {
-        user = new userModule(db);
+		user = new userModule(db);
 	};
 
 	function mergeRecursive(obj1, obj2) {
-		for (var p in obj2) {
+		for ( var p in obj2) {
 			try {
 				// Property in destination object set; update its value.
 				if (obj2[p].constructor == Object) {
@@ -28,13 +28,13 @@ var iosemm = (function() {
 					obj1[p] = obj2[p];
 				}
 			} catch (e) {
-				// Property in destination object not set; create it and set its value.
+				// Property in destination object not set; create it and set its
+				// value.
 				obj1[p] = obj2[p];
 			}
 		}
 		return obj1;
 	}
-
 
 	module.prototype = {
 		constructor : module,
@@ -51,10 +51,11 @@ var iosemm = (function() {
 		generateMobileConfigurations : function(token) {
 			try {
 
-                //Get Tenant from the Token (which is the username)
-                var tenantName = user.getTenantNameByUser(token);
+				// Get Tenant from the Token (which is the username)
+				var tenantName = user.getTenantNameByUser(token);
 
-                var result = mobilityManagerService.generateMobileConfigurations(token, tenantName);
+				var result = mobilityManagerService
+						.generateMobileConfigurations(token, tenantName);
 				var data = result.getBytes();
 				var signedData = mobilityManagerService.getSignedData(data);
 
@@ -68,18 +69,24 @@ var iosemm = (function() {
 		handleProfileRequest : function(inputStream) {
 
 			try {
-                log.debug("Handle Profile Request!");
+				log.debug("Handle Profile Request!");
 
-                var profileResponse = mobilityManagerService.copyInputStream(inputStream);
-                if (profileResponse.challengeToken != null) {
-                    driver.query(sqlscripts.device_pending.update4, profileResponse.udid, profileResponse.challengeToken);
-                }
-                var devices = driver.query(sqlscripts.device_pending.select4, profileResponse.udid);
-                var tenantId = devices[0].tenant_id;
-                var tenantName = user.getTenantNameFromID(tenantId);
-            	//var mdmConfigurations = user.getiOSMDMConfigurations(tenantId);
-
-				var signedData = mobilityManagerService.handleProfileRequest(profileResponse.inputStream, tenantName, topicId);
+				var profileResponse = mobilityManagerService
+						.copyInputStream(inputStream);
+				if (profileResponse.challengeToken != null) {
+					driver.query(sqlscripts.device_pending.update4,
+							profileResponse.udid,
+							profileResponse.challengeToken);
+				}
+				var devices = driver.query(sqlscripts.device_pending.select4,
+						profileResponse.udid);
+				var tenantId = devices[0].tenant_id;
+				var tenantName = user.getTenantNameFromID(tenantId);
+				var mdmConfigurations = user
+						.getiOSMDMConfigurations(parseInt(tenantId));
+				var topicId = mdmConfigurations.properties.TopicID[0];
+				var signedData = mobilityManagerService.handleProfileRequest(
+						profileResponse.inputStream, tenantName, topicId);
 
 				return signedData;
 			} catch (e) {
@@ -103,7 +110,8 @@ var iosemm = (function() {
 		getCACaps : function() {
 
 			var postBodyCACaps = "POSTPKIOperation\nSHA-1\nDES3\n";
-			var strPostBodyCACaps = new Packages.java.lang.String(postBodyCACaps);
+			var strPostBodyCACaps = new Packages.java.lang.String(
+					postBodyCACaps);
 
 			return strPostBodyCACaps.getBytes();
 
@@ -111,7 +119,8 @@ var iosemm = (function() {
 		getPKIMessage : function(inputStream) {
 
 			try {
-				var pkiMessage = mobilityManagerService.getPKIMessage(inputStream);
+				var pkiMessage = mobilityManagerService
+						.getPKIMessage(inputStream);
 
 				return pkiMessage;
 			} catch (e) {
@@ -122,13 +131,16 @@ var iosemm = (function() {
 		extractDeviceTokens : function(inputStream) {
 
 			var writer = new Packages.java.io.StringWriter();
-			Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer, "UTF-8");
+			Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer,
+					"UTF-8");
 			var contentString = writer.toString();
 
 			try {
-				var checkinMessageType = mobilityManagerService.extractTokens(contentString);
+				var checkinMessageType = mobilityManagerService
+						.extractTokens(contentString);
 
-                log.debug("CheckinMessageType >>>>>>>>>>>>>>>>>>>>>> " + checkinMessageType.getMessageType());
+				log.debug("CheckinMessageType >>>>>>>>>>>>>>>>>>>>>> "
+						+ checkinMessageType.getMessageType());
 
 				if (checkinMessageType.getMessageType() == "CheckOut") {
 					var ctx = {};
@@ -137,13 +149,15 @@ var iosemm = (function() {
 				} else if (checkinMessageType.getMessageType() == "TokenUpdate") {
 					var tokenProperties = {};
 					tokenProperties["token"] = checkinMessageType.getToken();
-					tokenProperties["unlockToken"] = checkinMessageType.getUnlockToken();
-					tokenProperties["magicToken"] = checkinMessageType.getPushMagic();
+					tokenProperties["unlockToken"] = checkinMessageType
+							.getUnlockToken();
+					tokenProperties["magicToken"] = checkinMessageType
+							.getPushMagic();
 					tokenProperties["deviceid"] = checkinMessageType.getUdid();
 
 					device.updateiOSTokens(tokenProperties);
 				}
-				
+
 				return checkinMessageType.getMessageType();
 
 			} catch (e) {
@@ -153,14 +167,15 @@ var iosemm = (function() {
 		sendPushNotifications : function(inputStream) {
 
 			var writer = new Packages.java.io.StringWriter();
-			Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer, "UTF-8");
+			Packages.org.apache.commons.io.IOUtils.copy(inputStream, writer,
+					"UTF-8");
 			var contentString = writer.toString();
 
 			try {
-				var apnsStatus = mobilityManagerService.extractAPNSResponse(contentString);
+				var apnsStatus = mobilityManagerService
+						.extractAPNSResponse(contentString);
 
-
-         		var commandUUID = apnsStatus.getCommandUUID();
+				var commandUUID = apnsStatus.getCommandUUID();
 
 				if (("Acknowledged").equals(apnsStatus.getStatus())) {
 					log.debug("Acknowledged >> " + apnsStatus.getOperation());
@@ -169,40 +184,48 @@ var iosemm = (function() {
 
 					if ("QueryResponses" == apnsStatus.getOperation()) {
 						responseData = apnsStatus.getResponseData();
-					} else if ("InstalledApplicationList" == apnsStatus.getOperation()) {
+					} else if ("InstalledApplicationList" == apnsStatus
+							.getOperation()) {
 						responseData = apnsStatus.getResponseData();
 					} else if ("ProfileList" == apnsStatus.getOperation()) {
 						responseData = apnsStatus.getResponseData();
 					} else if ("NeedsRedemption" == apnsStatus.getState()) {
 
-						var notifications = driver.query(sqlscripts.notifications.select4, commandUUID);
+						var notifications = driver.query(
+								sqlscripts.notifications.select4, commandUUID);
 						var device_id = notifications[0].device_id;
 						var message = notifications[0].message;
 						message = parse(message);
-						
+
 						responseData = apnsStatus.getResponseData();
 						var data = {};
 						data.identifier = responseData.identifier;
 						data.redemptionCode = message.redemptionCode;
-						device.sendMessageToIOSDevice({'deviceid':device_id, 'operation': "APPLYREDEMPTIONCODE", 'data': data});
+						device.sendMessageToIOSDevice({
+							'deviceid' : device_id,
+							'operation' : "APPLYREDEMPTIONCODE",
+							'data' : data
+						});
 					}
 
 					var ctx = {};
 					ctx.data = responseData;
 					ctx.msgID = commandUUID;
-                    //log.debug(" Command >>>>> " + stringify(ctx) );
+					// log.debug(" Command >>>>> " + stringify(ctx) );
 
 					var pendingExist = notification.addIosNotification(ctx);
 
-                    //log.debug("pendingExist >>>>>>>>>>>>>>>>>>>>>>> " + stringify(pendingExist));
-                    //log.debug("pendingExist >>>>>>>>>>>>>>>>>>>>>>> " + pendingExist);
+					// log.debug("pendingExist >>>>>>>>>>>>>>>>>>>>>>> " +
+					// stringify(pendingExist));
+					// log.debug("pendingExist >>>>>>>>>>>>>>>>>>>>>>> " +
+					// pendingExist);
 
-                    ctx = {};
-                    ctx.id = commandUUID;
+					ctx = {};
+					ctx.id = commandUUID;
 
-                    if (pendingExist != true) {
-                        notification.discardOldNotifications(ctx);
-                    }
+					if (pendingExist != true) {
+						notification.discardOldNotifications(ctx);
+					}
 
 				} else if (("Error").equals(apnsStatus.getStatus())) {
 					log.error("Error " + apnsStatus.getError());
@@ -210,41 +233,47 @@ var iosemm = (function() {
 					ctx.error = "Error";
 					ctx.data = apnsStatus.getError();
 					ctx.msgID = commandUUID;
-                    var pendingExist = notification.addIosNotification(ctx);
+					var pendingExist = notification.addIosNotification(ctx);
 				}
 
 				var ctx = {};
 				ctx.udid = stringify(apnsStatus.getUdid());
-                //log.debug("ctx.udid >>>>> " + stringify(ctx));
+				// log.debug("ctx.udid >>>>> " + stringify(ctx));
 
 				var operation = device.getPendingOperationsFromDevice(ctx);
 
-
-                if (operation != null) {
-					var deviceInfo = driver.query(sqlscripts.devices.select7, parse(ctx.udid));
-					if(operation.message=="null"){
+				if (operation != null) {
+					var deviceInfo = driver.query(sqlscripts.devices.select7,
+							parse(ctx.udid));
+					if (operation.message == "null") {
 						operation.message = deviceInfo[0].reg_id;
 					}
 
-                    if (operation.feature_code.indexOf("-") > 0) {
-                        var featureCode = operation.feature_code.split("-")[0];
-                        var payload;
-                        payload = common.loadPayload(new Packages.java.lang.String(operation.id), featureCode, operation.message);
-                    } else {
-                        payload = common.loadPayload(new Packages.java.lang.String(operation.id), operation.feature_code, operation.message);
-                    }
+					if (operation.feature_code.indexOf("-") > 0) {
+						var featureCode = operation.feature_code.split("-")[0];
+						var payload;
+						payload = common.loadPayload(
+								new Packages.java.lang.String(operation.id),
+								featureCode, operation.message);
+					} else {
+						payload = common.loadPayload(
+								new Packages.java.lang.String(operation.id),
+								operation.feature_code, operation.message);
+					}
 
-                    return payload;
-                }
+					return payload;
+				}
 
-                //End of all Notifications pending for the device
-                var datetime =  common.getCurrentDateTime();
-                if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
-                    driver.query(sqlscripts.device_awake.update6, datetime, devices[0].id);
-                }
-                log.debug("Device awake completed!!");
+				// End of all Notifications pending for the device
+				var datetime = common.getCurrentDateTime();
+				if (devices != undefined && devices != null
+						&& devices[0] != undefined && devices[0] != null) {
+					driver.query(sqlscripts.device_awake.update6, datetime,
+							devices[0].id);
+				}
+				log.debug("Device awake completed!!");
 
-                return null;
+				return null;
 
 			} catch (e) {
 				log.error(e);
