@@ -411,10 +411,10 @@ var user = (function () {
             var properties = this.getTenantCopyRight(tenantId);
             if(properties == null) {
                 var defaultData = '{"emailSmtpHost" : "smtp.gmail.com", "emailTemplate" : "You have been registered to the WSO2 EMM. Below is the link to enroll.", '
-                    + '"uiTitle" : "", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
+                    + '"uiTitle" : "WSO2 Enterprise Mobility Manager", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
                     + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
                     + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2", '
-                    + '"androidNotifier": "LOCAL"}';
+                    + '"androidNotifier": "LOCAL", "androidNotifierFreq": "5", "androidApiKeys": "", "androidSenderIds": ""}';
                 this.saveTenantConfiguration(parse(defaultData), null, null, tenantId, "true");
             }
         },
@@ -487,16 +487,6 @@ var user = (function () {
                         });
                     }
 
-                    //Android GCM keys
-                    if((ctx.androidApiKeys == null || ctx.androidApiKeys.trim() == "") || (ctx.androidSenderIds == null || ctx.androidSenderIds.trim() == "")) {
-                        registry.remove(config.registry.androidGCMKeys);
-                    } else {
-                        registry.put(config.registry.androidGCMKeys, {
-                            content: config.registry.androidGCMKeys,
-                            properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim(), AndroidMonitorType:ctx.androidNotifier.trim()}
-                        });
-                    }
-
                     if(ctx.emailSenderAddress.trim() == "" || ctx.emailSmtpHost.trim() == "" || ctx.emailSmtpPort.trim() == null){
                         registry.remove(config.registry.emailConfiguration);
                     } else {
@@ -508,6 +498,13 @@ var user = (function () {
                     }
                 }
 
+                //Android GCM keys
+                registry.put(config.registry.androidGCMKeys, {
+                    content: config.registry.androidGCMKeys,
+                    properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim(), AndroidMonitorType:ctx.androidNotifier.trim(),
+                                AndroidNotifierFreq: ctx.androidNotifierFreq}
+                });
+
                 if(ctx.uiLicence == null || ctx.uiLicence.trim() == null) {
                     registry.remove(config.registry.tenantLicense);
                 } else {
@@ -515,10 +512,6 @@ var user = (function () {
                         content: ctx.uiLicence.trim()
                     });
                 }
-
-                ctx.uiTitle.trim();
-                ctx.uiCopyright.trim();
-
 
                 registry.put(config.registry.copyright, {
                     content: config.registry.copyright,
@@ -552,18 +545,20 @@ var user = (function () {
             var jsonBuilder = {};
 
             if(androidGCMKeys != null) {
-                jsonBuilder.androidApiKeys = androidGCMKeys.APIKeys;
-                jsonBuilder.androidSenderIds = androidGCMKeys.SenderIds;
-                jsonBuilder.androidNotifier = androidGCMKeys.AndroidMonitorType;
+                jsonBuilder.androidApiKeys = androidGCMKeys.APIKeys[0];
+                jsonBuilder.androidSenderIds = androidGCMKeys.SenderIds[0];
+                jsonBuilder.androidNotifier = androidGCMKeys.AndroidMonitorType[0];
+                jsonBuilder.androidNotifierFreq = androidGCMKeys.AndroidNotifierFreq[0];
             } else {
                 jsonBuilder.androidApiKeys = "";
                 jsonBuilder.androidSenderIds = "";
-                jsonBuilder.androidSenderIds = "0";
+                jsonBuilder.androidNotifier = "LOCAL";
+                jsonBuilder.androidNotifierFreq = "0";
             }
 
             if(iOSMDMConfigurations != null) {
-                jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password;
-                if(iOSMDMConfigurations.properties.Production = "true") {
+                jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password[0];
+                if(iOSMDMConfigurations.properties.Production[0] = "true") {
                     jsonBuilder.iosMDMMode = "production";
                 } else {
                     jsonBuilder.iosMDMMode = "developer";
@@ -574,8 +569,8 @@ var user = (function () {
             }
 
             if(iOSAPNSConfigurations != null) {
-                jsonBuilder.iosAPNSPass = iOSAPNSConfigurations.properties.Password;
-                if(iOSAPNSConfigurations.properties.Production = "true") {
+                jsonBuilder.iosAPNSPass = iOSAPNSConfigurations.properties.Password[0];
+                if(iOSAPNSConfigurations.properties.Production[0] = "true") {
                     jsonBuilder.iosAPNSMode = "production";
                 } else {
                     jsonBuilder.iosAPNSMode = "developer";
@@ -586,22 +581,22 @@ var user = (function () {
             }
 
             if(emailConfigurations != null) {
-                jsonBuilder.emailSmtpHost = emailConfigurations.SMTP;
-                jsonBuilder.emailSmtpPort = emailConfigurations.Port;
-                jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress;
-                jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword;
-                jsonBuilder.emailCompanyName = emailConfigurations.CompanyName;
-                jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate;
+                jsonBuilder.emailSmtpHost = emailConfigurations.SMTP[0];
+                jsonBuilder.emailSmtpPort = emailConfigurations.Port[0];
+                jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress[0];
+                jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword[0];
+                jsonBuilder.emailCompanyName = emailConfigurations.CompanyName[0];
+                jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate[0];
 
             }
 
             if(seapConfiguration != null) {
-                jsonBuilder.iosSCEPCommonName = seapConfiguration.CN;
-                jsonBuilder.iosSCEPCountry = seapConfiguration.C;
-                jsonBuilder.iosSCEPState = seapConfiguration.ST;
-                jsonBuilder.iosSCEPLocality = seapConfiguration.L;
-                jsonBuilder.iosSCEPOrganisation = seapConfiguration.O;
-                jsonBuilder.iosSCEPOrganisationUnit = seapConfiguration.OU;
+                jsonBuilder.iosSCEPCommonName = seapConfiguration.CN[0];
+                jsonBuilder.iosSCEPCountry = seapConfiguration.C[0];
+                jsonBuilder.iosSCEPState = seapConfiguration.ST[0];
+                jsonBuilder.iosSCEPLocality = seapConfiguration.L[0];
+                jsonBuilder.iosSCEPOrganisation = seapConfiguration.O[0];
+                jsonBuilder.iosSCEPOrganisationUnit = seapConfiguration.OU[0];
             } else {
                 jsonBuilder.iosSCEPCommonName = "";
                 jsonBuilder.iosSCEPCountry = "";
@@ -616,8 +611,8 @@ var user = (function () {
             }
 
             if(tenantCopyRight != null) {
-                jsonBuilder.uiTitle = tenantCopyRight.Title;
-                jsonBuilder.uiCopyright = tenantCopyRight.Footer;
+                jsonBuilder.uiTitle = tenantCopyRight.Title[0];
+                jsonBuilder.uiCopyright = tenantCopyRight.Footer[0];
             } else {
                 jsonBuilder.uiTitle = "";
                 jsonBuilder.uiCopyright = "";

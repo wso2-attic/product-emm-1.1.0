@@ -113,9 +113,19 @@
                                         <div class="tab-pane active" id="android">
 
                                             <div class="control-group">
-                                                <label class="control-label">Notifier Type (GCM / LOCAL)</label>
-                                                    <div class="controls">
-                                                    <input type="text" id="androidNotifier" name="androidNotifier" class="input-xlarge" >
+                                                <label class="control-label" >Notifier Type</label>
+                                                <div class="controls">
+                                                    <select id="androidNotifier" name="androidNotifier">
+											             <option value="LOCAL">LOCAL</option>
+											             <option value="GCM">GCM</option>
+										          </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label">Notifier Frequency (in mins)</label>
+                                                <div class="controls">
+                                                    <input type="text" id="androidNotifierFreq" name="androidNotifierFreq" class="input-xlarge">
                                                 </div>
                                             </div>
 

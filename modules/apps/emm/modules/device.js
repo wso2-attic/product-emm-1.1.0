@@ -942,6 +942,7 @@ var device = (function () {
             var androidGCMKeys = user.getAndroidGCMKeys(tenantId);
             if(androidGCMKeys != null) {
                 message.notifier = androidGCMKeys.AndroidMonitorType[0];
+                message.notifierInterval = androidGCMKeys.AndroidNotifierFreq[0];
                 message.sender_id = androidGCMKeys.SenderIds[0];
             } else {
                 message.notifier = configFile.DEFAULTNOTIFIER;
