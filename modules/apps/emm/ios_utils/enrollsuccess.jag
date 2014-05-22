@@ -42,7 +42,7 @@
 
     <input type="hidden" id="udid" name="udid" value='<% print (request.getParameter("udid")); %>' />
   	<%
-        var sqlscripts = require('/sqlscripts/mysql.js');
+        var sqlscripts = require('/sqlscripts/db.js');
         var username = request.getParameter("username");
 		db.query(sqlscripts.device_pending.delete1, username);
 	

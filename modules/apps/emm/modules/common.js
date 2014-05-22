@@ -1,7 +1,7 @@
 var DB_SESSION = "db";
 
 var log = new Log();
-var sqlscripts = require('/sqlscripts/mysql.js');
+var sqlscripts = require('/sqlscripts/db.js');
 var config = require('/config/emm.js').config();
 
 var getCurrentLoginUser = function(){

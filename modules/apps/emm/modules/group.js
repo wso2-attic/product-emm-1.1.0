@@ -6,7 +6,7 @@ var group = (function () {
 	var log = new Log();
 	var db;
     var driver;
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 	var common = require('common.js');
     var claimEmail = "http://wso2.org/claims/emailaddress";
     var claimFirstName = "http://wso2.org/claims/givenname";

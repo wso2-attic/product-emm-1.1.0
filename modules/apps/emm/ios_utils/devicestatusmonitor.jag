@@ -1,5 +1,5 @@
 <%
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
     var username = request.getParameter("username");
 	var responseObj = {};
 	responseObj.status = false;

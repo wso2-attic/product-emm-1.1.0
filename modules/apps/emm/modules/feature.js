@@ -6,7 +6,7 @@ var feature = (function () {
     var log = new Log();
     var db;
     var common = require("/modules/common.js");
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
     var driver;
     var module = function (dbs) {
         db = dbs;

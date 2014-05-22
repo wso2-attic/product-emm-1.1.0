@@ -9,7 +9,7 @@ var permission = (function () {
     var db;
     var driver;
     var common = require("common.js");
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
     var module = function (dbs) {
         db = dbs;
         driver = require('driver').driver(db);
