@@ -75,9 +75,11 @@ var iosemm = (function() {
                     driver.query(sqlscripts.device_pending.update4, profileResponse.udid, profileResponse.challengeToken);
                 }
                 var devices = driver.query(sqlscripts.device_pending.select4, profileResponse.udid);
-                var tenantName = user.getTenantNameFromID(devices[0].tenant_id);
+                var tenantId = devices[0].tenant_id;
+                var tenantName = user.getTenantNameFromID(tenantId);
+            	//var mdmConfigurations = user.getiOSMDMConfigurations(tenantId);
 
-				var signedData = mobilityManagerService.handleProfileRequest(profileResponse.inputStream, tenantName);
+				var signedData = mobilityManagerService.handleProfileRequest(profileResponse.inputStream, tenantName, topicId);
 
 				return signedData;
 			} catch (e) {

@@ -3,6 +3,7 @@ var DB_SESSION = "db";
 var log = new Log();
 var sqlscripts = require('/sqlscripts/db.js');
 var config = require('/config/emm.js').config();
+var driver = require('driver').driver(db);
 
 var getCurrentLoginUser = function(){
     if(typeof session.get("emmConsoleUser") != 'undefined' && session.get("emmConsoleUser") != null){
@@ -41,7 +42,7 @@ var getTenantIDFromEmail = function(email){
     return tenantUser.tenantId;
 }
 var getTenantIDFromDevice = function(deviceID){
-    var result = db.query(sqlscripts.devices.select1, deviceID);
+    var result = driver.query(sqlscripts.devices.select1, deviceID);
     if(typeof (result) !== 'undefined' && result !== null && typeof (result[0]) !== 'undefined' && result[0] !== null){
         return result[0].tenant_id;
     }else{
@@ -104,33 +105,6 @@ var getFormattedDate = function(value){
     var date = new Date(value);
     var fdate = date.getFullYear() + '-' +('00' + (date.getMonth()+1)).slice(-2) + '-' +('00' + date.getDate()).slice(-2) + ' ' + ('00' + date.getHours()).slice(-2) + ':' + ('00' + date.getMinutes()).slice(-2) + ':' + ('00' + date.getSeconds()).slice(-2);
     return fdate;
-}
-
-var initAPNS = function(deviceToken, magicToken) {
-	
-	if(deviceToken == null || magicToken == null || 
-		deviceToken == undefined || magicToken == undefined) {
-		return;
-	}
-
-    log.debug("initAPNS >> ");
-    log.debug("Device Token: >> " + deviceToken);
-    log.debug("Magic Token: >> " + magicToken);
-
-	try {
-		var apnsInitiator = new Packages.org.wso2.mobile.ios.apns.MDMPushNotificationSender();
-
-		var userData = new Packages.java.util.ArrayList();
-		var params = new Packages.java.util.HashMap();
-		params.put("devicetoken", deviceToken);
-		params.put("magictoken", magicToken);
-		userData.add(params);
-
-		apnsInitiator.pushToAPNS(userData);
-
-	} catch (e) {
-		log.error(e);
-	}
 }
 
 var sendIOSPushNotifications = function(token, message) {
@@ -389,7 +363,7 @@ var getDatabase = function(){
     var db = application.get(DB_SESSION);
   	if(db){
   		try{
-  			db.query("SELECT 1 FROM dual");
+  			driver.query("SELECT 1 FROM dual");
   		}catch(e){
   			log.info("New connection was taken");
   			db = null;

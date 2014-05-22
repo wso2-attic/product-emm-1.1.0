@@ -43,8 +43,9 @@
     <input type="hidden" id="udid" name="udid" value='<% print (request.getParameter("udid")); %>' />
   	<%
         var sqlscripts = require('/sqlscripts/db.js');
+        var driver = require('driver').driver(db);
         var username = request.getParameter("username");
-		db.query(sqlscripts.device_pending.delete1, username);
+		driver.query(sqlscripts.device_pending.delete1, username);
 	
 	%>
   	

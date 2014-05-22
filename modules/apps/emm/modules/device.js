@@ -659,7 +659,7 @@ var device = (function () {
         if (sendToAPNS != null) {
             try {
                 log.debug("Message send to iOS APNS");
-                common.initAPNS(deviceToken, pushMagicToken);
+                initAPNS(deviceToken, pushMagicToken);
             } catch (e) {
                 driver.query(sqlscripts.device_awake.update1, datetime, ctx.deviceid);
                 log.error(e);
@@ -673,6 +673,45 @@ var device = (function () {
         }
 
         return true;
+    }
+    
+    function initAPNS(deviceToken, magicToken) {
+    	
+    	if(deviceToken == null || magicToken == null || 
+    		deviceToken == undefined || magicToken == undefined) {
+    		return;
+    	}
+    	
+    	var tenantId = parseInt(common.getTenantID());
+    	var mdmConfigurations = user.getiOSMDMConfigurations(tenantId);
+    	
+    	if(mdmConfigurations == null) {
+    		return;
+    	}
+    	
+    	var password = mdmConfigurations.properties.Password[0];
+    	var isProduction = mdmConfigurations.properties.Production[0] == 'true';
+
+        log.debug("initAPNS >> ");
+        log.debug("Device Token: >> " + deviceToken);
+        log.debug("Magic Token: >> " + magicToken);
+        var topic = "com.apple.mgmt.External.0f734aa7-179d-4396-beff-7befbc4f1d3e";
+        
+    	try {
+    		var apnsInitiator = new Packages.org.wso2.carbon.emm.ios.apns.service.MDMPushNotificationSender(
+    				(mdmConfigurations.inputStream).getStream(), password, isProduction);
+
+    		var userData = new Packages.java.util.ArrayList();
+    		var params = new Packages.java.util.HashMap();
+    		params.put("devicetoken", deviceToken);
+    		params.put("magictoken", magicToken);
+    		userData.add(params);
+
+    		apnsInitiator.pushToAPNS(userData);
+
+    	} catch (e) {
+    		log.error(e);
+    	}
     }
 
     function policyFiltering(ctx) {

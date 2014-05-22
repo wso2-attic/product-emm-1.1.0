@@ -9,7 +9,7 @@ var device = (function () {
 		var device = new deviceModule(db);
 		user = new userModule(db);
         var Handle = require("/modules/handlebars.js").Handlebars;
-        driver = require('driver');
+        driver = require('driver').driver(db);
         var validateDevice = function() {
 
             //Allow Android version 4.0.3 and above
@@ -85,7 +85,7 @@ var device = (function () {
 
         var checkOwnership = function(deviceID,username){
             log.debug("Device ID :"+deviceID);
-            var result =  db.query(sqlscripts.devices.select1,deviceID);
+            var result =  driver.query(sqlscripts.devices.select1,deviceID);
             log.debug("Result :"+stringify(result));
             if(typeof result != 'undefined' && result!= null && typeof result[0] != 'undefined' && result[0]!= null && result[0].user_id == username ){
                 return true;
@@ -160,7 +160,7 @@ var device = (function () {
 		});
 		
 		router.post('devices/unregisterios', function(ctx){
-            var devices = db.query(sqlscripts.devices.select20, ctx.udid);
+            var devices = driver.query(sqlscripts.devices.select20, ctx.udid);
             if (devices != null && devices != undefined && devices[0] != null && devices[0] != undefined) {
                 if (devices[0].id != null) {
                     var result = device.sendMessageToIOSDevice({"data" : null, "operation" : "ENTERPRISEWIPE", "deviceid" : devices[0].id});

@@ -49,7 +49,7 @@
     "registry": {
         "iOSMDMCertificate" : "/_system/config/emm/MDMCert.pfx",
         "iOSAppCertificate" : "/_system/config/emm/WSO2Agent.pfx",
-        "seapConfiguration" : "/_system/config/emm/SEAPConfig",
+        "scepConfiguration" : "/_system/config/emm/SCEPConfig",
         "androidGCMKeys" : "/_system/config/emm/AndroidGCM",
         "tenantLicense" : "/_system/config/emm/TenantLicense",
         "copyright" : "/_system/config/emm/Copyright",

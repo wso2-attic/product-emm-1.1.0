@@ -3,6 +3,7 @@
 	var userModule = require('/modules/user.js').user;
 	var common = require('/modules/common.js');
     var sqlscripts = require('/sqlscripts/db.js');
+    var driver = require('driver').driver(db);
 	var db = common.getDatabase();
 	var user = new userModule(db);
 	var iosEmm = new iosEmmModule();
@@ -40,12 +41,12 @@
         var tenant = user.getUser(ctx);
 		var data = iosEmm.generateMobileConfigurations(ctx.userid);
 
-        var recordPresent = db.query(sqlscripts.device_pending.select6, ctx.userid);
+        var recordPresent = driver.query(sqlscripts.device_pending.select6, ctx.userid);
         log.debug(recordPresent);
         if (recordPresent.length > 0) {
-            db.query(sqlscripts.device_pending.update5, username, tenant.tenantId, byod, ctx.userid);
+            driver.query(sqlscripts.device_pending.update5, username, tenant.tenantId, byod, ctx.userid);
         } else {
-            db.query(sqlscripts.device_pending.insert2, username, tenant.tenantId, byod, ctx.userid);
+            driver.query(sqlscripts.device_pending.insert2, username, tenant.tenantId, byod, ctx.userid);
         }
 
 		if(data == null) {

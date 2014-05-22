@@ -10,6 +10,7 @@ var permission = (function () {
     var driver;
     var common = require("common.js");
     var sqlscripts = require('/sqlscripts/db.js');
+    var driver = require('driver').driver(db);
     var module = function (dbs) {
         db = dbs;
         driver = require('driver').driver(db);
@@ -42,7 +43,7 @@ var permission = (function () {
           var responseMsg = {};
           var group = ctx.selectedGroup;
           var featureList = ctx.featureList;
-          var resultCount1 = db.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
+          var resultCount1 = driver.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
           var resultCount2 = 0;
           if(!resultCount1>0){
               resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());

@@ -483,8 +483,8 @@ var user = (function () {
 
                     if(ctx.iosSCEPCommonName.trim() != null) {
                         //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
-                        registry.put(config.registry.seapConfiguration, {
-                            content: config.registry.seapConfiguration,
+                        registry.put(config.registry.scepConfiguration, {
+                            content: config.registry.scepConfiguration,
                             properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
                                 O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
                         });
@@ -541,7 +541,7 @@ var user = (function () {
             var iOSAPNSConfigurations = this.getiOSAPNSConfigurations(tenantId);
             var emailConfigurations = this.getEmailConfigurations(tenantId);
 
-            var seapConfiguration = this.getSEAPConfiguration(tenantId);
+            var scepConfiguration = this.getSCEPConfiguration(tenantId);
             var license = this.getTenantLicense(tenantId);
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
@@ -592,13 +592,13 @@ var user = (function () {
 
             }
 
-            if(seapConfiguration != null) {
-                jsonBuilder.iosSCEPCommonName = seapConfiguration.CN[0];
-                jsonBuilder.iosSCEPCountry = seapConfiguration.C[0];
-                jsonBuilder.iosSCEPState = seapConfiguration.ST[0];
-                jsonBuilder.iosSCEPLocality = seapConfiguration.L[0];
-                jsonBuilder.iosSCEPOrganisation = seapConfiguration.O[0];
-                jsonBuilder.iosSCEPOrganisationUnit = seapConfiguration.OU[0];
+            if(scepConfiguration != null) {
+                jsonBuilder.iosSCEPCommonName = scepConfiguration.CN[0];
+                jsonBuilder.iosSCEPCountry = scepConfiguration.C[0];
+                jsonBuilder.iosSCEPState = scepConfiguration.ST[0];
+                jsonBuilder.iosSCEPLocality = scepConfiguration.L[0];
+                jsonBuilder.iosSCEPOrganisation = scepConfiguration.O[0];
+                jsonBuilder.iosSCEPOrganisationUnit = scepConfiguration.OU[0];
             } else {
                 jsonBuilder.iosSCEPCommonName = "";
                 jsonBuilder.iosSCEPCountry = "";
@@ -686,10 +686,10 @@ var user = (function () {
         },
 
         /*
-            Retrieve SEAP configuration
+            Retrieve SCEP configuration
          */
-        getSEAPConfiguration: function(tenantId) {
-            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.seapConfiguration);
+        getSCEPConfiguration: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.scepConfiguration);
             return properties;
         },
 
