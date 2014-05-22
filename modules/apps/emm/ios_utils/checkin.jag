@@ -1,9 +1,9 @@
 <%
 	
-	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
-	var iosMdm = new iosMdmModule();
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
+	var iosEmm = new iosEmmModule();
 	var log = new Log();
 
-	var messageType = iosMdm.extractDeviceTokens(request.getInputStream());
+	var messageType = iosEmm.extractDeviceTokens(request.getInputStream());
 	
 %>

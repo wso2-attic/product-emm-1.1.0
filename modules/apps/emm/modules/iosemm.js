@@ -10,6 +10,8 @@ var iosemm = (function() {
 	var notificationModule = require('/modules/notification.js').notification;
 	var notification = new notificationModule(db);
     var userModule = require('user.js').user;
+	var mobilityManagerService = new Packages.org.wso2.carbon.emm.ios.core.service.iOSMobilityManagerService();
+	mobilityManagerService = mobilityManagerService.getInstance();
     var user = '';
 
 	var module = function() {
@@ -38,8 +40,7 @@ var iosemm = (function() {
 		constructor : module,
 		getCA : function() {
 			try {
-				var keystoreReader = new Packages.org.wso2.mobile.ios.mdm.impl.KeystoreReader();
-				var caCertificate = keystoreReader.getCACertificate();
+				var caCertificate = mobilityManagerService.getCACertificate();
 				return caCertificate.getEncoded();
 			} catch (e) {
 				log.error(e);
@@ -53,12 +54,9 @@ var iosemm = (function() {
                 //Get Tenant from the Token (which is the username)
                 var tenantName = user.getTenantNameByUser(token);
 
-				var plistGenerator = new Packages.org.wso2.mobile.ios.mdm.plist.PlistGenerator();
-                var result = plistGenerator.generateMobileConfigurations(token, tenantName);
+                var result = mobilityManagerService.generateMobileConfigurations(token, tenantName);
 				var data = result.getBytes();
-
-				var pkcsSigner = new Packages.org.wso2.mobile.ios.mdm.impl.PKCSSigner();
-				var signedData = pkcsSigner.getSignedData(data);
+				var signedData = mobilityManagerService.getSignedData(data);
 
 				return signedData;
 			} catch (e) {
@@ -72,16 +70,14 @@ var iosemm = (function() {
 			try {
                 log.debug("Handle Profile Request!");
 
-                var commonUtil =  new Packages.org.wso2.mobile.ios.mdm.util.CommonUtil();
-                var profileResponse = commonUtil.copyInputStream(inputStream);
+                var profileResponse = mobilityManagerService.copyInputStream(inputStream);
                 if (profileResponse.challengeToken != null) {
                     driver.query(sqlscripts.device_pending.update4, profileResponse.udid, profileResponse.challengeToken);
                 }
                 var devices = driver.query(sqlscripts.device_pending.select4, profileResponse.udid);
                 var tenantName = user.getTenantNameFromID(devices[0].tenant_id);
 
-				var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
-				var signedData = requestHandler.handleProfileRequest(profileResponse.inputStream, tenantName);
+				var signedData = mobilityManagerService.handleProfileRequest(profileResponse.inputStream, tenantName);
 
 				return signedData;
 			} catch (e) {
@@ -93,8 +89,7 @@ var iosemm = (function() {
 		getCACert : function(caPath, raPath) {
 
 			try {
-				var requestHandler = new Packages.org.wso2.mobile.ios.mdm.impl.RequestHandler();
-				var scepResponse = requestHandler.handleGetCACert();
+				var scepResponse = mobilityManagerService.scepGetCACert();
 
 				return scepResponse;
 			} catch (e) {
@@ -114,8 +109,7 @@ var iosemm = (function() {
 		getPKIMessage : function(inputStream) {
 
 			try {
-				var certGenerator = new Packages.org.wso2.mobile.ios.mdm.impl.CertificateGenerator();
-				var pkiMessage = certGenerator.getPKIMessage(inputStream);
+				var pkiMessage = mobilityManagerService.getPKIMessage(inputStream);
 
 				return pkiMessage;
 			} catch (e) {
@@ -130,8 +124,7 @@ var iosemm = (function() {
 			var contentString = writer.toString();
 
 			try {
-				var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
-				var checkinMessageType = plistExtractor.extractTokens(contentString);
+				var checkinMessageType = mobilityManagerService.extractTokens(contentString);
 
                 log.debug("CheckinMessageType >>>>>>>>>>>>>>>>>>>>>> " + checkinMessageType.getMessageType());
 
@@ -162,8 +155,7 @@ var iosemm = (function() {
 			var contentString = writer.toString();
 
 			try {
-				var plistExtractor = new Packages.org.wso2.mobile.ios.mdm.plist.PlistExtractor();
-				var apnsStatus = plistExtractor.extractAPNSResponse(contentString);
+				var apnsStatus = mobilityManagerService.extractAPNSResponse(contentString);
 
 
          		var commandUUID = apnsStatus.getCommandUUID();

@@ -134,8 +134,12 @@ var device = (function () {
                 	response.status = 201;
                 	response.content = "registered"
 		    }else{
-                	var content = device.registerIOS(ctx);
+                var content = device.registerIOS(ctx);
 		    }
+		});
+		
+		router.post('devices/iostokenregister', function(ctx){
+		    device.registerIOS(ctx);
 		});
 		
 		router.post('devices/pushtoken', function(ctx){

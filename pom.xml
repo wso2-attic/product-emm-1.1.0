@@ -122,9 +122,24 @@
 		<wso2.slf4j.version>1.5.10.wso2v1</wso2.slf4j.version>
 		<sso.hostobjects.version>1.0.1</sso.hostobjects.version>
 		<rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
-		<commons-codec.osgi.version>1.4.0.wso2v1</commons-codec.osgi.version>
 		<opensaml2.wso2.version>2.4.1.wso2v1</opensaml2.wso2.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
+		<version.commons.codec>1.7</version.commons.codec>
+		<version.commons.io>1.4</version.commons.io>
+		<version.equinox.osgi.services>3.3.100.v20120522-1822</version.equinox.osgi.services>
+        <version.equinox.osgi>3.8.1.v20120830-144521</version.equinox.osgi>
+		<bcprov.wso2.version>1.49.wso2v1</bcprov.wso2.version>
+		<bcpkix.wso2.version>1.49.wso2v1</bcpkix.wso2.version>
+		<bcprov.ext.wso2.version>1.49.wso2v1</bcprov.ext.wso2.version>
+		<bcprov.wso2.version.range>[1.40.wso2v1, 1.50.0)</bcprov.wso2.version.range>
+		<bcmail.wso2.version>1.49.wso2v1</bcmail.wso2.version>
+		<gson.version>2.2.4</gson.version>
+		<jscep.version>2.0.2.wso2v1</jscep.version>
+		<apache.httpclient.version>3.1.0.wso2v2</apache.httpclient.version>
+		<notnoop.apns.version>0.2.3</notnoop.apns.version>
+		<jackson.version>2.1.4</jackson.version>
+		<jcip.annotations.version>1.0.wso2v1</jcip.annotations.version>
+		<slf4j.version>1.7.7</slf4j.version>
 	</properties>
 
 </project>
