@@ -101,7 +101,7 @@ var user = (function (){
 		   	}
 		});
 		router.post('users/', function(ctx){
-            log.info("Users :"+stringify(ctx));
+            log.debug("Users :"+stringify(ctx));
             var returnMsg = user.addUser(ctx);
             log.debug(returnMsg.status);
             if(returnMsg.status == 'ALLREADY_EXIST'){
