@@ -413,7 +413,7 @@ var user = (function () {
                 var defaultData = '{"emailSmtpHost" : "smtp.gmail.com", "emailTemplate" : "You have been registered to the WSO2 EMM. Below is the link to enroll.", '
                     + '"uiTitle" : "WSO2 Enterprise Mobility Manager", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
                     + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
-                    + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2", '
+                    + '"emailSmtpPort" : "25", "companyName" : "WSO2", '
                     + '"androidNotifier": "LOCAL", "androidNotifierFreq": "5", "androidApiKeys": "", "androidSenderIds": ""}';
                 this.saveTenantConfiguration(parse(defaultData), null, null, tenantId, "true");
             }
@@ -492,7 +492,7 @@ var user = (function () {
                     } else {
                         registry.put(config.registry.emailConfiguration, {
                             content: config.registry.emailConfiguration,
-                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(), CompanyName: ctx.emailCompanyName.trim(),
+                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(),
                                 SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
                         });
                     }
@@ -515,7 +515,7 @@ var user = (function () {
 
                 registry.put(config.registry.copyright, {
                     content: config.registry.copyright,
-                    properties: {Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
+                    properties: {CompanyName: ctx.companyName.trim(), Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
                 });
 
                 return true;
@@ -585,7 +585,6 @@ var user = (function () {
                 jsonBuilder.emailSmtpPort = emailConfigurations.Port[0];
                 jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress[0];
                 jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword[0];
-                jsonBuilder.emailCompanyName = emailConfigurations.CompanyName[0];
                 jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate[0];
 
             }
@@ -611,6 +610,7 @@ var user = (function () {
             }
 
             if(tenantCopyRight != null) {
+                jsonBuilder.companyName = tenantCopyRight.CompanyName[0];
                 jsonBuilder.uiTitle = tenantCopyRight.Title[0];
                 jsonBuilder.uiCopyright = tenantCopyRight.Footer[0];
             } else {
@@ -745,6 +745,7 @@ var user = (function () {
 
             var tenantId = parseInt(common.common.getTenantID());
             var emailConfigurations = this.getEmailConfigurations(tenantId);
+            var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
             if(emailConfigurations != null) {
                 var password_text = "";
@@ -752,7 +753,7 @@ var user = (function () {
                     password_text = "Your password to your login : "+ctx.generatedPassword;
                 }
                 content = "Dear " + ctx.firstName +", \n" + emailConfigurations.EmailTemplate[0] +" \n \n"
-                        + config.HTTPS_URL + "/emm/api/device_enroll \n " + password_text + " \n" + emailConfigurations.CompanyName[0];
+                        + config.HTTPS_URL + "/emm/api/device_enroll \n " + password_text + " \n" + tenantCopyRight.CompanyName[0];
                 subject = "EMM Enrollment";
 
                 var email = require('email');
@@ -813,10 +814,10 @@ var user = (function () {
             }
 
             var tenantId = parseInt(arguments[0]);
-            var emailConfigurations = this.getEmailConfigurations(tenantId);
+            var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
-            if(emailConfigurations != null) {
-                return emailConfigurations.CompanyName[0];
+            if(tenantCopyRight != null) {
+                return tenantCopyRight.CompanyName[0];
             } else {
                 return "WSO2";
             }
@@ -833,9 +834,9 @@ var user = (function () {
                 if (tenantId == null){
                     tenantId = "-1234";
                 }
-                var emailConfigurations = this.getEmailConfigurations(tenantId);
-                if(emailConfigurations != null) {
-                    return emailConfigurations.CompanyName[0];
+                var tenantCopyRight = this.getTenantCopyRight(tenantId);
+                if(tenantCopyRight != null) {
+                    return tenantCopyRight.CompanyName[0];
                 } else {
                     return "WSO2";
                 }
