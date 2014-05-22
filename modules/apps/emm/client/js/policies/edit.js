@@ -254,7 +254,7 @@ $(document).ready( function () {
 
 
                     if(code == '528B'){
-                        $("#applist .icon-ok-sign").css("display", "inline");							
+                        $("#appsMam .icon-ok-sign").css("display", "inline");							
                         $('#inputBlackListApps').append('<option value="'+ value.identity + '" data-os="'+ value.os + '" data-type="'+ value.type + '">'+ value.identity + '</option>');
                     }
 
@@ -262,7 +262,7 @@ $(document).ready( function () {
                         if(!appsLoded){
 
                             for(var j = 0; j < data.length; j++){
-                                $("#applist .icon-ok-sign").css("display", "inline");							
+                                $("#appsMam .icon-ok-sign").css("display", "inline");							
                                 //alert(data[j].identity);
                                 $("[name='inputInstallApps_helper1'] > option").each(function() {
                                     //alert(this.text + ' ' + this.value);								   

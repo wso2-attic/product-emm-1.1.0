@@ -438,6 +438,7 @@ var user = (function () {
 
                 if (defaultConfig == null) {
                     defaultConfig = "false";
+                    var iosMDMTopic = ctx.iosMDMTopic;
                     var iOSMDMPassword = ctx.iosMDMPass;
                     var iOSAPNSPassword = ctx.iosAPNSPass;
                     var iOSMDMProduction, iOSAPNSProduction;
@@ -461,7 +462,7 @@ var user = (function () {
                             iOSMDMStream = iOSMDMFile.getStream();
                             registry.put(config.registry.iOSMDMCertificate, {
                                 content: iOSMDMStream,
-                                properties: {Password: iOSMDMPassword, Production: iOSMDMProduction, Filename: iOSMDMFile.getName()}
+                                properties: {TopicID: iosMDMTopic, Password: iOSMDMPassword, Production: iOSMDMProduction, Filename: iOSMDMFile.getName()}
                             });
                             iOSMDMFile.close();
                         }
@@ -561,13 +562,15 @@ var user = (function () {
 
             if(iOSMDMConfigurations != null) {
                 jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password[0];
+                jsonBuilder.iosMDMTopic = iOSMDMConfigurations.properties.TopicID[0];
                 if(iOSMDMConfigurations.properties.Production[0] = "true") {
                     jsonBuilder.iosMDMMode = "production";
                 } else {
                     jsonBuilder.iosMDMMode = "developer";
                 }
             } else {
-                jsonBuilder.iosMDMSPass = "";
+                jsonBuilder.iosMDMPass = "";
+                jsonBuilder.iosMDMTopic = "";
                 jsonBuilder.iosMDMMode = "production";
             }
 
