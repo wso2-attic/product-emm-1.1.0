@@ -7,7 +7,7 @@ var webconsole = (function () {
 
     var userModule = require('user.js').user;
     var user = '';
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 
     var routes = new Array();
     var log = new Log();
