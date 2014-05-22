@@ -25,14 +25,6 @@
         "storeAcs": "%https.ip%/emm/acs",
         "keyStoreName": "/repository/resources/security/wso2carbon.jks"
     },
-    "email": {
-        "smtp":"smtp.gmail.com",
-        "port":"25",
-        "companyName": "WSO2",
-        "senderAddress": "",
-        "emailPassword": "",
-        "emailTemplate": "\nYou have been registered to the WSO2 Mobile EMM. Below is the link to enroll.\n \n"
-    },
     "device": {
         "android_location": "%http.ip%/emm/client_app/emm-agent-android.apk",
         "ios": {
