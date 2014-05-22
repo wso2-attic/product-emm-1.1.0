@@ -1,4 +1,4 @@
-package org.wso2.mobile.gcm;/*
+/*
  * Copyright (c) 2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,7 @@ package org.wso2.mobile.gcm;/*
  * limitations under the License.
  */
 
+package org.wso2.mobile.gcm;
 import com.google.android.gcm.server.*;
 import java.io.IOException;
 

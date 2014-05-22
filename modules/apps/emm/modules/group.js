@@ -123,7 +123,6 @@ var group = (function () {
             return proxy_role;
 		},
 		getAllGroups: function(ctx){
-            var type = ctx.type;
 			var um = userManager(common.getTenantID());
             var allRoles = common.removePrivateRole(um.allRoles());
             var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "reviewer");
@@ -138,7 +137,8 @@ var group = (function () {
             }else{
                 return false;
             }
-        },roleExists:function(ctx){
+        },
+        roleExists:function(ctx){
             var um = userManager(common.getTenantID());
             var result = um.roleExists(ctx.groupid);
             return result;
