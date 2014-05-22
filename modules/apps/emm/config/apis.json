@@ -30,7 +30,8 @@
     "policiesEnforce": "policies/{0}/enforce",
     "hasDevicesEnrolled" : "users/devices/enrolled/{0}",
     "platformCRUD" : "platforms",
-    "usersChangePassword": "users/changepassword"
+    "usersChangePassword": "users/changepassword",
+    "tenantConfig" : "tenant/configuration"
 }
 
 }

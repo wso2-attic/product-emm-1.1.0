@@ -476,7 +476,17 @@ var device = (function () {
         log.debug("Android registration id "+regId);
         log.debug("Current feature code "+featureCode);
         log.debug("Message token "+token);
-        if(configFile.NOTIFIER == "GCM") {
+
+        var AndroidNotifierType;
+        var androidGCMKeys = user.getAndroidGCMKeys(parseInt(tenantID));
+        if(androidGCMKeys != null) {
+            AndroidNotifierType = androidGCMKeys.AndroidMonitorType[0];
+        } else {
+            AndroidNotifierType = configFile.DEFAULTNOTIFIER;
+        }
+
+
+        if(AndroidNotifierType == "GCM") {
             if(featureCode=="500P" || featureCode=="502P"){
                 var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, "CONTACT SERVER", 30240, "POLICY");
             }else{
@@ -922,11 +932,27 @@ var device = (function () {
         getSenderId: function(ctx){
             var androidConfig = require('/config/android.json');
             var message = {};
-            message.sender_id = androidConfig.sender_id;
-            message.notifier = configFile.NOTIFIER;
-            message.notifierInterval = configFile.NOTIFIER_INTERVAL;
+
+            var options = {};
+            options.domain = ctx.domain.trim();
+            var tenantId = carbon.server.tenantId(options);
+            if (tenantId == null){
+                tenantId = "-1234";
+            }
+            var androidGCMKeys = user.getAndroidGCMKeys(parseInt(tenantId));
+            if(androidGCMKeys != null) {
+                message.notifier = androidGCMKeys.AndroidMonitorType[0];
+                message.notifierInterval = androidGCMKeys.AndroidNotifierFreq[0];
+                message.sender_id = androidGCMKeys.SenderIds[0];
+            } else {
+                message.notifier = configFile.DEFAULTNOTIFIER;
+                message.sender_id = "";
+                message.notifierInterval = configFile.NOTIFIER_INTERVAL;
+                //message.sender_id = androidConfig.sender_id;
+            }
             return message;
         },
+
         isRegistered: function(ctx){
             if(ctx.regid != undefined && ctx.regid != null && ctx.regid != ''){
                 var result = driver.query(sqlscripts.devices.select17, ctx.regid);

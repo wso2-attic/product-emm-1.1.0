@@ -17,19 +17,20 @@
                     </div>
 
                     <div class="block-body">
-                        <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="post">
+                        <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="POST">
                             
                            
-
-                            <div class="control-group">
-                                <label class="control-label" for="inputTheme">Theme</label>
+                           
+                            
+                             <div class="control-group">
+                                <label class="control-label" >Company Name</label>
                                 <div class="controls">
-                                    <input type="text" id="uiTheme" name="uiTheme" class="input-xlarge" data-required="true">
+                                    <input type="text" id="companyName" name="emailCompanyName" class="input-xxlarge" >
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label" for="inputCopyright">Title</label>
+                                <label class="control-label" for="inputCopyright">Browser Title</label>
                                 <div class="controls">
                                     <input type="text" id="uiTitle" name="uiTitle" class="input-xxlarge" data-required="true">
                                 </div>
@@ -41,9 +42,50 @@
                                     <input type="text" id="uiCopyright" name="uiCopyright" class="input-xxlarge" data-required="true">
                                 </div>
                             </div>
+
+                            <h5 class="setting-conf-title">Email Configurations</h5>
+
+                            <div class="control-group">
+                                <label class="control-label" >SMTP Host</label>
+                                <div class="controls">
+                                    <input type="text" id="emailSmtpHost" name="emailSmtpHost" class="input-xlarge" >
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" >SMTP Port</label>
+                                <div class="controls">
+                                    <input type="text" id="emailSmtpPort" name="emailSmtpPort" class="input-medium" >
+                                </div>
+                            </div>
                             
                             
-                          
+                           
+                            
+                            <div class="control-group">
+                                <label class="control-label" for="inputCopyright">Sender Email Address</label>
+                                <div class="controls">
+                                    <input type="text" id="emailSenderAddress" name="emailSenderAddress" class="input-xlarge">
+                                </div>
+                            </div>
+                            
+                             <div class="control-group">
+                                <label class="control-label" for="inputCopyright">Sender Email Password</label>
+                                <div class="controls">
+                                    <input type="password" id="emailSenderPassword" name="emailSenderPassword" class="input-xlarge" >
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="control-group">
+                                <label class="control-label" for="inputLicence">Email Template</label>
+                                <div class="controls">
+                                    <textarea id="emailTemplate" name="emailTemplate" rows="10" class="input-xxlarge"></textarea>
+                                </div>
+                            </div>
+                            
+                            
+                          <h5 class="setting-conf-title">Licence Settings</h5>
 
                             <div class="control-group">
                                 <label class="control-label" for="inputLicence">Licence Agreement</label>
@@ -72,6 +114,22 @@
 
                                         <div class="tab-pane active" id="android">
 
+                                            <div class="control-group">
+                                                <label class="control-label" >Notifier Type</label>
+                                                <div class="controls">
+                                                    <select id="androidNotifier" name="androidNotifier">
+											             <option value="LOCAL">LOCAL</option>
+											             <option value="GCM">GCM</option>
+										          </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label">Notifier Frequency (in mins)</label>
+                                                <div class="controls">
+                                                    <input type="text" id="androidNotifierFreq" name="androidNotifierFreq" class="input-xlarge">
+                                                </div>
+                                            </div>
 
                                             <div class="control-group">
                                                 <label class="control-label">API keys</label>
@@ -96,44 +154,42 @@
                                              <div class="control-group">
                                                 <label class="control-label" >Common Name (CN)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPCommonName" name="iosSCEPCommonName" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPCommonName" name="iosSCEPCommonName" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >Country (C)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPCountry" name="iosSCEPCountry" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPCountry" name="iosSCEPCountry" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >State (ST)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPState" name="iosSCEPState" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPState" name="iosSCEPState" class="input-xlarge">
                                                 </div>
                                             </div>
-                                            
-                                           
-                                            
+
                                             <div class="control-group">
                                                 <label class="control-label" >Locality (L)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPLocality" name="iosSCEPLocality" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPLocality" name="iosSCEPLocality" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                              <div class="control-group">
                                                 <label class="control-label" >Organisation (O)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPOrganisation" name="iosSCEPOrganisation" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPOrganisation" name="iosSCEPOrganisation" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >Organisation Unit (OU)</label>
                                                 <div class="controls">
-                                                    <input type="password" id="iosSCEPOrganisationUnit" name="iosSCEPOrganisationUnit" class="input-xlarge">
+                                                    <input type="text" id="iosSCEPOrganisationUnit" name="iosSCEPOrganisationUnit" class="input-xlarge">
                                                 </div>
                                             </div>
                                             
@@ -146,22 +202,46 @@
                                                 <label class="control-label" >iOS APNS Certificate</label>
                                                 <div class="controls">
                                                     <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
+                                                    <input type="hidden" value="false" id="iosAPNSCertModified" name="iosAPNSCertModified" class="input-xxlarge">
                                                 </div>
                                             </div>
-                                            
-                                            
+
                                             <div class="control-group">
                                                 <label class="control-label" >iOS APNS Certificate Password</label>
                                                 <div class="controls">
                                                     <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
                                                 </div>
                                             </div>
-                                            
+
+                                            <div class="control-group">
+                                                <label class="control-label" >Mode</label>
+                                                <div class="controls">
+                                                    <select id="iosAPNSMode" name="iosAPNSMode">
+											             <option value="production">Production</option>
+											             <option value="developer">Developer</option>
+										          </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS MDM Certificate</label>
+                                                <div class="controls">
+                                                    <input type="file" id="iosMDMCert" name="iosMDMCert" class="input-xxlarge">
+                                                    <input type="hidden" value="false" id="iosMDMCertModified" name="iosMDMCertModified" class="input-xxlarge">
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS MDM Certificate Password</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosMDMPass" name="iosMDMPass" class="input-xlarge">
+                                                </div>
+                                            </div>
                                             
                                             <div class="control-group">
                                                 <label class="control-label" >Mode</label>
                                                 <div class="controls">
-                                                    <select id="iosMode" name="iosMode">
+                                                    <select id="iosMDMMode" name="iosMDMMode">
 											             <option value="production">Production</option>
 											             <option value="developer">Developer</option>
 										          </select>

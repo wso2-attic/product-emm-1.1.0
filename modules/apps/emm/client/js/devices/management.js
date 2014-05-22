@@ -32,7 +32,7 @@ oTable = $('#main-table').dataTable({
                 }
                 
                 
-                return  "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>" +     "<div style=\"text-align:center\"><img class=\"device-image\" style=\"height:75px\" src=\"" + srcImage  + "\"> </div> "  +"</a>";
+                return  "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>" +     "<div style=\"text-align:center\"><img title=\"" + oObj.aData[1] + "\" class=\"device-image\" style=\"height:75px\" src=\"" + srcImage  + "\"> </div> "  +"</a>";
                 
                 
                 

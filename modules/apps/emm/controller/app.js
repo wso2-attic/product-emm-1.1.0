@@ -1,5 +1,6 @@
 var ui = require('../config/tenants/default/ui.json');
 var config = require('/config/emm.js').config();
+var uiTenantConf = {};
 
 var configApis = require('../config/apis.json');
 var log = new Log();
@@ -9,14 +10,14 @@ var log = new Log();
 if(session.get("emmConsoleUserLogin") != null){
 	var userSession = session.get("emmConsoleUser");
 	var tenatDomain = userSession.tenantDomain;
-	ui = require('../config/tenants/' + tenatDomain + '/ui.json');
-}
-
-
-if(session.get("emmConsoleUserLogin") != null){
-	var userSession = session.get("emmConsoleUser");
-	var tenatDomain = userSession.tenantDomain;
-	ui = require('../config/tenants/' + tenatDomain + '/ui.json');
+	//ui = require('../config/tenants/' + tenatDomain + '/ui.json');
+    ui = require('../config/ui.json');
+    
+    var userModule = require('/modules/user.js').user;
+    var user = new userModule();
+    uiTenantConf = user.getTenantCopyRight(parseInt(userSession.tenantId));
+   // print(uiTenantConf);
+   
 }
 
 
@@ -26,11 +27,14 @@ if(session.get("emmConsoleUserLogin") != null){
 */
 appInfo = function() {
     var appInfo = {
-        headerTitle : ui.HEADING,
-        title : ui.TITLE,
-        copyright : ui.COPYRIGHT,
         server_url: ui.EMM_UI_URI
     };
+    
+    if(session.get("emmConsoleUserLogin") != null){
+        appInfo.headerTitle = uiTenantConf.Title[0];
+        appInfo.title = uiTenantConf.Title[0];
+        appInfo.copyright = uiTenantConf.Footer[0];
+    }
     return appInfo;
 };
 

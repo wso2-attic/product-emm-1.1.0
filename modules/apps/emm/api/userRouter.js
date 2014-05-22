@@ -45,7 +45,8 @@ var user = (function (){
 			response.status=401;
 		    print("Authentication Failed");
 		});
-		router.get('users/authenticate/', function(ctx){
+
+        router.get('users/authenticate/', function(ctx){
 			var obj = session.get("user");
 			if(obj!=null){
 		        print(obj);
@@ -100,7 +101,7 @@ var user = (function (){
 		   	}
 		});
 		router.post('users/', function(ctx){
-            log.info("Users :"+stringify(ctx));
+            log.debug("Users :"+stringify(ctx));
             var returnMsg = user.addUser(ctx);
             log.debug(returnMsg.status);
             if(returnMsg.status == 'ALLREADY_EXIST'){
@@ -193,6 +194,40 @@ var user = (function (){
 			device.sendMsgToUserDevices(ctx);
 		});
 
+        /*
+            Api that sends the Tenant configurations
+         */
+        router.post('tenant/configuration',function(ctx){
+
+            try{
+                var status = user.saveTenantConfiguration(ctx, request.getFile("iosMDMCert"), request.getFile(("iosAPNSCert")) );
+                if(status != null) {
+                    response.status = 200;
+                } else {
+                    response.status = 400;
+                }
+            }catch(e){
+                log.error(e);
+                response.status = 400;
+            }
+        });
+
+        /*
+            Api to retrieve the Tenant Configurations
+         */
+        router.get('tenant/configuration', function(ctx) {
+
+            try {
+                var configData = user.getTenantConfiguration(ctx);
+                log.debug(" >>>> " + stringify(configData));
+                print(configData);
+//                response.content = configData;
+//                response.contentType = "application/json";
+            } catch(e) {
+                log.error(e);
+                response.status = 400;
+            }
+        });
     };
     // prototype
     module.prototype = {

@@ -5,27 +5,30 @@ var USER_OPTIONS = 'server.user.options';
 var USER_SPACE = '/_system/governance/';
 var EMM_USER_SESSION = "emmConsoleUser";
 
+
 var user = (function () {
     var config = require('/config/emm.js').config();
     var routes = new Array();
 
-	var log = new Log();
-	var db;
+    var log = new Log();
+    var db;
     var driver;
-	var common = require("/modules/common.js");
+    var common = require("/modules/common.js");
     var sqlscripts = require('/sqlscripts/mysql.js');
-	var carbon = require('carbon');
+    var carbon = require('carbon');
     var current_user = session.get(EMM_USER_SESSION);
-	var server = function(){
-		return application.get("SERVER");
-	}
-	var claimEmail = "http://wso2.org/claims/emailaddress";
-	var claimFirstName = "http://wso2.org/claims/givenname";
-	var claimLastName = "http://wso2.org/claims/lastname";
-	var claimMobile = "http://wso2.org/claims/mobile";
-	
+    var server = function(){
+        return application.get("SERVER");
+    }
+    var claimEmail = "http://wso2.org/claims/emailaddress";
+    var claimFirstName = "http://wso2.org/claims/givenname";
+    var claimLastName = "http://wso2.org/claims/lastname";
+    var claimMobile = "http://wso2.org/claims/mobile";
+
+    var storeRegistry = require('store').server;
+
     var module = function (dbs) {
-		db = dbs;
+        db = dbs;
         driver = require('driver').driver(db);
     };
 
@@ -40,56 +43,56 @@ var user = (function () {
             var indexUser = username.replace("@", ":");
             return USER_SPACE + '/' + indexUser;
         } catch (e) {
-            log.info(e);
+            log.error(e);
             return null;
         }
     };
 
-	var configs = function (tenantId) {
-	    var configg = application.get(TENANT_CONFIGS);
-		if (!tenantId) {
-	        return configg;
-	    }
-	    return configs[tenantId] || (configs[tenantId] = {});
-	};			
-	/**
-	 * Returns the user manager of the given tenant.
-	 * @param tenantId
-	 * @return {*}
-	 */
-	var userManager = function (tenantId) {
-	    var config = configs(tenantId);
-	    if (!config || !config[USER_MANAGER]) {
-			var um = new carbon.user.UserManager(server, tenantId);
-			config[USER_MANAGER] = um;
-	        return um;
-	    }
-	    return configs(tenantId)[USER_MANAGER];
-	};
-	
-	var createPrivateRolePerUser = function(username, roleState){
-		var um = userManager(common.getTenantID());
-		var indexUser = username.replace("@", ":");
-		var arrPermission = {};
+    var configs = function (tenantId) {
+        var configg = application.get(TENANT_CONFIGS);
+        if (!tenantId) {
+            return configg;
+        }
+        return configs[tenantId] || (configs[tenantId] = {});
+    };
+    /**
+     * Returns the user manager of the given tenant.
+     * @param tenantId
+     * @return {*}
+     */
+    var userManager = function (tenantId) {
+        var config = configs(tenantId);
+        if (!config || !config[USER_MANAGER]) {
+            var um = new carbon.user.UserManager(server, tenantId);
+            config[USER_MANAGER] = um;
+            return um;
+        }
+        return configs(tenantId)[USER_MANAGER];
+    };
+
+    var createPrivateRolePerUser = function(username, roleState){
+        var um = userManager(common.getTenantID());
+        var indexUser = username.replace("@", ":");
+        var arrPermission = {};
         var space = userSpace(username, common.getTenantID());
-	    var permission = [
-                carbon.registry.actions.GET,
-                carbon.registry.actions.PUT,
-                carbon.registry.actions.DELETE,
-                carbon.registry.actions.AUTHORIZE
-	    ];
-	    arrPermission[space] = permission;
+        var permission = [
+            carbon.registry.actions.GET,
+            carbon.registry.actions.PUT,
+            carbon.registry.actions.DELETE,
+            carbon.registry.actions.AUTHORIZE
+        ];
+        arrPermission[space] = permission;
         arrPermission["/permission/admin/login"] = ["ui.execute"];
         if(roleState.toUpperCase()=="EMMADMIN"){
             arrPermission["/permission/admin/manage"] = ["ui.execute"];
         }
-		if(!um.roleExists("Internal/private_"+indexUser)){
+        if(!um.roleExists("Internal/private_"+indexUser)){
             var private_role = "Internal/private_"+indexUser;
-			um.addRole(private_role, [username], arrPermission);
+            um.addRole(private_role, [username], arrPermission);
             um.authorizeRole(private_role, arrPermission);
-		}
-	}			
-	var getUserType = function(user_roles){
+        }
+    }
+    var getUserType = function(user_roles){
         for (var i = user_roles.length - 1; i >= 0; i--) {
             var role = user_roles[i].toUpperCase();
             if(role=='ADMIN'|| role=='INTERNAL/EMMADMIN'|| role=='INTERNAL/MAMADMIN'){
@@ -115,16 +118,16 @@ var user = (function () {
         }
         return obj1;
     }
-	
-	function generatePassword() {
-	    var length = 6,
-	        charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-	        retVal = "";
-	    for (var i = 0, n = charset.length; i < length; ++i) {
-	        retVal += charset.charAt(Math.floor(Math.random() * n));
-	    }
-	    return retVal;
-	}
+
+    function generatePassword() {
+        var length = 6,
+            charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        return retVal;
+    }
     // prototype
     module.prototype = {
         constructor: module,
@@ -148,7 +151,7 @@ var user = (function () {
                         proxy_user.error = 'User already exist with the email address.';
                         proxy_user.status = "ALLREADY_EXIST";
                     } else {
-						var generated_password =  generatePassword();
+                        var generated_password =  generatePassword();
                         if(ctx.type.toUpperCase() == 'USER'){
                             roleState = "";
                             um.addUser(ctx.username, generated_password,ctx.groups, claimMap, null);
@@ -159,7 +162,7 @@ var user = (function () {
                         createPrivateRolePerUser(ctx.username, roleState);
                         proxy_user.status = "SUCCESSFULL";
                         proxy_user.firstName = ctx.first_name;
-						proxy_user.generatedPassword = generated_password;
+                        proxy_user.generatedPassword = generated_password;
                     }
                 }
                 else{
@@ -289,7 +292,7 @@ var user = (function () {
         },
 
         /*End of User CRUD Operations (Create, Retrieve, Update, Delete)*/
-/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /*other user manager functions*/
 
         /*Get list of roles belongs to particular user*/
@@ -401,58 +404,371 @@ var user = (function () {
             }
         },
 
+        /*
+            Save default values to the tenant
+         */
+        defaultTenantConfiguration: function(tenantId) {
+            var properties = this.getTenantCopyRight(tenantId);
+            if(properties == null) {
+                var defaultData = '{"emailSmtpHost" : "smtp.gmail.com", "emailTemplate" : "You have been registered to the WSO2 EMM. Below is the link to enroll.", '
+                    + '"uiTitle" : "WSO2 Enterprise Mobility Manager", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
+                    + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
+                    + '"emailSmtpPort" : "25", "emailCompanyName" : "WSO2", '
+                    + '"androidNotifier": "LOCAL", "androidNotifierFreq": "5", "androidApiKeys": "", "androidSenderIds": ""}';
+                this.saveTenantConfiguration(parse(defaultData), null, null, tenantId, "true");
+            }
+        },
+
+        /*
+         Save tenant configuration to the Registry
+         */
+        saveTenantConfiguration: function(ctx, iOSMDMFile, iOSAPNSFile, tenantId, defaultConfig)  {
+
+            //log.info(" >>>>> " + stringify(ctx));
+
+            if(tenantId != null) {
+                tenantId = parseInt(common.getTenantID());
+            }
+            var registry = storeRegistry.systemRegistry(tenantId);
+
+            try {
+
+                if (defaultConfig == null) {
+                    defaultConfig = "false";
+                    var iOSMDMPassword = ctx.iosMDMPass;
+                    var iOSAPNSPassword = ctx.iosAPNSPass;
+                    var iOSMDMProduction, iOSAPNSProduction;
+                    var iOSMDMStream = "", iOSAPNSStream = "";
+                    if(ctx.iosAPNSMode == "production") {
+                        iOSAPNSProduction = "true";
+                    } else {
+                        iOSAPNSProduction = "false";
+                    }
+                    if(ctx.iosMDMMode == "production") {
+                        iOSMDMProduction = "true";
+                    } else {
+                        iOSMDMProduction = "false";
+                    }
+
+                    if(ctx.iosMDMCertModified == "true") {
+                        if (iOSMDMFile == null) {
+                            registry.remove(config.registry.iOSMDMCertificate);
+                        } else {
+                            iOSMDMFile.open("r");
+                            iOSMDMStream = iOSMDMFile.getStream();
+                            registry.put(config.registry.iOSMDMCertificate, {
+                                content: iOSMDMStream,
+                                properties: {Password: iOSMDMPassword, Production: iOSMDMProduction, Filename: iOSMDMFile.getName()}
+                            });
+                            iOSMDMFile.close();
+                        }
+                    }
+
+                    if(ctx.iosAPNSCertModified == "true") {
+                        if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
+                            registry.remove(config.registry.iOSAppCertificate);
+                        }else {
+                            iOSAPNSFile.open("r");
+                            iOSAPNSStream = iOSAPNSFile.getStream();
+                            registry.put(config.registry.iOSAppCertificate, {
+                                content: iOSAPNSStream,
+                                properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction, Filename: iOSAPNSFile.getName()}
+                            });
+                            iOSAPNSFile.close();
+                        }
+                    }
+
+                    if(ctx.iosSCEPCommonName.trim() != null) {
+                        //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
+                        registry.put(config.registry.seapConfiguration, {
+                            content: config.registry.seapConfiguration,
+                            properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
+                                O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
+                        });
+                    }
+
+                    if(ctx.emailSenderAddress.trim() == "" || ctx.emailSmtpHost.trim() == "" || ctx.emailSmtpPort.trim() == null){
+                        registry.remove(config.registry.emailConfiguration);
+                    } else {
+                        registry.put(config.registry.emailConfiguration, {
+                            content: config.registry.emailConfiguration,
+                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(), CompanyName: ctx.emailCompanyName.trim(),
+                                SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
+                        });
+                    }
+                }
+
+                //Android GCM keys
+                registry.put(config.registry.androidGCMKeys, {
+                    content: config.registry.androidGCMKeys,
+                    properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim(), AndroidMonitorType:ctx.androidNotifier.trim(),
+                                AndroidNotifierFreq: ctx.androidNotifierFreq}
+                });
+
+                if(ctx.uiLicence == null || ctx.uiLicence.trim() == null) {
+                    registry.remove(config.registry.tenantLicense);
+                } else {
+                    registry.put(config.registry.tenantLicense, {
+                        content: ctx.uiLicence.trim()
+                    });
+                }
+
+                registry.put(config.registry.copyright, {
+                    content: config.registry.copyright,
+                    properties: {Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
+                });
+
+                return true;
+
+            } catch (e) {
+                log.error(e);
+                return null;
+            }
+        },
+
+        /*
+            Retrieve the Tenant configuration
+         */
+        getTenantConfiguration: function(ctx) {
+
+            var tenantId = parseInt(common.getTenantID());
+            var androidGCMKeys = this.getAndroidGCMKeys(tenantId);
+
+            var iOSMDMConfigurations = this.getiOSMDMConfigurations(tenantId);
+            var iOSAPNSConfigurations = this.getiOSAPNSConfigurations(tenantId);
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
+
+            var seapConfiguration = this.getSEAPConfiguration(tenantId);
+            var license = this.getTenantLicense(tenantId);
+            var tenantCopyRight = this.getTenantCopyRight(tenantId);
+
+            var jsonBuilder = {};
+
+            if(androidGCMKeys != null) {
+                jsonBuilder.androidApiKeys = androidGCMKeys.APIKeys[0];
+                jsonBuilder.androidSenderIds = androidGCMKeys.SenderIds[0];
+                jsonBuilder.androidNotifier = androidGCMKeys.AndroidMonitorType[0];
+                jsonBuilder.androidNotifierFreq = androidGCMKeys.AndroidNotifierFreq[0];
+            } else {
+                jsonBuilder.androidApiKeys = "";
+                jsonBuilder.androidSenderIds = "";
+                jsonBuilder.androidNotifier = "LOCAL";
+                jsonBuilder.androidNotifierFreq = "0";
+            }
+
+            if(iOSMDMConfigurations != null) {
+                jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password[0];
+                if(iOSMDMConfigurations.properties.Production[0] = "true") {
+                    jsonBuilder.iosMDMMode = "production";
+                } else {
+                    jsonBuilder.iosMDMMode = "developer";
+                }
+            } else {
+                jsonBuilder.iosMDMSPass = "";
+                jsonBuilder.iosMDMMode = "production";
+            }
+
+            if(iOSAPNSConfigurations != null) {
+                jsonBuilder.iosAPNSPass = iOSAPNSConfigurations.properties.Password[0];
+                if(iOSAPNSConfigurations.properties.Production[0] = "true") {
+                    jsonBuilder.iosAPNSMode = "production";
+                } else {
+                    jsonBuilder.iosAPNSMode = "developer";
+                }
+            } else {
+                jsonBuilder.iosAPNSPass = "";
+                jsonBuilder.iosAPNSMode = "production";
+            }
+
+            if(emailConfigurations != null) {
+                jsonBuilder.emailSmtpHost = emailConfigurations.SMTP[0];
+                jsonBuilder.emailSmtpPort = emailConfigurations.Port[0];
+                jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress[0];
+                jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword[0];
+                jsonBuilder.emailCompanyName = emailConfigurations.CompanyName[0];
+                jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate[0];
+
+            }
+
+            if(seapConfiguration != null) {
+                jsonBuilder.iosSCEPCommonName = seapConfiguration.CN[0];
+                jsonBuilder.iosSCEPCountry = seapConfiguration.C[0];
+                jsonBuilder.iosSCEPState = seapConfiguration.ST[0];
+                jsonBuilder.iosSCEPLocality = seapConfiguration.L[0];
+                jsonBuilder.iosSCEPOrganisation = seapConfiguration.O[0];
+                jsonBuilder.iosSCEPOrganisationUnit = seapConfiguration.OU[0];
+            } else {
+                jsonBuilder.iosSCEPCommonName = "";
+                jsonBuilder.iosSCEPCountry = "";
+                jsonBuilder.iosSCEPState = "";
+                jsonBuilder.iosSCEPLocality = "";
+                jsonBuilder.iosSCEPOrganisation = "";
+                jsonBuilder.iosSCEPOrganisationUnit = "";
+            }
+
+            if(license) {
+                jsonBuilder.uiLicence = license.toString();
+            }
+
+            if(tenantCopyRight != null) {
+                jsonBuilder.uiTitle = tenantCopyRight.Title[0];
+                jsonBuilder.uiCopyright = tenantCopyRight.Footer[0];
+            } else {
+                jsonBuilder.uiTitle = "";
+                jsonBuilder.uiCopyright = "";
+            }
+
+            return jsonBuilder;
+        },
+
+        /*
+            Retreive the Properties from Registry
+         */
+        getPropertiesFromRegistry: function(tenantId, registryPath) {
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resource = registry.get(registryPath);
+            if(resource != null) {
+                return resource.properties();
+            } else {
+                return null;
+            }
+        },
+
+        /*
+            Retrieve the Android GCM Keys for tenant from registry
+         */
+        getAndroidGCMKeys: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.androidGCMKeys);
+            return properties;
+        },
+
+        /*
+            Retrieve MDM Configurations
+         */
+        getiOSMDMConfigurations: function(tenantId) {
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resource = registry.get(config.registry.iOSMDMCertificate);
+            if(resource != null) {
+                var iOSMDMConfiguration = {};
+                iOSMDMConfiguration.inputStream = resource.content;
+                iOSMDMConfiguration.properties = resource.properties();
+                return iOSMDMConfiguration;
+            } else {
+                return null;
+            }
+        },
+
+        /*
+            Retrieve APNS Configurations
+         */
+        getiOSAPNSConfigurations: function(tenantId) {
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resource = registry.get(config.registry.iOSAppCertificate);
+            if(resource != null) {
+                var iOSAppConfiguration = {};
+                iOSAppConfiguration.inputStream = resource.content;
+                iOSAppConfiguration.properties = resource.properties();
+                return iOSAppConfiguration;
+            } else {
+                return null;
+            }
+        },
+
+        /*
+            Retrieve email configuration for tenant from registry
+         */
+        getEmailConfigurations: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.emailConfiguration);
+            return properties;
+        },
+
+        /*
+            Retrieve SEAP configuration
+         */
+        getSEAPConfiguration: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.seapConfiguration);
+            return properties;
+        },
+
+        /*
+            Retrieve License
+         */
+        getTenantLicense: function(tenantId){
+            var registry = storeRegistry.systemRegistry(tenantId);
+            var resoucre = registry.get(config.registry.tenantLicense);
+            if(resoucre != null) {
+                return resoucre.content;
+            } else {
+                return null;
+            }
+        },
+
+        /*
+            Retrieve Copyright
+         */
+        getTenantCopyRight: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.copyright);
+            return properties;
+        },
 
         /*end of other user manager functions*/
-/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /*other functions*/
 
         /*authentication for devices only*/
         authenticate: function(ctx){
-			ctx.username = ctx.username;
-			log.info("username "+ctx.username);
+            ctx.username = ctx.username;
+            log.debug("username "+ctx.username);
             try {
                 var authStatus = server().authenticate(ctx.username, ctx.password);
             } catch (e){
                 return null;
             }
 
-			log.info(">>auth "+authStatus);
-			if(!authStatus) {
-				return null;
-			}
-			var user =  this.getUser({'userid': ctx.username, login:true});
+            log.debug("auth >>>> " + authStatus);
+            if(!authStatus) {
+                return null;
+            }
+            var user =  this.getUser({'userid': ctx.username, login:true});
 //            var result = driver.query(sqlscripts.tenantplatformfeatures.select1,  stringify(user.tenantId));
 //            if(result[0].record_count == 0) {
 //				for(var i = 1; i < 13; i++) {
 //                    var result = driver.query(sqlscripts.tenantplatformfeatures.select2, stringify(user.tenantId), i);
 //				}
 //			}
-		    return user;
-		},
+            return user;
+        },
 
         /*send email to particular user*/
         sendEmail: function(ctx){
-			var password_text = "";
-			if(ctx.generatedPassword){
-				password_text = "Your password to your login : "+ctx.generatedPassword;
-			}
-            content = "Dear "+ ctx.firstName+", "+config.email.emailTemplate+config.HTTPS_URL+"/emm/api/device_enroll \n "+password_text+" \n"+config.email.companyName;
-            subject = "EMM Enrollment";
 
-            var email = require('email');
-            var sender = new email.Sender(config.email.smtp, config.email.port, config.email.senderAddress, config.email.emailPassword, "tls");
-            sender.from = config.email.senderAddress;
+            var tenantId = parseInt(common.common.getTenantID());
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
 
-            log.info("Email sent to -> "+ctx.email);
-            sender.to = stringify(ctx.email);
-            sender.subject = subject;
-            sender.text = content;
-            try{
-				sender.send();
-			}catch(e){
-				log.info(e);
-			}
+            if(emailConfigurations != null) {
+                var password_text = "";
+                if(ctx.generatedPassword){
+                    password_text = "Your password to your login : "+ctx.generatedPassword;
+                }
+                content = "Dear " + ctx.firstName +", \n" + emailConfigurations.EmailTemplate[0] +" \n \n"
+                        + config.HTTPS_URL + "/emm/api/device_enroll \n " + password_text + " \n" + emailConfigurations.CompanyName[0];
+                subject = "EMM Enrollment";
+
+                var email = require('email');
+                var sender = new email.Sender(emailConfigurations.SMTP[0], emailConfigurations.Port[0], emailConfigurations.SenderAddress[0], emailConfigurations.EmailPassword[0], "tls");
+                sender.from = emailConfigurations.SenderAddress[0];
+
+                log.info("Email sent to -> " + ctx.email);
+                sender.to = stringify(ctx.email);
+                sender.subject = subject;
+                sender.text = content;
+                try{
+                    sender.send();
+                }catch(e){
+                    log.error(e);
+                }
+            }
         },
 
         /*get user enrollment info*/
@@ -464,7 +780,7 @@ var user = (function () {
         },
 
         /*Get all devices belongs to particular user*/
-		getDevices: function(obj){
+        getDevices: function(obj){
             log.debug("begin");
             log.debug(String(obj.userid));
             log.debug(common.getTenantID());
@@ -473,7 +789,7 @@ var user = (function () {
             var devices = driver.query(sqlscripts.devices.select26, String(obj.userid), common.getTenantID());
 
             return devices;
-		},
+        },
 
         //To get the tenant name using the tenant domain
         getTenantNameByUser: function() {
@@ -491,54 +807,67 @@ var user = (function () {
         },
 
         getTenantNameFromID: function (){
+            var tenantId;
             if (arguments[0] == "-1234") {
                 return this.getTenantName("carbon.super");
             }
 
-            var ctx = {};
-            ctx.tenantId = arguments[0];
-            var tenantDomain = carbon.server.tenantDomain(ctx);
-            log.debug("Domain >>>>>>> " + tenantDomain);
-            
-            return this.getTenantName(tenantDomain);
+            var tenantId = parseInt(arguments[0]);
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
+
+            if(emailConfigurations != null) {
+                return emailConfigurations.CompanyName[0];
+            } else {
+                return "WSO2";
+            }
         },
 
+        /*
+            Get Tenant Name from Domain
+         */
         getTenantName: function() {
             try {
-                var file = new File('/config/tenants/' + arguments[0] + '/config.json');
-                if (file.isExists()){
-                    var tenantConfig = require('/config/tenants/' + arguments[0] + '/config.json');
-                    return tenantConfig.name;
+                var options = {};
+                options.domain = arguments[0];
+                var tenantId = carbon.server.tenantId(options);
+                if (tenantId == null){
+                    tenantId = "-1234";
+                }
+                var emailConfigurations = this.getEmailConfigurations(tenantId);
+                if(emailConfigurations != null) {
+                    return emailConfigurations.CompanyName[0];
                 } else {
-                    var tenantConfig = require('/config/tenants/default/config.json');
-                    return tenantConfig.name;
+                    return "WSO2";
                 }
             } catch(e) {
-                var tenantConfig = require('/config/tenants/default/config.json');
-                return tenantConfig.name;
+                return "WSO2";
             }
         },
 
+        /*
+            Retrieve the Policy Agreement for the Tenant
+         */
         getLicenseByDomain: function() {
-            var message = "";
-            var domain;
+            var options = {};
             if (!(arguments[0]) || (arguments[0].trim() == "")) {
-                domain = "carbon.super";
+                options.domain = "carbon.super";
             } else {
-                domain = arguments[0];
+                options.domain = arguments[0];
             }
 
-            var file = new File("/config/tenants/" + domain + '/license.txt');
-            if (file.isExists()){
-                file.open("r");
-                message = file.readAll();
-                file.close();
-            } else {
-                log.error("License is not configured for tenant.");
-                message = "400";
+            try {
+                var tenantId = carbon.server.tenantId(options);
+                if (tenantId == null){
+                    tenantId = "-1234";
+                }
+            } catch (e) {
+                tenantId = "-1234";
             }
+
+            var message = this.getTenantLicense(parseInt(tenantId));
             return message;
         },
+
         getTenantDomainFromID: function() {
             if (arguments[0] == "-1234") {
                 return "carbon.super";
@@ -554,12 +883,12 @@ var user = (function () {
             } catch (e) {
                 tenantDomain = "default";
             }
-			
-			var file = new File('/config/tenants/' + tenantDomain + '/config.json');
+
+            var file = new File('/config/tenants/' + tenantDomain + '/config.json');
             if (!file.isExists()){
-            	tenantDomain = "default";
+                tenantDomain = "default";
             }
-			
+
             return tenantDomain;
         },
         getTouchDownConfig: function(ctx) {
@@ -576,7 +905,7 @@ var user = (function () {
             data.server = tenantConfig.touchdown.server;
 
             return data;
-        }, 
+        },
         changePassword: function(ctx){
             var new_password = ctx.new_password;
             var old_password = ctx.old_password;
