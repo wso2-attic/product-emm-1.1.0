@@ -939,7 +939,7 @@ var device = (function () {
             if (tenantId == null){
                 tenantId = "-1234";
             }
-            var androidGCMKeys = user.getAndroidGCMKeys(tenantId);
+            var androidGCMKeys = user.getAndroidGCMKeys(parseInt(tenantId));
             if(androidGCMKeys != null) {
                 message.notifier = androidGCMKeys.AndroidMonitorType[0];
                 message.notifierInterval = androidGCMKeys.AndroidNotifierFreq[0];
@@ -947,10 +947,9 @@ var device = (function () {
             } else {
                 message.notifier = configFile.DEFAULTNOTIFIER;
                 message.sender_id = "";
+                message.notifierInterval = configFile.NOTIFIER_INTERVAL;
                 //message.sender_id = androidConfig.sender_id;
             }
-
-            message.notifierInterval = configFile.NOTIFIER_INTERVAL;
             return message;
         },
 

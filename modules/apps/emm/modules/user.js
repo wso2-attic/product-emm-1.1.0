@@ -766,7 +766,7 @@ var user = (function () {
                 try{
                     sender.send();
                 }catch(e){
-                    log.info(e);
+                    log.error(e);
                 }
             }
         },
