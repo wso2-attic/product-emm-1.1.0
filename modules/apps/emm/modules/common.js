@@ -107,28 +107,6 @@ var getFormattedDate = function(value){
     return fdate;
 }
 
-var sendIOSPushNotifications = function(token, message) {
-    log.debug("Send IOS Push Notifications");
-    log.debug("token: >>>>>> " + token);
-    log.debug("message: >>>>>> " + message);
-	if(token == null || token == null || 
-			message == undefined || message == undefined) {
-		return;
-	}
-
-    log.debug("sendIOSPushNotifications >>>>>>>>");
-    log.debug("token: >>>>>> " + token);
-    log.debug("message: >>>>>> " + message);
-
-	try {
-		var apnsInitiator = new Packages.org.wso2.mobile.ios.apns.PushNotificationSender();
-		apnsInitiator.pushToAPNS(token, message);
-
-	} catch (e) {
-		log.error(e);
-	}
-}
-
 var getPayloadIdentifierMap = function() {
 	
 	var identifierMap = {};
