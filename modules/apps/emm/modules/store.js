@@ -16,7 +16,7 @@ var store = (function() {
     var deviceModule = require('device.js').device;
     var device;
     
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 
     var configsFile = require('/config/emm.js').config();
     var GET_APP_FEATURE_CODE = '502A';

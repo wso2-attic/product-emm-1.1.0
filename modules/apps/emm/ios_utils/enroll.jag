@@ -2,7 +2,7 @@
 	var iosEmmModule = require('/modules/iosemm.js').iosemm;
 	var userModule = require('/modules/user.js').user;
 	var common = require('/modules/common.js');
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 	var db = common.getDatabase();
 	var user = new userModule(db);
 	var iosEmm = new iosEmmModule();

@@ -6,7 +6,7 @@ var notification = (function() {
 	var log = new Log();
 	var db, driver;
 	var common = require("/modules/common.js");
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
     var deviceModule = require('/modules/device.js').device;
 
     var device;

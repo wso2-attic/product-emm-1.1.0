@@ -3,7 +3,7 @@ var dashboard = (function() {
         CONTEXT: "/"
     };
     var common = require("/modules/common.js");
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
     var driver;
     var routes = new Array();
     var log = new Log();

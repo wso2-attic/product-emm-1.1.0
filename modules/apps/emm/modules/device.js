@@ -10,7 +10,7 @@ var device = (function () {
     var user = '';
     var groupModule = require('group.js').group;
     var group = '';
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
     var tenantID = common.getTenantID();
 
 

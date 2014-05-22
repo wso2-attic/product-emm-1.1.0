@@ -13,7 +13,7 @@ var user = (function () {
 	var db;
     var driver;
 	var common = require("/modules/common.js");
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 	var carbon = require('carbon');
     var current_user = session.get(EMM_USER_SESSION);
 	var server = function(){

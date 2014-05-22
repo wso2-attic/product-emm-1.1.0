@@ -14,7 +14,7 @@ var policy = (function () {
     var device;
 
     var common = require("common.js");
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 
     var configs = {
         CONTEXT: "/"

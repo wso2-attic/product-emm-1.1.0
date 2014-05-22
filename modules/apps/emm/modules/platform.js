@@ -4,7 +4,7 @@ var platform = (function () {
 	var log = new Log();
 	var db;
     var driver;
-    var sqlscripts = require('/sqlscripts/mysql.js');
+    var sqlscripts = require('/sqlscripts/db.js');
 
 	
     var module = function (dbs) {
