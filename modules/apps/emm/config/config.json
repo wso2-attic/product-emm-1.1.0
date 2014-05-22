@@ -4,9 +4,6 @@
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
-    "EMM_UI_URI": "/emm/",
-    "EMM_API_URI": "/emm/api/",
-    "EMM_THEME": "wso2sinine",
     "tenanted": true,
     "permissions": {
         "login": {
