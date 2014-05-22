@@ -468,14 +468,3 @@ var checkAuth = function(ctx){
         response.sendError(403);
     }
 }
-
-/*
- Function that returns whether the email settings has been configured or not
- */
-var isEmailConfigured = function(){
-    if(config.email.senderAddress && config.email.emailPassword){
-        return true;
-    }else{
-        return false;
-    }
-}

@@ -760,8 +760,13 @@ var user = (function () {
                 subject = "EMM Enrollment";
 
                 var email = require('email');
-                var sender = new email.Sender(emailConfigurations.SMTP[0], emailConfigurations.Port[0], emailConfigurations.SenderAddress[0], emailConfigurations.EmailPassword[0], "tls");
-                sender.from = emailConfigurations.SenderAddress[0];
+                var smtp = emailConfigurations.SMTP[0];
+                var smtpPort = emailConfigurations.Port[0];
+                var senderAddress = emailConfigurations.SenderAddress[0];
+                var senderPassword = emailConfigurations.EmailPassword[0];
+                var sender = new email.Sender(String(emailConfigurations.SMTP[0]), String(emailConfigurations.Port[0]),
+                                            String(emailConfigurations.SenderAddress[0]), String(emailConfigurations.EmailPassword[0]), "tls");
+                sender.from = String(emailConfigurations.SenderAddress[0]);
 
                 log.info("Email sent to -> " + ctx.email);
                 sender.to = stringify(ctx.email);
@@ -772,6 +777,19 @@ var user = (function () {
                 }catch(e){
                     log.error(e);
                 }
+            }
+        },
+
+        /*
+         Function that returns whether the email settings has been configured or not
+         */
+        isEmailConfigured: function(){
+            var tenantId = parseInt(common.common.getTenantID());
+            var emailConfigurations = this.getEmailConfigurations(tenantId);
+            if(emailConfigurations != null){
+                return true;
+            } else {
+                return false;
             }
         },
 

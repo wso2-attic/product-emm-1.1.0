@@ -110,7 +110,7 @@ var user = (function (){
             }else if(returnMsg.status == 'SUCCESSFULL' ) {
                 ctx.generatedPassword = returnMsg.generatedPassword;
                 ctx.firstName = returnMsg.firstName;
-                if (common.isEmailConfigured()) {
+                if (user.isEmailConfigured()) {
                     log.debug("Email :" + ctx.generatedPassword);
                     user.sendEmail(ctx);
                     response.status = 201;
