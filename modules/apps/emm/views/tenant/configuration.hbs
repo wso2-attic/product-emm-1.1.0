@@ -23,21 +23,21 @@
                            
                             
                              <div class="control-group">
-                                <label class="control-label" >Company Name</label>
+                                <label class="control-label" >Company Name <span style="color:#FF0000">*</span></label>
                                 <div class="controls">
                                     <input type="text" id="companyName" name="companyName" class="input-xlarge" >
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label" for="inputCopyright">Browser Title</label>
+                                <label class="control-label" for="inputCopyright">Browser Title <span style="color:#FF0000">*</span></label>
                                 <div class="controls">
                                     <input type="text" id="uiTitle" name="uiTitle" class="input-xxlarge" data-required="true">
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label" for="inputCopyright">Copyright Footer Text</label>
+                                <label class="control-label" for="inputCopyright">Copyright Footer Text <span style="color:#FF0000">*</span></label>
                                 <div class="controls">
                                     <input type="text" id="uiCopyright" name="uiCopyright" class="input-xxlarge" data-required="true">
                                 </div>
@@ -88,7 +88,7 @@
                           <h5 class="setting-conf-title">Licence Settings</h5>
 
                             <div class="control-group">
-                                <label class="control-label" for="inputLicence">Licence Agreement</label>
+                                <label class="control-label" for="inputLicence">Licence Agreement <span style="color:#FF0000">*</span></label>
                                 <div class="controls">
                                     <textarea id="uiLicence" name="uiLicence" rows="10" class="input-xxlarge"></textarea>
                                 </div>
@@ -194,35 +194,8 @@
                                             </div>
                                             
                                             
+                                            <h5>iOS MDM Configurations</h5>
                                             
-
-                                            <h5>iOS APNS Configurations</h5>
-
-                                            <div class="control-group">
-                                                <label class="control-label" >iOS APNS Certificate</label>
-                                                <div class="controls">
-                                                    <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
-                                                    <input type="hidden" value="false" id="iosAPNSCertModified" name="iosAPNSCertModified" class="input-xxlarge">
-                                                </div>
-                                            </div>
-
-                                            <div class="control-group">
-                                                <label class="control-label" >iOS APNS Certificate Password</label>
-                                                <div class="controls">
-                                                    <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
-                                                </div>
-                                            </div>
-
-                                            <div class="control-group">
-                                                <label class="control-label" >Mode</label>
-                                                <div class="controls">
-                                                    <select id="iosAPNSMode" name="iosAPNSMode">
-											             <option value="production">Production</option>
-											             <option value="developer">Developer</option>
-										          </select>
-                                                </div>
-                                            </div>
-
                                             <div class="control-group">
                                                 <label class="control-label" >iOS MDM Certificate</label>
                                                 <div class="controls">
@@ -255,6 +228,38 @@
                                                 </div>
                                             </div>
 
+                                            
+                                            
+                                            
+
+                                            <h5>iOS APNS Configurations</h5>
+
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS APNS Certificate</label>
+                                                <div class="controls">
+                                                    <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
+                                                    <input type="hidden" value="false" id="iosAPNSCertModified" name="iosAPNSCertModified" class="input-xxlarge">
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" >iOS APNS Certificate Password</label>
+                                                <div class="controls">
+                                                    <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" >Mode</label>
+                                                <div class="controls">
+                                                    <select id="iosAPNSMode" name="iosAPNSMode">
+											             <option value="production">Production</option>
+											             <option value="developer">Developer</option>
+										          </select>
+                                                </div>
+                                            </div>
+
+                                            
                                         </div>   
                                     </div>
 
