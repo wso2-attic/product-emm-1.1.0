@@ -478,7 +478,7 @@ var device = (function () {
         log.debug("Message token "+token);
 
         var AndroidNotifierType;
-        var androidGCMKeys = user.getAndroidGCMKeys(parseInt(tenantId));
+        var androidGCMKeys = user.getAndroidGCMKeys(parseInt(tenantID));
         if(androidGCMKeys != null) {
             AndroidNotifierType = androidGCMKeys.AndroidMonitorType[0];
         } else {
