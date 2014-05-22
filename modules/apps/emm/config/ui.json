@@ -1,8 +1,4 @@
 {
-	"HEADING" : "WSO2 Mobile Device Management",
-	"TITLE": "WSO2 Mobile Device Management",
-	"COPYRIGHT": "Copyright (c) 2014 - WSO2 .Inc",
-	
 	"EMM_UI_URI": "/emm/",
     "EMM_API_URI": "/emm/api/",
     "EMM_THEME": "wso2sinine",

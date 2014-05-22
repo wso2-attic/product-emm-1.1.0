@@ -1,4 +1,4 @@
-var appConfig = getAppConfig();
+
 var apiConfig = getApiConfig();
 
 var uiConfig = getUIConfig('default');
@@ -12,10 +12,6 @@ $.get('/emm/console/info').done(function(data) {
 
 
 
-function getAppConfig(){
-    var appConfig = loadTextFileAjaxSync("/emm/config/config.json", "application/json");
-    return JSON.parse(appConfig);
-}
 
 function getUIConfig(tenantDomain){
     var uiConfig = loadTextFileAjaxSync("/emm/config/tenants/" + tenantDomain +  "/ui.json", "application/json");
