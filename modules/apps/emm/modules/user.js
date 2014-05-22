@@ -426,9 +426,12 @@ var user = (function () {
 
             //log.info(" >>>>> " + stringify(ctx));
 
-            if(tenantId != null) {
+            if(tenantId != null && tenantId != undefined) {
+                tenantId = parseInt(tenantId);
+            } else {
                 tenantId = parseInt(common.getTenantID());
             }
+
             var registry = storeRegistry.systemRegistry(tenantId);
 
             try {
