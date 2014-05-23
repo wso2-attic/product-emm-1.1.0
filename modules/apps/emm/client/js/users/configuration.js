@@ -88,7 +88,7 @@ $(document).ready(function() {
 
 function fnCreateSelect( aData ){
 
-    var r='<select id="userTypeSelect"><option value="">--All--</option><option value="user">User</option><option value="administrator">Administrator</option><option value="mam">MAM</option>', i, iLen=aData.length;
+    var r='<select id="userTypeSelect"><option value="">--All--</option><option value="user">user</option><option value="admin">admin</option><option value="emmadmin">emmadmin</option>', i, iLen=aData.length;
    // for ( i=0 ; i<iLen ; i++ )
    // {
    //     r += '<option value="'+aData[i]+'">'+aData[i]+'</option>';
