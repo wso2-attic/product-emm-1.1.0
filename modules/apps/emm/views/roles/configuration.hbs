@@ -36,7 +36,7 @@
 										<td>{{type}}</td>
 										<td class="center">
 											{{#compare ../contextData.user.role 'admin'}}
-												{{#compare type 'mam' operator='!='}}
+												{{#compare isMam true operator='!='}}
 													<a href="assign_permissions?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Assign Permissions"
 													class="add-permission-link"><i class="icon-cog"> </i> Permissions </a> &nbsp;
 												{{/compare}}
@@ -44,19 +44,27 @@
 											<a href="view_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="View Users"
 												><i class="icon-user"> </i> View Users </a> &nbsp;
 												
-											{{#compare type 'mam' operator='!='}}
-											<a href="#"  class="btn-invite" data-item="{{name}}" title="Invite"><i class="icon-envelope"> </i> Invite</a>&nbsp; 
-											{{/compare}}
+											
 												
 											{{#compare type 'user'}}
-											 <a href="edit?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Rename"
-												><i class="icon-edit"> </i> Rename</a> &nbsp;
+                                            
+                                                {{#if isMam}}
+                                                
+                                            
+                                                {{else}}
+                                            
+                                                    <a href="#"  class="btn-invite" data-item="{{name}}" title="Invite"><i class="icon-envelope"> </i> Invite</a>&nbsp; 
+                                                    <a href="edit?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Rename"
+                                                    ><i class="icon-edit"> </i> Rename</a> &nbsp;
+
+                                                 <a href="assign_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Assign Users"
+                                                    ><i class="icon-user"> </i> Assign Users </a> &nbsp;
+
+                                                <a href="#"  class="btn-item-remove" data-item="{{name}}" title="Remove"
+                                                ><i class="icon-remove"> </i> Remove</a> &nbsp;
+                                            
+                                                {{/if}}
 											
-											 <a href="assign_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Assign Users"
-												><i class="icon-user"> </i> Assign Users </a> &nbsp;
-												
-											<a href="#"  class="btn-item-remove" data-item="{{name}}" title="Remove"
-											><i class="icon-remove"> </i> Remove</a> &nbsp;
 											{{/compare}}																									
 										</td>
 									</tr>

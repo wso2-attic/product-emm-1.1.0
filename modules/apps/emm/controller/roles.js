@@ -22,7 +22,14 @@ configuration = function(appController){
 	context = appController.context();
 	
 	try{
-		var groups = group.getGroupsByType({type:context.contextData.user.role});		
+		var groups = group.getGroupsByType({type:context.contextData.user.role});
+        for(i = 0; i < groups.length; i++){
+            if(groups[i].name == 'Internal/publisher' || groups[i].name == 'Internal/reviewer' || groups[i].name == 'subscriber'){
+                groups[i]['isMam'] = true;
+            }else{
+                groups[i]['isMam'] = false;
+            }
+        }
 	}catch(e){
 		
 		var groups = [];
