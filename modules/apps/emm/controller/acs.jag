@@ -61,7 +61,7 @@ sso.acs(function(loggedInUser) {
         var tenantId = parseInt(common.getTenantID());
         user.defaultTenantConfiguration(tenantId);
 
-        if (isAdmin) {
+        if (isAdmin || isEMMAdmin) {
             response.sendRedirect('console/dashboard');
         } else {
             response.sendRedirect(appController.appInfo().server_url + 'users/devices?user=' + userFeed.username);
