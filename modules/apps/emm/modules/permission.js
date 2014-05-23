@@ -40,20 +40,20 @@ var permission = (function () {
         constructor: module,
 
         assignPermissionToGroup: function(ctx){
-          var responseMsg = {};
-          var group = ctx.selectedGroup;
-          var featureList = ctx.featureList;
-          var resultCount1 = driver.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
-          var resultCount2 = 0;
-          if(!resultCount1>0){
-              resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
-          }
-          if(resultCount1 > 0 || (resultCount2 && resultCount2.length == 0)){
-            responseMsg.status = 201;
+            var responseMsg = {};
+            var group = ctx.selectedGroup;
+            var featureList = ctx.featureList;
+            var resultCount1 = driver.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
+            var resultCount2 = 0;
+            if(!resultCount1>0){
+                resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
+            }
+            if(resultCount1 > 0 || (resultCount2 && resultCount2.length == 0)){
+                responseMsg.status = 201;
+                return responseMsg.status;
+            }
+            responseMsg.status = 400;
             return responseMsg.status;
-          }
-          responseMsg.status = 400;
-          return responseMsg.status;
         },
         deletePolicy:function(ctx){
 
@@ -98,7 +98,7 @@ var permission = (function () {
             featureObjMessaging.isFolder = "true";
             featureObjMessaging.key = 3;
             var msgFeatures = driver.query(sqlscripts.features.select8);
-            log.info("msgFeatures :"+stringify(msgFeatures));
+            log.debug("msgFeatures : " + stringify(msgFeatures));
             var children2 = [];
             for(var i=0;i<msgFeatures.length;i++){
                 var child = {};
