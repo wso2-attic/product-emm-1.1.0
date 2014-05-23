@@ -1086,7 +1086,7 @@ var device = (function () {
                 var devices = driver.query(sqlscripts.devices.select41, ctx.regid);
                 if(devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
                     var result = driver.query(sqlscripts.devices.delete1, ctx.regid);
-                    if(result && result.length == 0){
+                    if(result == 1){
                         driver.query(sqlscripts.device_policy.update2, devices[0].id);
                         return true;
                     }else{
