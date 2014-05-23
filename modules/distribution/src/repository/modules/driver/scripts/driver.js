@@ -29,10 +29,13 @@ var driver = function(db) {
         var args = Array.prototype.slice.call(arguments, 0);
         var query = args[0];
         if (args.length > 1) {
-            result = db.query.apply(db, args) || [];
+            result = db.query.apply(db, args) || 0;
         } else {
-            result = db.query(query) || [];
+            result = db.query(query) || 0;
         }
+		if (result == 0 || result.length == undefined) {
+			return result;
+		}
         var processed = driverObject.translate(result);
         return processed;
     }
