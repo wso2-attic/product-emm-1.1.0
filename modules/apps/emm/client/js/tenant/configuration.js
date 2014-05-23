@@ -65,6 +65,7 @@ jQuery("#tenetForm").submit(function(e) {
         if($(this).attr('id').startsWith('ios')){
             
             if(!($(this).attr('type') == 'hidden' || $(this).attr('type') == 'file')){
+                
                 iosFieldCount++;
                 if($(this).val() != ""){
                     iosFieldFilledCount++;
@@ -79,7 +80,7 @@ jQuery("#tenetForm").submit(function(e) {
     if(emailFieldFilledCount != 0){
         if(emailFieldFilledCount < emailFieldCount){
             var n = noty({
-                text : 'Please fill all the email related values',
+                text : 'Please fill all the email configurations related values or leave all blank',
                 'layout' : 'center',
                 timeout: 1000,
                 type: "error"
@@ -91,10 +92,10 @@ jQuery("#tenetForm").submit(function(e) {
     }
     
     
-    if(iosFieldCount != 0){
+    if(iosFieldFilledCount != 0){
         if(iosFieldFilledCount < iosFieldCount){
             var n = noty({
-                text : 'Please fill all the iOS related values',
+                text : 'Please fill all the iOS configurations related values or leave all blank',
                 'layout' : 'center',
                 timeout: 1000,
                 type: "error"
