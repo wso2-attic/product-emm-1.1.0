@@ -36,7 +36,6 @@ add = function(appController) {
       //  print(group.getGroupsByType({type:context.contextData.user.role}));
 		var groups = [];
 	}
-   // print(stringify(groups));
 
 	context.title = context.title + " | Add User";
 	context.page = "configuration";

@@ -420,7 +420,7 @@ Store.prototype.assets = function (type, paging) {
      log.debug('Returning an empty [] for Store.assets.');
      return [];
      }*/
-
+   
     var options = {};
     options = obtainViewQuery(options);
     options = {"attributes": options};
@@ -434,6 +434,8 @@ Store.prototype.assets = function (type, paging) {
     for (i = 0; i < assetz.length; i++) {
         assetz[i].indashboard = this.isuserasset(assetz[i].id, type);
     }
+    
+    
     return assetz;
 };
 
@@ -606,6 +608,7 @@ Store.prototype.search = function (options, paging) {
     var builtPaging = PaginationFormBuilder(paging);
     if (type) {
         var assetz = this.assetManager(type).search(options, builtPaging);
+        log.info(assetz);
         for (i = 0; i < assetz.length; i++) {
             assetz[i].indashboard = this.isuserasset(assetz[i].id, type);
         }

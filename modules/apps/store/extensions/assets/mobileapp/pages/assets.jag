@@ -25,6 +25,8 @@ require('/modules/store.js').exec(function (ctx) {
     mainPage = type;
 
     title = store.assetLinks(type).title;
+   
+   
 
     if (user) {
         subscriptions = store.subscriptions(type);

@@ -142,7 +142,7 @@ navigation = function(role) {
                 {name : "Policies", link: appInfo().server_url + "policies/configuration", displayPage: "policies", icon:"icon-lock"},
                 {name : "Settings", link: appInfo().server_url + "tenant/configuration", displayPage: "tenant", icon:"icon-gear"},
             ];
-        }else if(role == 'Internal/mdmadmin'){
+        }else if(role == 'Internal/emmadmin'){
             topNavigation = [
                 {name : "Dashboard"	, link: appInfo().server_url + "console/dashboard", displayPage: "dashboard", icon: "icon-th-large"},
                 {name : "Configurations", link: appInfo().server_url + "users/configuration", displayPage: "configuration", icon:"icon-wrench"},

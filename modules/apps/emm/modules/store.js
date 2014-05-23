@@ -234,10 +234,13 @@ var store = (function() {
         getAppsFromStore: function(page) {
             /* 
         Processing pagniation 
+        
+        
       */
             var pagination = true;
             var fApps = [];
             var page = 1;
+           
             do {
                 var url = configsFile.mam.store_location + "/apis/assets/mobileapp" + "?domain=" + getTenantDomainFromID(getTenantID()) + "&page=" + page;
                 log.info(url);
