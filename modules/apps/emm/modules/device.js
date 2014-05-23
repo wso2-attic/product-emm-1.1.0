@@ -861,7 +861,7 @@ var device = (function () {
 
 
         getLicenseAgreement: function(ctx){
-            return (user.getLicenseByDomain(ctx.domain));
+            return (user.getLicenseByDomain(ctx.domain)).toString();
         },
         sendToDevice: function(ctx){
         	var tenantID = common.getTenantID();
