@@ -8,6 +8,8 @@ if (typeof String.prototype.startsWith != 'function') {
 
 
 $(document).ready(function() { 
+    
+     
 
     $('#tenetForm').ajaxForm(function(e) { 
         var n = noty({
@@ -31,6 +33,9 @@ $(document).ready(function() {
                 $("#" + key).val(data[key]);
             }
         }
+        
+        toggleAPNSCerts();
+        toggleMDMCerts()
     });
 
 
@@ -45,18 +50,18 @@ jQuery("#tenetForm").submit(function(e) {
         e.preventDefault();
     }
 
-    var emailFiledCount = 0;
-    var emailFiledFilledCount = 0;
+    var emailFieldCount = 0;
+    var emailFieldFilledCount = 0;
     
-    var iosFiledCount = 0;
-    var  iosFiledFilledCount = 0;
+    var iosFieldCount = 0;
+    var  iosFieldFilledCount = 0;
 
     $('input').each(function(){
 
         if($(this).attr('id').startsWith('email')){
-            emailFiledCount++;
+            emailFieldCount++;
             if($(this).val() != ""){
-                emailFiledFilledCount++;
+                emailFieldFilledCount++;
             }
 
         }
@@ -65,9 +70,10 @@ jQuery("#tenetForm").submit(function(e) {
         if($(this).attr('id').startsWith('ios')){
             
             if(!($(this).attr('type') == 'hidden' || $(this).attr('type') == 'file')){
-                iosFiledCount++;
+                
+                iosFieldCount++;
                 if($(this).val() != ""){
-                    iosFiledFilledCount++;
+                    iosFieldFilledCount++;
                 }
             }
             
@@ -76,10 +82,10 @@ jQuery("#tenetForm").submit(function(e) {
     });
 
     
-    if(emailFiledFilledCount != 0){
-        if(emailFiledFilledCount < emailFiledCount){
+    if(emailFieldFilledCount != 0){
+        if(emailFieldFilledCount < emailFieldCount){
             var n = noty({
-                text : 'Please fill all the email related values',
+                text : 'Please fill all the email configurations related values or leave all blank',
                 'layout' : 'center',
                 timeout: 1000,
                 type: "error"
@@ -91,10 +97,10 @@ jQuery("#tenetForm").submit(function(e) {
     }
     
     
-    if(iosFiledFilledCount != 0){
-        if(iosFiledFilledCount < iosFiledCount){
+    if(iosFieldFilledCount != 0){
+        if(iosFieldFilledCount < iosFieldCount){
             var n = noty({
-                text : 'Please fill all the iOS related values',
+                text : 'Please fill all the iOS configurations related values or leave all blank',
                 'layout' : 'center',
                 timeout: 1000,
                 type: "error"
@@ -113,8 +119,30 @@ jQuery("#tenetForm").submit(function(e) {
 
 $('#iosAPNSCert').change(function(){
     $('#iosAPNSCertModified').val("true");
+    toggleAPNSCerts();
 });
 
 $('#iosMDMCert').change(function(){
     $('#iosMDMCertModified').val("true");
+    toggleMDMCerts();
 });
+
+
+function toggleAPNSCerts(){
+    if($('#iosAPNSCertModified').val() == "true"){
+        $('#iosAPNSPass').prop('disabled',false);
+    }else{
+        $('#iosAPNSPass').prop('disabled',true);
+    }
+}
+
+
+function toggleMDMCerts(){
+    if($('#iosMDMCertModified').val() == "true"){
+        $('#iosMDMPass').prop('disabled',false);
+        $('#iosMDMTopic').prop('disabled',false);
+    }else{
+        $('#iosMDMPass').prop('disabled',true);
+        $('#iosMDMTopic').prop('disabled',true);
+    }
+}
