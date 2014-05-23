@@ -48,6 +48,10 @@
                             	   <a href='#'>
                                 {{this.attributes.overview_name}}
                             </a>
+                             
+                             {{#if ../this.isReviwer}}
+                                 (<a   href="{{../this.attributes.overview_url}}"><i class="icon-download"></i></a>)
+                             {{/if}} 
                         </td>
                          <td>
                         <img src="/publisher/themes/mobileapp/img/mobileapps/{{this.attributes.overview_platform}}.png">
@@ -87,12 +91,23 @@
                         	{{#compare this.lifecycleState "Retired"}}	
                         		<span class="lifecycle-state"><small><i class="icon-circle text-red"></i> {{this.lifecycleState}}</small></span>
                        		{{/compare}}
+                             
+                            
+                            
+                             
                         </td>
                         
                          <td>
-                         	{{#this.lifecycleAvailableActions}}                         		
+                         	
+                            
+                             
+                             {{#this.lifecycleAvailableActions}}                         		
                          		<a  data-action="{{name}}" data-app="{{../this.id}}" class="btn {{style}} btn-action" name="addNewAssetButton">{{name}}</a>
                          	{{/this.lifecycleAvailableActions}}  
+                             
+                             
+                             
+                             
                         </td>
                         
                     </tr>
