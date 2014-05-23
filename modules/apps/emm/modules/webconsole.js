@@ -127,43 +127,25 @@ var webconsole = (function () {
                     break main;
                 }
                 var flag = 0;
-                for(var j=0 ;j<roles.length;j++){
-
-                    if(roles[j]=='admin'||roles[j]=='Internal/emmadmin'||roles[j]=='Internal/mamadmin'){
-
-                        flag = 1;
-                        if(userType){
-                            if(userType=="mam" || userType=="user"){
-                                continue main;
-                            }
-                        }
-                        break;
-                    }else if(roles[j]==' Internal/publisher'||roles[j]=='Internal/reviewer'||roles[j]=='Internal/store'||roles[j]=='Internal/mamadmin'){
-                        flag = 2;
-                        if(userType){
-                            if(userType=="administrator" || userType=="user"){
-
-                                continue main;
-                            }
-                        }
-                        break;
-                    }else{
-                        flag = 0;
-                        if(userType){
-                            if(userType=="administrator" || userType=="mam"){
-                                continue main;
-                            }
-                        }
-                    }
+                
+               
+                roles = parse(roles);
+                
+                //log.info(roles);
+                if(contains(roles, "admin")){
+                         flag = 1;  
+                }else if(contains(roles, "Internal/emmadmin")){
+                         flag = 2;
+                }else{
+                         flag = 3;
                 }
+                
                 if(flag == 1){
-                    if(type == 'admin'){
-                        proxyObj.push('administrator');
-                        proxyObj.push('');
-                        proxyObj.push('');
-                    }
+                    proxyObj.push('admin');
+                    proxyObj.push('');
+                    proxyObj.push('');
                 }else if(flag == 2) {;
-                    proxyObj.push('mam');
+                    proxyObj.push('emmadmin');
                     proxyObj.push('');
                     proxyObj.push('');
                 }else{
@@ -308,3 +290,13 @@ var webconsole = (function () {
     };
     return module;
 })();
+
+function contains(a, obj) {
+    var i = a.length;
+    while (i--) {
+       if (a[i] === obj) {
+           return true;
+       }
+    }
+    return false;
+}

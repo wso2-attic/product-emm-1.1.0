@@ -154,15 +154,15 @@ var group = (function () {
             var roles = this.getAllGroups({});
             for(var i=0;i<roles.length;i++){
                     var obj = {};
-                    if(roles[i] == 'admin'||roles[i] == 'Internal/emmadmin'){
+                    if(roles[i] == 'admin'){
                         obj.name = roles[i];
-                        obj.type = 'administrator';
+                        obj.type = 'admin';
                         if(type == 'admin'){
                             newRoles.push(obj);
                         }
-                    }else if(roles[i]== 'Internal/publisher'||roles[i]=='Internal/reviewer'||roles[i]=='Internal/store'||roles[i]=='Internal/mamadmin'){
+                    }else if(roles[i]== 'Internal/emmadmin'){
                         obj.name = roles[i];
-                        obj.type = 'mam';
+                        obj.type = 'emmadmin';
                         newRoles.push(obj);
                     }else{
                         obj.name = roles[i];

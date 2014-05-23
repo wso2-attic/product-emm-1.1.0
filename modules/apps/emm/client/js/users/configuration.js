@@ -24,7 +24,12 @@ $(document).ready(function() {
                         "sWidth": "40%",
                         "fnRender": function (oObj)                              
                         {                           
-                           if(oObj.aData[3] == 'administrator'){
+                           
+                            if(oObj.aData[4] == 'admin'){
+                           	 return '<a href="/emm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' 
+                               
+                           	
+                           }else if(oObj.aData[4] == 'emmadmin'){
                            	 return '<a href="/emm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
                                 '<a href="/emm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;';
                                
@@ -83,7 +88,7 @@ $(document).ready(function() {
 
 function fnCreateSelect( aData ){
 
-    var r='<select id="userTypeSelect"><option value="">--All--</option><option value="user">User</option><option value="administrator">Administrator</option><option value="mam">MAM</option>', i, iLen=aData.length;
+    var r='<select id="userTypeSelect"><option value="">--All--</option><option value="user">user</option><option value="admin">admin</option><option value="emmadmin">emmadmin</option>', i, iLen=aData.length;
    // for ( i=0 ; i<iLen ; i++ )
    // {
    //     r += '<option value="'+aData[i]+'">'+aData[i]+'</option>';

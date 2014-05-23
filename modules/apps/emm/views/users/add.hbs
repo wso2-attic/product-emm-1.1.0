@@ -68,8 +68,12 @@
 										<select multiple="multiple" size="10" id="inputGroups" name="inputGroups" class='duallistbox'>
 											{{#data.groups}}
 												{{#compare type 'user'}}
-												<option value="{{name}}">{{name}}</option>
+                                                    {{#compare name 'subscriber' operator="!="}}
+                                                        <option value="{{name}}">{{name}}</option>
+                                                    {{/compare}}
+												 
 												{{/compare}}
+                                                
 											{{/data.groups}}
 
 										</select>
