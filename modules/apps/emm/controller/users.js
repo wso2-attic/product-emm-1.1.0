@@ -31,7 +31,8 @@ add = function(appController) {
 	context = appController.context();
 
 	try {
-		var groups = group.getGroupsByType({type:context.contextData.user.role});		
+		var groups = group.getGroupsByType({type:context.contextData.user.role});
+        
 	} catch(e) {
       //  print(group.getGroupsByType({type:context.contextData.user.role}));
 		var groups = [];
@@ -92,7 +93,8 @@ view = function(appController) {
 	
 	try {
 		var groups = userG.getRolesOfUserByAssignment({
-			username : userId
+			username : userId,
+            removeAdmins : false
 
 		});
 	} catch(e) {       
@@ -208,11 +210,14 @@ assign_groups = function(appController) {
 
 	try {
 		var groups = userG.getRolesOfUserByAssignment({
-			username : username
+			username : username,
+            removeAdmins : true
 		});
 	} catch(e) {
 		var groups = [];
 	}
+    
+    
 
 	context = appController.context();
 	

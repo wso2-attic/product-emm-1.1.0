@@ -25,7 +25,12 @@ $(document).ready(function() {
                         "fnRender": function (oObj)                              
                         {                           
                            
-                            if(oObj.aData[4] == 'emmadmin'){
+                            if(oObj.aData[4] == 'admin'){
+                           	 return '<a href="/emm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
+                                '<a href="/emm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;';
+                               
+                           	
+                           }else if(oObj.aData[4] == 'emmadmin'){
                            	 return '<a href="/emm/users/view?user='+ oObj.aData[0] +'" data-item="'+ oObj.aData[0] +'" title="View User"><i class="icon-user"> </i> Info</a>&nbsp;' +
                                 '<a href="/emm/users/assign_groups?user='+ oObj.aData[0] +'" class="btn-assign-roles" data-item="'+ oObj.aData[0] +'" title="Assign Roles"><i class="icon-edit"> </i> Assign Roles</a>&nbsp;';
                                
