@@ -43,10 +43,10 @@ var permission = (function () {
           var responseMsg = {};
           var group = ctx.selectedGroup;
           var featureList = ctx.featureList;
-          var resultCount1 = driver.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
+          var resultCount1 = db.query(sqlscripts.permissions.update1,stringify(featureList),group,common.getTenantID());
           var resultCount2 = 0;
           if(!resultCount1>0){
-              resultCount2 = driver.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
+              resultCount2 = db.query(sqlscripts.permissions.insert1,group,featureList,common.getTenantID());
           }
           if(resultCount1 > 0 || (resultCount2 && resultCount2.length == 0)){
             responseMsg.status = 201;
