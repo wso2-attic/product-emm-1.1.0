@@ -8,6 +8,8 @@ if (typeof String.prototype.startsWith != 'function') {
 
 
 $(document).ready(function() { 
+    
+     
 
     $('#tenetForm').ajaxForm(function(e) { 
         var n = noty({
@@ -31,6 +33,9 @@ $(document).ready(function() {
                 $("#" + key).val(data[key]);
             }
         }
+        
+        toggleAPNSCerts();
+        toggleMDMCerts()
     });
 
 
@@ -114,8 +119,30 @@ jQuery("#tenetForm").submit(function(e) {
 
 $('#iosAPNSCert').change(function(){
     $('#iosAPNSCertModified').val("true");
+    toggleAPNSCerts();
 });
 
 $('#iosMDMCert').change(function(){
     $('#iosMDMCertModified').val("true");
+    toggleMDMCerts();
 });
+
+
+function toggleAPNSCerts(){
+    if($('#iosAPNSCertModified').val() == "true"){
+        $('#iosAPNSPass').prop('disabled',false);
+    }else{
+        $('#iosAPNSPass').prop('disabled',true);
+    }
+}
+
+
+function toggleMDMCerts(){
+    if($('#iosMDMCertModified').val() == "true"){
+        $('#iosMDMPass').prop('disabled',false);
+        $('#iosMDMTopic').prop('disabled',false);
+    }else{
+        $('#iosMDMPass').prop('disabled',true);
+        $('#iosMDMTopic').prop('disabled',true);
+    }
+}
