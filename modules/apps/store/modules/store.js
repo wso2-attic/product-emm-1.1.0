@@ -607,6 +607,7 @@ Store.prototype.search = function (options, paging) {
     options = obtainViewQuery(options);
     var builtPaging = PaginationFormBuilder(paging);
     if (type) {
+        
         var assetz = this.assetManager(type).search(options, builtPaging);
         log.info(assetz);
         for (i = 0; i < assetz.length; i++) {

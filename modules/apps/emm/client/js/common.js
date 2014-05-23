@@ -2,8 +2,10 @@
 var apiConfig = getApiConfig();
 
 var uiConfig = getUIConfig('default');
+var currentUserInfo = null;
 
 $.get('/emm/console/info').done(function(data) {
+    currentUserInfo = JSON.parse(data);
     tenantDomain = JSON.parse(data).tenantDomain;
     var uiConfig = getUIConfig('default');
 }).fail(function() {

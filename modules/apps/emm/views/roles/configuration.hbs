@@ -39,10 +39,13 @@
 												{{#compare isMam true operator='!='}}
 													<a href="assign_permissions?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Assign Permissions"
 													class="add-permission-link"><i class="icon-cog"> </i> Permissions </a> &nbsp;
+                                            
+                                            
+                                            <a href="view_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="View Users"
+												><i class="icon-user"> </i> View Users </a> &nbsp;
 												{{/compare}}
 											{{/compare}}
-											<a href="view_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="View Users"
-												><i class="icon-user"> </i> View Users </a> &nbsp;
+											
 												
 											
 												
@@ -52,6 +55,9 @@
                                                 
                                             
                                                 {{else}}
+                                            
+                                            <a href="view_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="View Users"
+												><i class="icon-user"> </i> View Users </a> &nbsp;
                                             
                                                     <a href="#"  class="btn-invite" data-item="{{name}}" title="Invite"><i class="icon-envelope"> </i> Invite</a>&nbsp; 
                                                     <a href="edit?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Rename"

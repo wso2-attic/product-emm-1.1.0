@@ -64,9 +64,16 @@ $("#btn-add").click(function() {
 				});
 				window.location.assign("configuration");
 			},
+            403: function() {
+				noty({
+					text : 'Role already exist!',
+					'layout' : 'center',
+					'type': 'error'
+				});				
+			},
 			409: function() {
 				noty({
-					text : 'Roles already exist!',
+					text : 'Role already exist!',
 					'layout' : 'center',
 					'type': 'error'
 				});				
