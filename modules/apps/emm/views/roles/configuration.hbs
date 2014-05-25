@@ -35,7 +35,7 @@
 										<td>{{name}}</td>
 										<td>{{type}}</td>
 										<td class="center">
-											{{#compare ../contextData.user.role 'admin'}}
+											{{#compare type 'admin'}}
 												{{#compare isMam true operator='!='}}
 													<a href="assign_permissions?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Assign Permissions"
 													class="add-permission-link"><i class="icon-cog"> </i> Permissions </a> &nbsp;
