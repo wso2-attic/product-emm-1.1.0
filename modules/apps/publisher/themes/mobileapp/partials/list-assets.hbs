@@ -48,10 +48,12 @@
                             	   <a href='#'>
                                 {{this.attributes.overview_name}}
                             </a>
-                             
-                             {{#if ../this.isReviwer}}
-                                 (<a   href="{{../this.attributes.overview_url}}"><i class="icon-download"></i></a>)
+                             &nbsp;
+                                {{#if ../this.isReviwer}}
+                                 <a  class="btn"   href="{{../this.attributes.overview_url}}"><i class="icon-download"></i> App</a>
                              {{/if}} 
+                             
+                           
                         </td>
                          <td>
                         <img src="/publisher/themes/mobileapp/img/mobileapps/{{this.attributes.overview_platform}}.png">
@@ -106,6 +108,7 @@
                          	{{/this.lifecycleAvailableActions}}  
                              
                              
+                            
                              
                              
                         </td>
