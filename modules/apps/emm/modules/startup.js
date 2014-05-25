@@ -22,9 +22,9 @@ var startup = (function () {
             log.debug("USER LOGGED " + stringify(ctx));
             if(ctx.isAdmin){
                 var rolePermissions = driver.query(sqlscripts.permissions.select1, 'admin', ctx.tenantId);
-                log.info("Role Permissions" + rolePermissions);
+                log.debug("Role Permissions" + rolePermissions);
                 if(rolePermissions == ""){
-                     log.info("No permissions for admin adding");
+                     log.debug("No permissions for admin adding");
                     var defaultAdminPermssion = ["ENTERPRISEWIPE", "ENCRYPT", "MUTE", "CAMERA", "CLEARPASSCODE", "WIPE", "LOCK", "NOTIFICATION", "CHANGEPASSWORD", "LDAP", "VPN", "GOOGLECALENDAR", "EMAIL", "PASSWORDPOLICY", "WEBCLIP", "APN", "WIFI"];
                      sucessAddingPermissions = driver.query(sqlscripts.permissions.insert1,'admin',defaultAdminPermssion, ctx.tenantId);
                 }
