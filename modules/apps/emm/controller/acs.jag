@@ -48,8 +48,17 @@ sso.acs(function(loggedInUser) {
         session.put("emmConsoleUserLogin", "true");
         session.put("emmConsoleUser", userFeed);
         var db = common.getDatabase();
+
+        var startupModule = require('/modules/startup.js').startup;
+        var startup = new startupModule(db);
+        startup.userLoggedIn(userFeed);
+
+
         var groupModule = require('/modules/group.js').group;
         var group = new groupModule(db);
+
+        
+
         if (!group.roleExists("Internal/emmadmin")) {
             var userList = new Array();
             group.addGroup({
