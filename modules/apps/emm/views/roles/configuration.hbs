@@ -45,6 +45,19 @@
 												><i class="icon-user"> </i> View Users </a> &nbsp;
 												{{/compare}}
 											{{/compare}}
+                                            
+                                            
+                                            
+                                            {{#compare type 'emmadmin'}}
+												{{#compare isMam true operator='!='}}
+													<a href="assign_permissions?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="Assign Permissions"
+													class="add-permission-link"><i class="icon-cog"> </i> Permissions </a> &nbsp;
+                                            
+                                            
+                                            <a href="view_users?group={{name}}" data-group="{{name}}"  data-toggle="modal" title="View Users"
+												><i class="icon-user"> </i> View Users </a> &nbsp;
+												{{/compare}}
+											{{/compare}}
 											
 												
 											
