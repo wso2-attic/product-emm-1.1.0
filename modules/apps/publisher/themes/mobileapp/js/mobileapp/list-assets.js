@@ -38,3 +38,31 @@ $( ".tab-button" ).click(function() {
 	
 
 });
+
+$( ".btn-view-app" ).click(function(e) {
+    
+    
+   // alert($(this).data("id"));
+   
+	$("#appModalAppURL").attr("href", $(this).data("url"));
+    updateQRCode($(this).data("url"));
+    
+    $("#appModal").modal('show');
+	e.stopPropagation();
+	
+
+});
+
+
+
+function updateQRCode(text) {
+
+        var element = document.getElementById("qrcode");
+
+        var bodyElement = document.body;
+        if(element.lastChild)
+          element.replaceChild(showQRCode(text), element.lastChild);
+        else
+          element.appendChild(showQRCode(text));
+
+      }
