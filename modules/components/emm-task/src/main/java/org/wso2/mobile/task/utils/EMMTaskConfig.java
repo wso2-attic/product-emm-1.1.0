@@ -29,7 +29,7 @@ import java.util.Map;
 public class EMMTaskConfig {
 
     public static final String CONF_LOCATION = "conf.location";
-    public static final String EMM_CONFIG_XML = "mdm-config.xml";
+    public static final String EMM_CONFIG_XML = "emm-config.xml";
     public static final String TASK_MANAGER_NAME = "Device-Monitoring";
     public static final String TASK_NAME = "Monitoring";
     public static final String SERVER_HOST = "server.host";
@@ -40,7 +40,7 @@ public class EMMTaskConfig {
     public static final String HTTPS = "https://";
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APPLICATION_JSON = "application/json";
-    public static final String DEVICE_MONITOR_FREQUENCY = "device-monitor-frequency";
+    public static final String DEVICE_MONITOR_FREQUENCY = "DeviceMonitorFrequency";
 
     public static final String TASK_MONITOR_CLASS = "org.wso2.mobile.task.TaskImplementor";
     public static final String MONITOR_URL = "/emm/api/devices/monitor";
