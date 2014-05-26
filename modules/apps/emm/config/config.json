@@ -36,6 +36,7 @@
         "archieve_location": "%http.ip%"
     },
     "registry": {
+        "oauthClientKey" : "/_system/config/emm/OAuthClientKey",
         "iOSMDMCertificate" : "/_system/config/emm/MDMCert.pfx",
         "iOSAppCertificate" : "/_system/config/emm/WSO2Agent.pfx",
         "scepConfiguration" : "/_system/config/emm/SCEPConfig",
