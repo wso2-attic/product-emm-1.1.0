@@ -191,30 +191,6 @@
                                         <include>p2.inf</include>
                                     </includes>
                                 </resource>
-                                <resource>
-                                    <directory>../../</directory>
-                                    <includes>
-                                        <include>apps/**</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>../../</directory>
-                                    <includes>
-                                        <include>jaggery-modules/**</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>../../</directory>
-                                    <includes>
-                                        <include>distribution/src/repository/**</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>../../</directory>
-                                    <includes>
-                                        <include>distribution/src/dbscripts/**</include>
-                                    </includes>
-                                </resource>
                             </resources>
                         </configuration>
                     </execution>

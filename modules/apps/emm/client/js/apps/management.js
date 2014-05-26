@@ -183,7 +183,7 @@
                     }
                     return roles;
                 };
-                $('#roles .btn-success').off('click').click(function () {
+                $('#roles .btn-orange').off('click').click(function () {
                     var roles = getSelectedRoles();
                     if (roles.length) {
                         $.post('/emm/api/apps/roles/install', JSON.stringify({
@@ -425,6 +425,7 @@
                 });
                 $('#users button').removeClass('btn-danger');
                 $('#users button').addClass('btn-success').text("Install");
+                $('#users button').addClass('btn-orange');
                 $('#users button').off('click').click(function () {
                     var users = [];
                     var selectAll = false;
