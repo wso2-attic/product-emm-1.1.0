@@ -112,7 +112,7 @@ var device = (function () {
         /*
          Retreive the client id and client secret for the tenant
          */
-        router.get('devices/clientkey', function(ctx) {
+        router.post('devices/clientkey', function(ctx) {
             var result = device.getOAuthClientKey(ctx);
             if (result == null) {
                 response.status = 404;
