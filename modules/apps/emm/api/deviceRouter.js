@@ -237,10 +237,10 @@ var device = (function () {
 		});
 
         router.get('devices/license/1.0.0', function(ctx){
-            //var result = device.testingService();
+            //log.debug("Request >>>>> " + stringify(ctx));
             var result = device.getLicenseAgreement(ctx);
             if (result == null) {
-                response.status = 400;
+                response.status = 500;
             } else {
                 print(result);
                 response.status = 200;
