@@ -43,9 +43,10 @@ $( ".btn-view-app" ).click(function(e) {
     
     
    // alert($(this).data("id"));
-   
-	$("#appModalAppURL").attr("href", $(this).data("url"));
-    updateQRCode($(this).data("url"));
+    var url = window.location.protocol + "//" + window.location.host + $(this).data("url");
+	$("#appModalAppURL").attr("href", url);
+    $("#appModalAppURL").html(url);
+    updateQRCode(url);
     
     $("#appModal").modal('show');
 	e.stopPropagation();
@@ -58,6 +59,8 @@ $( ".btn-view-app" ).click(function(e) {
 function updateQRCode(text) {
 
         var element = document.getElementById("qrcode");
+    
+        
 
         var bodyElement = document.body;
         if(element.lastChild)
