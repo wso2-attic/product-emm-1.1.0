@@ -47,8 +47,8 @@ var store = (function() {
     };
     var getTenantID = function() {
         if (!(typeof session === "undefined")) {
-            if (session.get("mamConsoleUser") && session.get("mamConsoleUser").tenantId != 0) {
-                var tenantID = session.get("mamConsoleUser").tenantId;
+            if (session.get("emmConsoleUser") && session.get("emmConsoleUser").tenantId != 0) {
+                var tenantID = session.get("emmConsoleUser").tenantId;
                 return tenantID;
             } else {
                 return "-1234";
@@ -151,7 +151,7 @@ var store = (function() {
     module.prototype = {
         constructor: module,
         getAllDevicesFromEmail: function(ctx) {
-            log.info("EMM called >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            log.debug("EMM called >>>>>");
             var devicesArray;
             if (ctx.data.platform == 'webapp') {
                 user.getUser(ctx.user)
@@ -232,18 +232,17 @@ var store = (function() {
         },
         // [{"id" : "6a680b0a-4f7a-42a2-9f68-3bc6ff377818", "type" : "mobileapp", "path" : "/_system/governance/mobileapps/android/Batman/1.0", "lifecycle" : "MobileAppLifeCycle", "lifecycleState" : "Published", "mediaType" : "application/vnd.wso2-mobileapp+xml", "attributes" : {"overview_status" : "null", "overview_name" : "Batman", "overview_url" : "/upload/MbAk3app.apk", "overview_bundleversion" : "1.0.1", "overview_packagename" : "com.wb.goog.ArkhamCity", "overview_category" : "iOS,Android,Web Clips", "images_thumbnail" : "/publisher//upload/GTbdSicon.png", "overview_type" : "Enterprise", "overview_description" : "sdfjkdslfj ", "overview_recentchanges" : "wieruweoir ", "overview_version" : "1.0", "images_screenshots" : "/publisher//upload/8UISPscreenshot1.jpg,/publisher//upload/ElLTAscreenshot2.jpg,", "overview_provider" : "admin@admin.com", "images_banner" : "/publisher//upload/8PnYgbanner.jpg", "overview_appid" : "null", "overview_platform" : "android"}, "content" : {}, "rating" : {"average" : 0.0, "user" : 0}, "indashboard" : false}, {"id" : "e23f5cf0-d1be-421d-a44e-74bd0ab65fff", "type" : "mobileapp", "path" : "/_system/governance/mobileapps/android/Zip Archiver/1.0", "lifecycle" : "MobileAppLifeCycle", "lifecycleState" : "Published", "mediaType" : "application/vnd.wso2-mobileapp+xml", "attributes" : {"overview_status" : "null", "overview_name" : "Zip Archiver", "overview_url" : "/upload/mGc3Happ.apk", "overview_bundleversion" : "0.6.1", "overview_packagename" : "org.b1.android.archiver", "overview_category" : "iOS,Android,Web Clips", "images_thumbnail" : "/publisher//upload/1eLXXicon.png", "overview_type" : "Enterprise", "overview_description" : "dfdslkfj ", "overview_recentchanges" : "wurowieur ", "overview_version" : "1.0", "images_screenshots" : "/publisher//upload/n5iv6screenshot2.jpg,/publisher//upload/Zu0Qkscreenshot1.jpg,", "overview_provider" : "admin@admin.com", "images_banner" : "/publisher//upload/s6jCKbanner.png", "overview_appid" : "null", "overview_platform" : "android"}, "content" : {}, "rating" : {"average" : 0.0, "user" : 0}, "indashboard" : false}]
         getAppsFromStore: function(page) {
-            /* 
-        Processing pagniation 
-        
-        
-      */
+
+        /*
+            Processing pagniation
+        */
             var pagination = true;
             var fApps = [];
             var page = 1;
-           
+            log.info("Tenant ID: " + getTenantID());
             do {
                 var url = configsFile.mam.store_location + "/apis/assets/mobileapp" + "?domain=" + getTenantDomainFromID(getTenantID()) + "&page=" + page;
-                log.info(url);
+                log.debug("url: " + url);
                 var data = get(url, {});
                 data = parse(data.data);
                 if (data.length == 0) {
@@ -397,7 +396,7 @@ var store = (function() {
                 }
             };
             query = buildDynamicQuery(platform, 2, getTenantID());
-            log.info(package_identifier);
+            log.debug(package_identifier);
             query = driver.query(query, package_identifier);
             for (var i = query.length - 1; i >= 0; i--) {
                 var result = query[i];
