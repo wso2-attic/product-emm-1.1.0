@@ -482,11 +482,11 @@ var user = (function () {
                         }
                     }
 
-                    if(ctx.iosSCEPCommonName.trim() != null) {
+                    if(ctx.iosSCEPEmail.trim() != null) {
                         //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
                         registry.put(config.registry.scepConfiguration, {
                             content: config.registry.scepConfiguration,
-                            properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
+                            properties: {CN: ctx.iosSCEPEmail.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
                                 O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
                         });
                     }
@@ -596,14 +596,14 @@ var user = (function () {
             }
 
             if(scepConfiguration != null) {
-                jsonBuilder.iosSCEPCommonName = scepConfiguration.CN[0];
+                jsonBuilder.iosSCEPEmail = scepConfiguration.CN[0];
                 jsonBuilder.iosSCEPCountry = scepConfiguration.C[0];
                 jsonBuilder.iosSCEPState = scepConfiguration.ST[0];
                 jsonBuilder.iosSCEPLocality = scepConfiguration.L[0];
                 jsonBuilder.iosSCEPOrganisation = scepConfiguration.O[0];
                 jsonBuilder.iosSCEPOrganisationUnit = scepConfiguration.OU[0];
             } else {
-                jsonBuilder.iosSCEPCommonName = "";
+                jsonBuilder.iosSCEPEmail = "";
                 jsonBuilder.iosSCEPCountry = "";
                 jsonBuilder.iosSCEPState = "";
                 jsonBuilder.iosSCEPLocality = "";
