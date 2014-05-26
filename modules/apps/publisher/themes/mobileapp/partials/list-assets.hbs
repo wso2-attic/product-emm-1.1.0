@@ -1,135 +1,163 @@
 <div class="asset-thumb-container">
-	<div class="pull-left">
-		 <div id="tab" class="btn-group" data-toggle="buttons-radio">
-					<a href="#" data-status="All" class="btn active tab-button" data-toggle="tab">All Apps</a>
-					<a href="#" data-status="Created" class="btn tab-button" data-toggle="tab">Created</a>
-					<a href="#" data-status="In-Review"  class="btn tab-button" data-toggle="tab">In-Review</a>
-					<a href="#" data-status="Published" class="btn tab-button" data-toggle="tab">Published</a>
-					<a href="#" data-status="Unpublished" class="btn tab-button" data-toggle="tab">Unpublished</a>
-					<a href="#" data-status="Approved" class="btn tab-button" data-toggle="tab">Approved</a>
-					<a href="#" data-status="Rejected" class="btn tab-button" data-toggle="tab">Rejected</a>
-					<a href="#" data-status="Retired" class="btn tab-button" data-toggle="tab">Retired</a>					
-		</div>
-	</div>
-	
-	{{#if this.isNotReviwer}}
-	<div class="row-fluid well-small uploadButton">
-		<a href="/publisher/asset/mobileapp" id="btn-create-asset" class="btn btn-primary pull-right" style="margin-right: 30px" ><i class="icon-plus-sign"> </i> New Application</a>
-	</div>
-	{{/if}}
-	
-  <div class="asset-being-added">
-</div>
-  
-	
-	
-	{{#if artifacts}}
-        <div class="row-fluid">
-            <table class="table table-striped list-asset-table">
-                <thead>
-                <th colspan="2"><a href="?sortby=name&sort=asc">Name <i class="icon-caret-down"></i></a></th>
-                 <th><a href="?sortby=os&sort=asc">Platform</i></a></th>                
-                 <th><a href="?sortby=type&sort=asc">Type<i class="icon-caret-down"></i></a></th>
-                <th><a href="?sortby=owner&sort=asc">Owner <i class="icon-caret-down"></i></a></th>   
-                <th><a href="?sortby=version&sort=asc">Version <i class="icon-caret-down"></i></a></th>             
-                <th><a href="?sortby=createdDate&sort=asc">Created</i></a></th>
-                <th><a href="?sortby=status&sort=asc">Status</a></th>
-                <th><a href="?sortby=createdDate&sort=asc">Action</i></a></th>
-                <th></th>
-                </thead>
-                <tbody>
-                 {{#each artifacts}}
-                    <tr data-status="{{this.lifecycleState}}" class="app-row">
-                        <td>
-                        <img src="{{this.attributes.images_thumbnail}}" class="" />
-                        </td>
-                        <td class="asset-listing-name">
-                         <a href='/publisher/asset/operations/edit/mobileapp/{{this.id}}'> 
-                            	   <a href='#'>
-                                {{this.attributes.overview_name}}
-                            </a>
-                             
-                             {{#if ../this.isReviwer}}
-                                 (<a   href="{{../this.attributes.overview_url}}"><i class="icon-download"></i></a>)
-                             {{/if}} 
-                        </td>
-                         <td>
-                        <img src="/publisher/themes/mobileapp/img/mobileapps/{{this.attributes.overview_platform}}.png">
-                        </td>
-                       
-                        <td>
-                        {{this.attributes.overview_type}}
-                        </td>
-                        <td>
-                        {{this.attributes.overview_provider}}
-                        </td> 
-                         <td>
-                        {{this.attributes.overview_version}}
-                        </td>                      
-                        <td>
-                        <small>{{this.attributes.overview_createdtime}}</small>
-                        </td>
-                         <td>
-                         	{{#compare this.lifecycleState "Published"}}
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-green"></i> {{this.lifecycleState}}</small></span>
-                        	{{/compare}}
-                        	{{#compare this.lifecycleState "Created"}}
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
-                        	{{/compare}}
-                        	{{#compare this.lifecycleState "In-Review"}}
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
-                        	{{/compare}}                        	
-                        	{{#compare this.lifecycleState "Unpublished"}}
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
-                        	{{/compare}}
-                        	{{#compare this.lifecycleState "Approved"}}
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-green"></i> {{this.lifecycleState}}</small></span>
-                        	{{/compare}}
-                        	{{#compare this.lifecycleState "Rejected"}}
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-red"></i> {{this.lifecycleState}}</small></span>
-                        	{{/compare}}
-                        	{{#compare this.lifecycleState "Retired"}}	
-                        		<span class="lifecycle-state"><small><i class="icon-circle text-red"></i> {{this.lifecycleState}}</small></span>
-                       		{{/compare}}
-                             
-                            
-                            
-                             
-                        </td>
-                        
-                         <td>
-                         	
-                            
-                             
-                             {{#this.lifecycleAvailableActions}}                         		
-                         		<a  data-action="{{name}}" data-app="{{../this.id}}" class="btn {{style}} btn-action" name="addNewAssetButton">{{name}}</a>
-                         	{{/this.lifecycleAvailableActions}}  
-                             
-                             
-                             
-                             
-                        </td>
-                        
-                    </tr>
-                {{/each}}
-                </tbody>
-            </table>
+    <div class="pull-left">
+        <div id="tab" class="btn-group" data-toggle="buttons-radio">
+            <a href="#" data-status="All" class="btn active tab-button" data-toggle="tab">All Apps</a>
+            <a href="#" data-status="Created" class="btn tab-button" data-toggle="tab">Created</a>
+            <a href="#" data-status="In-Review"  class="btn tab-button" data-toggle="tab">In-Review</a>
+            <a href="#" data-status="Published" class="btn tab-button" data-toggle="tab">Published</a>
+            <a href="#" data-status="Unpublished" class="btn tab-button" data-toggle="tab">Unpublished</a>
+            <a href="#" data-status="Approved" class="btn tab-button" data-toggle="tab">Approved</a>
+            <a href="#" data-status="Rejected" class="btn tab-button" data-toggle="tab">Rejected</a>
+            <a href="#" data-status="Retired" class="btn tab-button" data-toggle="tab">Retired</a>					
         </div>
-	    {{else}}
-			{{#if this.isNotReviwer}}
-			<div class="emptyAssets-MsgDiv">
-			    <i class="icon-inbox largeMsgIcon"></i>
-			    <br />
-			        Nothing added yet.
-			    <br />
-			    <a type="button" class="btn btn-addNewAssetLarge" href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>Add New Mobile App</a>
-			</div>
-			{{/if}}
-	{{/if}}
+    </div>
+
+    {{#if this.isNotReviwer}}
+    <div class="row-fluid well-small uploadButton">
+        <a href="/publisher/asset/mobileapp" id="btn-create-asset" class="btn btn-primary pull-right" style="margin-right: 30px" ><i class="icon-plus-sign"> </i> New Application</a>
+    </div>
+    {{/if}}
+
+    <div class="asset-being-added">
+    </div>
+
+
+
+    {{#if artifacts}}
+    <div class="row-fluid">
+        <table class="table table-striped list-asset-table">
+            <thead>
+                <th colspan="2"><a href="?sortby=name&sort=asc">Name <i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=os&sort=asc">Platform</i></a></th>                
+        <th><a href="?sortby=type&sort=asc">Type<i class="icon-caret-down"></i></a></th>
+        <th><a href="?sortby=owner&sort=asc">Owner <i class="icon-caret-down"></i></a></th>   
+        <th><a href="?sortby=version&sort=asc">Version <i class="icon-caret-down"></i></a></th>             
+        <th><a href="?sortby=createdDate&sort=asc">Created</i></a></th>
+<th><a href="?sortby=status&sort=asc">Status</a></th>
+<th><a href="?sortby=createdDate&sort=asc">Action</i></a></th>
+<th></th>
+</thead>
+<tbody>
+    {{#each artifacts}}
+    <tr data-status="{{this.lifecycleState}}" class="app-row">
+        <td>
+            <img src="{{this.attributes.images_thumbnail}}" class="" />
+        </td>
+        <td class="asset-listing-name">
+            <a href='/publisher/asset/operations/edit/mobileapp/{{this.id}}'> 
+                <a href='#'>
+                    {{this.attributes.overview_name}}
+                </a>
+                &nbsp;
+                {{#if ../this.isReviwer}}
+                <button  class="btn btn-view-app" data-url="{{../this.attributes.overview_url}}"   data-id="{{../this.id}}" ><i class="icon-download"></i> App</button>
+                {{/if}} 
+
+
+                </td>
+        <td>
+            <img src="/publisher/themes/mobileapp/img/mobileapps/{{this.attributes.overview_platform}}.png">
+        </td>
+
+        <td>
+            {{this.attributes.overview_type}}
+        </td>
+        <td>
+            {{this.attributes.overview_provider}}
+        </td> 
+        <td>
+            {{this.attributes.overview_version}}
+        </td>                      
+        <td>
+            <small>{{this.attributes.overview_createdtime}}</small>
+        </td>
+        <td>
+            {{#compare this.lifecycleState "Published"}}
+            <span class="lifecycle-state"><small><i class="icon-circle text-green"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}
+            {{#compare this.lifecycleState "Created"}}
+            <span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}
+            {{#compare this.lifecycleState "In-Review"}}
+            <span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}                        	
+            {{#compare this.lifecycleState "Unpublished"}}
+            <span class="lifecycle-state"><small><i class="icon-circle text-yellow"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}
+            {{#compare this.lifecycleState "Approved"}}
+            <span class="lifecycle-state"><small><i class="icon-circle text-green"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}
+            {{#compare this.lifecycleState "Rejected"}}
+            <span class="lifecycle-state"><small><i class="icon-circle text-red"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}
+            {{#compare this.lifecycleState "Retired"}}	
+            <span class="lifecycle-state"><small><i class="icon-circle text-red"></i> {{this.lifecycleState}}</small></span>
+            {{/compare}}
+
+
+
+
+        </td>
+
+        <td>
+
+
+
+            {{#this.lifecycleAvailableActions}}                         		
+            <a  data-action="{{name}}" data-app="{{../this.id}}" class="btn {{style}} btn-action" name="addNewAssetButton">{{name}}</a>
+            {{/this.lifecycleAvailableActions}}  
+
+
+
+
+
+        </td>
+
+    </tr>
+
+</div>
+    
+    
+    {{/each}}
+</tbody>
+</table>
+
+
+
+</div>
+{{else}}
+{{#if this.isNotReviwer}}
+<div class="emptyAssets-MsgDiv">
+    <i class="icon-inbox largeMsgIcon"></i>
+    <br />
+    Nothing added yet.
+    <br />
+    <a type="button" class="btn btn-addNewAssetLarge" href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>Add New Mobile App</a>
+</div>
+{{/if}}
+{{/if}}
 </div>
 
 <style>
-	.btn-action{
-		width: 80px;
-	}
+    .btn-action{
+        width: 80px;
+    }
 </style>
+
+
+<div id="appModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+<h4 id="myModalLabel">View App</h4>
+</div>
+<div class="modal-body">
+ <div class="row offset1">
+ App URL : <a href="" id="appModalAppURL">Download/ View</a>   
+<br>
+     <div id="qrcode"></div>
+     
+     
+</div>
+</div>
+
+</div>
