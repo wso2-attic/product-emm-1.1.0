@@ -239,7 +239,7 @@ var device = (function () {
         router.get('devices/license/1.0.0', function(ctx){
             //var result = device.testingService();
             var result = device.getLicenseAgreement(ctx);
-            if (result == "400") {
+            if (result == null) {
                 response.status = 400;
             } else {
                 print(result);
