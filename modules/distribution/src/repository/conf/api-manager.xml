@@ -148,7 +148,7 @@
         <!--
             Enable/Disable caching at gateway node.
         -->
-        <EnableGatewayKeyCache>true</EnableGatewayKeyCache>
+        <EnableGatewayKeyCache>false</EnableGatewayKeyCache>
 
 	<!-- Header name can be configurable, as you preferred. When API invocation is restricted to access only for authorized domains, 
 		client request should send his domain, as the value of this header. 
@@ -430,7 +430,7 @@
             Enable/Disable the API Startup Publisher
         -->
 	
-	<Enabled>true</Enabled>
+	<Enabled>false</Enabled>
 	
 	<!--
 	Configuration to create APIs for local endpoints. 
@@ -439,56 +439,6 @@
 	for local Endpoints.
 	IconPath should be relative to CARBON_HOME.
 	-->
-	<LocalAPIs>
-		<LocalAPI>	
-			<Context>/emm/api/devices/sender_id</Context>
-			<Provider>admin</Provider>
-			<Version>1.0.0</Version>
-			<IconPath>none</IconPath>
-			<DocumentURL>none</DocumentURL>
-			<AuthType>Any</AuthType>
-		</LocalAPI>
-		<LocalAPI>	
-			<Context>/emm/api/devices/isregistered</Context>
-			<Provider>admin</Provider>
-			<Version>1.0.0</Version>
-			<IconPath>none</IconPath>
-			<DocumentURL>none</DocumentURL>
-			<AuthType>Any</AuthType>
-		</LocalAPI>
-		<LocalAPI>	
-			<Context>/emm/api/devices/license</Context>
-			<Provider>admin</Provider>
-			<Version>1.0.0</Version>
-			<IconPath>none</IconPath>
-			<DocumentURL>none</DocumentURL>
-			<AuthType>Any</AuthType>
-		</LocalAPI>
-		<LocalAPI>	
-			<Context>/emm/api/devices/register</Context>
-			<Provider>admin</Provider>
-			<Version>1.0.0</Version>
-			<IconPath>none</IconPath>
-			<DocumentURL>none</DocumentURL>
-			<AuthType>Any</AuthType>
-		</LocalAPI>
-		<LocalAPI>	
-			<Context>/emm/api/devices/unregister</Context>
-			<Provider>admin</Provider>
-			<Version>1.0.0</Version>
-			<IconPath>none</IconPath>
-			<DocumentURL>none</DocumentURL>
-			<AuthType>Any</AuthType>
-		</LocalAPI>
-		<LocalAPI>	
-			<Context>/emm/api/devices/pendingOperations</Context>
-			<Provider>admin</Provider>
-			<Version>1.0.0</Version>
-			<IconPath>none</IconPath>
-			<DocumentURL>none</DocumentURL>
-			<AuthType>Any</AuthType>
-		</LocalAPI>
-	</LocalAPIs>
 	<!--
 	Configuration to create APIs for remote endpoints.
 	When Endpoint need to be defined use this configuration.  

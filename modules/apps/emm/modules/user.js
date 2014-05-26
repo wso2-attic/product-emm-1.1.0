@@ -890,7 +890,10 @@ var user = (function () {
             }
 
             var message = this.getTenantLicense(parseInt(tenantId));
-            return message;
+            if(message == null) {
+                return null;
+            }
+            return message.toString();
         },
 
         getTenantDomainFromID: function() {
