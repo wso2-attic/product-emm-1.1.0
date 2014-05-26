@@ -171,7 +171,7 @@ assign_users = function(appController){
 	}catch(e){
 		var users = [];
 	}
-	log.info(session.get("emmConsoleUser"));
+	log.debug(session.get("emmConsoleUser"));
 	context = appController.context();
 	context.title = context.title + " | Assign Users to group";
 	context.page = "configuration";

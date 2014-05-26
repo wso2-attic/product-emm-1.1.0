@@ -123,7 +123,7 @@ var webconsole = (function () {
                 var proxyObj = [userObj.username, userObj.email, userObj.firstName, userObj.lastName];
                 var roles = userObj.roles;
                 if(typeof roles == "undefined"){
-                    log.info("test");
+                    log.debug("test");
                     break main;
                 }
                 var flag = 0;

@@ -34,8 +34,8 @@ var driver = function(db){
             result = db.query(query) || [];
         }
         var processed = result
-        log.info("processed :"+processed);
-        log.info(Object.prototype.toString.call( processed ) === '[object Array]');
+        log.debug("processed :"+processed);
+        log.debug(Object.prototype.toString.call( processed ) === '[object Array]');
         if(Object.prototype.toString.call( processed ) === '[object Array]'){
             processed = driverObject.translate(result);
         }

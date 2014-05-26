@@ -175,7 +175,7 @@ var notification = (function() {
                     try{
                         driver.query(sqlscripts.notifications.delete2, device_id,"501P");
                     }catch(e){
-                        log.info(e);
+                        log.error(e);
                     }
 
                     driver.query(sqlscripts.notifications.update6, stringify(formattedData), recivedDate, identifier);

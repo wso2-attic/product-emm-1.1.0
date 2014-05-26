@@ -36,7 +36,7 @@ describe('Notification Module',function(){
                 var expectResult = JSON.parse('[{"code" : "501P", "data" : [{"messageId" : "6", "data" : {"type" : 1, "policies" : [{"code" : "507A", "data" : {"SSID" : "Niranjan", "password" : "niranjan"}}, {"code" : "508A", "data" : {"function" : "Disable"}}]}}]}, {"code" : "503A", "data" : [{"messageId" : "5", "data" : null}]}, {"code" : "506A", "data" : [{"messageId" : "4", "data" : {"notification" : "Hello World"}}]}, {"code" : "502A", "data" : [{"messageId" : "3", "data" : "hi"}]}, {"code" : "500P", "data" : [{"messageId" : "2", "data" : [{"code" : "507A", "data" : {"SSID" : "WSO2", "password" : "wso2"}}, {"code" : "508A", "data" : {"function" : "Disable"}}]}]}]');
                 expect(result).toEqual(expectResult);
             } catch (e) {
-                log.info(e);
+                log.error(e);
             } finally {
                 driver.query("delete from devices");
                 driver.query("delete from notifications");
@@ -54,7 +54,7 @@ describe('Notification Module',function(){
                 var result = notification.getAndroidOperations(sendRestCall);
                 expect(result).toEqual(null);
             } catch (e) {
-                log.info(e);
+                log.error(e);
             } finally {
                 driver.query("delete from devices");
                 driver.query("delete from notifications");
@@ -114,7 +114,7 @@ describe('Notification Module',function(){
                 var result = driver.query("select status, received_data from notifications where id='4'");
                 expect(result.length).toBe(0);
             } catch (e) {
-                log.info(e);
+                log.error(e);
             } finally {
                 driver.query("delete from devices");
                 driver.query("delete from notifications");
@@ -156,7 +156,7 @@ describe('Notification Module',function(){
                 var result =  notification.getNotifications(ctx);
                 expect(result.length).toBe(5);
             } catch (e) {
-                log.info(e);
+                log.error(e);
             } finally {
                 driver.query("delete from notifications");
                 tearDown();

@@ -1,8 +1,8 @@
 
 var getTenantID = function() {
     if(!(typeof session === "undefined")){
-        if (session.get("mamConsoleUser") && session.get("mamConsoleUser").tenantId != 0) {
-            var tenantID = session.get("mamConsoleUser").tenantId;
+        if (session.get("emmConsoleUser") && session.get("emmConsoleUser").tenantId != 0) {
+            var tenantID = session.get("emmConsoleUser").tenantId;
             return tenantID;
         } else {
             return "-1234";
@@ -160,7 +160,7 @@ var app = {
                 try {
                     store.installApp(installPayload);
                 } catch (e) {
-                    log.info(e);
+                    log.error(e);
                     response.status = 403;
                     return;
                 }

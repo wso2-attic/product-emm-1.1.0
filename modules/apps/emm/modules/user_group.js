@@ -145,7 +145,7 @@ var user_group = (function () {
                 for(var i=0;i<allUsers.length;i++){
                     var flag = 0;
                     for(var j=0;j<usersOfGroup.length;j++){
-                        log.info("T"+allUsers[i]+"---"+usersOfGroup[j].username);
+                        log.debug("T"+allUsers[i]+"---"+usersOfGroup[j].username);
                         if(allUsers[i]==usersOfGroup[j].username){
                             flag = 1;
                             break;
