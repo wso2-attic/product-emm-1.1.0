@@ -414,7 +414,7 @@ var user = (function () {
                     + '"uiTitle" : "WSO2 Enterprise Mobility Manager", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
                     + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
                     + '"emailSmtpPort" : "25", "companyName" : "WSO2", '
-                    + '"androidNotifier": "LOCAL", "androidNotifierFreq": "5", "androidApiKeys": "", "androidSenderIds": ""}';
+                    + '"androidNotifier": "LOCAL", "androidNotifierFreq": "1", "androidApiKeys": "", "androidSenderIds": ""}';
                 this.saveTenantConfiguration(parse(defaultData), null, null, tenantId, "true");
             }
         },

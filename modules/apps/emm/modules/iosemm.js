@@ -85,8 +85,41 @@ var iosemm = (function() {
 				var mdmConfigurations = user
 						.getiOSMDMConfigurations(parseInt(tenantId));
 				var topicId = mdmConfigurations.properties.TopicID[0];
+
+				var certConfigurations = user
+						.getSCEPConfiguration(parseInt(tenantId));
+
+				var country = certConfigurations.C ? certConfigurations.C[0]
+						: "";
+				var state = certConfigurations.ST ? certConfigurations.ST[0]
+						: "";
+				var locality = certConfigurations.L ? certConfigurations.L[0]
+						: "";
+				var organization = certConfigurations.O ? certConfigurations.O[0]
+						: "";
+				var organizationUnit = certConfigurations.OU ? certConfigurations.OU[0]
+						: "";
+				var email = certConfigurations.E ? certConfigurations.E[0] : "";
+
+				var certificateAttributes = new Packages.org.wso2.carbon.emm.ios.core.util.CertificateAttributes();
+				certificateAttributes.setCountry(new Packages.java.lang.String(
+						country));
+				certificateAttributes.setState(new Packages.java.lang.String(
+						state));
+				certificateAttributes
+						.setLocality(new Packages.java.lang.String(locality));
+				certificateAttributes
+						.setOrganization(new Packages.java.lang.String(
+								organization));
+				certificateAttributes
+						.setOrganizationUnit(new Packages.java.lang.String(
+								organizationUnit));
+				certificateAttributes.setEmail(new Packages.java.lang.String(
+						email));
+
 				var signedData = mobilityManagerService.handleProfileRequest(
-						profileResponse.inputStream, tenantName, topicId);
+						profileResponse.inputStream, tenantName, topicId,
+						certificateAttributes);
 
 				return signedData;
 			} catch (e) {
