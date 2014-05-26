@@ -21,9 +21,9 @@
                 {{#each data.apps}}
 
                 <div class="app_box" class="item" data-name="{{this.attributes.overview_name}}" data-platform="{{this.attributes.overview_platform}}"> 
-                    <div style="width:80px" class="text-center"><b> {{#elipsis 12 this.attributes.overview_name}}{{/elipsis}}</b>
+                    <div style="width:80px" title="{{this.attributes.overview_name}}" class="text-center"><b> {{#elipsis 10 this.attributes.overview_name}}{{/elipsis}}</b>
                     </div>
-                    <a href="#appid" data-packageid="{{this.attributes.overview_packagename}}"
+                    <a title="{{this.attributes.overview_name}}" href="#appid" data-packageid="{{this.attributes.overview_packagename}}"
                        data-platform="{{this.attributes.overview_platform}}"
                        data-type="{{this.attributes.overview_type}}" data-url="{{this.attributes.overview_url}}"
                        data-id="{{this.id}}">
