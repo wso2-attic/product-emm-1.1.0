@@ -1106,9 +1106,7 @@ var device = (function () {
         getOAuthClientKey: function(ctx) {
             var objUser = user.authenticate(ctx);
             if(objUser != null) {
-                log.info(" >>>> " + stringify(objUser));
                 var oauthClientKey = user.getOAuthClientKey(parseInt(objUser["tenantId"]));
-                log.info("oauthClientKey >>>> " + stringify(oauthClientKey));
                 if (oauthClientKey != null) {
                     if(oauthClientKey.ClientKey[0].trim() == "" || oauthClientKey.ClientSecret[0].trim() == "") {
                         return null;

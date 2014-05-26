@@ -121,7 +121,6 @@ var device = (function () {
             } else {
                 response.status = 200;
                 response.content = result;
-                log.info(" >>>> " + stringify(result));
             }
         });
 
