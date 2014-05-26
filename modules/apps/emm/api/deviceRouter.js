@@ -108,6 +108,22 @@ var device = (function () {
         router.get('devices/monitor', function(ctx) {
             device.monitor(ctx);
         });
+
+        /*
+         Retreive the client id and client secret for the tenant
+         */
+        router.get('devices/clientkey', function(ctx) {
+            var result = device.getOAuthClientKey(ctx);
+            if (result == null) {
+                response.status = 404;
+            } else if (result == false) {
+                response.status = 401;
+            } else {
+                response.status = 200;
+                response.content = result;
+            }
+        });
+
 		router.post('devices/isregistered/1.0.0', function(ctx){
 		    var result = device.isRegistered(ctx);
             log.debug(result);

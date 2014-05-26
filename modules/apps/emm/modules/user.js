@@ -482,11 +482,11 @@ var user = (function () {
                         }
                     }
 
-                    if(ctx.iosSCEPCommonName.trim() != null) {
+                    if(ctx.iosSCEPEmail.trim() != null) {
                         //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
                         registry.put(config.registry.scepConfiguration, {
                             content: config.registry.scepConfiguration,
-                            properties: {CN: ctx.iosSCEPCommonName.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
+                            properties: {CN: ctx.iosSCEPEmail.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
                                 O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
                         });
                     }
@@ -500,6 +500,14 @@ var user = (function () {
                                 SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
                         });
                     }
+                }
+
+                //Client Serect and Client Key
+                if(ctx.clientkey != null) {
+                    registry.put(config.registry.oauthClientKey, {
+                        content: config.registry.oauthClientKey,
+                        properties: {ClientKey: ctx.clientkey.trim(), ClientSecret: ctx.clientsecret.trim()}
+                    });
                 }
 
                 //Android GCM keys
@@ -537,14 +545,13 @@ var user = (function () {
 
             var tenantId = parseInt(common.getTenantID());
             var androidGCMKeys = this.getAndroidGCMKeys(tenantId);
-
             var iOSMDMConfigurations = this.getiOSMDMConfigurations(tenantId);
             var iOSAPNSConfigurations = this.getiOSAPNSConfigurations(tenantId);
             var emailConfigurations = this.getEmailConfigurations(tenantId);
-
             var scepConfiguration = this.getSCEPConfiguration(tenantId);
             var license = this.getTenantLicense(tenantId);
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
+            var oauthClientKey = this.getOAuthClientKey(tenantId);
 
             var jsonBuilder = {};
 
@@ -596,14 +603,14 @@ var user = (function () {
             }
 
             if(scepConfiguration != null) {
-                jsonBuilder.iosSCEPCommonName = scepConfiguration.CN[0];
+                jsonBuilder.iosSCEPEmail = scepConfiguration.CN[0];
                 jsonBuilder.iosSCEPCountry = scepConfiguration.C[0];
                 jsonBuilder.iosSCEPState = scepConfiguration.ST[0];
                 jsonBuilder.iosSCEPLocality = scepConfiguration.L[0];
                 jsonBuilder.iosSCEPOrganisation = scepConfiguration.O[0];
                 jsonBuilder.iosSCEPOrganisationUnit = scepConfiguration.OU[0];
             } else {
-                jsonBuilder.iosSCEPCommonName = "";
+                jsonBuilder.iosSCEPEmail = "";
                 jsonBuilder.iosSCEPCountry = "";
                 jsonBuilder.iosSCEPState = "";
                 jsonBuilder.iosSCEPLocality = "";
@@ -622,6 +629,14 @@ var user = (function () {
             } else {
                 jsonBuilder.uiTitle = "";
                 jsonBuilder.uiCopyright = "";
+            }
+
+            if(oauthClientKey != null) {
+                jsonBuilder.clientkey = oauthClientKey.ClientKey;
+                jsonBuilder.clientsecret = oauthClientKey.ClientSecret;
+            } else {
+                jsonBuilder.clientkey = "";
+                jsonBuilder.clientsecret = "";
             }
 
             return jsonBuilder;
@@ -714,6 +729,14 @@ var user = (function () {
          */
         getTenantCopyRight: function(tenantId) {
             var properties = this.getPropertiesFromRegistry(tenantId, config.registry.copyright);
+            return properties;
+        },
+
+        /*
+         Retrieve Tenant's OAuth Client ID and Client Secret
+         */
+        getOAuthClientKey: function(tenantId) {
+            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.oauthClientKey);
             return properties;
         },
 
