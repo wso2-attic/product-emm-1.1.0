@@ -120,7 +120,6 @@ var device = (function () {
 		    }
 		});
 
-
 		router.get('device_enroll', function(ctx){
             response.sendRedirect("/emm/downloadapp");
 		});
@@ -240,7 +239,7 @@ var device = (function () {
             //log.debug("Request >>>>> " + stringify(ctx));
             var result = device.getLicenseAgreement(ctx);
             if (result == null) {
-                response.status = 500;
+                response.status = 404;
             } else {
                 print(result);
                 response.status = 200;
