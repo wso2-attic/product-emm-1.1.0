@@ -212,13 +212,6 @@
                 <include>*/**</include>
             </includes>
     </fileSet>
-    <fileSet>
-            <directory>src/repository/components/lib</directory>
-            <outputDirectory>wso2emm-${pom.version}/repository/components/lib</outputDirectory>
-            <includes>
-                <include>*/**</include>
-            </includes>
-    </fileSet>
 	<!-- API Store/ API Publisher -->
 	<fileSet>
             <directory>../apps/productapipublisher/</directory>
