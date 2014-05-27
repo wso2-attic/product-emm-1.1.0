@@ -191,6 +191,7 @@ var device = (function () {
             var policyPayLoad;
             var mdmPolicy = parse(devicePolicy[0].data);
             var mamPolicy = parse(devicePolicy[0].mam_data);
+
             if (mdmPolicy != null && mdmPolicy[0] != null && mamPolicy.length != 0){
                 var newMamPolicy = separateMAMPolicy(mamPolicy);
                 policyPayLoad = mdmPolicy.concat(newMamPolicy);
@@ -466,8 +467,10 @@ var device = (function () {
         var insertMessage = true;
         if (featureCode == "501P" || featureCode == "500A" || featureCode == "502A" ) {
             var pendingCount = driver.query(sqlscripts.notifications.select14, deviceId, featureCode);
-            if (pendingCount > 0) {
-                insertMessage = false;
+            if(pendingCount != null && pendingCount != undefined && pendingCount[0] != null && pendingCount[0] != undefined) {
+                if(pendingCount[0].count > 0) {
+                    insertMessage = false;
+                }
             }
         }
         if (insertMessage) {
@@ -988,7 +991,8 @@ var device = (function () {
                 var operation = 'MONITORING';
                 this.sendToDevice({'deviceid':deviceId,'operation':'INFO','data':{}});
                 this.sendToDevice({'deviceid':deviceId,'operation':'APPLIST','data':{}});
-                var mdmPolicy = getPolicyMonitoringPayLoad(deviceId,1);
+                var mdmPolicy = getPolicyMonitoringPayLoad(deviceId,1); //niranjan
+
                 if(mdmPolicy != undefined && mdmPolicy != null){
                     if(mdmPolicy.payLoad != undefined && mdmPolicy.payLoad != null && mdmPolicy.type != undefined && mdmPolicy.type != null){
                         var obj = {};

@@ -479,6 +479,14 @@ var notification = (function() {
                     if(enterpriseWipe != undefined && enterpriseWipe != null && enterpriseWipe[0] != undefined && enterpriseWipe[0] != null) {
                         pendingOperations = enterpriseWipe;
                         driver.query(sqlscripts.notifications.update5, enterpriseWipe[0].id);
+                        var devices = driver.query(sqlscripts.devices.select1, enterpriseWipe[0].device_id);
+                        if(devices != null && devices != undefined && devices[0] != null && devices[0] != undefined) {
+                            var object = {};
+                            object.regid = devices[0].reg_id;
+                            device.unRegisterAndroid(object);
+                        }
+
+
                     } else {
                         //Get pending operations for the device
                         pendingOperations = driver.query(sqlscripts.notifications.select13, devices[0].id);

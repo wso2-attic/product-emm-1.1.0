@@ -230,6 +230,7 @@ var policy = (function () {
             driver.query(sqlscripts.group_policy_mapping.delete1, ctx.policyid);
             driver.query(sqlscripts.user_policy_mapping.delete2, ctx.policyid);
             driver.query(sqlscripts.platform_policy_mapping.delete2, ctx.policyid);
+            driver.query(sqlscripts.device_policy.update3, ctx.policyid);
             return result;
         },
         assignGroupsToPolicy:function(ctx){
