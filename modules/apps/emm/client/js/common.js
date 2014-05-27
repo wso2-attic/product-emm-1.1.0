@@ -319,7 +319,15 @@ $("#modalChangePasswordButton").click(function() {
     var password = $("#modalChangePasswordTxtPassword").val();
     var passwordConfirm = $("#modalChangePasswordTxtPasswordConf").val();
     
-    
+    if(password.length < 6){
+        var n = noty({
+            text : 'Password lest must be atleast 6 characters long',
+            'layout' : 'center',
+            type: 'error'
+
+        });
+        return;
+    }
 
     if(password != passwordConfirm){
         var n = noty({
@@ -328,7 +336,9 @@ $("#modalChangePasswordButton").click(function() {
             type: 'error'
 
         });
-    }else{
+    }
+    
+    else{
         //usersChangePassword
         $("#modalChangePassword").modal('hide');
          var n = noty({	});
@@ -345,7 +355,7 @@ $("#modalChangePasswordButton").click(function() {
             dataType : "json",
             statusCode: {
                 400: function() {				
-                    n.setText('Error occured while changing the password!');	
+                    n.setText('Error occured while changing the password! old password mismatch');	
                     n.setType('error');
                     n.setTimeout(1000);			
                 },
