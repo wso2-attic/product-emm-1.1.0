@@ -899,7 +899,7 @@ var device = (function () {
             }
         },
         getFeaturesFromDevice: function(ctx){
-            init();
+            
             var role = ctx.role;
             var deviceId =  ctx.deviceid;
             if(role=="user"){
