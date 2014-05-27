@@ -31,7 +31,8 @@ context = function() {
     var appDefault = {				
         resourcePath: uiConfig.EMM_UI_URI + "themes/" + uiConfig.EMM_THEME + "/img/",
         serverURL: uiConfig.EMM_API_URI,
-        appsImageService: uiConfig.APPS_IMAGE_SERVICE
+        appsImageService: uiConfig.APPS_IMAGE_SERVICE,
+        devicesImageService: uiConfig.DEVICES_IMAGE_SERVICE
     };
     return appDefault;
 };

@@ -26,7 +26,7 @@ oTable = $('#main-table').dataTable({
             {                           
                 
                
-                var srcImage = "https://localhost:9443/assets/wso2mobile/img/models/" + oObj.aData[1] + ".png";
+                var srcImage = context().devicesImageService + "/" + oObj.aData[1] + ".png";
                 if(!urlExists(srcImage)){			
                          srcImage =  context().resourcePath + "none.png";			
                 }
