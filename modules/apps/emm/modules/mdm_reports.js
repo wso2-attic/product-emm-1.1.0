@@ -163,7 +163,10 @@ var mdm_reports = (function () {
                 endDate = ctx.endDate+ends;
             }
             //var result = driver.query("select * from notifications where feature_code = '501P' && device_id ="+ctx.deviceID+"&& received_date between '"+startDate+"' and '"+endDate+"' and tenant_id = "+common.getTenantID());
-            var result = driver.query("select * from notifications where feature_code = '501P' && device_id = ? && received_date between ? and ? and tenant_id = ?",ctx.deviceID,startDate,endDate,common.getTenantID());
+            var result = driver.query("select * from notifications where feature_code = '501P' and device_id = ? and received_date between ? and ? and tenant_id = ?",ctx.deviceID,startDate,endDate,common.getTenantID());
+            
+            
+            
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null){
                 var stateChangesArray = getComplianceStateChanges(result,ctx.deviceID);
                 return stateChangesArray;

@@ -1375,8 +1375,7 @@ var device = (function () {
             driver.query(sqlscripts.devices.update4, osVersion, stringify(properties), wifiMac, deviceId + "");
         },
         getCurrentDeviceState:function(deviceId){
-
-            var result = driver.query(sqlscripts.devices.select16, stringify(deviceId));
+            var result = driver.query(sqlscripts.devices.select16, deviceId);
             if(result != undefined && result != null && result[0] != undefined && result[0] != null){
                 return result[0].status;
             }else{
