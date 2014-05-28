@@ -7,7 +7,7 @@ $(document).ready(function() {
 		"sDom" : "<'row-fluid'<'tabel-filter-group span8'T><'span4'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 
 		"iDisplayLength" : 10,		
-		"bProcessing" : false,
+		"bProcessing" : true,
 		"bServerSide" : true,
 		"bSort" : false,
 		
