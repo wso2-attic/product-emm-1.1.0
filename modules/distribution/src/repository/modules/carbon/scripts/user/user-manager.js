@@ -82,8 +82,12 @@
     UserManager.prototype.updateUserListOfRole = function(name, deletedUsers, newUsers){
     return this.manager.updateUserListOfRole(name, deletedUsers, newUsers);
     };
-	UserManager.prototype.listUsers = function () {
-        return this.manager.listUsers("*", -1);
+	UserManager.prototype.listUsers = function (filter) {
+        if(filter){
+            return this.manager.listUsers(filter, -1);
+        }else{
+            return this.manager.listUsers("*", -1);
+        }
     };
     UserManager.prototype.addRole = function (role, users, permissions) {
         var perms = [],
