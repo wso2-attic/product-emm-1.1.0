@@ -325,7 +325,7 @@ function performOperation(devices, feature, params) {
                 });
 
                 noty({
-                    text : 'Operation is sent to the devices successfully!',
+                    text : 'Operation queued successfully!',
                     'layout' : 'center',
                     'modal': false
 

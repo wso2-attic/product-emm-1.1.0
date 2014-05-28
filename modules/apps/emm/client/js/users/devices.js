@@ -218,7 +218,7 @@ function performOperation(deviceId, feature, params) {
 								if (datas.status == 200) {
 
 									noty({
-										text : 'Operation success!',
+										text : 'Operation queued successfully!',
 										'layout' : 'center',
 										'modal' : false
 									});
