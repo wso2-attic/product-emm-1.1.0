@@ -134,10 +134,30 @@ var webconsole = (function () {
                 //log.info(roles);
                 if(contains(roles, "admin")){
                          flag = 1;  
+                    
+                    if(userType){
+                            if(userType=="emmadmin" || userType=="user"){
+                                continue main;
+                            }
+                    }
+                    
                 }else if(contains(roles, "Internal/emmadmin")){
                          flag = 2;
+                    
+                    if(userType){
+                            if(userType=="admin" || userType=="user"){
+                                continue main;
+                            }
+                    }
+                    
                 }else{
                          flag = 3;
+                    
+                    if(userType){
+                            if(userType=="emmadmin" || userType=="admin"){
+                                continue main;
+                            }
+                    }
                 }
                 
                 if(flag == 1){
