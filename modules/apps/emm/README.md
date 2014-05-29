@@ -1,4 +1,4 @@
-WSO2 Mobile Device Management
+WSO2 Enterprise Mobility Manager
 ==============
 Open-Source EMM solution to manage and monitor devices on multiple platforms.
 
