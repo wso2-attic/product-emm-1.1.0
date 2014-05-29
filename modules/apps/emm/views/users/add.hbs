@@ -27,27 +27,28 @@
 						<form class="form-horizontal" data-validate="parsley">
                             
                             <div class="control-group">
-								<label class="control-label" for="inputFirstName">Username</label>
+								<label class="control-label" for="inputFirstName">Username <span class="mandatory-field">*</span></label>
+                                
 								<div class="controls">
 									<input type="text" id="inputUsername" class="input-xlarge" data-required="true" data-regexp="[a-z0-9_-]{3,30}">
 								</div>
 							</div>
                             
 							<div class="control-group">
-								<label class="control-label" for="inputFirstName">First Name</label>
+								<label class="control-label" for="inputFirstName">First Name <span class="mandatory-field">*</span></label>
 								<div class="controls">
 									<input type="text" id="inputFirstName" class="input-xxlarge" data-required="true" data-regexp="^([^0-9]*)$">
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="inputLastName">Last Name</label>
+								<label class="control-label" for="inputLastName">Last Name <span class="mandatory-field">*</span></label>
 								<div class="controls">
 									<input type="text" id="inputLastName" class="input-xxlarge" data-required="true" data-regexp="^([^0-9]*)$">
 								</div>
 							</div>
                             
 							<div class="control-group">
-								<label class="control-label" for="inputEmail">Email</label>
+								<label class="control-label" for="inputEmail">Email <span class="mandatory-field">*</span></label>
 								<div class="controls">
 									<input type="text" id="inputEmail" class="input-xlarge" data-trigger="change" data-type="email" data-required="true">
 								</div>
