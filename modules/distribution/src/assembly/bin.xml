@@ -49,24 +49,36 @@
         </fileSet>
         <fileSet>
             <directory>
-                ../p2-profile-gen/target/wso2carbon-core-${wso2carbon.kernal.version}/dbscripts/identity/
+                ../p2-profile-gen/target/wso2carbon-core-4.2.0/dbscripts/identity/
             </directory>
             <outputDirectory>wso2emm-${pom.version}/dbscripts/identity</outputDirectory>
             <includes>
                 <include>**/**.sql</include>
             </includes>
-            <excludes>
-                <exclude>**/oracle.sql</exclude>
-            </excludes>
         </fileSet>
         
         <!--Multitenancy related file -->
         <fileSet>
             <directory>
-                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/multitenancy
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/multitenancy/
             </directory>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/multitenancy</outputDirectory>
-            <fileMode>755</fileMode>
+            <includes>
+                <include>**/stratos.xml</include>
+                <include>**/multitenancy-packages.xml</include>
+                <include>**/usage-throttling-agent-config.xml</include>
+                <include>**/cloud-services-desc.xml</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/multitenancy/
+            </directory>
+            <outputDirectory>wso2emm-${pom.version}/repository/conf</outputDirectory>
+            <includes>
+                <include>**/tenant-mgt.xml</include>
+            </includes>
         </fileSet>
 
         <fileSet>
@@ -537,6 +549,8 @@
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernal.version}/repository/conf/etc/tasks-config.xml</source>
             <outputDirectory>wso2emm-${pom.version}/repository/conf/etc</outputDirectory>
         </file>
+
+        <!-- End - nTask Component -->
 
 
 	<!--API Publisher Customization-->
