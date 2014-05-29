@@ -302,6 +302,8 @@ function performOperation(devices, feature, params) {
             addClass : 'btn btn-cancel',
             text : 'Cancel',
             onClick : function($noty) {
+                $("#featureList").msDropdown().data("dd").setIndexByValue("");
+                $("#featureList").val("");
                 $noty.close();
 
             }

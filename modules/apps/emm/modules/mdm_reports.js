@@ -103,10 +103,10 @@ var mdm_reports = (function () {
             var result = [];
             if(typeof ctx.platformType !== 'undefined' && parse(ctx.platformType) !== 0){
                 //sqlscripts.devices.select45
-                result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices,platforms where platforms.type =? && platforms.id = devices.platform_id  &&  devices.created_date between ? and ? and  devices.tenant_id = ?",ctx.platformType,startDate,endDate,common.getTenantID());
+                result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices,platforms where platforms.type =? AND platforms.id = devices.platform_id  AND devices.created_date between ? and ? and  devices.tenant_id = ?",ctx.platformType,startDate,endDate,common.getTenantID());
             }else{
                // result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices, platforms where devices.created_date between '"+startDate+"' and '"+endDate+"' and  devices.tenant_id = "+common.getTenantID()+"&& devices.platform_id = platforms.id");
-                result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices, platforms where devices.created_date between ? and ? and  devices.tenant_id = ? && devices.platform_id = platforms.id",startDate,endDate,common.getTenantID());
+                result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices, platforms where devices.created_date between ? and ? and  devices.tenant_id = ? AND devices.platform_id = platforms.id",startDate,endDate,common.getTenantID());
             }
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null ){
                 for(var i=0; i< result.length;i++){
@@ -163,7 +163,10 @@ var mdm_reports = (function () {
                 endDate = ctx.endDate+ends;
             }
             //var result = driver.query("select * from notifications where feature_code = '501P' && device_id ="+ctx.deviceID+"&& received_date between '"+startDate+"' and '"+endDate+"' and tenant_id = "+common.getTenantID());
-            var result = driver.query("select * from notifications where feature_code = '501P' && device_id = ? && received_date between ? and ? and tenant_id = ?",ctx.deviceID,startDate,endDate,common.getTenantID());
+            var result = driver.query("select * from notifications where feature_code = '501P' and device_id = ? and received_date between ? and ? and tenant_id = ?",ctx.deviceID,startDate,endDate,common.getTenantID());
+            
+            
+            
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null){
                 var stateChangesArray = getComplianceStateChanges(result,ctx.deviceID);
                 return stateChangesArray;
