@@ -7,7 +7,7 @@ var startup = (function () {
     var sqlscripts = require('/sqlscripts/db.js');
     var userModule = require('/modules/user.js').user;
     var carbon = require('carbon');
-
+    
 
 
 
@@ -26,6 +26,7 @@ var startup = (function () {
 
         //this executes after user loggedin
         userLoggedIn: function(ctx){
+            
             log.debug("USER LOGGED " + stringify(ctx));
 
             if(ctx.isAdmin){
@@ -40,7 +41,7 @@ var startup = (function () {
 
 
 
-                //this is for publisher and reviwer
+                //this is for automatically publish, publisher and reviwer roles at the time of tenent admin login
                 var server = application.get("SERVER");
                 var um = new carbon.user.UserManager(server,  ctx.tenantId);
                 var arrPermission = {};
@@ -49,30 +50,20 @@ var startup = (function () {
                 var roles = ["Internal/reviewer", "Internal/publisher", "Internal/store" ];
 
                 for(var i = 0; i < roles.length; i++){
-
+                   
                     if (um.roleExists(roles[i])) {
                         um.authorizeRole(roles[i],  arrPermission);
                     } else {
+                        log.debug("ROLE CREATED" + roles[i] );
                         um.addRole(roles[i], [], arrPermission);
                         um.authorizeRole(roles[i], arrPermission);
                     }
 
                 }
 
-
-
-
-
-                //um.addRole("Internal/reviewer", ctx.username, arrPermission);
-                // um.authorizeRole("Internal/reviewer", arrPermission);
-                // um.addRole("Internal/publisher", ctx.username, arrPermission);
-                // um.authorizeRole("Internal/publisher", arrPermission); 
-                // um.addRole("Internal/store", ctx.username, arrPermission);
-                // um.authorizeRole("Internal/store", arrPermission);  
-
-
-
             }
+            
+            
 
             var tenantId = parseInt(common.getTenantID());
             user.defaultTenantConfiguration(tenantId);
