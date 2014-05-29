@@ -614,3 +614,7 @@ width:600px;
     padding-left: 20px;
     padding-top: 20px;
 }
+
+.mandatory-field{
+    color:#FF0000;
+}
