@@ -51,7 +51,7 @@ sso.acs(function(loggedInUser) {
 
         var startupModule = require('/modules/startup.js').startup;
         var startup = new startupModule(db);
-        startup.userLoggedIn(userFeed);
+        startup.onUserLogin(userFeed);
 
         var groupModule = require('/modules/group.js').group;
         var group = new groupModule(db);

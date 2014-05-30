@@ -25,7 +25,7 @@ var startup = (function () {
         constructor: module,
 
         //this executes after user loggedin
-        userLoggedIn: function(ctx){
+        onUserLogin: function(ctx){ 
             
             log.debug("USER LOGGED " + stringify(ctx));
 
