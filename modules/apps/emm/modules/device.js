@@ -889,11 +889,13 @@ var device = (function () {
         sendToDevices:function(ctx){
             log.debug(ctx);
             var devices =  ctx.devices;
+
             for(var i=0;i<devices.length;i++){
                 if(devices[i].deviceid != null && devices[i].deviceid != undefined) {
+                    //MAM
                     this.sendToDevice({'deviceid':devices[i].deviceid,'operation':ctx.operation,'data':devices[i]});
                 } else {
-                    this.sendToDevice({'deviceid':devices[i],'operation':ctx.operation,'data':devices[i]});
+                    this.sendToDevice({'deviceid':devices[i],'operation':ctx.operation,'data':ctx.params.data});
                 }
 
             }
