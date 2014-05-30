@@ -18,7 +18,7 @@
 
 <EnterpriseMobilityManager>
 
-	<DeviceMonitorFrequency>1</DeviceMonitorFrequency>
+	<DeviceMonitorFrequency>60000</DeviceMonitorFrequency>
 
 	<iOSEMMConfigurations>
 		<!-- iOS EMM endpoint urls -->
