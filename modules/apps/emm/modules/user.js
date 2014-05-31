@@ -410,11 +410,23 @@ var user = (function () {
         defaultTenantConfiguration: function(tenantId) {
             var properties = this.getTenantCopyRight(tenantId);
             if(properties == null) {
-                var defaultData = '{"emailSmtpHost" : "smtp.gmail.com", "emailTemplate" : "You have been registered to the WSO2 EMM. Below is the link to enroll.", '
-                    + '"uiTitle" : "WSO2 Enterprise Mobility Manager", "uiCopyright" : "Copyright (c) 2014 - WSO2 .Inc", '
-                    + '"uiLicence" : "Please enter your company\'s EMM Policy.", '
-                    + '"emailSmtpPort" : "25", "companyName" : "WSO2", '
-                    + '"androidNotifier": "LOCAL", "androidNotifierFreq": "1", "androidApiKeys": "", "androidSenderIds": ""}';
+
+                var defaultData = '{'
+                    + '"emailSmtpHost" : "' + config.DEFAULT.EMAIL.SMTPHOST + '", '
+                    + '"emailSmtpPort" : "' + config.DEFAULT.EMAIL.SMTPPORT + '", '
+                    + '"emailSenderAddress" : "' + config.DEFAULT.EMAIL.SENDERADDRESS + '", '
+                    + '"emailSenderPassword" : "' + config.DEFAULT.EMAIL.SENDERPASSWORD + '", '
+                    + '"emailTemplate" : "' + config.DEFAULT.EMAIL.TEMPLATE + '", '
+                    + '"uiTitle" : "' + config.DEFAULT.UITITLE + '", '
+                    + '"uiCopyright" : "' + config.DEFAULT.UICOPYRIGHT + '", '
+                    + '"uiLicence" : "' + config.DEFAULT.UILICENSE + '", '
+                    + '"companyName" : "' + config.DEFAULT.COMPANYNAME + '", '
+                    + '"androidNotifier" : "' + config.DEFAULT.ANDROID.NOTIFIER + '", '
+                    + '"androidNotifierFreq" : "' + config.DEFAULT.ANDROID.NOTIFIER_INTERVAL + '", '
+                    + '"androidApiKeys" : "' + config.DEFAULT.ANDROID.APIKEY + '", '
+                    + '"androidSenderIds" : "' + config.DEFAULT.ANDROID.SENDERID + '"'
+                    + '}';
+
                 this.saveTenantConfiguration(parse(defaultData), null, null, tenantId, "true");
             }
         },
@@ -490,16 +502,16 @@ var user = (function () {
                                 O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
                         });
                     }
+                }
 
-                    if(ctx.emailSenderAddress.trim() == "" || ctx.emailSmtpHost.trim() == "" || ctx.emailSmtpPort.trim() == null){
-                        registry.remove(config.registry.emailConfiguration);
-                    } else {
-                        registry.put(config.registry.emailConfiguration, {
-                            content: config.registry.emailConfiguration,
-                            properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(),
-                                SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
-                        });
-                    }
+                if(ctx.emailSenderAddress == null || ctx.emailSmtpHost == null || ctx.emailSmtpPort == null){
+                    registry.remove(config.registry.emailConfiguration);
+                } else {
+                    registry.put(config.registry.emailConfiguration, {
+                        content: config.registry.emailConfiguration,
+                        properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(),
+                            SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
+                    });
                 }
 
                 //Client Serect and Client Key
@@ -813,7 +825,11 @@ var user = (function () {
             var tenantId = parseInt(common.common.getTenantID());
             var emailConfigurations = this.getEmailConfigurations(tenantId);
             if(emailConfigurations != null){
-                return true;
+                if(String(emailConfigurations.SenderAddress[0].trim()) != "") {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }

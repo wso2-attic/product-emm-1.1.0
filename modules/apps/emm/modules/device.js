@@ -490,7 +490,7 @@ var device = (function () {
         if(androidGCMKeys != null) {
             AndroidNotifierType = androidGCMKeys.AndroidMonitorType[0];
         } else {
-            AndroidNotifierType = configFile.DEFAULTNOTIFIER;
+            AndroidNotifierType = configFile.DEFAULT.ANDROID.NOTIFIER;
         }
 
 
@@ -1030,9 +1030,9 @@ var device = (function () {
                 message.notifierInterval = androidGCMKeys.AndroidNotifierFreq[0];
                 message.sender_id = androidGCMKeys.SenderIds[0];
             } else {
-                message.notifier = configFile.DEFAULTNOTIFIER;
+                message.notifier = configFile.DEFAULT.ANDROID.NOTIFIER;
                 message.sender_id = "";
-                message.notifierInterval = configFile.NOTIFIER_INTERVAL;
+                message.notifierInterval = configFile.DEFAULT.ANDROID.NOTIFIER_INTERVAL;
                 // message.sender_id = androidConfig.sender_id;
             }
             return message;

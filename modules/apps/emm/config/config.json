@@ -1,6 +1,23 @@
 {
-    "DEFAULTNOTIFIER" : "LOCAL",
-    "NOTIFIER_INTERVAL" : "1",
+    "DEFAULT": {
+        "COMPANYNAME": "WSO2",
+        "UITITLE": "WSO2 Enterprise Mobility Manager",
+        "UICOPYRIGHT": "Copyright (c) 2014 - WSO2 .Inc",
+        "UILICENSE": "Please enter the EMM Policy.",
+        "ANDROID": {
+            "NOTIFIER_INTERVAL" : "60000",
+            "NOTIFIER" : "LOCAL",
+            "APIKEY" : "",
+            "SENDERID" : ""
+        },
+        "EMAIL": {
+            "SMTPHOST": "smtp.gmail.com",
+            "SMTPPORT": "25",
+            "SENDERADDRESS": "",
+            "SENDERPASSWORD": "",
+            "TEMPLATE": "You have been registered to the WSO2 EMM. Below is the link to enroll."
+        }
+    },
     "HTTPS_URL": "%https.ip%",
     "HTTP_URL": "%http.ip%",
     "IOS_URL": "%https.ip%/devicelogin.html",
