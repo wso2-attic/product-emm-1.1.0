@@ -26,6 +26,6 @@
         "api": "%https.ip%/emm/api"
     },
     "mam":{
-        "archieve_location": "%http.ip%"
+        "archieve_location": "%https.ip%"
     }
 }

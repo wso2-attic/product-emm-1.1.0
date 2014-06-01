@@ -91,7 +91,7 @@ router.post('apps/devices/{deviceid}/uninstall', function(ctx){
 var buildInstallParam = function(asset){
 	var installParam = configs.mam.archieve_location+asset.attributes.overview_url;
 	if (asset.attributes.overview_platform.toUpperCase() == 'IOS'){
-		installParam = configs.mam.archieve_location+"/store/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+		installParam = configs.mam.archieve_location+"/emm/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
 	}
 	if(asset.attributes.overview_type == "Market"){
 		installParam = asset.attributes.overview_packagename;
