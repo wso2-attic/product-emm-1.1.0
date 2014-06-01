@@ -262,17 +262,30 @@ var device = (function () {
         entitlement.setAuthCookie(backEndCookie);
         stub = entitlement.setEntitlementServiceParameters();
     }
-    function checkPermission(role,featureName){
-        log.debug("checkPermission");
-        var result = driver.query("SELECT content FROM permissions where role = ? AND tenant_id = ?",role,common.getTenantID());
-        if(result != null && result[0] != null){
-            var roleFeatures = parse(result[0].content);
-            for(var j= 0; j< roleFeatures.length; j++){
-                if(featureName == roleFeatures[j]){
-                    return true;
+    function checkPermission(roles,featureName){
+
+        var whereRoles = stringify(roles);
+        whereRoles = '(' + whereRoles.substring(1, whereRoles.length - 1) + ')';
+        whereRoles = stringify(whereRoles.replace(/"/g, "'"));
+        whereRoles = whereRoles.substring(1, whereRoles.length - 1);
+        var result;
+        try {
+            //result = db.query("SELECT content FROM permissions where role in " + whereRoles + " AND tenant_id = ?",common.getTenantID());
+            result = driver.query("SELECT content FROM permissions where role in " + whereRoles + " AND tenant_id = ?", common.getTenantID());
+            for(var i=0;i<result.length;i++) {
+                var resultString = result[i].content.replace(/"/g,"");
+                var newArray = (resultString.substring(1, resultString.length -1)).split(",");
+                for(var j=0;j<newArray.length;j++) {
+                    if(featureName == newArray[j].trim()){
+                        return true;
+                    }
                 }
             }
+
+        } catch(e) {
+            log.error(e);
         }
+
         return false;
     }
 
@@ -901,28 +914,34 @@ var device = (function () {
             }
         },
         getFeaturesFromDevice: function(ctx){
-            
-            var role = ctx.role;
+
+            //Fixed issue - Must be refactored
+
+            var roles = ctx.roles;
+            for(var i = 0; i<roles.length; i++) {
+                if(roles[i].indexOf("Internal")!==-1) {
+                    roles.splice(i,1);
+                }
+            }
             var deviceId =  ctx.deviceid;
-            if(role=="user"){
-                // role = group.getEffectiveRoleFromDeviceID(deviceId);
-            }
-            if(role.indexOf("Internal")!==-1){
-                role = role.substring(9);
-            }
+//            if(role=="user"){
+//                 //role = group.getEffectiveRoleFromDeviceID(deviceId);
+//            }
+//            if(role.indexOf("Internal")!==-1){
+//                role = role.substring(9);
+//            }
             var tenantID = common.getTenantID();
             var featureList = driver.query(sqlscripts.devices.select12, deviceId);
             var obj = new Array();
             for(var i=0; i<featureList.length; i++){
                 var featureArr = {};
-
                 var ftype = driver.query(sqlscripts.featuretype.select1, featureList[i].id);
 
                 featureArr["name"] = featureList[i].name;
                 featureArr["feature_code"] = featureList[i].code;
                 featureArr["feature_type"] = ftype[0].name;
                 featureArr["description"] = featureList[i].description;
-                featureArr["enable"] = checkPermission(role, featureList[i].name);
+                featureArr["enable"] = checkPermission(roles, featureList[i].name);
                 // featureArr["enable"] = true;
                 if(featureList[i].template === null || featureList[i].template === ""){
 
