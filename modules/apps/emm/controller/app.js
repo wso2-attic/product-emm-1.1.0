@@ -222,6 +222,7 @@ context = function() {
         title : this.appInfo().title,
         appInfo : this.appInfo(),
         theme : this.theme(),
+        config: config,
         userLogin : session.get("emmConsoleUserLogin"),
         currentUser : session.get("emmConsoleUser"),
         resourcePath: "../themes/" + this.theme().name + "/img/",

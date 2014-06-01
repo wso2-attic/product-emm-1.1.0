@@ -115,6 +115,28 @@ $(".add-group-link").click(function() {
 	$('#assign-group-heading').html("Assign groups to " + selectedUser);
 
 });
+              
+ 
+ $(".btn-enroll").click(function() {
+    var enrollURL = $(this).data('url') +  "/emm/api/device_enroll";
+         
+	noty({
+                        text : '<u>Enroll URL</u>: ' + enrollURL + '<div  id="qrcode" style="width:200px; padding-left:45px"></div>',
+                        buttons : [{
+                            addClass : 'btn btn-orange',
+                            text : 'OK',
+                            onClick : function($noty) {
+                                $noty.close();
+                            }
+
+
+                        }]
+                    });
+     updateQRCode(enrollURL);    
+
+});             
+              
+              
 
 //$(".btn-item-remove").click(function() {
 $( "#main-table" ).on( "click", ".btn-item-remove", function() {
@@ -335,3 +357,18 @@ $("#btn-assign-group").click(function() {
 		}
 	});
 }); 
+
+
+function updateQRCode(text) {
+
+    var element = document.getElementById("qrcode");
+
+
+
+    var bodyElement = document.body;
+    if(element.lastChild)
+        element.replaceChild(showQRCode(text), element.lastChild);
+    else
+        element.appendChild(showQRCode(text));
+
+}

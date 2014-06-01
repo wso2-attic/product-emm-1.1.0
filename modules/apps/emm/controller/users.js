@@ -21,7 +21,8 @@ configuration = function(appController) {
 	context.page = "configuration";
 	context.jsFile = "users/configuration.js";
 	context.data = {
-		configOption : "users"
+		configOption : "users",
+        url: context.config.HTTPS_URL
 	};
 	return context;
 };
