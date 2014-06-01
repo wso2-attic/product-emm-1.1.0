@@ -299,10 +299,9 @@ var iosemm = (function() {
 
 				// End of all Notifications pending for the device
 				var datetime = common.getCurrentDateTime();
-				if (devices != undefined && devices != null
-						&& devices[0] != undefined && devices[0] != null) {
-					driver.query(sqlscripts.device_awake.update6, datetime,
-							devices[0].id);
+                var devices = driver.query(sqlscripts.devices.select7, apnsStatus.getUdid());
+				if (devices != undefined && devices != null && devices[0] != undefined && devices[0] != null) {
+					driver.query(sqlscripts.device_awake.update6, datetime, devices[0].id);
 				}
 				log.debug("Device awake completed!!");
 
