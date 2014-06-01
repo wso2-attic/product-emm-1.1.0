@@ -1,3 +1,4 @@
+var Handle = require("/modules/handlebars.js").Handlebars;
 
 var getTenantID = function() {
     if(!(typeof session === "undefined")){
@@ -27,7 +28,7 @@ var getApp = function(id, tenantDomain){
 var buildInstallParam = function(ctx){
 	var installParam = configs.mam.archieve_location+ctx.url;
 	if (ctx.platform.toUpperCase() == 'IOS'){
-		installParam = configs.mam.archieve_location+"/mam/api/apps/install/ios/"+ctx.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+		installParam = configs.mam.archieve_location+"/emm/api/apps/install/ios/"+ctx.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
 	}
 	if(ctx.type == "Market" || ctx.type == "VPP"){
 		if(ctx.platform.toUpperCase() == 'IOS'){

@@ -1,4 +1,4 @@
-USE `EMM_DB`;
+USE `WSO2EMM_DB`;
 -- MySQL dump 10.13  Distrib 5.5.29, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: EMM_DB
@@ -338,7 +338,7 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `device_awake`;
-CREATE  TABLE `EMM_DB`.`device_awake` (
+CREATE  TABLE `device_awake` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `device_id` INT(11) NULL DEFAULT NULL ,
   `sent_date` DATETIME NULL DEFAULT NULL ,
@@ -355,7 +355,7 @@ COMMENT = 'status will be S (Sent), P (Processed), E (Error / Exception) and D (
 --
 
 DROP TABLE IF EXISTS `device_pending`;
-CREATE  TABLE `EMM_DB`.`device_pending` (
+CREATE  TABLE `device_pending` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `tenant_id` INT(11) NULL DEFAULT NULL ,
   `user_id` VARCHAR(255) NULL DEFAULT NULL ,
