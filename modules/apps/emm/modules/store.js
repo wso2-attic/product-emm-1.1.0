@@ -136,7 +136,7 @@ var store = (function() {
     var buildInstallParam = function(ctx) {
         var installParam = configsFile.mam.archieve_location + ctx.url;
         if (ctx.platform.toUpperCase() == 'IOS') {
-            installParam = configsFile.mam.archieve_location + "/mam/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
+            installParam = configsFile.mam.archieve_location + "/emm/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
         }
         if (ctx.type == "Market" || ctx.type == "VPP") {
             if (ctx.platform.toUpperCase() == 'IOS') {
