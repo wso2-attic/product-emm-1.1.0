@@ -58,16 +58,19 @@ jQuery("#tenetForm").submit(function(e) {
 
     $('input').each(function(){
 
-        if($(this).attr('id').startsWith('email')){
-            if(!($(this).attr('id') == 'emailSenderAddress' || $(this).attr('id') == 'emailSenderPassword')){
-
+       
+        if($('#emailSenderAddress').val() != ""){
+             if($(this).attr('id').startsWith('email')){
+        
                 emailFieldCount++;
                 if($(this).val() != ""){
                     emailFieldFilledCount++;
                 }
-            }    
+              
 
+            }
         }
+       
         
         
         if($(this).attr('id').startsWith('ios')){
