@@ -457,7 +457,7 @@ var notification = (function() {
                     var responseData = ctx.data;
                     if (responseData != undefined && responseData != null) {
                         // log.info(responseData);
-                       var responseData = parse(responseData).data; 
+                       var responseData = parse(responseData).data;
 
                         //Update the notifications table
                         for (var i=0; i<responseData.length; ++i) {
@@ -465,8 +465,8 @@ var notification = (function() {
                             // log.info(responseData[i]);
                             var featureData = responseData[i].data;
                             var messageId = featureData[0].messageId;
-                            if(featureData[0].data != null) {
-                                sentMessage = featureData[0].data[0];
+                            if (responseData[i].code == '500A' || responseData[i].code == '502A') {
+                                sentMessage = featureData[0].data[0].data;
                             } else {
                                 sentMessage = featureData[0].data;
                             }
