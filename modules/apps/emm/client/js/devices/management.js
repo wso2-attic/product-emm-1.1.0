@@ -1,7 +1,8 @@
+
 var selectbox = '<select name="featureList" id="featureList" class="dropdownimage" style="width:300px">';
 selectbox +=										'<option value="">-- Select an operation to Apply --</option>';
 selectbox +=											"{{#data.features}}{{#compare feature_type 'OPERATION'}}";
-selectbox +=											'<option value="{{name}}" data-image="https://localhost:9443/emm/themes/wso2sinine/img/features/{{name}}.png">{{description}}</option>';
+selectbox +=											'<option value="{{name}}" data-image="../themes/' + uiConfig.EMM_THEME + '/img/features/{{name}}.png">{{description}}</option>';
 selectbox +=											'{{/compare}}{{/data.features}}';
 selectbox +=											'</select>';
 
