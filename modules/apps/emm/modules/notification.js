@@ -446,6 +446,7 @@ var notification = (function() {
             Retrieve Pending operations for the device (Android)
          */
         getAndroidOperations: function(ctx) {
+            var sentMessage;
             var regId = ctx.regId;
             var receivedDate;
             if(regId){
@@ -456,7 +457,7 @@ var notification = (function() {
                     var responseData = ctx.data;
                     if (responseData != undefined && responseData != null) {
                         // log.info(responseData);
-                       var responseData = parse(responseData).data; 
+                       var responseData = parse(responseData).data;
 
                         //Update the notifications table
                         for (var i=0; i<responseData.length; ++i) {
@@ -464,7 +465,11 @@ var notification = (function() {
                             // log.info(responseData[i]);
                             var featureData = responseData[i].data;
                             var messageId = featureData[0].messageId;
-                            var sentMessage = featureData[0].data;
+                            if (responseData[i].code == '500A' || responseData[i].code == '502A') {
+                                sentMessage = featureData[0].data[0].data;
+                            } else {
+                                sentMessage = featureData[0].data;
+                            }
                             receivedDate = common.getCurrentDateTime();
                             if (messageId != 'null' && messageId != null) {
                                 driver.query(sqlscripts.notifications.update8, sentMessage, receivedDate, messageId);

@@ -268,8 +268,8 @@ function loadAppList(tabId, deviceId) {
 		type : "GET",
 		dataType : "json",
 		success : function(appList) {
-			appList.received_data = JSON.parse(appList.received_data)[0].data;
-			
+			//appList.received_data = JSON.parse(appList.received_data)[0].data;
+			appList.received_data = JSON.parse(appList.received_data);
 			
 			//limit to 100
 			if(appList.received_data.length > 50){
@@ -331,8 +331,9 @@ function loadGeneralInformation(tabId, deviceId) {
 		dataType : "json",
 		success : function(genInfo) {
 
-			genInfo.received_data = JSON.parse(genInfo.received_data)[0].data;
-            //alert(JSON.stringify(genInfo.received_data]));
+			//genInfo.received_data = JSON.parse(genInfo.received_data).data;
+            genInfo.received_data = JSON.parse(genInfo.received_data);
+            
 			$.get('../client/partials/users/geninfo.hbs', function(templateData) {
 				var template = Handlebars.compile(templateData);
 				$("#gen-info-" + tabId).html(template({
