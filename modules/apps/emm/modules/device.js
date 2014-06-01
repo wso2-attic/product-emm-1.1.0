@@ -1069,7 +1069,15 @@ var device = (function () {
                     var removeRoles = new Array("Internal/everyone", "portal", "wso2.anonymous.role", "reviewer","private_kasun:wso2mobile.com");
                     var roles = common.removeNecessaryElements(roleList,removeRoles);
                     var role = roles[0];
-                    driver.query(sqlscripts.devices.insert1, tenantId, ctx.osversion, createdDate, ctx.properties, ctx.regid, userId, platformId, ctx.vendor, ctx.mac);
+                    var byod = 0;
+                    if(ctx.type == 'BYOD') {
+                        //Type = BYOD
+                        byod = 1;
+                    } else {
+                        //Type = COPE
+                        byod = 0;
+                    }
+                    driver.query(sqlscripts.devices.insert1, tenantId, ctx.osversion, createdDate, ctx.properties, ctx.regid, byod, userId, platformId, ctx.vendor, ctx.mac);
                     var devices = driver.query(sqlscripts.devices.select19, ctx.regid);
                     var deviceID = devices[0].id;
                     log.debug("Android Device has been registered "+ctx.regid);

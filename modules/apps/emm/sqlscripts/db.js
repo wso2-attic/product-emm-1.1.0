@@ -52,7 +52,7 @@ var devices = {
     'select47':"SELECT devices.id as id from devices JOIN platforms ON platforms.id = devices.platform_id WHERE type_name = 'Android' AND devices.tenant_id = ?",
     'select48':"SELECT mac FROM devices WHERE udid = ?",
 
-    'insert1' : "INSERT INTO devices (tenant_id, os_version, created_date, properties, reg_id, status, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, ?, ?, ?,'A','0', ?, ?, ?,'0', ?)",
+    'insert1' : "INSERT INTO devices (tenant_id, os_version, created_date, properties, reg_id, status, byod, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, ?, ?, ?,'A', ?, '0', ?, ?, ?,'0', ?)",
     'insert2' : "INSERT INTO devices (tenant_id, user_id, platform_id, reg_id, properties, created_date, status, byod, deleted, vendor, udid) SELECT tenant_id, user_id, platform_id, ?, ?, created_date, status, byod, 0, vendor, udid FROM device_pending WHERE udid = ?",
 
     'update1' : "UPDATE devices SET status = ? WHERE id = ?",
