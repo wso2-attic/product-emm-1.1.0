@@ -190,14 +190,14 @@ var mdm_reports = (function () {
             var appsStore = store.getAppsFromStorePackageAndName();
             
             log.info("APPPPSSS " + appsStore);
-           
+            
             
             if (platform == 0) {
             	queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND received_date != 'null' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.id";
-                
+               
             	devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
-                log.info("DFSFDSFDSFFDS");
-                return;
+                //log.info("DFSFDSFDSFFDS");
+                //return;
             } else {
             	queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND received_date != '6' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id AND p.type = ?) WHERE feature_code = ? ORDER BY n.id";
             	devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, platform, GET_APP_FEATURE_CODE);

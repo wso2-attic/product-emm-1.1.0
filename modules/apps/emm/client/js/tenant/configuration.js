@@ -32,6 +32,9 @@ $(document).ready(function() {
             if (data.hasOwnProperty(key)) {
                 $("#" + key).val(data[key]);
             }
+            
+            $('#aPNSCertFileName').html(data.iosAPNSCertFileName);
+            $('#mDMCertFileName').html(data.iosMDMCertFileName);
         }
         
         toggleAPNSCerts();
@@ -125,11 +128,13 @@ jQuery("#tenetForm").submit(function(e) {
 
 $('#iosAPNSCert').change(function(){
     $('#iosAPNSCertModified').val("true");
+    $('#aPNSCertFileName').html("");
     toggleAPNSCerts();
 });
 
 $('#iosMDMCert').change(function(){
     $('#iosMDMCertModified').val("true");
+     $('#mDMCertFileName').html("");
     toggleMDMCerts();
 });
 
