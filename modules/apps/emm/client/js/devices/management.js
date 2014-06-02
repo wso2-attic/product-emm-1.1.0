@@ -311,7 +311,7 @@ function performOperation(devices, feature, params) {
                 $("#featureList").msDropdown().data("dd").setIndexByValue("");
                 $("#featureList").val("");
                 $noty.close();
-
+                
             }
 
 
@@ -394,6 +394,14 @@ $('#featureModal').on('click', '.feature-command', function(e) {
     performOperation(selectedDevices, selectedFeature, {
         data : params
     });
+
+});
+
+
+$('#featureModal').on('click', '.btn-cancel', function(e) {
+     $("#featureList").msDropdown().data("dd").setIndexByValue("");
+    $("#featureList").val("");
+
 
 });
 
