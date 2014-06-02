@@ -16,11 +16,15 @@ var group = (function () {
 		    }
 		});
         router.put('groups/invite', function(ctx){
-            var users= group.getUsersOfGroup(ctx);
-			for (var i = users.length - 1; i >= 0; i--){
-				user.sendEmail(user.getUser({email: users[i].email+"@"+ user.getTenantDomainFromID(common.getTenantID())}));
-			};
-            response.status = 200;
+            if(user.isEmailConfigured) {
+                var users= group.getUsersOfGroup(ctx);
+                for (var i = users.length - 1; i >= 0; i--){
+                    user.sendEmail(user.getUser({email: users[i].email+"@"+ user.getTenantDomainFromID(common.getTenantID())}));
+                };
+                response.status = 200;
+            } else {
+                response.status = 403;
+            }
         });
 		router.delete('groups/{groupid}', function(ctx){
             log.debug("Test Delete Router");
