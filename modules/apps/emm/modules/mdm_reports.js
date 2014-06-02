@@ -3,12 +3,9 @@ var mdm_reports = (function () {
 
     var deviceModule = require('device.js').device;
     var device;
-    
     var storeModule = require('/modules/store.js').store;
     var store = new storeModule(db);
-    
     var GET_APP_FEATURE_CODE = '502A';
-
     var common = require("common.js");
 
     var configs = {
@@ -32,6 +29,7 @@ var mdm_reports = (function () {
         }
         return true;
     }
+
     function getComplianceInfoFromReceivedData(receivedData){
         var newArray = new Array();
         for(var i = 0; i< receivedData.length; i++){
@@ -55,6 +53,7 @@ var mdm_reports = (function () {
         }
         return newArray;
     }
+
     function getComplianceStateChanges(result,deviceID){
         var currentState = device.getCurrentDeviceState(parseInt(deviceID));
         if(currentState == 'A'){
@@ -88,6 +87,7 @@ var mdm_reports = (function () {
         }
         return  array;
     }
+
     module.prototype = {
         constructor: module,
         getDevicesByRegisteredDate:function(ctx){
@@ -122,6 +122,7 @@ var mdm_reports = (function () {
                 return null;
             }
         },
+
         getDevicesByComplianceState:function(ctx){
              var zeros = ' 00:00:00';
              var ends = ' 23:59:59';
@@ -154,6 +155,7 @@ var mdm_reports = (function () {
                  return null;
              }
         },
+
         getComplianceStatus:function(ctx){
             var zeros = ' 00:00:00';
             var ends = ' 23:59:59';
@@ -169,9 +171,7 @@ var mdm_reports = (function () {
             }
             //var result = driver.query("select * from notifications where feature_code = '501P' && device_id ="+ctx.deviceID+"&& received_date between '"+startDate+"' and '"+endDate+"' and tenant_id = "+common.getTenantID());
             var result = driver.query("select * from notifications where feature_code = '501P' and device_id = ? and received_date between ? and ? and tenant_id = ?",ctx.deviceID,startDate,endDate,common.getTenantID());
-            
-            
-            
+
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null){
                 var stateChangesArray = getComplianceStateChanges(result,ctx.deviceID);
                 return stateChangesArray;
@@ -179,28 +179,32 @@ var mdm_reports = (function () {
                 return null;
             }
         },
-        
-        
-        
-        
+
         getInstalledApps:function(params){
         	var queryString;
         	var devicesInfo;
         	var platform = params.platformType;
             var appsStore = store.getAppsFromStorePackageAndName();
             
-            log.info("APPPPSSS " + appsStore);
-            
-            
-            if (platform == 0) {
-            	queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND received_date != 'null' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.id";
-               
-            	devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
-                //log.info("DFSFDSFDSFFDS");
-                //return;
-            } else {
-            	queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND received_date != '6' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id AND p.type = ?) WHERE feature_code = ? ORDER BY n.id";
-            	devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, platform, GET_APP_FEATURE_CODE);
+            try {
+                if (platform == 0) {
+                    log.info("platform 0 ");
+                    queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n " +
+                        "JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt " +
+                        "ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) " +
+                        "JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.id";
+
+                    devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
+                } else {
+                    log.info("platform else  >>>>>>>>>> ");
+                    queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n " +
+                        "JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt " +
+                        "ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) " +
+                        "JOIN platforms as p ON (p.id = d.platform_id AND p.type = ?) WHERE feature_code = ? ORDER BY n.id";
+                    devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, platform, GET_APP_FEATURE_CODE);
+                }
+            } catch(e) {
+                log.error(e);
             }
 
             var deviceInfo;
@@ -242,7 +246,6 @@ var mdm_reports = (function () {
             installedApps = installedApps.sort(compare);
             // Get the first 10 applications name list.
             installedApps = installedApps.slice(0,10);
-            
             return installedApps;
         },
 
@@ -252,7 +255,7 @@ var mdm_reports = (function () {
             var deviceInfo, devicesInfo;
             //Create the db query based on user id provided
             user_id = params.userid;
-            tenant_id = session.get("mamConsoleUser").tenantId;
+            tenant_id = session.get("emmConsoleUser").tenantId;
             if (user_id) {
                 queryString = "SELECT n.user_id,p.type_name, d.os_version, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code=? AND user_id=? AND tenant_id=? AND received_date != 'NULL' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id,n.device_id";
                 devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, user_id, tenant_id, GET_APP_FEATURE_CODE);
@@ -294,15 +297,8 @@ var mdm_reports = (function () {
             }
             return results;
         }
-        
-        
-        
-        
-        
-        
     };
-    
-    
+
     /* Compares by the count and sort in descending order. */
     function compare(a,b) {
     	  if (a.count > b.count)
@@ -311,10 +307,6 @@ var mdm_reports = (function () {
     	    return 1;
     	  return 0;
     }
-    
-    
-    
-    
     
     return module;
 })();
