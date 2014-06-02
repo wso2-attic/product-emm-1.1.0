@@ -83,9 +83,13 @@ var user = (function (){
 			log.debug('email sending to user');
 			var u = user.getUser(ctx)[0];
 			if(u!=null){
-				user.sendEmail(u.email, u.first_name);
-				log.debug('Email sent to user with id '+u.email);
-				return;
+                if(user.isEmailConfigured) {
+                    user.sendEmail(u.email, u.first_name);
+                    log.debug('Email sent to user with id '+u.email);
+                    return;
+                } else {
+                    response.status = 403;
+                }
 			}
 			response.status = 404;
 		    print("User not found");
@@ -183,9 +187,14 @@ var user = (function (){
             log.debug('email sending to user');
 			var u = user.getUser(ctx);
 			if(u!=null){
-				user.sendEmail({'email':String(u.email), 'firstName': String(u.firstName)});
-				log.debug('Email sent to user with id '+u.email);
-				return;
+                if(user.isEmailConfigured) {
+                    user.sendEmail({'email':String(u.email), 'firstName': String(u.firstName)});
+                    log.debug('Email sent to user with id '+u.email);
+                    return;
+                } else {
+                    response.status = 403;
+                }
+
 			}
 			response.status = 404;
 		    print("User not found");

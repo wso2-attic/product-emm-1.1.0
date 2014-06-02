@@ -44,7 +44,7 @@ oTable = $('#main-table').dataTable({
              "mData": null,
             "fnRender": function (oObj)                              
             {                           
-                var imei = "" 
+                var imei = "No IMEI" 
                     
                 if( oObj.aData[2] != null){
                     imei = oObj.aData[2]
