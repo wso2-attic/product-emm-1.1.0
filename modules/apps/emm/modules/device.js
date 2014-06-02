@@ -264,14 +264,16 @@ var device = (function () {
     }
     function checkPermission(roles,featureName){
 
-        var whereRoles = stringify(roles);
-        whereRoles = '(' + whereRoles.substring(1, whereRoles.length - 1) + ')';
-        whereRoles = stringify(whereRoles.replace(/"/g, "'"));
-        whereRoles = whereRoles.substring(1, whereRoles.length - 1);
+        var whereRoles = '';
+        for(var i=0;i<roles.length;++i) {
+            whereRoles = whereRoles + '\'' + roles[i] + '\',';
+        }
+        whereRoles = '(' + whereRoles.substring(0, whereRoles.length - 1) + ')';
+
         var result;
         try {
-            //result = db.query("SELECT content FROM permissions where role in " + whereRoles + " AND tenant_id = ?",common.getTenantID());
             result = driver.query("SELECT content FROM permissions where role in " + whereRoles + " AND tenant_id = ?", common.getTenantID());
+            //result = driver.query("SELECT content FROM permissions where role in ? AND tenant_id = ?", whereRoles, common.getTenantID());
             for(var i=0;i<result.length;i++) {
                 var resultString = result[i].content.replace(/"/g,"");
                 var newArray = (resultString.substring(1, resultString.length -1)).split(",");
@@ -285,7 +287,6 @@ var device = (function () {
         } catch(e) {
             log.error(e);
         }
-
         return false;
     }
 

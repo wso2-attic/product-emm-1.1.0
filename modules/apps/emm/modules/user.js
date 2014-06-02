@@ -791,31 +791,33 @@ var user = (function () {
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
             if(emailConfigurations != null) {
-                var password_text = "";
-                if(ctx.generatedPassword){
-                    password_text = "Your password to your login : "+ctx.generatedPassword;
-                }
-                content = "Dear " + ctx.firstName +", \n" + emailConfigurations.EmailTemplate[0] +" \n \n"
+                if(String(emailConfigurations.SenderAddress[0].trim()) != "") {
+                    var password_text = "";
+                    if(ctx.generatedPassword){
+                        password_text = "Your password to your login : "+ctx.generatedPassword;
+                    }
+                    content = "Dear " + ctx.firstName +", \n" + emailConfigurations.EmailTemplate[0] +" \n \n"
                         + config.HTTPS_URL + "/emm/api/device_enroll \n " + password_text + " \n" + tenantCopyRight.CompanyName[0];
-                subject = "EMM Enrollment";
+                    subject = "EMM Enrollment";
 
-                var email = require('email');
-                var smtp = emailConfigurations.SMTP[0];
-                var smtpPort = emailConfigurations.Port[0];
-                var senderAddress = emailConfigurations.SenderAddress[0];
-                var senderPassword = emailConfigurations.EmailPassword[0];
-                var sender = new email.Sender(String(emailConfigurations.SMTP[0]), String(emailConfigurations.Port[0]),
-                                            String(emailConfigurations.SenderAddress[0]), String(emailConfigurations.EmailPassword[0]), "tls");
-                sender.from = String(emailConfigurations.SenderAddress[0]);
+                    var email = require('email');
+                    var smtp = emailConfigurations.SMTP[0];
+                    var smtpPort = emailConfigurations.Port[0];
+                    var senderAddress = emailConfigurations.SenderAddress[0];
+                    var senderPassword = emailConfigurations.EmailPassword[0];
+                    var sender = new email.Sender(String(emailConfigurations.SMTP[0]), String(emailConfigurations.Port[0]),
+                        String(emailConfigurations.SenderAddress[0]), String(emailConfigurations.EmailPassword[0]), "tls");
+                    sender.from = String(emailConfigurations.SenderAddress[0]);
 
-                log.info("Email sent to -> " + ctx.email);
-                sender.to = stringify(ctx.email);
-                sender.subject = subject;
-                sender.text = content;
-                try{
-                    sender.send();
-                }catch(e){
-                    log.error(e);
+                    log.info("Email sent to -> " + ctx.email);
+                    sender.to = stringify(ctx.email);
+                    sender.subject = subject;
+                    sender.text = content;
+                    try{
+                        sender.send();
+                    }catch(e){
+                        log.error(e);
+                    }
                 }
             }
         },
