@@ -44,7 +44,12 @@ oTable = $('#main-table').dataTable({
              "mData": null,
             "fnRender": function (oObj)                              
             {                           
-                return "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>"+  oObj.aData[2] +"</a>";
+                var imei = "N/A" 
+                    
+                if( oObj.aData[2] != null){
+                    imei = oObj.aData[2]
+                }
+                return "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>"+  imei +"</a>";
             }
         },
         null,
@@ -306,7 +311,7 @@ function performOperation(devices, feature, params) {
                 $("#featureList").msDropdown().data("dd").setIndexByValue("");
                 $("#featureList").val("");
                 $noty.close();
-
+                
             }
 
 
@@ -389,6 +394,14 @@ $('#featureModal').on('click', '.feature-command', function(e) {
     performOperation(selectedDevices, selectedFeature, {
         data : params
     });
+
+});
+
+
+$('#featureModal').on('click', '.btn-cancel', function(e) {
+     $("#featureList").msDropdown().data("dd").setIndexByValue("");
+    $("#featureList").val("");
+
 
 });
 
