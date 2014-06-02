@@ -581,6 +581,7 @@ var user = (function () {
 
             if(iOSMDMConfigurations != null) {
                 jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password[0];
+                jsonBuilder.iosMDMCertFileName = iOSMDMConfigurations.properties.Filename[0];
                 jsonBuilder.iosMDMTopic = iOSMDMConfigurations.properties.TopicID[0];
                 if(iOSMDMConfigurations.properties.Production[0] = "true") {
                     jsonBuilder.iosMDMMode = "production";
@@ -595,6 +596,7 @@ var user = (function () {
 
             if(iOSAPNSConfigurations != null) {
                 jsonBuilder.iosAPNSPass = iOSAPNSConfigurations.properties.Password[0];
+                jsonBuilder.iosAPNSCertFileName = iOSAPNSConfigurations.properties.Filename[0];
                 if(iOSAPNSConfigurations.properties.Production[0] = "true") {
                     jsonBuilder.iosAPNSMode = "production";
                 } else {
