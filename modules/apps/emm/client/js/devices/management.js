@@ -44,7 +44,12 @@ oTable = $('#main-table').dataTable({
              "mData": null,
             "fnRender": function (oObj)                              
             {                           
-                return "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>"+  oObj.aData[2] +"</a>";
+                var imei = "N/A" 
+                    
+                if( oObj.aData[2] != null){
+                    imei = oObj.aData[2]
+                }
+                return "<a href='/emm/users/devices?user="  + oObj.aData[3] + "#device-tab-"+ oObj.aData[0]+"'>"+  imei +"</a>";
             }
         },
         null,
