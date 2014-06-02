@@ -282,15 +282,31 @@ $( "#main-table" ).on( "click", ".btn-invite", function() {
 			     	dataType : "json",
 			     	statusCode: {
 						400: function() {
-							n.close();
+							n.setTimeout(0);
 							noty({
 								text : 'Error occured!',
 								'layout' : 'center',
 								'type': 'error'
 							});
 						},
+                        404: function() {
+							n.setTimeout(0);
+							noty({
+								text : 'Error occured!',
+								'layout' : 'center',
+								'type': 'error'
+							});
+						},
+                        403: function() {
+							n.setTimeout(0);
+							noty({
+								text : 'Please configure email before inviting a user!',
+								'layout' : 'center',
+								'type': 'error'
+							});
+						},
 						500: function() {
-							n.close();
+							n.setTimeout(0);
 							noty({
 								text : 'Fatal error occured!',
 								'layout' : 'center',
