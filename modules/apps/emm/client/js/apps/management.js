@@ -541,7 +541,7 @@ $( "#mobile-apps-platform-filter" ).change(function() {
 
 
 $( "#mobile-apps-search" ).keyup(function() {
-    var search = $(this).val();
+    var search = $(this).val().toLowerCase();
     $( ".app_box" ).each(function( index ) {
       
         if($(this).data('name').toLowerCase().indexOf(search) > -1){

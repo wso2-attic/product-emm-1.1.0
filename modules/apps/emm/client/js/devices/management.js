@@ -400,7 +400,7 @@ $('#featureModal').on('click', '.feature-command', function(e) {
 
 $('#featureModal').on('click', '.btn-cancel', function(e) {
      $("#featureList").msDropdown().data("dd").setIndexByValue("");
-    $("#featureList").val("");
+     $("#featureList").val("");
 
 
 });
