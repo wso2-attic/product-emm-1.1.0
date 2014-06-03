@@ -127,12 +127,34 @@ jQuery("#tenetForm").submit(function(e) {
 
 
 $('#iosAPNSCert').change(function(){
+    var extension = $(this).val().replace(/^.*\./, '');
+    if(extension != "pfx"){
+        $(this).val("");
+        var n = noty({
+            text : 'Please select a pfx file',
+            'layout' : 'center',
+            timeout: 1000,
+            type: "error"
+
+        });
+    }
     $('#iosAPNSCertModified').val("true");
     $('#aPNSCertFileName').html("");
     toggleAPNSCerts();
 });
 
 $('#iosMDMCert').change(function(){
+    var extension = $(this).val().replace(/^.*\./, '');
+    if(extension != "pfx"){
+        $(this).val("");
+        var n = noty({
+            text : 'Please select a pfx file',
+            'layout' : 'center',
+            timeout: 1000,
+            type: "error"
+
+        });
+    }
     $('#iosMDMCertModified').val("true");
      $('#mDMCertFileName').html("");
     toggleMDMCerts();
