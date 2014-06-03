@@ -4,7 +4,7 @@ var general = {
 
 var devices = {
     'select1' :"SELECT * FROM devices where id = ?",
-    'select2' :"SELECT platforms.type_name as label, count(devices.id) as devices, ROUND((count(devices.id)/(select count(id) from devices))*100,0) as data from platforms, devices where devices.platform_id = platforms.id AND devices.tenant_id = ? group by type",
+    'select2' :"SELECT platforms.type_name as label, count(devices.id) as devices, (select count(id) from devices) as data from platforms, devices where devices.platform_id = platforms.id AND devices.tenant_id = ? group by type",
     'select3' :"select count(id) as count from devices where tenant_id = ?",
     'select4' :"select count(id) as count from devices where byod=1 AND tenant_id = ?",
     'select5' :"select platforms.type_name from devices,platforms where platforms.id = devices.platform_id AND devices.id = ?",

@@ -24,6 +24,10 @@ var dashboard = (function() {
                     "devices": 0,
                     "data": 100
                 }];
+            } else {
+                for(var i=0;i<finalResult.length;++i){
+                    finalResult[i].data = parseInt(parseFloat(finalResult[i].devices/finalResult[i].data)*100);
+                }
             }
             return finalResult;
         },
