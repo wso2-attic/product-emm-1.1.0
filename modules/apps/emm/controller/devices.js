@@ -32,8 +32,10 @@ management = function(appController){
 	context.data = {		
 		tenantId:session.get("emmConsoleUser").tenantId,
 		features: features,
-		groups: groups
+		groups: groups,
+        url: context.config.HTTPS_URL
 	};
 	return context;
 
 };
+

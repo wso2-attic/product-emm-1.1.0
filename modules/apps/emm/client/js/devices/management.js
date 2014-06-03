@@ -311,7 +311,7 @@ function performOperation(devices, feature, params) {
                 $("#featureList").msDropdown().data("dd").setIndexByValue("");
                 $("#featureList").val("");
                 $noty.close();
-
+                
             }
 
 
@@ -396,5 +396,47 @@ $('#featureModal').on('click', '.feature-command', function(e) {
     });
 
 });
+
+
+$('#featureModal').on('click', '.btn-cancel', function(e) {
+     $("#featureList").msDropdown().data("dd").setIndexByValue("");
+     $("#featureList").val("");
+
+
+});
+
+
+$(".btn-enroll").click(function() {
+    var enrollURL = $(this).data('url') +  "/emm/api/device_enroll";
+         
+	noty({
+                        text : '<u>Enroll URL</u>: ' + enrollURL + '<div  id="qrcode" style="width:200px; padding-left:45px"></div>',
+                        buttons : [{
+                            addClass : 'btn btn-orange',
+                            text : 'OK',
+                            onClick : function($noty) {
+                                $noty.close();
+                            }
+
+
+                        }]
+                    });
+     updateQRCode(enrollURL);    
+
+}); 
+
+function updateQRCode(text) {
+
+    var element = document.getElementById("qrcode");
+
+
+
+    var bodyElement = document.body;
+    if(element.lastChild)
+        element.replaceChild(showQRCode(text), element.lastChild);
+    else
+        element.appendChild(showQRCode(text));
+
+}
 
 
