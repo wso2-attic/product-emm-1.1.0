@@ -496,6 +496,8 @@ var store = (function() {
             return returnResult;
         },
         uninstallApp: function(payload) {
+            payload = {devices: payload, operation: "UNINSTALLAPP"}
+            device.sendToDevices(payload);
         },
         installApp: function(payload) {
             payload = {devices: payload, operation: "INSTALLAPP"}

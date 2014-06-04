@@ -35,7 +35,7 @@
 
      <div class="container">
 	
-		<h3>License Agreement</h3>
+		<h3>Policy Agreement</h3>
 		<p style="text-align:justify;"><%
             var userModule = require('/modules/user.js').user;
             var db = application.get('db');
