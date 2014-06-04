@@ -117,7 +117,7 @@
 										{{#data.results}}
 											<tr>
 												<td>{{user_id}}</td>
-												<td><a href="devices_status?startdate={{../data.inputData.startdate}}&enddate={{../data.inputData.enddate}}&deviceid={{id}}&imei={{imei}}">{{imei}}</a></td>
+												<td><a href="devices_status?startdate={{../data.inputData.startdate}}&enddate={{../data.inputData.enddate}}&deviceid={{id}}&imei={{imei}}">{{#if imei}}{{imei}}{{else}}N/A{{/if}}</a></td>
 												<td>{{platform_name}}</td>
 												<td>{{os_version}}</td>
 												<td>{{#compare status 'Policy Compliance'}}<span style="color:green">Policy Compliance</span>{{else}}<span style="color:red">{{status}}</span>{{/compare}}</td>
