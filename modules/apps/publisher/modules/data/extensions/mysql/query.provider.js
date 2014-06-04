@@ -23,8 +23,7 @@ var queryProvider = function () {
     }
 
     return{
-        create: create,
-        checkIfTableExists:checkIfTableExists
+        create: create
     }
 };
 
