@@ -134,9 +134,9 @@ var store = (function() {
     ctx - url, platform, ctx.id, ctx.packageid
   */
     var buildInstallParam = function(ctx) {
-        var installParam = configsFile.mam.archieve_location + ctx.url;
+        var installParam = configsFile.mam.archieve_location_android + ctx.url;
         if (ctx.platform.toUpperCase() == 'IOS') {
-            installParam = configsFile.mam.archieve_location + "/emm/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
+            installParam = configsFile.mam.archieve_location_ios + "/emm/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
         }
         if (ctx.type == "Market" || ctx.type == "VPP") {
             if (ctx.platform.toUpperCase() == 'IOS') {

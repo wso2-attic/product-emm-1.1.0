@@ -26,9 +26,9 @@ var getApp = function(id, tenantDomain){
 	return app;
 }
 var buildInstallParam = function(ctx){
-	var installParam = configs.mam.archieve_location+ctx.url;
+	var installParam = configs.mam.archieve_location_android+ctx.url;
 	if (ctx.platform.toUpperCase() == 'IOS'){
-		installParam = configs.mam.archieve_location+"/emm/api/apps/install/ios/"+ctx.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+		installParam = configs.mam.archieve_location_ios+"/emm/api/apps/install/ios/"+ctx.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
 	}
 	if(ctx.type == "Market" || ctx.type == "VPP"){
 		if(ctx.platform.toUpperCase() == 'IOS'){
@@ -261,7 +261,7 @@ var app = {
         router.get("apps/install/ios/{id}", function(ctx) {
             var app = getApp(ctx.id, ctx.tenantDomain);
             var iosManifest = compileTemplate("/template.hbs", {
-                url: configs.mam.archieve_location + "" + app.attributes.overview_url,
+                url: configs.mam.archieve_location_ios + "" + app.attributes.overview_url,
                 bundleid: app.attributes.overview_packagename,
                 bundleversion: app.attributes.overview_bundleversion,
                 appname: app.attributes.overview_name

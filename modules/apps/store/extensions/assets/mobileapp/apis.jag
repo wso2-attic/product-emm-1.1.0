@@ -52,7 +52,7 @@ router.get("apps/install/ios/{id}", function(ctx){
 	var store = require("/modules/store.js").store(ctx.tenantDomain, session);
 	var app = store.asset(type, ctx.id);
 	//Assuming that the extension is of 3 letters
-	var iosManifest = compileTemplate("/template.hbs", {url:configs.archieve_location+""+app.attributes.overview_url, bundleid: app.attributes.overview_packagename, bundleversion: app.attributes.overview_bundleversion,  appname:app.attributes.overview_name});
+	var iosManifest = compileTemplate("/template.hbs", {url:configs.archieve_location_ios+""+app.attributes.overview_url, bundleid: app.attributes.overview_packagename, bundleversion: app.attributes.overview_bundleversion,  appname:app.attributes.overview_name});
 	response.contentType = "application/xml";
 	print(iosManifest);
 });
@@ -89,9 +89,9 @@ router.post('apps/devices/{deviceid}/uninstall', function(ctx){
 	emmServer.uninstall({identity: install_asset}, ctx.deviceid);
 });
 var buildInstallParam = function(asset){
-	var installParam = configs.mam.archieve_location+asset.attributes.overview_url;
+	var installParam = configs.mam.archieve_location_android+asset.attributes.overview_url;
 	if (asset.attributes.overview_platform.toUpperCase() == 'IOS'){
-		installParam = configs.mam.archieve_location+"/emm/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+		installParam = configs.mam.archieve_location_ios+"/emm/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
 	}
 	if(asset.attributes.overview_type == "Market"){
 		installParam = asset.attributes.overview_packagename;
