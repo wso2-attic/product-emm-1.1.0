@@ -138,12 +138,12 @@ var apimgr = (function() {
 			var cookie = this.login(publisherServiceURL);
 			
 			var allAPIs = new Array();
-			allAPIs.push({name:"sender_id", context:"/emm/api/devices/sender_id/", description:"Get sender id"});
-			allAPIs.push({name:"isregistered", context:"/emm/api/devices/isregistered/", description:"Device is registered?"});
-			allAPIs.push({name:"license", context:"/emm/api/devices/license/", description:"Get license."});
-			allAPIs.push({name:"register", context:"/emm/api/devices/register/", description:"Register device."});
-			allAPIs.push({name:"unregister", context:"/emm/api/devices/unregister/", description:"Unregister device"});
-			allAPIs.push({name:"pendingOperations", context:"/emm/api/devices/pendingOperations/", description:"Get pending operations."});
+			allAPIs.push({name:"sender_id", context:"/emm/api/devices/sender_id", description:"Get sender id"});
+			allAPIs.push({name:"isregistered", context:"/emm/api/devices/isregistered", description:"Device is registered?"});
+			allAPIs.push({name:"license", context:"/emm/api/devices/license", description:"Get license."});
+			allAPIs.push({name:"register", context:"/emm/api/devices/register", description:"Register device."});
+			allAPIs.push({name:"unregister", context:"/emm/api/devices/unregister", description:"Unregister device"});
+			allAPIs.push({name:"pendingOperations", context:"/emm/api/devices/pendingOperations", description:"Get pending operations."});
 
 			for(var i = 0; i < allAPIs.length; i++) {
 				this.publishAPIs(allAPIs[i], publisherServiceURL, cookie);
