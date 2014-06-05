@@ -50,7 +50,8 @@
     },
     "mam": {
         "store_location": "%https.ip%/store",
-        "archieve_location": "%https.ip%"
+        "archieve_location_ios": "%https.ip%",
+        "archieve_location_android": "%http.ip%"
     },
     "registry": {
         "oauthClientKey" : "/_system/config/emm/OAuthClientKey",

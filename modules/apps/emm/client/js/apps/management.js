@@ -287,6 +287,7 @@
                     }
                 });
                 $('#users button').removeClass('btn-success');
+                $('#users button').removeClass('btn-orange');
                 $('#users button').addClass('btn-danger').text("Uninstall");
                 $('#users button').off('click').click(function () {
                     var users = [];

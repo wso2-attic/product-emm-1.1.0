@@ -133,14 +133,27 @@ var store = (function() {
     /*
     ctx - url, platform, ctx.id, ctx.packageid
   */
+    
+    var getApp = function(id, tenantDomain){
+        var app =  module.prototype.getAppFromStore(id, tenantDomain);
+        
+        return app;
+    }
+    
+    
+    
     var buildInstallParam = function(ctx) {
-        var installParam = configsFile.mam.archieve_location + ctx.url;
+        
+        var installParam = configsFile.mam.archieve_location_android + ctx.url;
         if (ctx.platform.toUpperCase() == 'IOS') {
-            installParam = configsFile.mam.archieve_location + "/emm/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
+            installParam = configsFile.mam.archieve_location_ios + "/emm/api/apps/install/ios/" + ctx.id + "?tenantDomain=" + getTenantDomainFromID(getTenantID());
         }
         if (ctx.type == "Market" || ctx.type == "VPP") {
+            
             if (ctx.platform.toUpperCase() == 'IOS') {
+                
                 installParam = getApp(ctx.id).attributes.overview_appid;
+               
             } else {
                 installParam = ctx.packageid;
             }
@@ -260,6 +273,7 @@ var store = (function() {
         },
         getAppsFromStoreFormatted: function() {
             var apps = this.getAppsFromStore();
+            
             var fApps = [];
             for (var i = apps.length - 1; i >= 0; i--) {
                 var app = apps[i];
@@ -277,9 +291,11 @@ var store = (function() {
                 };
                 fApps.push(fApp);
             }
+           
             return fApps;
         },
         getAppFromStore: function(id, tenantDomain) {
+           
             if (!tenantDomain) {
                 tenantDomain = getTenantDomainFromID(getTenantID());
             }
@@ -599,6 +615,8 @@ var store = (function() {
             last_notification[0].received_data = JSON.parse(unescape(last_notification[0].received_data));
             return last_notification[0];
         }
+        
+        
     };
     // return module
     return module;
