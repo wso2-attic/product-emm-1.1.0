@@ -13,8 +13,9 @@
         "EMAIL": {
             "SMTPHOST": "smtp.gmail.com",
             "SMTPPORT": "25",
+            "USERNAME": "",
+            "PASSWORD": "",
             "SENDERADDRESS": "",
-            "SENDERPASSWORD": "",
             "TEMPLATE": "You have been registered to the WSO2 EMM. Below is the link to enroll."
         }
     },

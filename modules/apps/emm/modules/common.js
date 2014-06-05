@@ -36,6 +36,18 @@ var getTenantID = function() {
         }
     }
 }
+
+var getSessionInfo = function() {
+    if(!(typeof session === "undefined")){
+        var sessionInfo = session.get("emmConsoleUser");
+        if (sessionInfo && sessionInfo.tenantId != 0) {
+            return sessionInfo;
+        } else {
+            return null;
+        }
+    }
+}
+
 var getTenantIDFromEmail = function(email){
     var carbon = require('carbon');
     var tenantUser = carbon.server.tenantUser(email);

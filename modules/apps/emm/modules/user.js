@@ -102,6 +102,7 @@ var user = (function () {
             }
         };
     }
+
     function mergeRecursive(obj1, obj2) {
         for (var p in obj2) {
             try {
@@ -414,8 +415,9 @@ var user = (function () {
                 var defaultData = '{'
                     + '"emailSmtpHost" : "' + config.DEFAULT.EMAIL.SMTPHOST + '", '
                     + '"emailSmtpPort" : "' + config.DEFAULT.EMAIL.SMTPPORT + '", '
+                    + '"emailUsername" : "' + config.DEFAULT.EMAIL.USERNAME + '", '
+                    + '"emailPassword" : "' + config.DEFAULT.EMAIL.PASSWORD + '", '
                     + '"emailSenderAddress" : "' + config.DEFAULT.EMAIL.SENDERADDRESS + '", '
-                    + '"emailSenderPassword" : "' + config.DEFAULT.EMAIL.SENDERPASSWORD + '", '
                     + '"emailTemplate" : "' + config.DEFAULT.EMAIL.TEMPLATE + '", '
                     + '"uiTitle" : "' + config.DEFAULT.UITITLE + '", '
                     + '"uiCopyright" : "' + config.DEFAULT.UICOPYRIGHT + '", '
@@ -437,112 +439,126 @@ var user = (function () {
         saveTenantConfiguration: function(ctx, iOSMDMFile, iOSAPNSFile, tenantId, defaultConfig)  {
 
             //log.info(" >>>>> " + stringify(ctx));
-
             if(tenantId != null && tenantId != undefined) {
                 tenantId = parseInt(tenantId);
             } else {
                 tenantId = parseInt(common.getTenantID());
             }
 
-            var registry = storeRegistry.systemRegistry(tenantId);
+            var sessionInfo = common.getSessionInfo();
+            var sessionUserId;
+            if (sessionInfo != null) {
+                sessionUserId = sessionInfo.username;
+            } else {
+                sessionUserId = null;
+            }
 
             try {
+            var isSuccess = storeRegistry.sandbox({tenantId: tenantId, username: sessionUserId},
+                function () {
+                    var registry = storeRegistry.systemRegistry(tenantId);
+                        if (defaultConfig == null) {
+                            defaultConfig = "false";
+                            var iosMDMTopic = ctx.iosMDMTopic;
+                            var iOSMDMPassword = ctx.iosMDMPass;
+                            var iOSAPNSPassword = ctx.iosAPNSPass;
+                            var iOSMDMProduction, iOSAPNSProduction;
+                            var iOSMDMStream = "", iOSAPNSStream = "";
+                            if(ctx.iosAPNSMode == "production") {
+                                iOSAPNSProduction = "true";
+                            } else {
+                                iOSAPNSProduction = "false";
+                            }
+                            if(ctx.iosMDMMode == "production") {
+                                iOSMDMProduction = "true";
+                            } else {
+                                iOSMDMProduction = "false";
+                            }
 
-                if (defaultConfig == null) {
-                    defaultConfig = "false";
-                    var iosMDMTopic = ctx.iosMDMTopic;
-                    var iOSMDMPassword = ctx.iosMDMPass;
-                    var iOSAPNSPassword = ctx.iosAPNSPass;
-                    var iOSMDMProduction, iOSAPNSProduction;
-                    var iOSMDMStream = "", iOSAPNSStream = "";
-                    if(ctx.iosAPNSMode == "production") {
-                        iOSAPNSProduction = "true";
-                    } else {
-                        iOSAPNSProduction = "false";
-                    }
-                    if(ctx.iosMDMMode == "production") {
-                        iOSMDMProduction = "true";
-                    } else {
-                        iOSMDMProduction = "false";
-                    }
+                            if(ctx.iosMDMCertModified == "true") {
+                                if (iOSMDMFile == null) {
+                                    registry.remove(config.registry.iOSMDMCertificate);
+                                } else {
+                                    iOSMDMFile.open("r");
+                                    iOSMDMStream = iOSMDMFile.getStream();
+                                    registry.put(config.registry.iOSMDMCertificate, {
+                                        content: iOSMDMStream,
+                                        properties: {TopicID: iosMDMTopic, Password: iOSMDMPassword, Production: iOSMDMProduction, Filename: iOSMDMFile.getName()}
+                                    });
+                                    iOSMDMFile.close();
+                                }
+                            }
 
-                    if(ctx.iosMDMCertModified == "true") {
-                        if (iOSMDMFile == null) {
-                            registry.remove(config.registry.iOSMDMCertificate);
+                            if(ctx.iosAPNSCertModified == "true") {
+                                if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
+                                    registry.remove(config.registry.iOSAppCertificate);
+                                }else {
+                                    iOSAPNSFile.open("r");
+                                    iOSAPNSStream = iOSAPNSFile.getStream();
+                                    registry.put(config.registry.iOSAppCertificate, {
+                                        content: iOSAPNSStream,
+                                        properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction, Filename: iOSAPNSFile.getName()}
+                                    });
+                                    iOSAPNSFile.close();
+                                }
+                            }
+
+                            if(ctx.iosSCEPEmail.trim() != null) {
+                                //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
+                                registry.put(config.registry.scepConfiguration, {
+                                    content: config.registry.scepConfiguration,
+                                    properties: {CN: ctx.iosSCEPEmail.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
+                                        O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
+                                });
+                            }
+                        }
+
+                        if(ctx.emailUsername == null || ctx.emailSmtpHost == null || ctx.emailSmtpPort == null){
+                            registry.remove(config.registry.emailConfiguration);
                         } else {
-                            iOSMDMFile.open("r");
-                            iOSMDMStream = iOSMDMFile.getStream();
-                            registry.put(config.registry.iOSMDMCertificate, {
-                                content: iOSMDMStream,
-                                properties: {TopicID: iosMDMTopic, Password: iOSMDMPassword, Production: iOSMDMProduction, Filename: iOSMDMFile.getName()}
+                            registry.put(config.registry.emailConfiguration, {
+                                content: config.registry.emailConfiguration,
+                                properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(),
+                                    UserName: ctx.emailUsername.trim(), Password: ctx.emailPassword.trim(),
+                                    SenderAddress: ctx.emailSenderAddress.trim(), EmailTemplate: ctx.emailTemplate.trim()}
                             });
-                            iOSMDMFile.close();
                         }
-                    }
 
-                    if(ctx.iosAPNSCertModified == "true") {
-                        if (iOSAPNSFile == null || iOSAPNSPassword == null || iOSAPNSProduction == null) {
-                            registry.remove(config.registry.iOSAppCertificate);
-                        }else {
-                            iOSAPNSFile.open("r");
-                            iOSAPNSStream = iOSAPNSFile.getStream();
-                            registry.put(config.registry.iOSAppCertificate, {
-                                content: iOSAPNSStream,
-                                properties: {Password: iOSAPNSPassword, Production: iOSAPNSProduction, Filename: iOSAPNSFile.getName()}
+                        //Client Serect and Client Key
+                        if(ctx.clientkey != null) {
+                            registry.put(config.registry.oauthClientKey, {
+                                content: config.registry.oauthClientKey,
+                                properties: {ClientKey: ctx.clientkey.trim(), ClientSecret: ctx.clientsecret.trim()}
                             });
-                            iOSAPNSFile.close();
                         }
-                    }
 
-                    if(ctx.iosSCEPEmail.trim() != null) {
-                        //C="COUNTRY" ST="STATE" L="LOCALITY" O="ORGANISATION" OU="ORGANISATIONUNIT" CN="COMMONNAME
-                        registry.put(config.registry.scepConfiguration, {
-                            content: config.registry.scepConfiguration,
-                            properties: {CN: ctx.iosSCEPEmail.trim(), C: ctx.iosSCEPCountry.trim(), ST: ctx.iosSCEPState.trim(), L: ctx.iosSCEPLocality.trim(),
-                                O: ctx.iosSCEPOrganisation.trim(), OU: ctx.iosSCEPOrganisationUnit.trim()}
-                        });
-                    }
-                }
-
-                if(ctx.emailSenderAddress == null || ctx.emailSmtpHost == null || ctx.emailSmtpPort == null){
-                    registry.remove(config.registry.emailConfiguration);
-                } else {
-                    registry.put(config.registry.emailConfiguration, {
-                        content: config.registry.emailConfiguration,
-                        properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(),
-                            SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
-                    });
-                }
-
-                //Client Serect and Client Key
-                if(ctx.clientkey != null) {
-                    registry.put(config.registry.oauthClientKey, {
-                        content: config.registry.oauthClientKey,
-                        properties: {ClientKey: ctx.clientkey.trim(), ClientSecret: ctx.clientsecret.trim()}
-                    });
-                }
-
-                //Android GCM keys
-                registry.put(config.registry.androidGCMKeys, {
-                    content: config.registry.androidGCMKeys,
-                    properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim(), AndroidMonitorType:ctx.androidNotifier.trim(),
+                        //Android GCM keys
+                        registry.put(config.registry.androidGCMKeys, {
+                            content: config.registry.androidGCMKeys,
+                            properties: {APIKeys: ctx.androidApiKeys.trim(), SenderIds: ctx.androidSenderIds.trim(), AndroidMonitorType:ctx.androidNotifier.trim(),
                                 AndroidNotifierFreq: ctx.androidNotifierFreq}
+                        });
+
+                        if(ctx.uiLicence == null || ctx.uiLicence.trim() == null) {
+                            registry.remove(config.registry.tenantLicense);
+                        } else {
+                            registry.put(config.registry.tenantLicense, {
+                                content: ctx.uiLicence.trim()
+                            });
+                        }
+                        registry.put(config.registry.copyright, {
+                            content: config.registry.copyright,
+                            properties: {CompanyName: ctx.companyName.trim(), Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
+                        });
+
+                        return true;
                 });
 
-                if(ctx.uiLicence == null || ctx.uiLicence.trim() == null) {
-                    registry.remove(config.registry.tenantLicense);
+                if (isSuccess == true) {
+                    return true;
                 } else {
-                    registry.put(config.registry.tenantLicense, {
-                        content: ctx.uiLicence.trim()
-                    });
+                    return false;
                 }
-
-                registry.put(config.registry.copyright, {
-                    content: config.registry.copyright,
-                    properties: {CompanyName: ctx.companyName.trim(), Title: ctx.uiTitle.trim(), Footer: ctx.uiCopyright.trim(), default: defaultConfig}
-                });
-
-                return true;
 
             } catch (e) {
                 log.error(e);
@@ -610,10 +626,10 @@ var user = (function () {
             if(emailConfigurations != null) {
                 jsonBuilder.emailSmtpHost = emailConfigurations.SMTP[0];
                 jsonBuilder.emailSmtpPort = emailConfigurations.Port[0];
+                jsonBuilder.emailUsername = emailConfigurations.UserName[0];
+                jsonBuilder.emailPassword = emailConfigurations.Password[0];
                 jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress[0];
-                jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword[0];
                 jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate[0];
-
             }
 
             if(scepConfiguration != null) {
@@ -657,36 +673,100 @@ var user = (function () {
         },
 
         /*
-            Retreive the Properties from Registry
+            Retrieve registry value
          */
-        getPropertiesFromRegistry: function(tenantId, registryPath) {
-            var registry = storeRegistry.systemRegistry(tenantId);
-            var resource = registry.get(registryPath);
+        getRegistry: function(tenantId, registryPath) {
+            return storeRegistry.sandbox({tenantId: tenantId},
+                function () {
+                    var registryObj = {};
+                    var registry = storeRegistry.systemRegistry(tenantId);
+                    var resoucre = registry.get(registryPath);
+                    if(resoucre != null) {
+                        registryObj.content = resoucre.content;
+                        registryObj.properties = resoucre.properties();
+                        return registryObj;
+                    } else {
+                        return null;
+                    }
+                });
+        },
+
+        /*
+         Retrieve the Android GCM Keys for tenant from registry
+         */
+        getAndroidGCMKeys: function(tenantId) {
+            var resource = this.getRegistry(tenantId, config.registry.androidGCMKeys);
             if(resource != null) {
-                return resource.properties();
+                return resource.properties;
+            }
+            return null;
+        },
+
+        /*
+            Retrieve email configuration for tenant from registry
+         */
+        getEmailConfigurations: function(tenantId) {
+            var resource = this.getRegistry(tenantId, config.registry.emailConfiguration);
+            if(resource != null) {
+                return resource.properties;
+            }
+            return null;
+        },
+
+        /*
+            Retrieve SCEP configuration
+         */
+        getSCEPConfiguration: function(tenantId) {
+            var resource = this.getRegistry(tenantId, config.registry.scepConfiguration);
+            if(resource != null) {
+                return resource.properties;
+            }
+            return null;
+        },
+
+        /*
+            Retrieve Copyright
+         */
+        getTenantCopyRight: function(tenantId) {
+            var resource = this.getRegistry(tenantId, config.registry.copyright);
+            if(resource != null) {
+                return resource.properties;
+            }
+            return null;
+        },
+
+        /*
+         Retrieve Tenant's OAuth Client ID and Client Secret
+         */
+        getOAuthClientKey: function(tenantId) {
+            var resource = this.getRegistry(tenantId, config.registry.oauthClientKey);
+            if(resource != null) {
+                return resource.properties;
+            }
+            return null;
+        },
+
+        /*
+         Retrieve License
+         */
+        getTenantLicense: function(tenantId){
+            var resource = this.getRegistry(tenantId, config.registry.tenantLicense);
+            if(resource != null) {
+                return resource.content;
             } else {
                 return null;
             }
         },
 
         /*
-            Retrieve the Android GCM Keys for tenant from registry
-         */
-        getAndroidGCMKeys: function(tenantId) {
-            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.androidGCMKeys);
-            return properties;
-        },
-
-        /*
-            Retrieve MDM Configurations
+         Retrieve MDM Configurations
          */
         getiOSMDMConfigurations: function(tenantId) {
-            var registry = storeRegistry.systemRegistry(tenantId);
-            var resource = registry.get(config.registry.iOSMDMCertificate);
+            var resource = this.getRegistry(tenantId, config.registry.iOSMDMCertificate);
             if(resource != null) {
                 var iOSMDMConfiguration = {};
                 iOSMDMConfiguration.inputStream = resource.content;
-                iOSMDMConfiguration.properties = resource.properties();
+                iOSMDMConfiguration.properties = resource.properties;
                 return iOSMDMConfiguration;
             } else {
                 return null;
@@ -694,15 +774,14 @@ var user = (function () {
         },
 
         /*
-            Retrieve APNS Configurations
+         Retrieve APNS Configurations
          */
         getiOSAPNSConfigurations: function(tenantId) {
-            var registry = storeRegistry.systemRegistry(tenantId);
-            var resource = registry.get(config.registry.iOSAppCertificate);
+            var resource = this.getRegistry(tenantId, config.registry.iOSAppCertificate);
             if(resource != null) {
                 var iOSAppConfiguration = {};
                 iOSAppConfiguration.inputStream = resource.content;
-                iOSAppConfiguration.properties = resource.properties();
+                iOSAppConfiguration.properties = resource.properties;
                 return iOSAppConfiguration;
             } else {
                 return null;
@@ -710,49 +789,39 @@ var user = (function () {
         },
 
         /*
-            Retrieve email configuration for tenant from registry
+            Save Consumer Key and Consumer Secret to Registry
          */
-        getEmailConfigurations: function(tenantId) {
-            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.emailConfiguration);
-            return properties;
-        },
-
-        /*
-            Retrieve SCEP configuration
-         */
-        getSCEPConfiguration: function(tenantId) {
-            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.scepConfiguration);
-            return properties;
-        },
-
-        /*
-            Retrieve License
-         */
-        getTenantLicense: function(tenantId){
-            var registry = storeRegistry.systemRegistry(tenantId);
-            var resoucre = registry.get(config.registry.tenantLicense);
-            if(resoucre != null) {
-                return resoucre.content;
+        saveOAuthClientKey: function(tenantId, consumerKey, consumerSecret) {
+            var sessionInfo = common.getSessionInfo();
+            var sessionUserId;
+            if (sessionInfo != null) {
+                sessionUserId = sessionInfo.username;
             } else {
+                sessionUserId = null;
+            }
+
+            try {
+                var isSuccess = storeRegistry.sandbox({tenantId: tenantId, username: sessionUserId},
+                    function () {
+                        var registry = storeRegistry.systemRegistry(tenantId);
+                        registry.put(config.registry.oauthClientKey, {
+                            content: config.registry.oauthClientKey,
+                            properties: {ClientKey: consumerKey, ClientSecret: consumerSecret}
+                        });
+                        return true;
+                    });
+                if (isSuccess == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch(e) {
+                log.error(e);
                 return null;
             }
+
         },
 
-        /*
-            Retrieve Copyright
-         */
-        getTenantCopyRight: function(tenantId) {
-            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.copyright);
-            return properties;
-        },
-
-        /*
-         Retrieve Tenant's OAuth Client ID and Client Secret
-         */
-        getOAuthClientKey: function(tenantId) {
-            var properties = this.getPropertiesFromRegistry(tenantId, config.registry.oauthClientKey);
-            return properties;
-        },
 
         /*end of other user manager functions*/
         /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -791,7 +860,7 @@ var user = (function () {
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
             if(emailConfigurations != null) {
-                if(String(emailConfigurations.SenderAddress[0].trim()) != "") {
+                if(String(emailConfigurations.UserName[0].trim()) != "") {
                     var password_text = "";
                     if(ctx.generatedPassword){
                         password_text = "Your password to your login : "+ctx.generatedPassword;
@@ -801,12 +870,8 @@ var user = (function () {
                     subject = "EMM Enrollment";
 
                     var email = require('email');
-                    var smtp = emailConfigurations.SMTP[0];
-                    var smtpPort = emailConfigurations.Port[0];
-                    var senderAddress = emailConfigurations.SenderAddress[0];
-                    var senderPassword = emailConfigurations.EmailPassword[0];
                     var sender = new email.Sender(String(emailConfigurations.SMTP[0]), String(emailConfigurations.Port[0]),
-                        String(emailConfigurations.SenderAddress[0]), String(emailConfigurations.EmailPassword[0]), "tls");
+                                                  String(emailConfigurations.UserName[0]), String(emailConfigurations.Password[0]), "tls");
                     sender.from = String(emailConfigurations.SenderAddress[0]);
 
                     log.info("Email sent to -> " + ctx.email);
@@ -829,7 +894,7 @@ var user = (function () {
             var tenantId = parseInt(common.common.getTenantID());
             var emailConfigurations = this.getEmailConfigurations(tenantId);
             if(emailConfigurations != null){
-                if(String(emailConfigurations.SenderAddress[0].trim()) != "") {
+                if(String(emailConfigurations.UserName[0].trim()) != "") {
                     return true;
                 } else {
                     return false;
@@ -933,6 +998,7 @@ var user = (function () {
             }
 
             var message = this.getTenantLicense(parseInt(tenantId));
+            //var message = this.getTenantLicenseSample(parseInt(tenantId));
             if(message == null) {
                 return null;
             }
