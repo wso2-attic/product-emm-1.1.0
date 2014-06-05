@@ -415,8 +415,9 @@ var user = (function () {
                 var defaultData = '{'
                     + '"emailSmtpHost" : "' + config.DEFAULT.EMAIL.SMTPHOST + '", '
                     + '"emailSmtpPort" : "' + config.DEFAULT.EMAIL.SMTPPORT + '", '
+                    + '"emailUsername" : "' + config.DEFAULT.EMAIL.USERNAME + '", '
+                    + '"emailPassword" : "' + config.DEFAULT.EMAIL.PASSWORD + '", '
                     + '"emailSenderAddress" : "' + config.DEFAULT.EMAIL.SENDERADDRESS + '", '
-                    + '"emailSenderPassword" : "' + config.DEFAULT.EMAIL.SENDERPASSWORD + '", '
                     + '"emailTemplate" : "' + config.DEFAULT.EMAIL.TEMPLATE + '", '
                     + '"uiTitle" : "' + config.DEFAULT.UITITLE + '", '
                     + '"uiCopyright" : "' + config.DEFAULT.UICOPYRIGHT + '", '
@@ -512,13 +513,14 @@ var user = (function () {
                             }
                         }
 
-                        if(ctx.emailSenderAddress == null || ctx.emailSmtpHost == null || ctx.emailSmtpPort == null){
+                        if(ctx.emailUsername == null || ctx.emailSmtpHost == null || ctx.emailSmtpPort == null){
                             registry.remove(config.registry.emailConfiguration);
                         } else {
                             registry.put(config.registry.emailConfiguration, {
                                 content: config.registry.emailConfiguration,
                                 properties: {SMTP: ctx.emailSmtpHost.trim(), Port: ctx.emailSmtpPort.trim(),
-                                    SenderAddress: ctx.emailSenderAddress.trim(), EmailPassword: ctx.emailSenderPassword.trim(), EmailTemplate: ctx.emailTemplate.trim()}
+                                    UserName: ctx.emailUsername.trim(), Password: ctx.emailPassword.trim(),
+                                    SenderAddress: ctx.emailSenderAddress.trim(), EmailTemplate: ctx.emailTemplate.trim()}
                             });
                         }
 
@@ -624,10 +626,10 @@ var user = (function () {
             if(emailConfigurations != null) {
                 jsonBuilder.emailSmtpHost = emailConfigurations.SMTP[0];
                 jsonBuilder.emailSmtpPort = emailConfigurations.Port[0];
+                jsonBuilder.emailUsername = emailConfigurations.UserName[0];
+                jsonBuilder.emailPassword = emailConfigurations.Password[0];
                 jsonBuilder.emailSenderAddress = emailConfigurations.SenderAddress[0];
-                jsonBuilder.emailSenderPassword = emailConfigurations.EmailPassword[0];
                 jsonBuilder.emailTemplate = emailConfigurations.EmailTemplate[0];
-
             }
 
             if(scepConfiguration != null) {
@@ -669,25 +671,6 @@ var user = (function () {
 
             return jsonBuilder;
         },
-
-        /*
-            Retreive the Properties from Registry
-         */
-        getPropertiesFromRegistry: function(tenantId, registryPath) {
-//            var registry = storeRegistry.systemRegistry(tenantId);
-//            var resource = registry.get(registryPath);
-
-            var resource = this.getRegistry({tenantId: tenantId}, registryPath);
-            if(resource != null) {
-                //return resource.properties();
-                return resource.properties;
-            } else {
-                return null;
-
-
-            }
-        },
-
 
         /*
             Retrieve registry value
@@ -805,6 +788,39 @@ var user = (function () {
             }
         },
 
+        /*
+            Save Consumer Key and Consumer Secret to Registry
+         */
+        saveOAuthClientKey: function(tenantId, consumerKey, consumerSecret) {
+            var sessionInfo = common.getSessionInfo();
+            var sessionUserId;
+            if (sessionInfo != null) {
+                sessionUserId = sessionInfo.username;
+            } else {
+                sessionUserId = null;
+            }
+
+            try {
+                var isSuccess = storeRegistry.sandbox({tenantId: tenantId, username: sessionUserId},
+                    function () {
+                        var registry = storeRegistry.systemRegistry(tenantId);
+                        registry.put(config.registry.oauthClientKey, {
+                            content: config.registry.oauthClientKey,
+                            properties: {ClientKey: consumerKey, ClientSecret: consumerSecret}
+                        });
+                        return true;
+                    });
+                if (isSuccess == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch(e) {
+                log.error(e);
+                return null;
+            }
+
+        },
 
 
         /*end of other user manager functions*/
@@ -844,7 +860,7 @@ var user = (function () {
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
             if(emailConfigurations != null) {
-                if(String(emailConfigurations.SenderAddress[0].trim()) != "") {
+                if(String(emailConfigurations.UserName[0].trim()) != "") {
                     var password_text = "";
                     if(ctx.generatedPassword){
                         password_text = "Your password to your login : "+ctx.generatedPassword;
@@ -854,12 +870,8 @@ var user = (function () {
                     subject = "EMM Enrollment";
 
                     var email = require('email');
-                    var smtp = emailConfigurations.SMTP[0];
-                    var smtpPort = emailConfigurations.Port[0];
-                    var senderAddress = emailConfigurations.SenderAddress[0];
-                    var senderPassword = emailConfigurations.EmailPassword[0];
                     var sender = new email.Sender(String(emailConfigurations.SMTP[0]), String(emailConfigurations.Port[0]),
-                        String(emailConfigurations.SenderAddress[0]), String(emailConfigurations.EmailPassword[0]), "tls");
+                                                  String(emailConfigurations.UserName[0]), String(emailConfigurations.Password[0]), "tls");
                     sender.from = String(emailConfigurations.SenderAddress[0]);
 
                     log.info("Email sent to -> " + ctx.email);
@@ -882,7 +894,7 @@ var user = (function () {
             var tenantId = parseInt(common.common.getTenantID());
             var emailConfigurations = this.getEmailConfigurations(tenantId);
             if(emailConfigurations != null){
-                if(String(emailConfigurations.SenderAddress[0].trim()) != "") {
+                if(String(emailConfigurations.UserName[0].trim()) != "") {
                     return true;
                 } else {
                     return false;
