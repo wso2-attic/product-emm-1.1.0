@@ -196,7 +196,6 @@ var mdm_reports = (function () {
 
                     devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
                 } else {
-                    log.info("platform else  >>>>>>>>>> ");
                     queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n " +
                         "JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt " +
                         "ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) " +

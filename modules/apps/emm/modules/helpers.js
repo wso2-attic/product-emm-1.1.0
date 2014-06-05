@@ -10,7 +10,7 @@ var registerHelpers = function(mvc){
 
 
   mvc.registerHelper('stringify', function(context) {
-    var log = new Log();log.error("CONTEXT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+stringify(context));
+    var log = new Log();log.error("CONTEXT >> "+stringify(context));
       return stringify(context);
   });
 

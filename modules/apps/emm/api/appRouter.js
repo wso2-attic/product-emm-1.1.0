@@ -37,7 +37,7 @@ var buildInstallParam = function(ctx){
 			installParam = ctx.packageid;
 		}
 	}
-    log.info("installParam >>>>>>> " + installParam);
+    log.debug("installParam >>>>>>> " + installParam);
 	return installParam;
 }
 //Inserts a VPP code into the payload if the app type is VPP
