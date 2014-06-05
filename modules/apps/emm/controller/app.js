@@ -15,7 +15,13 @@ if(session.get("emmConsoleUserLogin") != null){
     
     var userModule = require('/modules/user.js').user;
     var user = new userModule();
-    uiTenantConf = user.getTenantCopyRight(parseInt(userSession.tenantId));
+    if(session.get("uiTenantConf") == null){
+         uiTenantConf = user.getTenantCopyRight(parseInt(userSession.tenantId));
+         session.put("uiTenantConf", uiTenantConf);
+    }else{
+       uiTenantConf =  session.get("uiTenantConf");
+    }
+        
    // print(uiTenantConf);
    
 }

@@ -207,7 +207,7 @@ var user = (function (){
             Api that sends the Tenant configurations
          */
         router.post('tenant/configuration',function(ctx){
-
+            session.remove("uiTenantConf");
             try{
                 var status = user.saveTenantConfiguration(ctx, request.getFile("iosMDMCert"), request.getFile(("iosAPNSCert")) );
                 if(status != null) {
