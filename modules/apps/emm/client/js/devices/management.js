@@ -16,6 +16,7 @@ oTable = $('#main-table').dataTable({
 
     "sDom" : "<'row-fluid'<'span6'><'span6'p>r>t<'row-fluid'>",
     "bProcessing" : true,
+    "bSort" : false,
     "bServerSide" : true,
     "bFilter" : false,
     
