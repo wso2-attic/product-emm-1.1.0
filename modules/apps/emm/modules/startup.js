@@ -3,20 +3,17 @@ var startup = (function () {
     var routes = new Array();
     var log = new Log();
     var db;
-    var driver, user;
+    var driver, user, apimgr;
     var sqlscripts = require('/sqlscripts/db.js');
     var userModule = require('/modules/user.js').user;
+	var apimgrModule = require("/modules/apimgr.js").apimgr;
     var carbon = require('carbon');
-    
-
-
-
-
-
+	
     var module = function (dbs) {
         db = dbs;
         driver = require('driver').driver(db);
         user = new userModule(db);
+		apimgr = new apimgrModule();
     };
 
 
@@ -60,11 +57,11 @@ var startup = (function () {
                     }
 
                 }
-
+				
+				//publishing/subscribing APIs
+                apimgr.publishEMMAPIs();
             }
             
-            
-
             var tenantId = parseInt(common.getTenantID());
             user.defaultTenantConfiguration(tenantId);
         }
