@@ -190,6 +190,13 @@ CREATE TABLE policy_priority(
 	PRIORITY INT DEFAULT NULL
 );
 
+DROP TABLE IF EXISTS settings;
+CREATE TABLE settings(
+	ID INT PRIMARY KEY auto_increment,
+	TENANT_ID INT DEFAULT NULL,
+	PROPERTIES VARCHAR(4096) DEFAULT NULL
+);
+
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (1, 'USERS', 1);
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (2, 'PLATFORMS', 2);
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (3, 'ROLES', 3);

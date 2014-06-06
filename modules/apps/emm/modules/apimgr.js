@@ -2,9 +2,14 @@ var apimgr = (function() {
 
 	var log = new Log();
 	var dataConfig = require('/config/emm.js').config();
+	var driver;
+	var db;
+	var sqlscripts;
 	
-	var module = function() {
-
+	var module = function(dbs) {
+		db = dbs;
+		driver = require('driver').driver(db);
+		sqlscripts = require('/sqlscripts/db.js');
 	};
 
 	function mergeRecursive(obj1, obj2) {
@@ -56,27 +61,18 @@ var apimgr = (function() {
 			params.visibility = "public API";
 			params.tags = "emm,mobile";
 			params.resourceCount = "0";
-			params["resourceMethod-0"] = "GET";
+			params.subscriptions = "all_tenants";
+			params.subscriptionAvailability = "";
+			params["resourceMethod-0"] = "POST";
 			params["resourceMethodAuthType-0"] = "Application & Application User";
 			params["uriTemplate-0"] = "/*";
 			params["resourceMethodThrottlingTier-0"] = "Unlimited";
-			params.tiersCollection = "Unlimited";
-			
-			var production_endpoints = {};
-			production_endpoints.url = "https://emm.";
-			production_endpoints.config = null;
-			
-			var sandbox_endpoints = {};
-			sandbox_endpoints.url = "https://emm";
-			sandbox_endpoints.config = null;
-			
-			var endpoint_config = {};
-			endpoint_config.production_endpoints = production_endpoints;
-			endpoint_config.endpoint_type = "https";
-			endpoint_config.production_endpoints = production_endpoints;
-			endpoint_config.endpoint_type = "https";
-			
-			params.endpoint_config = endpoint_config;
+			params["resourceMethod-1"] = "GET";
+			params["resourceMethodAuthType-1"] = "Application & Application User";
+			params["uriTemplate-1"] = "/*";
+			params["resourceMethodThrottlingTier-1"] = "Unlimited";
+			params.tiersCollection = "Unlimited";			
+			params.endpoint_config = '{"production_endpoints":{"url":"https://emm","config":null},"endpoint_type":"https"}';
 			
 			var headers = {};
 			headers.Cookie = cookie;
@@ -102,23 +98,22 @@ var apimgr = (function() {
 			var result = post(url, params, headers, null);
 		},
 		addSubscription : function(apiInfo, serviceURL, cookie, provider) {
-		
+
 			var params = {};
 			params.action = "addSubscription";
 			params.name = apiInfo.name;
 			params.version = dataConfig.apiManagerConfigurations.apiVersion;
 			params.provider = provider;
-			params.user1 = provider;
 			params.tier = "Unlimited";
-			params.applicationId = "1";
-			
+			params.applicationId = 1;
+	        
 			var headers = {};
 			headers.Cookie = cookie;
 			
 			var url = serviceURL + '/site/blocks/subscription/subscription-add/ajax/subscription-add.jag';
 			var result = post(url, params, headers, null);
-		}
-		,getConsumerKeyPair : function(serviceURL, cookie) {
+		},
+		getConsumerKeyPair : function(serviceURL, cookie) {
 	        
 			var params = {};
 			params.action = "getAllSubscriptions";
@@ -148,10 +143,14 @@ var apimgr = (function() {
 			for(var i = 0; i < allAPIs.length; i++) {
 				this.publishAPIs(allAPIs[i], publisherServiceURL, cookie);
 				this.promote(allAPIs[i], publisherServiceURL, cookie, "admin");
-				this.addSubscription(allAPIs[i], publisherServiceURL, cookie, "admin");
 			}
 			
 			cookie = this.login(storeServiceURL);
+			
+			for(var i = 0; i < allAPIs.length; i++) {
+				this.addSubscription(allAPIs[i], storeServiceURL, cookie, "admin");
+			}
+			
 			var result = this.getConsumerKeyPair(storeServiceURL, cookie);
 			
 			if(result != null) {
@@ -177,14 +176,20 @@ var apimgr = (function() {
 						properties.sandboxConsumerKey = sandboxConsumerKey;
 						properties.sandboxConsumerSecret = sandboxConsumerSecret;
 						
+						var results = driver.query(sqlscripts.api_mgmt.select1, "-1234");
 						
+						if(results != null && results != undefined && results.length > 0) {
+							driver.query(sqlscripts.api_mgmt.update1, stringify(properties), "-1234");
+						} else {
+							driver.query(sqlscripts.api_mgmt.insert1, "-1234", stringify(properties));
+						}
+						
+						return properties;
+
 					}
 					
 				}
 			}
-
-
-			
 		}
 	}
 	

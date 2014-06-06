@@ -408,12 +408,6 @@
             <outputDirectory>wso2emm-${pom.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
         </file>
-       
-        <file>
-            <source>src/repository/conf/wso2permission.jks</source>
-            <outputDirectory>wso2emm-${pom.version}/repository/resources/security</outputDirectory>
-            <filtered>true</filtered>
-        </file>
 		
 		<file>
             <source>src/repository/conf/wso2emm.jks</source>
