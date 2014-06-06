@@ -10,8 +10,8 @@ var log = new Log();
 if(session.get("emmConsoleUserLogin") != null){
 	var userSession = session.get("emmConsoleUser");
 	var tenatDomain = userSession.tenantDomain;
-	//ui = require('../config/tenants/' + tenatDomain + '/ui.json');
-    ui = require('../config/ui.json');
+	ui = require('../config/tenants/' + tenatDomain + '/ui.json');
+    //ui = require('../config/ui.json');
     
     var userModule = require('/modules/user.js').user;
     var user = new userModule();
