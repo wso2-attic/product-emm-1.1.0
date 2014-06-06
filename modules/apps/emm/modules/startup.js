@@ -13,7 +13,7 @@ var startup = (function () {
         db = dbs;
         driver = require('driver').driver(db);
         user = new userModule(db);
-		apimgr = new apimgrModule();
+		apimgr = new apimgrModule(db);
     };
 
 
