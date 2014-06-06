@@ -33,16 +33,15 @@ import org.wso2.mobile.utils.persistence.JDBCPersistenceManager;
 public class EMMUtilsServiceComponent {
 
     public static final String DSETUP_PATTERN = ".*-Dsetup.*";
-    public static final String SUN_JAVA_CMD = "sun.java.command";
+    public static final String SETUP_CMD = "setup";
     public static final String EMM_DB_NAME = "WSO2_EMM_DB";
 
     private static final Log log = LogFactory.getLog(EMMUtilsServiceComponent.class);
 
     protected void activate(ComponentContext ctx) {
         try {
-            String cmd = SystemProperties.getProperty(SUN_JAVA_CMD);
-            if(isDatabaseSetupActivated(cmd)){
-            	log.info("Creating EMM DB setup ...");
+	        String cmd = System.getProperty(SETUP_CMD);
+	        if(cmd!=null){
                 JDBCPersistenceManager jdbcPersistenceManager = JDBCPersistenceManager.getInstance();
                 jdbcPersistenceManager.initializeDatabase();                
             }
@@ -53,10 +52,6 @@ public class EMMUtilsServiceComponent {
 
     protected void deactivate(ComponentContext ctx) {
         log.debug("EMM-Util bundle is deactivated ");
-    }
-
-    private boolean isDatabaseSetupActivated(String cmd){
-        return cmd.matches(DSETUP_PATTERN);
     }
 
     protected void setDataSourceService(DataSourceService dataSourceService) {

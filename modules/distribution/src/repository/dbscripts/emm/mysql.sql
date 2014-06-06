@@ -20,8 +20,7 @@ USE `WSO2EMM_DB`;
 -- Table structure for table `devices`
 --
 
-DROP TABLE IF EXISTS `devices`;
-CREATE TABLE `devices` (
+CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tenant_id` int(11) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
@@ -74,8 +73,7 @@ UNLOCK TABLES;
 -- Table structure for table `features`
 --
 
-DROP TABLE IF EXISTS `permissions`;
-CREATE TABLE `permissions`(
+CREATE TABLE IF NOT EXISTS `permissions`(
 	`id` INT PRIMARY KEY auto_increment,
 	`role` VARCHAR(45) DEFAULT NULL,
 	`content` TEXT DEFAULT NULL,
@@ -141,10 +139,9 @@ UNLOCK TABLES;
 -- Table structure for table `group_policy_mapping`
 --
 
-DROP TABLE IF EXISTS `group_policy_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `group_policy_mapping` (
+CREATE TABLE IF NOT EXISTS `group_policy_mapping` (
   `group_id` varchar(45) NOT NULL DEFAULT '',
   `policy_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`group_id`,`policy_id`)
@@ -156,10 +153,9 @@ CREATE TABLE `group_policy_mapping` (
 -- Table structure for table `notifications`
 --
 
-DROP TABLE IF EXISTS `notifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notifications` (
+CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) DEFAULT NULL,
   `user_id` varchar(45) DEFAULT NULL,
@@ -189,10 +185,9 @@ UNLOCK TABLES;
 -- Table structure for table `platform_policy_mapping`
 --
 
-DROP TABLE IF EXISTS `platform_policy_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `platform_policy_mapping` (
+CREATE TABLE IF NOT EXISTS `platform_policy_mapping` (
   `platform_id` varchar(45) NOT NULL,
   `policy_id` varchar(45) NOT NULL,
   PRIMARY KEY (`platform_id`,`policy_id`)
@@ -261,10 +256,9 @@ UNLOCK TABLES;
 -- Table structure for table `policies`
 --
 
-DROP TABLE IF EXISTS `policies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `policies` (
+CREATE TABLE IF NOT EXISTS `policies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `content` text,
@@ -314,10 +308,9 @@ UNLOCK TABLES;
 -- Table structure for table `user_policy_mapping`
 --
 
-DROP TABLE IF EXISTS `user_policy_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_policy_mapping` (
+CREATE TABLE IF NOT EXISTS `user_policy_mapping` (
   `user_id` varchar(45) NOT NULL,
   `policy_id` int(11) NOT NULL,
   PRIMARY KEY (`policy_id`,`user_id`)
@@ -337,8 +330,7 @@ UNLOCK TABLES;
 -- Table structure for table `device_awake`
 --
 
-DROP TABLE IF EXISTS `device_awake`;
-CREATE  TABLE `device_awake` (
+CREATE TABLE IF NOT EXISTS `device_awake` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `device_id` INT(11) NULL DEFAULT NULL ,
   `sent_date` DATETIME NULL DEFAULT NULL ,
@@ -354,8 +346,7 @@ COMMENT = 'status will be S (Sent), P (Processed), E (Error / Exception) and D (
 -- Table structure for table `device_pending`
 --
 
-DROP TABLE IF EXISTS `device_pending`;
-CREATE  TABLE `device_pending` (
+CREATE TABLE IF NOT EXISTS `device_pending` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `tenant_id` INT(11) NULL DEFAULT NULL ,
   `user_id` VARCHAR(255) NULL DEFAULT NULL ,
@@ -377,8 +368,7 @@ CREATE  TABLE `device_pending` (
 -- Table structure for table `policy_device_profiles`
 --
 
-DROP TABLE IF EXISTS `policy_device_profiles`;
-CREATE TABLE `policy_device_profiles` (
+CREATE TABLE IF NOT EXISTS `policy_device_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `device_id` int(11) DEFAULT NULL,
   `feature_code` varchar(45) DEFAULT NULL,
@@ -390,10 +380,10 @@ LOCK TABLES `policy_device_profiles` WRITE;
 /*!40000 ALTER TABLE `policy_device_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
-DROP TABLE IF EXISTS `device_policy`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE  TABLE `device_policy` (
+CREATE TABLE IF NOT EXISTS `device_policy` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `device_id` INT(11) NULL DEFAULT NULL ,
   `tenant_id` INT(11) NULL DEFAULT NULL ,

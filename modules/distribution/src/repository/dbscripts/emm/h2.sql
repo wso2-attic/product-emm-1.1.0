@@ -1,7 +1,5 @@
 
-
-DROP TABLE IF EXISTS devices;
-CREATE TABLE devices(
+CREATE TABLE IF NOT EXISTS devices(
 	ID INT PRIMARY KEY auto_increment,
 	TENANT_ID INT NOT NULL,
 	USER_ID VARCHAR(128) NOT NULL,
@@ -44,8 +42,7 @@ CREATE TABLE features(
 
 INSERT INTO features VALUES (1,'LOCK','503A','Device Lock',0,1,1,0,1),(2,'WIPE','504A','Wipe',0,1,1,0,1),(3,'CLEARPASSCODE','505A','Clear',0,1,1,0,1),(4,'APPLIST','502A','Get All Applications',0,2,2,1,0),(5,'LOCATION','501A','Location',0,1,2,0,0),(6,'INFO','500A','Device Information',0,5,2,1,0),(7,'NOTIFICATION','506A','Message',0,3,1,0,2),(8,'WIFI','507A','Wifi',0,4,1,0,3),(9,'CAMERA','508A','Camera',0,1,1,0,1),(12,'MUTE','513A','Mute Device',0,1,1,0,1),(13,'INSTALLAPP','509A','Install Application',0,2,3,0,0),(14,'UNINSTALLAPP','510A','Uninstall Application',0,2,3,0,0),(15,'ENCRYPT','511A','Encrypt Storage',0,1,1,0,1),(16,'APN','512A','APN',0,4,1,0,3),(21,'WEBCLIP','518A','Create Webclips',0,4,3,0,3),(22,'PASSWORDPOLICY','519A','Passcode Policy',0,4,1,0,3),(23,'EMAIL','520A','Email Configuration',0,4,1,0,3),(24,'GOOGLECALENDAR','521A','Calender Subscription',0,4,1,0,3),(26,'VPN','523A','VPN',0,4,1,0,3),(27,'LDAP','524A','LDAP',0,4,1,0,3),(29,'CHANGEPASSWORD','526A','Set Passcode',0,4,1,0,3),(30,'ENTERPRISEWIPE','527A','Enterprise Wipe',0,1,1,0,1),(31,'POLICY','500P','Policy Enforcement',0,4,2,0,0),(32,'MONITORING','501P','Policy Monitoring ',0,5,2,1,0),(33,'BLACKLISTAPPS','528B','Blacklist Apps',0,2,1,0,0),(34,'REVOKEPOLICY','502P','Revoke Policy',0,4,2,0,0);
 
-DROP TABLE IF EXISTS permissions;
-CREATE TABLE permissions(
+CREATE TABLE IF NOT EXISTS permissions(
 	ID INT PRIMARY KEY auto_increment,
 	ROLE VARCHAR(45) DEFAULT NULL,
 	CONTENT TEXT DEFAULT NULL,
@@ -62,14 +59,12 @@ CREATE TABLE featuretype(
 
 INSERT INTO featuretype VALUES (1,'OPERATION','Can do groups, users, devices',0),(2,'INFO','Only for devices',0),(3,'APPLICATION','application related stuff',0);
 
-DROP TABLE IF EXISTS group_policy_mapping;
-CREATE TABLE group_policy_mapping(
+CREATE TABLE IF NOT EXISTS group_policy_mapping(
 	GROUP_ID VARCHAR(45) NOT NULL DEFAULT '',
 	POLICY_ID INT NOT NULL DEFAULT 0
 );
 
-DROP TABLE IF EXISTS notifications;
-CREATE TABLE notifications(
+CREATE TABLE IF NOT EXISTS notifications(
 	ID INT PRIMARY KEY auto_increment,
 	GROUP_ID INT DEFAULT NULL,
 	USER_ID VARCHAR(45) DEFAULT NULL,
@@ -85,8 +80,7 @@ CREATE TABLE notifications(
 );
 
 
-DROP TABLE IF EXISTS platform_policy_mapping;
-CREATE TABLE platform_policy_mapping(
+CREATE TABLE IF NOT EXISTS platform_policy_mapping(
 	PLATFORM_ID VARCHAR(45) NOT NULL,
 	POLICY_ID VARCHAR(45) NOT NULL	
 );
@@ -118,8 +112,7 @@ CREATE TABLE platforms(
 INSERT INTO `platforms` VALUES (1,'Android','android phones and tabs','1','Android','#028482'),(2,'iPhone','iphone','2','iOS','#CCCCCC'),(3,'iPad','ipad','2','iOS','#CCCCCC'),(4,'iPod','ipod','2','iOS','#CCCCCC');
 
 
-DROP TABLE IF EXISTS policies;
-CREATE TABLE policies(
+CREATE TABLE IF NOT EXISTS policies(
 	ID INT PRIMARY KEY auto_increment,
 	NAME VARCHAR(45) DEFAULT NULL,
 	CONTENT TEXT,
@@ -140,15 +133,13 @@ CREATE TABLE tenantplatformfeatures(
 INSERT INTO `tenantplatformfeatures` VALUES (1,'1',1),(2,'1',2),(3,'1',3),(4,'1',4),(5,'1',5),(6,'1',6),(7,'1',7),(8,'1',8),(9,'1',9),(10,'1',10),(11,'1',11),(12,'1',12),(13,'2',1),(14,'2',2),(15,'2',3),(16,'2',4),(17,'2',6),(18,'2',8),(19,'2',9),(20,'2',12),(21,'3',1),(22,'3',2),(23,'3',3),(24,'3',4),(25,'3',6),(26,'3',8),(27,'3',9),(28,'4',1),(29,'4',2),(30,'4',3),(31,'4',6),(32,'4',8),(33,'4',9),(34,'4',12),(35,'-1234',1),(36,'-1234',2),(37,'-1234',3),(38,'-1234',4),(39,'-1234',5),(40,'-1234',6),(41,'-1234',7),(42,'-1234',8),(43,'-1234',9),(44,'-1234',10),(45,'-1234',11),(46,'-1234',12);
 
 
-DROP TABLE IF EXISTS user_policy_mapping;
-CREATE TABLE user_policy_mapping(
+CREATE TABLE IF NOT EXISTS user_policy_mapping(
 	USER_ID VARCHAR(45) NOT NULL,
 	POLICY_ID INT NOT NULL	
 );
 
 
-DROP TABLE IF EXISTS device_awake;
-CREATE TABLE device_awake(
+CREATE TABLE IF NOT EXISTS device_awake(
 	ID INT PRIMARY KEY auto_increment,
 	DEVICE_ID INT DEFAULT NULL,
 	SENT_DATE DATETIME DEFAULT NULL,
@@ -158,8 +149,7 @@ CREATE TABLE device_awake(
 );
 
 
-DROP TABLE IF EXISTS device_pending;
-CREATE TABLE device_pending(
+CREATE TABLE IF NOT EXISTS device_pending(
 	ID INT PRIMARY KEY auto_increment,
 	TENANT_ID INT DEFAULT NULL,
 	USER_ID VARCHAR(255) DEFAULT NULL,
@@ -175,16 +165,14 @@ CREATE TABLE device_pending(
 );
 
 
-DROP TABLE IF EXISTS policy_device_profiles;
-CREATE TABLE policy_device_profiles(
+CREATE TABLE IF NOT EXISTS policy_device_profiles(
 	ID INT PRIMARY KEY auto_increment,
 	DEVICE_ID INT DEFAULT NULL,
 	FEATURE_CODE VARCHAR(45) DEFAULT NULL
 );
 
 
-DROP TABLE IF EXISTS device_policy;
-CREATE TABLE device_policy(
+CREATE TABLE IF NOT EXISTS device_policy(
 	ID INT PRIMARY KEY auto_increment,
 	DEVICE_ID INT DEFAULT NULL,
 	TENANT_ID INT DEFAULT NULL,
