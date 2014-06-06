@@ -228,7 +228,6 @@ var user = (function (){
 
             try {
                 var configData = user.getTenantConfiguration(ctx);
-                log.debug(" >>>> " + stringify(configData));
                 print(configData);
 //                response.content = configData;
 //                response.contentType = "application/json";
