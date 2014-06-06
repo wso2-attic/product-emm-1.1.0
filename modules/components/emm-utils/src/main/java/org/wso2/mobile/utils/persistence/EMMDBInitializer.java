@@ -33,6 +33,7 @@ import java.util.StringTokenizer;
 public class EMMDBInitializer {
 
     private static Log log = LogFactory.getLog(EMMDBInitializer.class);
+	private static final String DB_CHECK_SQL = "select * from platforms";
     private DataSource dataSource;
     private String delimiter = ";";
     Statement statement;
@@ -42,28 +43,32 @@ public class EMMDBInitializer {
     }
 
     void createEMMDatabase() throws Exception {
-            Connection conn = null;
-            try {
-                conn = dataSource.getConnection();
-                conn.setAutoCommit(false);
-                statement = conn.createStatement();
-                executeSQLScript();
-                conn.commit();
-                log.info("EMM DB tables created successfully.");
-            } catch (SQLException e) {
-                String msg = "Failed to create database tables for EMM. "
-                        + e.getMessage();
-                log.fatal(msg, e);
-                throw new Exception(msg, e);
-            } finally {
-                try {
-                    if (conn != null) {
-                        conn.close();
-                    }
-                } catch (SQLException e) {
-                    log.error("Failed to close database connection.", e);
-                }
-            }
+	    if(!isDatabaseStructureCreated()){
+		    Connection conn = null;
+		    try {
+			    conn = dataSource.getConnection();
+			    conn.setAutoCommit(false);
+			    statement = conn.createStatement();
+			    executeSQLScript();
+			    conn.commit();
+			    log.info("EMM DB tables created successfully.");
+		    } catch (SQLException e) {
+			    String msg = "Failed to create database tables for EMM. "
+			                 + e.getMessage();
+			    log.fatal(msg, e);
+			    throw new Exception(msg, e);
+		    } finally {
+			    try {
+				    if (conn != null) {
+					    conn.close();
+				    }
+			    } catch (SQLException e) {
+				    log.error("Failed to close database connection.", e);
+			    }
+		    }
+	    }else{
+		    log.info("EMM database already exists. Not creating a new database.");
+	    }
     }
 
     private void executeSQLScript() throws Exception {
@@ -287,5 +292,41 @@ public class EMMDBInitializer {
             }
         }
     }
+
+	/**
+	 * Checks whether database tables are created.
+	 *
+	 * @return <code>true</core> if checkSQL is success, else <code>false</code>.
+	 */
+	private boolean isDatabaseStructureCreated() {
+		try {
+			if (log.isDebugEnabled()) {
+				log.debug("Running a query to test the database tables existence.");
+			}
+			// check whether the tables are already created with a query
+			Connection conn = dataSource.getConnection();
+			Statement statement = null;
+			try {
+				statement = conn.createStatement();
+				ResultSet rs = statement.executeQuery(DB_CHECK_SQL);
+				if (rs != null) {
+					rs.close();
+				}
+			} finally {
+				try {
+					if (statement != null) {
+						statement.close();
+					}
+				} finally {
+					if (conn != null) {
+						conn.close();
+					}
+				}
+			}
+		} catch (SQLException e) {
+			return false;
+		}
+		return true;
+	}
 
 }
