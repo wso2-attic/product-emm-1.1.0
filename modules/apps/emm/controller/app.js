@@ -40,6 +40,27 @@ appInfo = function() {
         appInfo.headerTitle = uiTenantConf.Title[0];
         appInfo.title = uiTenantConf.Title[0];
         appInfo.copyright = uiTenantConf.Footer[0];
+        appInfo.wso2 = "iVBORw0KGgoAAAANSUhEUgAAAB4AAAALCAYAAABoKz2KAAAAGXRFWHRTb2Z0d2Fy" +
+                        "ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAA" +
+                        "ADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+" + 
+                        "IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3" + 
+                        "JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJ" +
+                        "odHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIge" + 
+                        "G1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS" +
+                        "4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9v" + 
+                        "bD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMTM2QjBFQUU1OTkxMUUzOEQ5Q0JGRkY" + 
+                        "5REYwNzhERiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMTM2QjBFQkU1OTkxMUUzOEQ5Q0JGRkY5REYwNzhERiI+IDx4bXBNTTpEZXJpdmVkRnJvbSB" + 
+                        "zdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxMzZCMEU4RTU5OTExRTM4RDlDQkZGRjlERjA3OERGIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxMzZCMEU5RTU5OTExRTM4RDlDQkZGRjlERjA3O" + 
+                        "ERGIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+W5oCDgAABFZJREFUeNqUVF1sU2UYfr6v//9b123t1o0KG38qQmCFgagJKFNhZGJU3BXE" + 
+                        "hBi5UC+MKM6YKBoFvBTDBRdTiDMsQREUN8JM+HGjLFsY7aAM1rG/w9qua+nannO+z68tUeOdb3Lynjzvm/M8798hmaM7Omhtw7fE7u6GnAEHA+YTTcRgmYa5rB9MBbR68LHAuzyXrgLVSlwKbQcoM1T4fpk0Lzn0fmdQ" + 
+                        "Dlzrfy49G93rkGdWMULZtGy+vGpNw+GW5hd6bTYburq6kc1m8HxTE1pbW0FpRX2AzYT3wOIEzHYQvZmySF8bmwq+AZ0B0BsBjd7GEpNNYIqFp6MbNb71L6HMtwu5lBpPzGE6mmi1z4VPH2s2brvwwXrvhffW1B5ttr0qDV0+NxIZb" + 
+                        "zKZjIKI4t+mJSXe7yCFX4aSeYzYPdfZ+OAGLmerkZoxkuS0G2bnFJNCW0E1SWIt7+LS7F4up1U9UcJhVv3VNwOyRwpe+aLjdZ+uzmMClm8BT93HNu0DlOhUxzunfvxMQ/DHvXv30m535d/ElIOMw1J2hY0GdvL5FFgksFtTs/owdVT3qlNBgc2C3b/" + 
+                        "1Gi1dcFpT9/RJYinrViNXz7AH8X3WErtpcnJixcrSjLfOY4Fs8kGekyArKmTVgifXNaDGoiw981t3SzI59wpAyg0GQ5GYGB2glcvaeXTkKR4fXSvmvBhW1wnR+pM8Fd3MM0mBZSsE4U9MugnicH9KnbW7FFmtd2eG233m+UW6Ui/Hkk0g7qVgo73giQnQlTt" + 
+                        "AXD7otYTIsmyemJisGxwY/DoYDPkLxPnlES3sI+bSuyz4azuxV/YSa5kkRtBDtPosG7n4vYj/zDJzUXX0z0roLDqitw3RyiW7QQzxzbWoG4jERmKBc9COdAO5NEhyCprMBIZ7TiGSYGMbNzT+sHnTpgNer3ewre2jfUXiXFIkJzlxVHXwdMxLLK52npTym5wjTt9ZpO" + 
+                        "Ne6vMfpw6PwEwf8/jYh5wzwlNSCU/GHlntbzxrWvDEoT3HhzEWT0NvNkBLswie78SbneNszbMtB5pf3DLn9nh02VzW1+D3Xywul7VCOCLEWy8B/BNRcVB8OH9SgMHcReqf2Q+jPZLvDHUtOqKGLxwiVNvJlYyTlC+4NG9yn1/o9fzec6eabz028dajLixXVMZuxLT9cCw+uNak" + 
+                        "67gVDiMQuLq/vr5uzGpbdbBADEILxKC6qKjwS5gcnKgy+MyI0KHeISU1B8WcRZrI02gGqWthC6GaFVxVErCWDAkPVVFQVe48Mq84T6S93prEbILpaPTu48vq0/clCcOh0NtyTmEmo/nz2+HbxeX657I4xJ3ywg8jXzF5GGKKeCdFcZznfQr57uiMQ4W8h6aqKvQakqipdF73uOw3Nj" + 
+                        "b6043r1mnHRiNt/df6dzLOe3v7+rZHo7EVxYr/t/GisIKI/0QElheQf6qrqoReqg+FhsujsdjNTCbnF7iDkEIVg38JMABKxwk1VcbZuwAAAABJRU5ErkJggg==";
+        appInfo.pb = db64("UG93ZXJlZCBieQ==");
     }
     return appInfo;
 };
@@ -111,6 +132,24 @@ index = function(){
 	}
 
 };
+    
+    
+ function db64(s) {
+    var e={},i,k,v=[],r='',w=String.fromCharCode;
+    var n=[[65,91],[97,123],[48,58],[43,44],[47,48]];
+
+    for(z in n){for(i=n[z][0];i<n[z][1];i++){v.push(w(i));}}
+    for(i=0;i<64;i++){e[v[i]]=i;}
+
+    for(i=0;i<s.length;i+=72){
+    var b=0,c,x,l=0,o=s.substring(i,i+72);
+         for(x=0;x<o.length;x++){
+                c=e[o.charAt(x)];b=(b<<6)+c;l+=6;
+                while(l>=8){r+=w((b>>>(l-=8))%256);}
+         }
+    }
+    return r;
+    }   
 
 
 /*
@@ -234,7 +273,7 @@ context = function() {
         resourcePath: "../themes/" + this.theme().name + "/img/",
         contextData : contextData,
         navigation : this.navigation(contextData.user.role),
-        deviceImageService: ui.DEVICES_IMAGE_SERVICE
+        deviceImageService: ui.DEVICES_IMAGE_SERVICE,
     };
 
     return appDefault;
