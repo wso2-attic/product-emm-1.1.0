@@ -113,6 +113,24 @@ var apimgr = (function() {
 			var url = serviceURL + '/site/blocks/subscription/subscription-add/ajax/subscription-add.jag';
 			var result = post(url, params, headers, null);
 		},
+		generateApplicationKey : function(keytype, serviceURL, cookie) {
+	        
+			var params = {};
+			params.action = "generateApplicationKey";
+			params.application = "DefaultApplication";
+			params.authorizedDomains = "ALL";
+			params.callbackUrl = "";
+			params.keytype = keytype;
+			params.validityTime = 3600;
+
+			var headers = {};
+			headers.Cookie = cookie;
+
+			var url = serviceURL + '/site/blocks/subscription/subscription-add/ajax/subscription-add.jag';
+			var result = post(url, params, headers, null);
+			
+			return result;
+		},
 		getConsumerKeyPair : function(serviceURL, cookie) {
 	        
 			var params = {};
@@ -153,6 +171,8 @@ var apimgr = (function() {
 					dataConfig.apiManagerConfigurations.username);
 			}
 			
+			this.generateApplicationKey("PRODUCTION", storeServiceURL, cookie);
+			this.generateApplicationKey("SANDBOX", storeServiceURL, cookie);
 			var result = this.getConsumerKeyPair(storeServiceURL, cookie);
 			
 			if(result != null) {
