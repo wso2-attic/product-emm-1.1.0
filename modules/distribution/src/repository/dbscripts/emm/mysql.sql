@@ -20,8 +20,7 @@ USE `WSO2EMM_DB`;
 -- Table structure for table `devices`
 --
 
-DROP TABLE IF EXISTS `devices`;
-CREATE TABLE `devices` (
+CREATE TABLE IF NOT EXISTS `devices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tenant_id` int(11) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
@@ -74,8 +73,7 @@ UNLOCK TABLES;
 -- Table structure for table `features`
 --
 
-DROP TABLE IF EXISTS `permissions`;
-CREATE TABLE `permissions`(
+CREATE TABLE IF NOT EXISTS `permissions`(
 	`id` INT PRIMARY KEY auto_increment,
 	`role` VARCHAR(45) DEFAULT NULL,
 	`content` TEXT DEFAULT NULL,
@@ -141,10 +139,9 @@ UNLOCK TABLES;
 -- Table structure for table `group_policy_mapping`
 --
 
-DROP TABLE IF EXISTS `group_policy_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `group_policy_mapping` (
+CREATE TABLE IF NOT EXISTS `group_policy_mapping` (
   `group_id` varchar(45) NOT NULL DEFAULT '',
   `policy_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`group_id`,`policy_id`)
@@ -156,10 +153,9 @@ CREATE TABLE `group_policy_mapping` (
 -- Table structure for table `notifications`
 --
 
-DROP TABLE IF EXISTS `notifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notifications` (
+CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) DEFAULT NULL,
   `user_id` varchar(45) DEFAULT NULL,
@@ -189,10 +185,9 @@ UNLOCK TABLES;
 -- Table structure for table `platform_policy_mapping`
 --
 
-DROP TABLE IF EXISTS `platform_policy_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `platform_policy_mapping` (
+CREATE TABLE IF NOT EXISTS `platform_policy_mapping` (
   `platform_id` varchar(45) NOT NULL,
   `policy_id` varchar(45) NOT NULL,
   PRIMARY KEY (`platform_id`,`policy_id`)
@@ -225,7 +220,7 @@ CREATE TABLE `platformfeatures` (
 
 LOCK TABLES `platformfeatures` WRITE;
 /*!40000 ALTER TABLE `platformfeatures` DISABLE KEYS */;
-INSERT INTO `platformfeatures` VALUES (1,1,1,'2.2','',''),(2,1,2,'2.2','','wipe'),(3,1,3,'2.2','',''),(4,1,4,'2.2','',''),(5,1,5,'2.2','',''),(6,1,6,'2.2','',''),(7,1,7,'2.2','','notifications'),(8,1,8,'2.2','','wifi'),(9,1,9,'4.0','','camera'),(12,1,12,'2.2','',''),(13,2,1,'4.0','5.0',NULL),(15,2,3,'4.0','5.0',''),(16,2,4,'4.0','5.0',NULL),(17,2,6,'4.0','5.0',NULL),(18,2,8,'4.0','5.0','wifi'),(19,2,9,'4.0','5.0','camera'),(21,3,1,'4.0','5.0',NULL),(23,3,3,'4.0','5.0',''),(24,3,4,'4.0','5.0',NULL),(25,3,6,'4.0','5.0',NULL),(26,3,8,'4.0','5.0','wifi'),(28,3,9,'4.0','5.0','camera'),(30,4,1,'4.0','5.0',NULL),(32,4,3,'4.0','5.0',''),(33,4,4,'4.0','5.0',NULL),(34,4,6,'4.0','5.0',NULL),(35,4,8,'4.0','5.0','wifi'),(36,4,9,'4.0','5.0','camera'),(37,1,15,'3.0',NULL,'encrypt'),(38,1,17,'2.2',NULL,NULL),(39,1,18,'2.2',NULL,NULL),(43,1,19,'2.2',NULL,NULL),(44,1,20,'2.2',NULL,NULL),(45,1,21,'2.2',NULL,'webclip'),(46,1,22,'2.2',NULL,'password_policy'),(49,2,21,'4.0','5.0','webclip'),(50,2,22,'4.0','5.0','password_policy'),(51,3,23,'4.0','5.0','email'),(52,3,24,'4.0','5.0','google_calendar'),(53,3,21,'4.0','5.0','webclip'),(54,3,22,'4.0','5.0','password_policy'),(55,2,23,'4.0','5.0','email'),(56,2,24,'4.0','5.0','google_calendar'),(57,1,25,'2.2',NULL,NULL),(58,1,29,'2.2',NULL,'change-password'),(59,2,30,'4.0','5.0',NULL),(60,3,30,'4.0','5.0',NULL),(61,2,16,'4.0','5.0','apn'),(62,3,16,'4.0','5.0','apn'),(65,2,27,'4.0','5.0','ldap'),(66,3,27,'4.0','5.0','ldap'),(67,1,23,'2.2',NULL,'email'),(68,1,31,'2.2',NULL,NULL),(69,2,31,'2.2',NULL,NULL),(70,3,31,'2.2',NULL,NULL),(71,4,31,'2.2',NULL,NULL),(72, 2, 12, "4.0", "5.0", NULL), (73, 3, 12, "4.0", "5.0", NULL), (74, 4, 12, "4.0", "5.0", NULL), (75, 2, 7, "4.0", "5.0", "notifications"), (76, 3, 7, "4.0", "5.0", "notifications"), (77, 4, 7, "4.0", "5.0", "notifications"), (78, 1, 30, "4.0.3", NULL, NULL);
+INSERT INTO `platformfeatures` VALUES (1,1,1,'2.2','',NULL),(2,1,2,'2.2','','wipe'),(3,1,3,'2.2','',''),(4,1,4,'2.2','',NULL),(5,1,5,'2.2','',''),(6,1,6,'2.2','',NULL),(7,1,7,'2.2','','notifications'),(8,1,8,'2.2','','wifi'),(9,1,9,'4.0','','camera'),(12,1,12,'2.2','',NULL),(13,2,1,'4.0','5.0',NULL),(15,2,3,'4.0','5.0',''),(16,2,4,'4.0','5.0',NULL),(17,2,6,'4.0','5.0',NULL),(18,2,8,'4.0','5.0','wifi'),(19,2,9,'4.0','5.0','camera'),(21,3,1,'4.0','5.0',NULL),(23,3,3,'4.0','5.0',''),(24,3,4,'4.0','5.0',NULL),(25,3,6,'4.0','5.0',NULL),(26,3,8,'4.0','5.0','wifi'),(28,3,9,'4.0','5.0','camera'),(30,4,1,'4.0','5.0',NULL),(32,4,3,'4.0','5.0',''),(33,4,4,'4.0','5.0',NULL),(34,4,6,'4.0','5.0',NULL),(35,4,8,'4.0','5.0','wifi'),(36,4,9,'4.0','5.0','camera'),(37,1,15,'3.0',NULL,'encrypt'),(38,1,17,'2.2',NULL,NULL),(39,1,18,'2.2',NULL,NULL),(43,1,19,'2.2',NULL,NULL),(44,1,20,'2.2',NULL,NULL),(45,1,21,'2.2',NULL,'webclip'),(46,1,22,'2.2',NULL,'password_policy'),(49,2,21,'4.0','5.0','webclip'),(50,2,22,'4.0','5.0','password_policy'),(51,3,23,'4.0','5.0','email'),(52,3,24,'4.0','5.0','google_calendar'),(53,3,21,'4.0','5.0','webclip'),(54,3,22,'4.0','5.0','password_policy'),(55,2,23,'4.0','5.0','email'),(56,2,24,'4.0','5.0','google_calendar'),(57,1,25,'2.2',NULL,NULL),(58,1,29,'2.2',NULL,'change-password'),(59,2,30,'4.0','5.0',NULL),(60,3,30,'4.0','5.0',NULL),(61,2,16,'4.0','5.0','apn'),(62,3,16,'4.0','5.0','apn'),(65,2,27,'4.0','5.0','ldap'),(66,3,27,'4.0','5.0','ldap'),(67,1,23,'2.2',NULL,'email'),(68,1,31,'2.2',NULL,NULL),(69,2,31,'2.2',NULL,NULL),(70,3,31,'2.2',NULL,NULL),(71,4,31,'2.2',NULL,NULL),(72, 2, 12, "4.0", "5.0", NULL), (73, 3, 12, "4.0", "5.0", NULL), (74, 4, 12, "4.0", "5.0", NULL), (75, 2, 7, "4.0", "5.0", "notifications"), (76, 3, 7, "4.0", "5.0", "notifications"), (77, 4, 7, "4.0", "5.0", "notifications"), (78, 1, 30, "4.0.3", NULL, NULL);
 /*!40000 ALTER TABLE `platformfeatures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,10 +256,9 @@ UNLOCK TABLES;
 -- Table structure for table `policies`
 --
 
-DROP TABLE IF EXISTS `policies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `policies` (
+CREATE TABLE IF NOT EXISTS `policies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `content` text,
@@ -314,10 +308,9 @@ UNLOCK TABLES;
 -- Table structure for table `user_policy_mapping`
 --
 
-DROP TABLE IF EXISTS `user_policy_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_policy_mapping` (
+CREATE TABLE IF NOT EXISTS `user_policy_mapping` (
   `user_id` varchar(45) NOT NULL,
   `policy_id` int(11) NOT NULL,
   PRIMARY KEY (`policy_id`,`user_id`)
@@ -337,8 +330,7 @@ UNLOCK TABLES;
 -- Table structure for table `device_awake`
 --
 
-DROP TABLE IF EXISTS `device_awake`;
-CREATE  TABLE `device_awake` (
+CREATE TABLE IF NOT EXISTS `device_awake` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `device_id` INT(11) NULL DEFAULT NULL ,
   `sent_date` DATETIME NULL DEFAULT NULL ,
@@ -354,8 +346,7 @@ COMMENT = 'status will be S (Sent), P (Processed), E (Error / Exception) and D (
 -- Table structure for table `device_pending`
 --
 
-DROP TABLE IF EXISTS `device_pending`;
-CREATE  TABLE `device_pending` (
+CREATE TABLE IF NOT EXISTS `device_pending` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `tenant_id` INT(11) NULL DEFAULT NULL ,
   `user_id` VARCHAR(255) NULL DEFAULT NULL ,
@@ -377,8 +368,7 @@ CREATE  TABLE `device_pending` (
 -- Table structure for table `policy_device_profiles`
 --
 
-DROP TABLE IF EXISTS `policy_device_profiles`;
-CREATE TABLE `policy_device_profiles` (
+CREATE TABLE IF NOT EXISTS `policy_device_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `device_id` int(11) DEFAULT NULL,
   `feature_code` varchar(45) DEFAULT NULL,
@@ -390,10 +380,10 @@ LOCK TABLES `policy_device_profiles` WRITE;
 /*!40000 ALTER TABLE `policy_device_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
-DROP TABLE IF EXISTS `device_policy`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE  TABLE `device_policy` (
+CREATE TABLE IF NOT EXISTS `device_policy` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `device_id` INT(11) NULL DEFAULT NULL ,
   `tenant_id` INT(11) NULL DEFAULT NULL ,

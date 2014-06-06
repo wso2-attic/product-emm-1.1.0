@@ -16,7 +16,8 @@ $.get('/emm/console/info').done(function(data) {
 
 
 function getUIConfig(tenantDomain){
-    var uiConfig = loadTextFileAjaxSync("/emm/config/ui.json", "application/json");
+   // var uiConfig = loadTextFileAjaxSync("/emm/config/ui.json", "application/json");
+    var uiConfig = loadTextFileAjaxSync("/emm/config/tenants/" + tenantDomain +  "/ui.json", "application/json");
     return JSON.parse(uiConfig);
 }
 

@@ -217,7 +217,6 @@
 								<delete dir="src/site"/>
 								<delete dir="target/shindig"/>
 								<delete dir="target/jaxwebapps"/>
-								<delete dir="target/surefire" />
 							</tasks>
 						</configuration>
 						<goals>
