@@ -63,14 +63,10 @@ var apimgr = (function() {
 			params.resourceCount = "0";
 			params.subscriptions = "all_tenants";
 			params.subscriptionAvailability = "";
-			params["resourceMethod-0"] = "POST";
+			params["resourceMethod-0"] = apiInfo.method;
 			params["resourceMethodAuthType-0"] = "Application & Application User";
 			params["uriTemplate-0"] = "/*";
 			params["resourceMethodThrottlingTier-0"] = "Unlimited";
-			params["resourceMethod-1"] = "GET";
-			params["resourceMethodAuthType-1"] = "Application & Application User";
-			params["uriTemplate-1"] = "/*";
-			params["resourceMethodThrottlingTier-1"] = "Unlimited";
 			params.tiersCollection = "Unlimited";			
 			params.endpoint_config = '{"production_endpoints":{"url":"https://emm","config":null},"endpoint_type":"https"}';
 			
@@ -151,12 +147,12 @@ var apimgr = (function() {
 			var cookie = this.login(publisherServiceURL);
 			
 			var allAPIs = new Array();
-			allAPIs.push({name:"sender_id", context:"/emm/api/devices/sender_id", description:"Get sender id"});
-			allAPIs.push({name:"isregistered", context:"/emm/api/devices/isregistered", description:"Device is registered?"});
-			allAPIs.push({name:"license", context:"/emm/api/devices/license", description:"Get license."});
-			allAPIs.push({name:"register", context:"/emm/api/devices/register", description:"Register device."});
-			allAPIs.push({name:"unregister", context:"/emm/api/devices/unregister", description:"Unregister device"});
-			allAPIs.push({name:"pendingOperations", context:"/emm/api/devices/pendingOperations", description:"Get pending operations."});
+			allAPIs.push({name:"sender_id", context:"/emm/api/devices/sender_id", method:"GET", description:"Get sender id"});
+			allAPIs.push({name:"isregistered", context:"/emm/api/devices/isregistered", method:"POST", description:"Device is registered?"});
+			allAPIs.push({name:"license", context:"/emm/api/devices/license", method:"GET", description:"Get license."});
+			allAPIs.push({name:"register", context:"/emm/api/devices/register", method:"POST", description:"Register device."});
+			allAPIs.push({name:"unregister", context:"/emm/api/devices/unregister", method:"POST", description:"Unregister device"});
+			allAPIs.push({name:"pendingOperations", context:"/emm/api/devices/pendingOperations", method:"GET", description:"Get pending operations."});
 
 			for(var i = 0; i < allAPIs.length; i++) {
 				this.publishAPIs(allAPIs[i], publisherServiceURL, cookie);
