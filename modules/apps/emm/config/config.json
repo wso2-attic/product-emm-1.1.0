@@ -71,5 +71,12 @@
         "apiVersion": "1.1.0",
         "publisherServiceURL": "%https.ip%/productapipublisher",
         "storeServiceURL": "%https.ip%/productapistore",
+    },
+	"apiManagerConfigurations": {
+        "username": "admin",
+        "password": "admin",
+        "apiVersion": "1.1.0",
+        "publisherServiceURL": "%https.ip%/productapipublisher",
+        "storeServiceURL": "%https.ip%/productapistore",
     }
 }

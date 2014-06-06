@@ -58,8 +58,13 @@ var startup = (function () {
 
                 }
 				
-				//publishing/subscribing APIs
-                apimgr.publishEMMAPIs();
+                var properties;
+                if(ctx.tenantId == "-1234") {
+                    //publishing/subscribing APIs
+                    properties = apimgr.publishEMMAPIs();
+                } 
+
+                user.saveOAuthClientKey(ctx.tenantId, properties.prodConsumerKey, properties.prodConsumerSecret);
             }
             
             var tenantId = parseInt(common.getTenantID());
