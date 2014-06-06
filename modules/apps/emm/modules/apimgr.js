@@ -142,13 +142,15 @@ var apimgr = (function() {
 
 			for(var i = 0; i < allAPIs.length; i++) {
 				this.publishAPIs(allAPIs[i], publisherServiceURL, cookie);
-				this.promote(allAPIs[i], publisherServiceURL, cookie, "admin");
+				this.promote(allAPIs[i], publisherServiceURL, cookie, 
+					dataConfig.apiManagerConfigurations.username);
 			}
 			
 			cookie = this.login(storeServiceURL);
 			
 			for(var i = 0; i < allAPIs.length; i++) {
-				this.addSubscription(allAPIs[i], storeServiceURL, cookie, "admin");
+				this.addSubscription(allAPIs[i], storeServiceURL, cookie, 
+					dataConfig.apiManagerConfigurations.username);
 			}
 			
 			var result = this.getConsumerKeyPair(storeServiceURL, cookie);
