@@ -204,7 +204,7 @@ var apimgr = (function() {
                     }
                 }
             } else {
-                return results.properties;
+                return parse(results[0].properties);
             }
 		}
 	}

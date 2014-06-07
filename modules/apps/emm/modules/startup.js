@@ -54,11 +54,8 @@ var startup = (function () {
                     }
                 }
 				
-                var properties;
-                if(ctx.tenantId == "-1234") {
-                    //publishing/subscribing APIs
-                    properties = apimgr.publishEMMAPIs();
-                }
+                //publishing APIs / subscribing APIs / consumer key and consumer secret
+                var properties = apimgr.publishEMMAPIs();
                 user.saveOAuthClientKey(parseInt(ctx.tenantId), properties.prodConsumerKey, properties.prodConsumerSecret);
             }
             
