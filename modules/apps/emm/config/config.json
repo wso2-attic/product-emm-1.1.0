@@ -70,6 +70,6 @@
         "password": "admin",
         "apiVersion": "1.0.0",
         "publisherServiceURL": "%https.ip%/productapipublisher",
-        "storeServiceURL": "%https.ip%/productapistore",
+        "storeServiceURL": "%https.ip%/productapistore"
     }
 }

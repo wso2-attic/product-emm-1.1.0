@@ -819,7 +819,6 @@ var user = (function () {
                 log.error(e);
                 return null;
             }
-
         },
 
 

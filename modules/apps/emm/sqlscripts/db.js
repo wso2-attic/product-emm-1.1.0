@@ -269,7 +269,7 @@ var permissions = {
     'insert1' :"INSERT INTO permissions (role,content,tenant_id) values (?,?,?)"
 };
 
-var api_mgmt = {
+var settings = {
     'select1' : "SELECT properties FROM settings WHERE tenant_id = ?",
     'update1' : "UPDATE settings SET properties = ? WHERE tenant_id = ?",
     'insert1' :"INSERT INTO settings (tenant_id, properties) values (?, ?)"

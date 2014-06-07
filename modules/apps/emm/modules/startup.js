@@ -36,8 +36,6 @@ var startup = (function () {
                     sucessAddingPermissions = driver.query(sqlscripts.permissions.insert1,'admin',defaultAdminPermssion, ctx.tenantId);
                 }
 
-
-
                 //this is for automatically publish, publisher and reviwer roles at the time of tenent admin login
                 var server = application.get("SERVER");
                 var um = new carbon.user.UserManager(server,  ctx.tenantId);
@@ -45,7 +43,6 @@ var startup = (function () {
                 arrPermission["/permission/admin/login"] = ["ui.execute"];
 
                 var roles = ["Internal/reviewer", "Internal/publisher", "Internal/store" ];
-
                 for(var i = 0; i < roles.length; i++){
                    
                     if (um.roleExists(roles[i])) {
@@ -55,16 +52,14 @@ var startup = (function () {
                         um.addRole(roles[i], [], arrPermission);
                         um.authorizeRole(roles[i], arrPermission);
                     }
-
                 }
 				
                 var properties;
                 if(ctx.tenantId == "-1234") {
                     //publishing/subscribing APIs
                     properties = apimgr.publishEMMAPIs();
-                } 
-
-                user.saveOAuthClientKey(ctx.tenantId, properties.prodConsumerKey, properties.prodConsumerSecret);
+                }
+                user.saveOAuthClientKey(parseInt(ctx.tenantId), properties.prodConsumerKey, properties.prodConsumerSecret);
             }
             
             var tenantId = parseInt(common.getTenantID());

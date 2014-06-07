@@ -139,75 +139,73 @@ var apimgr = (function() {
 			var result = post(url, params, headers, null);
 			
 			return result;
-		}
-		,publishEMMAPIs : function() {
-			
-			var publisherServiceURL = dataConfig.apiManagerConfigurations.publisherServiceURL;
-			var storeServiceURL = dataConfig.apiManagerConfigurations.storeServiceURL;
-			var cookie = this.login(publisherServiceURL);
-			
-			var allAPIs = new Array();
-			allAPIs.push({name:"sender_id", context:"/emm/api/devices/sender_id", method:"GET", description:"Get sender id"});
-			allAPIs.push({name:"isregistered", context:"/emm/api/devices/isregistered", method:"POST", description:"Device is registered?"});
-			allAPIs.push({name:"license", context:"/emm/api/devices/license", method:"GET", description:"Get license."});
-			allAPIs.push({name:"register", context:"/emm/api/devices/register", method:"POST", description:"Register device."});
-			allAPIs.push({name:"unregister", context:"/emm/api/devices/unregister", method:"POST", description:"Unregister device"});
-			allAPIs.push({name:"pendingOperations", context:"/emm/api/devices/pendingOperations", method:"GET", description:"Get pending operations."});
+		},
+        publishEMMAPIs : function() {
 
-			for(var i = 0; i < allAPIs.length; i++) {
-				this.publishAPIs(allAPIs[i], publisherServiceURL, cookie);
-				this.promote(allAPIs[i], publisherServiceURL, cookie, 
-					dataConfig.apiManagerConfigurations.username);
-			}
-			
-			cookie = this.login(storeServiceURL);
-			
-			for(var i = 0; i < allAPIs.length; i++) {
-				this.addSubscription(allAPIs[i], storeServiceURL, cookie, 
-					dataConfig.apiManagerConfigurations.username);
-			}
-			
-			this.generateApplicationKey("PRODUCTION", storeServiceURL, cookie);
-			this.generateApplicationKey("SANDBOX", storeServiceURL, cookie);
-			var result = this.getConsumerKeyPair(storeServiceURL, cookie);
-			
-			if(result != null) {
+            var results = driver.query(sqlscripts.settings.select1, "-1234");
+            if (results.length == 0) {
 
-				var data = result.data;
-				data = parse(data);
-				
-				if(data != null) {
-					
-					var subscriptions = data["subscriptions"];
-					
-					if(subscriptions != null && subscriptions != undefined && subscriptions.length > 0) {
-						
-						var subscription = subscriptions[0];
-						var prodConsumerKey = subscription["prodConsumerKey"];
-						var prodConsumerSecret = subscription["prodConsumerSecret"];
-						var sandboxConsumerKey = subscription["sandboxConsumerKey"];
-						var sandboxConsumerSecret = subscription["sandboxConsumerSecret"];
-						
-						var properties = {};
-						properties.prodConsumerKey = prodConsumerKey;
-						properties.prodConsumerSecret = prodConsumerSecret;
-						properties.sandboxConsumerKey = sandboxConsumerKey;
-						properties.sandboxConsumerSecret = sandboxConsumerSecret;
-						
-						var results = driver.query(sqlscripts.api_mgmt.select1, "-1234");
-						
-						if(results != null && results != undefined && results.length > 0) {
-							driver.query(sqlscripts.api_mgmt.update1, stringify(properties), "-1234");
-						} else {
-							driver.query(sqlscripts.api_mgmt.insert1, "-1234", stringify(properties));
-						}
-						
-						return properties;
+                var publisherServiceURL = dataConfig.apiManagerConfigurations.publisherServiceURL;
+                var storeServiceURL = dataConfig.apiManagerConfigurations.storeServiceURL;
+                var cookie = this.login(publisherServiceURL);
 
-					}
-					
-				}
-			}
+                var allAPIs = new Array();
+                allAPIs.push({name:"sender_id", context:"/emm/api/devices/sender_id", method:"GET", description:"Get sender id"});
+                allAPIs.push({name:"isregistered", context:"/emm/api/devices/isregistered", method:"POST", description:"Device is registered?"});
+                allAPIs.push({name:"license", context:"/emm/api/devices/license", method:"GET", description:"Get license."});
+                allAPIs.push({name:"register", context:"/emm/api/devices/register", method:"POST", description:"Register device."});
+                allAPIs.push({name:"unregister", context:"/emm/api/devices/unregister", method:"POST", description:"Unregister device"});
+                allAPIs.push({name:"pendingOperations", context:"/emm/api/devices/pendingOperations", method:"GET", description:"Get pending operations."});
+
+                for(var i = 0; i < allAPIs.length; i++) {
+                    this.publishAPIs(allAPIs[i], publisherServiceURL, cookie);
+                    this.promote(allAPIs[i], publisherServiceURL, cookie,
+                        dataConfig.apiManagerConfigurations.username);
+                }
+
+                cookie = this.login(storeServiceURL);
+                for(var i = 0; i < allAPIs.length; i++) {
+                    this.addSubscription(allAPIs[i], storeServiceURL, cookie,
+                        dataConfig.apiManagerConfigurations.username);
+                }
+
+                this.generateApplicationKey("PRODUCTION", storeServiceURL, cookie);
+                this.generateApplicationKey("SANDBOX", storeServiceURL, cookie);
+                var result = this.getConsumerKeyPair(storeServiceURL, cookie);
+
+                if(result != null) {
+                    var data = result.data;
+                    data = parse(data);
+                    if (data != null) {
+                        var subscriptions = data["subscriptions"];
+                        if (subscriptions != null && subscriptions != undefined && subscriptions.length > 0) {
+
+                            var subscription = subscriptions[0];
+                            var prodConsumerKey = subscription["prodConsumerKey"];
+                            var prodConsumerSecret = subscription["prodConsumerSecret"];
+                            var sandboxConsumerKey = subscription["sandboxConsumerKey"];
+                            var sandboxConsumerSecret = subscription["sandboxConsumerSecret"];
+
+                            var properties = {};
+                            properties.prodConsumerKey = prodConsumerKey;
+                            properties.prodConsumerSecret = prodConsumerSecret;
+                            properties.sandboxConsumerKey = sandboxConsumerKey;
+                            properties.sandboxConsumerSecret = sandboxConsumerSecret;
+
+                            results = driver.query(sqlscripts.settings.select1, "-1234");
+
+                            if(results != null && results != undefined && results.length > 0) {
+                                driver.query(sqlscripts.settings.update1, stringify(properties), "-1234");
+                            } else {
+                                driver.query(sqlscripts.settings.insert1, "-1234", stringify(properties));
+                            }
+                            return properties;
+                        }
+                    }
+                }
+            } else {
+                return results.properties;
+            }
 		}
 	}
 	

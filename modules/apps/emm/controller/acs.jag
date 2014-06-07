@@ -13,7 +13,7 @@ sso.acs(function(loggedInUser) {
     session.put("Loged", "true");
     var username = loggedInUser;
     var userModule = require('/modules/user.js').user;
-    var db = application.get('db');
+    var db = common.getDatabase();
     var user = new userModule(db);
     var objUser = user.getUser({
         'userid': username,
@@ -47,7 +47,7 @@ sso.acs(function(loggedInUser) {
         userFeed.isAdmin = isAdmin;
         session.put("emmConsoleUserLogin", "true");
         session.put("emmConsoleUser", userFeed);
-        var db = common.getDatabase();
+        //var db = common.getDatabase();
 
         var startupModule = require('/modules/startup.js').startup;
         var startup = new startupModule(db);
