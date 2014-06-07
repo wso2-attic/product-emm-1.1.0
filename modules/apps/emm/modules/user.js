@@ -579,7 +579,7 @@ var user = (function () {
             var scepConfiguration = this.getSCEPConfiguration(tenantId);
             var license = this.getTenantLicense(tenantId);
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
-            var oauthClientKey = this.getOAuthClientKey(tenantId);
+            //var oauthClientKey = this.getOAuthClientKey(tenantId);
 
             var jsonBuilder = {};
 
@@ -661,6 +661,7 @@ var user = (function () {
                 jsonBuilder.uiCopyright = "";
             }
 
+            /*
             if(oauthClientKey != null) {
                 jsonBuilder.clientkey = oauthClientKey.ClientKey;
                 jsonBuilder.clientsecret = oauthClientKey.ClientSecret;
@@ -668,6 +669,7 @@ var user = (function () {
                 jsonBuilder.clientkey = "";
                 jsonBuilder.clientsecret = "";
             }
+            */
 
             return jsonBuilder;
         },
