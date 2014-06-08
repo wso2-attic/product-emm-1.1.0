@@ -411,11 +411,11 @@ INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (1, 'USERS', 1);
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (2, 'PLATFORMS', 2);
 INSERT INTO `policy_priority` (`id`, `type`, `priority`) VALUES (3, 'ROLES', 3);
 
-DROP TABLE IF EXISTS settings;
-CREATE TABLE settings(
+CREATE TABLE IF NOT EXISTS `settings`(
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `tenant_id` INT(11) NULL DEFAULT NULL ,
-  `properties` VARCHAR(4096) NULL DEFAULT NULL
+  `properties` VARCHAR(4096) NULL DEFAULT NULL,
+   PRIMARY KEY (`id`)
 );
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
