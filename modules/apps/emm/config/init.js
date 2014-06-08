@@ -2,10 +2,10 @@ var common = require('/modules/common.js');
 var log = new Log();
 
 var db = common.getDatabase();
-
-var androidConfig = require('android.json');
 var gcm = require('gcm').gcm;
-gcm.setApiKey(androidConfig.api_key);
+
+//var androidConfig = require('android.json');
+//gcm.setApiKey(androidConfig.api_key);
 
 var app_TENANT_CONFIGS = 'tenant.configs';
 var app_carbon = require('carbon');

@@ -25,7 +25,7 @@ public class GCMServerBridge {
         apiKey = key;
     }
 
-    public String sendDataViaGCM(String regId,String code,String token,String data,int minutes,String collapseKey){
+    public String sendDataViaGCM(String apiKey, String regId,String code,String token,String data,int minutes,String collapseKey){
         int seconds = 60;
         if(minutes!=0){
             seconds = minutes*60;
@@ -43,7 +43,7 @@ public class GCMServerBridge {
         return result.toString();
     }
 
-    public String sendDataViaGCM(String regId,String code,String token,String data,int minutes){
+    public String sendDataViaGCM(String apiKey, String regId,String code,String token,String data,int minutes){
         int seconds = 60;
         if(minutes!=0){
             seconds = minutes*60;
