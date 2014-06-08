@@ -308,6 +308,9 @@
                   <include>**/patch0006/*.*</include>
              </includes>
         </fileSet>
+
+
+		<!-- Script -->
         <fileSet>
             <directory>src/repository/dbscripts/</directory>
             <outputDirectory>wso2emm-${pom.version}/dbscripts</outputDirectory>
