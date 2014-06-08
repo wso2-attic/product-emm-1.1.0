@@ -323,7 +323,7 @@ $("#modalChangePasswordButton").click(function() {
     
     if(password.length < 6){
         var n = noty({
-            text : 'Password lest must be atleast 6 characters long',
+            text : 'Password should be at least 6 characters long',
             'layout' : 'center',
             type: 'error'
 
