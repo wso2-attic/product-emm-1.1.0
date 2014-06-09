@@ -185,9 +185,10 @@ var user = (function (){
 		});
         router.put('users/invite',function(ctx){
             log.debug('email sending to user');
+            
 			var u = user.getUser(ctx);
 			if(u!=null){
-                if(user.isEmailConfigured) {
+                if(user.isEmailConfigured()) {
                     user.sendEmail({'email':String(u.email), 'firstName': String(u.firstName)});
                     log.debug('Email sent to user with id '+u.email);
                     return;
