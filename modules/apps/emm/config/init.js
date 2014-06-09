@@ -4,9 +4,6 @@ var log = new Log();
 var db = common.getDatabase();
 var gcm = require('gcm').gcm;
 
-//var androidConfig = require('android.json');
-//gcm.setApiKey(androidConfig.api_key);
-
 var app_TENANT_CONFIGS = 'tenant.configs';
 var app_carbon = require('carbon');
 var app_configs = require('emm.js').config();
@@ -17,6 +14,3 @@ var app_server = new app_carbon.server.Server({
 });
 application.put("SERVER", app_server);
 application.put(app_TENANT_CONFIGS, {});
-
-// var deviceModule = require('../modules/device.js').device;
-// var device = new deviceModule(db);
