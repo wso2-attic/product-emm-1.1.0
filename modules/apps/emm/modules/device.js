@@ -507,13 +507,12 @@ var device = (function () {
             AndroidNotifierType = configFile.DEFAULT.ANDROID.NOTIFIER;
         }
 
-
         if(AndroidNotifierType == "GCM") {
             if(featureCode=="500P" || featureCode=="502P"){
-                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, token, "CONTACT SERVER", 30240, "POLICY");
+                var gcmMSG = gcm.sendViaGCMtoMobile(androidGCMKeys.APIKeys[0], regId, featureCode, token, "CONTACT SERVER", 30240, "POLICY");
             }else{
                 log.debug("Sending");
-                var gcmMSG = gcm.sendViaGCMtoMobile(regId, featureCode, "CONTACT SERVER", payLoad, 3);
+                var gcmMSG = gcm.sendViaGCMtoMobile(androidGCMKeys.APIKeys[0], regId, featureCode, "CONTACT SERVER", payLoad, 3);
             }
             log.debug(gcmMSG);
         }
@@ -1035,7 +1034,6 @@ var device = (function () {
 
         <!-- android specific functions -->
         getSenderId: function(ctx){
-            var androidConfig = require('/config/android.json');
             var message = {};
 
             var options = {};
@@ -1053,7 +1051,6 @@ var device = (function () {
                 message.notifier = configFile.DEFAULT.ANDROID.NOTIFIER;
                 message.sender_id = "";
                 message.notifierInterval = configFile.DEFAULT.ANDROID.NOTIFIER_INTERVAL;
-                // message.sender_id = androidConfig.sender_id;
             }
             return message;
         },

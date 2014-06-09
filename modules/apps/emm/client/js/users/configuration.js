@@ -117,8 +117,8 @@ $(".add-group-link").click(function() {
 });
               
  
- $(".btn-enroll").click(function() {
-    var enrollURL = $(this).data('url') +  "/emm/api/device_enroll";
+ function enrollWithoutEmail() {
+    var enrollURL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + "/emm/api/device_enroll";
          
 	noty({
                         text : '<u>Enroll URL</u>: ' + enrollURL + '<div  id="qrcode" style="width:200px; padding-left:45px"></div>',
@@ -134,7 +134,7 @@ $(".add-group-link").click(function() {
                     });
      updateQRCode(enrollURL);    
 
-});             
+}             
               
               
 
@@ -283,27 +283,15 @@ $( "#main-table" ).on( "click", ".btn-invite", function() {
 			     	statusCode: {
 						400: function() {
 							n.setTimeout(0);
-							noty({
-								text : 'Error occured!',
-								'layout' : 'center',
-								'type': 'error'
-							});
+							enrollWithoutEmail();
 						},
                         404: function() {
 							n.setTimeout(0);
-							noty({
-								text : 'Error occured!',
-								'layout' : 'center',
-								'type': 'error'
-							});
+							enrollWithoutEmail();
 						},
                         403: function() {
 							n.setTimeout(0);
-							noty({
-								text : 'Please configure email before inviting a user!',
-								'layout' : 'center',
-								'type': 'error'
-							});
+							enrollWithoutEmail();
 						},
 						500: function() {
 							n.setTimeout(0);

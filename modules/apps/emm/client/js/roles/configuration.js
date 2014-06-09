@@ -112,6 +112,8 @@ $(".btn-item-remove").click(function() {
 
 
 $(".btn-invite").click(function() {
+    
+   
 	
 	var item = $(this).data("item");
 		
@@ -132,6 +134,7 @@ $(".btn-invite").click(function() {
 			text : 'Ok',
 			onClick : function($noty) {				
 				$noty.close();
+               
 				
 				jQuery.ajax({
 					url : getServiceURLs("groupsInvite"),
@@ -141,18 +144,16 @@ $(".btn-invite").click(function() {
 			     	dataType : "json",
 			     	statusCode: {
 						400: function() {
-							noty({
-								text : 'Error occured!',
-								'layout' : 'center',
-								'type': 'error'
-							});
+							
+							enrollWithoutEmail();
 						},
 						404: function() {
-							noty({
-								text : 'API not found',
-								'layout' : 'center',
-								'type': 'error'
-							});
+							
+							enrollWithoutEmail();
+						},
+                        403: function() {
+							
+							enrollWithoutEmail();
 						},
 						500: function() {
 							noty({
@@ -237,3 +238,39 @@ function fnCreateSelect( aData ){
     }
     return r+'</select>';
 }
+
+
+
+function updateQRCode(text) {
+
+    var element = document.getElementById("qrcode");
+
+
+
+    var bodyElement = document.body;
+    if(element.lastChild)
+        element.replaceChild(showQRCode(text), element.lastChild);
+    else
+        element.appendChild(showQRCode(text));
+
+}
+
+
+function enrollWithoutEmail() {
+    var enrollURL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + "/emm/api/device_enroll";
+         
+	noty({
+                        text : '<u>Enroll URL</u>: ' + enrollURL + '<div  id="qrcode" style="width:200px; padding-left:45px"></div>',
+                        buttons : [{
+                            addClass : 'btn btn-orange',
+                            text : 'OK',
+                            onClick : function($noty) {
+                                $noty.close();
+                            }
+
+
+                        }]
+                    });
+     updateQRCode(enrollURL);    
+
+}     

@@ -76,9 +76,15 @@ function performInstalltion(device, app){
 		noty({
 		text : 'Application is provisioned to the device',
 		'layout' : 'center',
-		'modal': false
+         'timeout': 1500,    
+		'modal': false,
+        'callback': {
+            afterClose: function() {
+                asset.process("mobileapp",app, location.href);
+            }
+        }    
 		});
-		asset.process("mobileapp",app, location.href);
+		
 	});
 	
 }

@@ -193,6 +193,12 @@
 										overwrite="true">
 									<fileset dir="src/repository/plugins"></fileset>
 								</copy>
+
+								<copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins"
+										overwrite="true">
+									<fileset dir="src/repository/components/patches/apimgt"></fileset>
+								</copy>
+
 							</tasks>
 						</configuration>
 						<goals>

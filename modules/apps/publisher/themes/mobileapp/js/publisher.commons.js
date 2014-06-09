@@ -234,7 +234,10 @@ $(document).ready(function() {
 		if (searchAssetString != "") {
 			var link = '/publisher/assets/' + searchPrefix + '/?query=' + searchAssetString;
 			window.location = link;
-		}
+		}else{
+            var link = '/publisher/assets/' + searchPrefix + "/"
+			window.location = link;
+        }
 	}
 
 });

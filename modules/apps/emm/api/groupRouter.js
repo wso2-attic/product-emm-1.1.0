@@ -16,7 +16,7 @@ var group = (function () {
 		    }
 		});
         router.put('groups/invite', function(ctx){
-            if(user.isEmailConfigured) {
+            if(user.isEmailConfigured()) {
                 var users= group.getUsersOfGroup(ctx);
                 for (var i = users.length - 1; i >= 0; i--){
                     user.sendEmail(user.getUser({email: users[i].email+"@"+ user.getTenantDomainFromID(common.getTenantID())}));
