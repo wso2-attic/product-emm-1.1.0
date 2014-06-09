@@ -109,7 +109,7 @@ CREATE TABLE platforms(
 	COLOR VARCHAR(50) DEFAULT NULL
 );
 
-INSERT INTO `platforms` VALUES (1,'Android','android phones and tabs','1','Android','#028482'),(2,'iPhone','iphone','2','iOS','#CCCCCC'),(3,'iPad','ipad','2','iOS','#CCCCCC'),(4,'iPod','ipod','2','iOS','#CCCCCC');
+INSERT INTO `platforms` VALUES (1,'Android','android phones and tabs','1','android','#028482'),(2,'iPhone','iphone','2','ios','#CCCCCC'),(3,'iPad','ipad','2','ios','#CCCCCC'),(4,'iPod','ipod','2','ios','#CCCCCC');
 
 
 CREATE TABLE IF NOT EXISTS policies(

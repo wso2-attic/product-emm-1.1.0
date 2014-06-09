@@ -93,21 +93,17 @@ var device = (function () {
 		var tenantID = devices[0].tenant_id;
 
         var platforms = driver.query(sqlscripts.devices.select5, deviceId);
-
         var platformName = platforms[0].type_name;// platform name for pull
-													// policy payLoad
+
         var roleList = user.getUserRoles({'username':username});
         var removeRoles = new Array("Internal/everyone", "wso2.anonymous.role", "Internal/reviewer","Internal/store","Internal/publisher");
         var roles = common.removeNecessaryElements(roleList,removeRoles);
         var role = roles[0];// role name for pull policy payLoad
 
-        log.debug("Rooles >>> " + role);
-        
+        log.debug("Roles >>> " + role);
 
         var obj = {};
-
         var upresult = driver.query(sqlscripts.policies.select15, category,String(username), tenantID);
-
         if(upresult!=undefined && upresult != null && upresult[0] != undefined && upresult[0] != null ){
             var policyPayLoad;
             var mdmPolicy = parse(upresult[0].data);
@@ -130,9 +126,8 @@ var device = (function () {
             return obj;
         }
 
-        var ppresult = driver.query(sqlscripts.policies.select2, category,platformName, tenantID );
+        var ppresult = driver.query(sqlscripts.policies.select2, category, platformName, tenantID );
         if(ppresult!=undefined && ppresult != null && ppresult[0] != undefined && ppresult[0] != null ){
-
             var policyPayLoad;
             var mdmPolicy = parse(ppresult[0].data);
             var mamPolicy = parse(ppresult[0].mam_data);
@@ -522,7 +517,7 @@ var device = (function () {
 
     <!-- iOs specific functions-->
     function invokeInitialFunctions(ctx) {
-        var db = application.get('db');
+        var db = common.getDatabase();
         var tenantID = common.getTenantID();
         var devices = driver.query(sqlscripts.devices.select7 ,ctx.deviceid);
         var deviceID = devices[0].id;
@@ -1012,7 +1007,7 @@ var device = (function () {
                 var operation = 'MONITORING';
                 this.sendToDevice({'deviceid':deviceId,'operation':'INFO','data':{}});
                 this.sendToDevice({'deviceid':deviceId,'operation':'APPLIST','data':{}});
-                var mdmPolicy = getPolicyMonitoringPayLoad(deviceId,1); //niranjan
+                var mdmPolicy = getPolicyMonitoringPayLoad(deviceId,1);
 
                 if(mdmPolicy != undefined && mdmPolicy != null){
                     if(mdmPolicy.payLoad != undefined && mdmPolicy.payLoad != null && mdmPolicy.type != undefined && mdmPolicy.type != null){

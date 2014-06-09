@@ -248,7 +248,7 @@ CREATE TABLE `platforms` (
 
 LOCK TABLES `platforms` WRITE;
 /*!40000 ALTER TABLE `platforms` DISABLE KEYS */;
-INSERT INTO `platforms` VALUES (1,'Android','android phones and tabs','1','Android','#028482'),(2,'iPhone','iphone','2','iOS','#CCCCCC'),(3,'iPad','ipad','2','iOS','#CCCCCC'),(4,'iPod','ipod','2','iOS','#CCCCCC');
+INSERT INTO `platforms` VALUES (1,'Android','android phones and tabs','1','android','#028482'),(2,'iPhone','iphone','2','ios','#CCCCCC'),(3,'iPad','ipad','2','ios','#CCCCCC'),(4,'iPod','ipod','2','ios','#CCCCCC');
 /*!40000 ALTER TABLE `platforms` ENABLE KEYS */;
 UNLOCK TABLES;
 
