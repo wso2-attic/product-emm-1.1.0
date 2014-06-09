@@ -1,0 +1,43 @@
+<%
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
+	var common = require('/modules/common.js');
+	var iosEmm = new iosEmmModule();
+	var log = new Log();
+	var operation = request.getParameter("operation");
+	
+	if(operation == "GetCACert") {
+		
+		var scepResponse = iosEmm.getCACert();
+
+		if (scepResponse.getResultCriteria() == "CA_CERT_FAILED") {
+			response.sendRedirect("emmerror.jag");
+		} else if (scepResponse.getResultCriteria() == "CA_CERT_RECEIVED") {
+			response.contentType = "application/x-x509-ca-cert";
+		} else if (scepResponse.getResultCriteria() == "CA_RA_CERT_RECEIVED") {
+			response.contentType = "application/x-x509-ca-ra-cert";
+		} else {
+			response.sendRedirect("emmerror.jag");
+		}
+		
+		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(scepResponse.getEncodedResponse());
+		print(new Stream(byteArrayInputStream)); 
+		
+	} else if(operation == "GetCACaps") {
+		
+		response.contentType = "text/plain";
+		
+		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(iosEmm.getCACaps());
+		print(new Stream(byteArrayInputStream)); 
+		
+	} else if(operation == "PKIOperation") {
+		var pkiMessage = iosEmm.getPKIMessage(request.getInputStream());
+					
+		response.contentType = "application/x-pki-message";
+		var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(pkiMessage);	
+		print(new Stream(byteArrayInputStream)); 
+			
+	} else  {
+		log.error("Invalid SCEP request");
+	}
+	
+%>

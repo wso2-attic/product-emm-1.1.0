@@ -1,0 +1,128 @@
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WSO2 Enterprise Mobile Management</title>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset=utf-8 />
+		<!-- Bootstrap -->
+		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+		<link href="assets/boostrapext/selectpicker/bootstrap-select.min.css" rel="stylesheet" media="screen">		
+		<link href="css/main.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+
+			<header>
+				<div class="navbar navbar-fixed-top">
+					<div class="navbar-inner">
+				<a class="brand" href="#" style="padding:0px; padding-left:20px"><img src="img/mobile-platform.png" style="height:40px"></a>					
+					</div>
+
+				</div>
+		   </header>
+		
+			
+
+			<div class="container">
+				<div class="row-fluid">					
+					
+					
+						
+						<div class="span12" >
+							
+							<div id="newest-app-list" class="container-fluid raw-fluid well-small" style="text-align:center">	
+							
+							
+							
+							
+							
+							<div class="span3-5 block" style="margin-left:25px" >
+								<div class="block-header">
+									<a class="heading-title" href="/store">
+									<div class="block-header-title">Mobile Management Console</div>
+									</a>
+								</div>
+								<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
+									
+									<a href="/emm">
+									<img src="img/mdm.png">
+									</a>
+									
+									
+								</div>
+							</div>
+							
+							
+							
+							<div class="span3-5 block" >
+								<div class="block-header">
+									<a class="heading-title" href="/store">
+									<div class="block-header-title">Mobile App Store</div>
+									</a>
+								</div>
+								<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
+									
+									<a href="/store">
+									<img src="img/store.png">
+									</a>
+									
+									
+								</div>
+							</div>
+							
+							<div class="span3-5 block">
+								<div class="block-header">
+									<a class="heading-title" href="/publisher">
+									<div class="block-header-title">Mobile App Publisher<br></div>
+									</a>								
+								</div>
+								<div id="newest-app-list" class="container-fluid raw-fluid" style="text-align:center">							
+									
+									<a href="/publisher">
+									<img src="img/publisher.png">
+									</a>
+									
+									
+								</div>
+							</div>
+							
+													
+								
+								
+							</div>
+						</div>
+					
+					
+						
+					
+					
+					
+					
+					
+				</div>
+
+			</div>
+			
+			
+	<footer style="clear:both;">
+			<div class="navbar">
+				<div class="raw text-center footer-bar">
+					<img class="footer-logo" style="width:100px" src="img/footer.png">
+					Copyright (c) 2014 - WSO2 .Inc 
+					
+				</div>
+			</div>
+</footer>
+			
+		
+		
+
+		<script src="assets/jquery/jquery-min.js"></script>
+		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+		
+
+	</body>
+</html>
+

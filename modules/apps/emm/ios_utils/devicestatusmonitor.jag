@@ -1,0 +1,20 @@
+<%
+    var sqlscripts = require('/sqlscripts/db.js');
+    var username = request.getParameter("username");
+    var driver = require('driver').driver(db);
+	var responseObj = {};
+	responseObj.status = false;
+	responseObj.udid = "";
+	
+	var udidResult = driver.query(sqlscripts.device_pending.select5, username);
+	
+	if(udidResult != null && udidResult != undefined && udidResult[0] != null && udidResult[0] != undefined) {
+		responseObj.status = true;
+		responseObj.udid = udidResult[0].udid;
+	}
+	
+	udidResult = null;
+	
+	print(stringify(responseObj));
+
+%>

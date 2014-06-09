@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.wso2.emm</groupId>
 	<artifactId>wso2emm-parent</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
 	<name>WSO2 Enterprise Mobility Manager (EMM) - Parent</name>
 	<url>http://wso2.org/projects/appserver/java</url>
@@ -64,25 +64,23 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>modules/components/mdm-ui</module>
-		<module>modules/features/org.wso2.emm.feature</module>
+		<module>modules/components/emm-ui</module>
+		<module>modules/components/emm-task</module>
+		<module>modules/components/emm-gcm</module>
+		<module>modules/components/emm-utils</module>
+		<module>modules/features</module>
 		<module>modules/p2-profile-gen</module>
 		<module>modules/distribution</module>
 	</modules>
 
 	<properties>
 		<ues.version>1.0.0</ues.version>
+		<es.version>1.0.0</es.version>
 		<carbon.kernal.version>4.2.0</carbon.kernal.version>
 		<carbon.platform.version>4.2.0</carbon.platform.version>
 
 		<!-- jaggery versions -->
 		<jaggery.feature.version>0.9.0.ALPHA4.wso2v3</jaggery.feature.version>
-
-		<!-- patch versions -->
-		<patch.version.421>4.2.1</patch.version.421>
-		<patch.version.422>4.2.2</patch.version.422>
-		<patch.version.423>4.2.3</patch.version.423>
-		<patch.version.424>4.2.4</patch.version.424>
 		<carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>
 		<stratos.version>2.2.0</stratos.version>
 		<stratos.patch.version.221>2.2.1</stratos.patch.version.221>
@@ -100,19 +98,48 @@
 		<mvn.gpg>1.0-alpha-3</mvn.gpg>
 		<maven-site-plugin.version>3.0</maven-site-plugin.version>
 		<maven-src-plugin.version>1.7.2</maven-src-plugin.version>
-		<maven-bunlde-plugin.version>2.3.5</maven-bunlde-plugin.version>
+		<maven-bundle-plugin.version>2.3.5</maven-bundle-plugin.version>
 		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 		<maven-assembly-plugin.version>2.2-beta-2</maven-assembly-plugin.version>
 		<maven-project-info-report-plugin.version>2.4</maven-project-info-report-plugin.version>
 		<maven-buildnumber-plugin.version>1.1</maven-buildnumber-plugin.version>
 		<maven-dependency-plugin.version>2.4</maven-dependency-plugin.version>
-		<caramel.feature.version>1.0.0-SNAPSHOT</caramel.feature.version>
+		<caramel.feature.version>1.0.0</caramel.feature.version>
+        <handlebars.feature.version>1.0.0-SNAPSHOT</handlebars.feature.version>
+        <markdown.feature.version>1.0.0-SNAPSHOT</markdown.feature.version>
+        <carbon.feature.version>1.0.0</carbon.feature.version>
+        <process.feature.version>1.0.0</process.feature.version>
+        <uuid.feature.version>1.0.0</uuid.feature.version>
+        <event.feature.version>1.0.0</event.feature.version>
+        <login.feature.version>1.0.0</login.feature.version>
+        <permission.feature.version>1.0.0</permission.feature.version>
+        <registration.feature.version>1.0.0</registration.feature.version>
+        <sso.feature.version>1.0.0</sso.feature.version>
+        <store.feature.version>1.0.0</store.feature.version>
+        <ues.feature.version>1.0.0</ues.feature.version>
+        <claims.feature.version>1.0.0</claims.feature.version>
+        <sugarcane.feature.version>1.0.0-SNAPSHOT</sugarcane.feature.version>
 		<wso2.slf4j.version>1.5.10.wso2v1</wso2.slf4j.version>
 		<sso.hostobjects.version>1.0.1</sso.hostobjects.version>
 		<rhino.osgi.version>1.7.0.R4.wso2v1-SNAPSHOT</rhino.osgi.version>
-		<commons-codec.osgi.version>1.4.0.wso2v1</commons-codec.osgi.version>
 		<opensaml2.wso2.version>2.4.1.wso2v1</opensaml2.wso2.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
+		<version.commons.codec>1.7</version.commons.codec>
+		<version.commons.io>1.4</version.commons.io>
+		<version.equinox.osgi.services>3.3.100.v20120522-1822</version.equinox.osgi.services>
+        <version.equinox.osgi>3.8.1.v20120830-144521</version.equinox.osgi>
+		<bcprov.wso2.version>1.49.wso2v1</bcprov.wso2.version>
+		<bcpkix.wso2.version>1.49.wso2v1</bcpkix.wso2.version>
+		<bcprov.ext.wso2.version>1.49.wso2v1</bcprov.ext.wso2.version>
+		<bcprov.wso2.version.range>[1.40.wso2v1, 1.50.0)</bcprov.wso2.version.range>
+		<bcmail.wso2.version>1.49.wso2v1</bcmail.wso2.version>
+		<gson.version>2.2.4</gson.version>
+		<jscep.version>2.0.2.wso2v1</jscep.version>
+		<apache.httpclient.version>3.1.0.wso2v2</apache.httpclient.version>
+		<notnoop.apns.version>0.2.3</notnoop.apns.version>
+		<jackson.version>2.1.4</jackson.version>
+		<jcip.annotations.version>1.0.wso2v1</jcip.annotations.version>
+		<slf4j.version>1.7.7</slf4j.version>
 	</properties>
 
 </project>

@@ -1,9 +1,0 @@
-<%
-	
-	var iosMdmModule = require('/modules/iosmdm.js').iosmdm;
-	var iosMdm = new iosMdmModule();
-	var log = new Log();
-
-	var messageType = iosMdm.extractDeviceTokens(request.getInputStream());
-	
-%>

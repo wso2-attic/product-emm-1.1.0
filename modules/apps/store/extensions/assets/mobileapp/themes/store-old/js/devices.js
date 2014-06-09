@@ -17,14 +17,14 @@ $(".device-image").each(function(index) {
 	
 	var srcImage = $(this).attr("src");	
 	if (!urlExists(srcImage)) {
-		$(this).attr("src", "/assets/wso2mobile/img/models/none.png");
+		$(this).attr("src", "/emm/assets/wso2mobile/img/models/none.png");
 	}
 });
 
 $(".device-image-modal").each(function(index) {	
 	var srcImage = $(this).attr("src");	
 	if (!urlExists(srcImage)) {
-		$(this).attr("src", "/assets/wso2mobile/img/models/none.png");
+		$(this).attr("src", "/emm/assets/wso2mobile/img/models/none.png");
 	}
 });
 
@@ -76,9 +76,15 @@ function performInstalltion(device, app){
 		noty({
 		text : 'Application is provisioned to the device',
 		'layout' : 'center',
-		'modal': false
+        'timeout': 1500,  
+		'modal': false,
+        'callback': {
+            afterClose: function() {
+                asset.process("mobileapp",app, location.href);
+            }
+        }
 		});
-		asset.process("mobileapp",app, location.href);
+		
 	});
 	
 }

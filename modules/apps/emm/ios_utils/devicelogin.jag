@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>iOS Enrollment</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/emm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+   <link href="/emm/assets/boostrap3/css/main.css" rel="stylesheet">
+   <link href="/emm/assets/boostrap3/css/signin.css" rel="stylesheet">
+
+       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      
+        <div class="navbar-header">         
+          <a class="navbar-brand" href="#">EMM Registration</a>
+        </div>   
+     
+    </div>
+
+
+     <div class="container">
+	
+		<h3>Policy Agreement</h3>
+		<p style="text-align:justify;"><%
+            var userModule = require('/modules/user.js').user;
+            var db = application.get('db');
+            var user = new userModule(db);
+
+            var username = request.getParameter("username");
+            var password = request.getParameter("password");
+            var tenantDomain = request.getParameter("tenantDomain").toLowerCase();
+
+            var ctx = {};
+            if (tenantDomain.trim() != ""){
+                ctx.username = username + "@" + tenantDomain;
+                ctx.userid = username + "@" + tenantDomain;
+            } else {
+                ctx.username = username;
+                ctx.userid = username;
+            }
+            ctx.password = password;
+            var objUser = user.authenticate(ctx);
+            if (objUser == null) {
+                response.sendRedirect("authfailed");
+            } else {
+                print(user.getLicenseByDomain(tenantDomain));
+            }
+
+		%></p>
+ 	<form class="form-signin" action="enroll" method="post" id="authform" >
+		 <button type="button" class="btn btn-lg btn-primary btn-block" onclick="onClickSubmit()">I Accept</button>
+	     <input name="tenantDomain" id="domain" type="hidden" value="<% print(request.getParameter('tenantDomain')); %>" />
+	     <input name="username" id="uname" type="hidden" value="<% print(request.getParameter('username')); %>" />
+	     <input name="password" id="password" type="hidden" value="<% print(request.getParameter('password')); %>" />
+         <input name="byod" type="hidden" value="1" />
+	 </form>
+     </div>
+     
+     <form id="enrollsuccess" method="post" action="enrollsuccess" >
+	   	<input type="hidden" id="enrollsuccessusername" name="username" />
+	   	<input type="hidden" id="enrollsuccessudid" name="udid" />
+	 </form>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/emm/assets/boostrap3/js/jquery.js"></script>
+    <script src="/emm/assets/boostrap3/js/bootstrap.min.js"></script>
+    
+    <script>
+
+		var monitor;
+	
+		function onClickSubmit() {
+			$("#authform").submit();
+			monitor = setInterval(function(){ invokeServer(); }, 1000);	 
+		}
+		
+		function invokeServer() {
+	
+	        $.ajax({
+	        	url:"devicestatusmonitor?username=" + $("#uname").val(),
+	        	async:true,
+	        	success:function(result){	   
+	        		var parsedResponse = jQuery.parseJSON(result);
+	        		
+	        		if(parsedResponse.status) {
+		        		clearInterval(monitor);
+		        		$('#enrollsuccessusername').val($("#uname").val());
+		        		$('#enrollsuccessudid').val(parsedResponse.udid);
+
+		        		$("#enrollsuccess").submit();
+	        		}
+	
+	        	}
+	        });
+		}
+	
+	</script>
+  </body>
+</html>

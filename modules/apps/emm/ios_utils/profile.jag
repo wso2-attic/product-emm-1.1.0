@@ -1,0 +1,19 @@
+<%
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
+	var common = require('/modules/common.js');
+	var iosEmm = new iosEmmModule();
+	var log = new Log();
+
+	var signedData = iosEmm.handleProfileRequest(request.getInputStream());
+		
+	if(signedData == null) {
+		response.sendRedirect("emmerror.jag");
+		log.error("Invalid signed data");	
+	}
+
+	response.contentType = "application/x-apple-aspen-config";
+	
+	var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(signedData);
+	print(new Stream(byteArrayInputStream)); 
+	
+%>

@@ -1,0 +1,10 @@
+{
+	'filePreciseLocation': "/upload/",
+	"email": {
+	    "smtp":"smtp.gmail.com",
+        "port":"25",
+        "companyName": "WSO2",
+        "senderAddress": "",
+		"emailPassword": ""
+    }
+}

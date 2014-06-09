@@ -7,14 +7,14 @@ var configs = require('/config/store.js').config();
 var log =new Log();
 var user = require('store').server.current(session);
 var process = require("process");
-var mdm = require('/modules/mdm.js').mdm;
-var mdmServer = new mdm();
+var emm = require('/modules/emm.js').emm;
+var emmServer = new emm();
 var server = require('store').server;
 
 var getTenantID = function() {
     if(!(typeof session === "undefined")){
-        if (session.get("mamConsoleUser") && session.get("mamConsoleUser").tenantId != 0) {
-            var tenantID = session.get("mamConsoleUser").tenantId;
+        if (session.get("emmConsoleUser") && session.get("emmConsoleUser").tenantId != 0) {
+            var tenantID = session.get("emmConsoleUser").tenantId;
             return tenantID;
         } else {
             return "-1234";
@@ -37,7 +37,7 @@ var getTenantDomainFromID = function() {
 */
 router.get('apps/users/{userid}/devices', function(ctx){
 	if(user!=undefined){
-		var result = mdmServer.getDevices(user.username, ctx.platform);
+		var result = emmServer.getDevices(user.username, ctx.platform);
 		print(result.data);
 	}else{
 		response.sendError(404);
@@ -52,7 +52,7 @@ router.get("apps/install/ios/{id}", function(ctx){
 	var store = require("/modules/store.js").store(ctx.tenantDomain, session);
 	var app = store.asset(type, ctx.id);
 	//Assuming that the extension is of 3 letters
-	var iosManifest = compileTemplate("/template.hbs", {url:configs.archieve_location+""+app.attributes.overview_url, bundleid: app.attributes.overview_packagename, bundleversion: app.attributes.overview_bundleversion,  appname:app.attributes.overview_name});
+	var iosManifest = compileTemplate("/template.hbs", {url:configs.archieve_location_ios+""+app.attributes.overview_url, bundleid: app.attributes.overview_packagename, bundleversion: app.attributes.overview_bundleversion,  appname:app.attributes.overview_name});
 	response.contentType = "application/xml";
 	print(iosManifest);
 });
@@ -75,9 +75,9 @@ router.post('apps/devices/{deviceid}/install', function(ctx){
 	};
 	if(asset.attributes.overview_platform.toUpperCase()=='WEBAPP'){
 		payload['title'] = asset.attributes.overview_name;
-		mdmServer.installWebClip(payload, ctx.deviceid);
+		emmServer.installWebClip(payload, ctx.deviceid);
 	}else{
-		mdmServer.install(payload, ctx.deviceid);
+		emmServer.install(payload, ctx.deviceid);
 	}
 });
 
@@ -86,12 +86,12 @@ router.post('apps/devices/{deviceid}/uninstall', function(ctx){
     var store = require("/modules/store.js").store(tenant, session);
 	var asset =  store.assetID(type, ctx.asset);
 	var install_asset = asset.attributes.overview_packagename; 
-	mdmServer.uninstall({identity: install_asset}, ctx.deviceid);
+	emmServer.uninstall({identity: install_asset}, ctx.deviceid);
 });
 var buildInstallParam = function(asset){
-	var installParam = configs.mam.archieve_location+asset.attributes.overview_url;
+	var installParam = configs.mam.archieve_location_android+asset.attributes.overview_url;
 	if (asset.attributes.overview_platform.toUpperCase() == 'IOS'){
-		installParam = configs.mam.archieve_location+"/store/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
+		installParam = configs.mam.archieve_location_ios+"/emm/api/apps/install/ios/"+asset.id+"?tenantDomain="+getTenantDomainFromID(getTenantID());;
 	}
 	if(asset.attributes.overview_type == "Market"){
 		installParam = asset.attributes.overview_packagename;

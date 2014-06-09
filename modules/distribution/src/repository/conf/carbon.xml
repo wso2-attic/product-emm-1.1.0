@@ -37,7 +37,7 @@
     <!--
        Product Version
     -->
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
 
     <!--
        Host name or IP address of the machine hosting this server
@@ -88,7 +88,7 @@
     <!--
        Webapp context root of WSO2 Carbon.
     -->
-    <WebContextRoot>/admin</WebContextRoot>
+    <WebContextRoot>/</WebContextRoot>
 
     <!-- In-order to  get the registry http Port from the back-end when the default http transport is not the same-->
     <!--RegistryHttpPort>9763</RegistryHttpPort-->
@@ -295,7 +295,7 @@
     <!-- 
       Enable following config to allow Emails as usernames.   
     -->       
-    <EnableEmailUserName>true</EnableEmailUserName> 
+    <EnableEmailUserName>false</EnableEmailUserName> 
 
     <!--
       Security configurations

@@ -1,0 +1,54 @@
+
+
+<script type="text/javascript">
+	var colors = {
+		"Non Compliance" : "#B80000",
+		"Compliance" : "#086F76"
+	};
+
+	for ( i = 0; i < chartData.length; i++) {
+		if (colors[chartData[i].label]) {
+			chartData[i].color = colors[chartData[i].label];
+		}
+		
+	    chartData[i].label =  chartData[i].label + " (" + chartData[i].devices  + (chartData[i].devices == 1 ? " Device" : " Devices") +  ")";
+
+				
+	}
+
+	$.plot('#chart-{{index}}', chartData, {
+		series : {
+			pie : {
+				show: true,
+	            radius: 1,
+	            label: {
+	                show: true,
+	                radius: 2/4,
+	                
+	                formatter: function(label, series){
+                       
+                        return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+ (label != "No Data (0 Devices)"? Math.round(series.percent) + "%" : "")+'</div>';
+                    }
+	            }
+			}
+		},
+		legend : {
+			show : false
+		}
+		
+	});
+
+</script>
+
+<div class="block">
+	<div class="block-header">
+		<div class="block-header-title pull-left">
+			{{title}}
+		</div>
+	</div>
+
+	<div class="container-fluid raw-fluid block-body" >
+		<a href="/emm/reports/devices_complience?dashboard=true&startdate=&enddate={{currentDate}}&status="><div id="chart-{{index}}" style="height: {{height}}; width:{{width}}"></div></a>
+	</div>
+
+</div>

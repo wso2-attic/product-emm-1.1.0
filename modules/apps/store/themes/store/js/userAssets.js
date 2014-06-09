@@ -61,7 +61,7 @@ noty({
 $(".device-image-modal").each(function(index) {	
 	var srcImage = $(this).attr("src");	
 	if (!urlExists(srcImage)) {
-		$(this).attr("src", "/assets/wso2mobile/img/models/none.png");
+		$(this).attr("src", "/emm/assets/wso2mobile/img/models/none.png");
 	}
 });
 
@@ -124,7 +124,7 @@ $(".device-image").each(function(index) {
 	
 	var srcImage = $(this).attr("src");	
 	if (!urlExists(srcImage)) {
-		$(this).attr("src", "/assets/wso2mobile/img/models/none.png");
+		$(this).attr("src", "/emm/assets/wso2mobile/img/models/none.png");
 	}
 });
 

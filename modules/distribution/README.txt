@@ -1,20 +1,21 @@
-WSO2 Enterprise Mobility Manager (EMM) ${product.version}
+WSO2 Enterprise Mobility Manager (EMM)
 ----------------------
-
-${buildNumber}
-
 Welcome to the WSO2 Enterprise Mobility Manager (EMM) ${product.version} release
+=======
 
 Key Features
 ------------
-[1] Creating & Sharing Dashboards
-[2] Creating & Sharing Microsites
-[3] Creating & Sharing Gadgets
-[4] Adding external gadgets by URL
-[5] Pre-built graph gadgets
-[6] Store integration to dashboard creation flow
-[7] Enterprise store aspect
-[8] Sample microsites
+1.  Self-service device enrollment and management with end-user MDM console
+2.  Policy-driven device management for security, data, and device features (Camera, Password Policy)
+3.  Deploy policies over-the-air 
+4.  Compliance monitoring for reporting, alerting, and device deprovisioning
+5.  Role based permissions for device management
+6.  Provisioning and deprovisioning applications to enrolled devices
+7.  Blacklisting of applications for Android
+8.  Supports App management
+9.  App approval process through a lifecycle
+10. Discover mobile apps through an Enterprise App Store
+11. Self-provisioning of mobile apps to devices
 
 
 Installation & Running
@@ -22,31 +23,28 @@ Installation & Running
 1. extract the downloaded zip file
 2. Run the wso2server.sh or wso2server.bat file in the bin directory
 3. Once the server starts, point your Web browser to
-   https://localhost:9443/portal/
+   https://localhost:9443/
 
 For more details, see the Installation Guide
 
 System Requirements
 -------------------
 
-1. Minimum memory - 1GB
-2. Processor      - Pentium 800MHz or equivalent at minimum
-3. Portal app requires full Javascript enablement of the Web browser
+1. Minimum memory - 2GB
+2. Portal app requires full Javascript enablement of the Web browser
 
 For more details see
-http://docs.wso2.org/wiki/display/UES100/Installation+Prerequisites
+https://docs.wso2.org/display/EMM110/Prerequisites
 
-Known Issues
-------------
-https://wso2.org/jira/issues/?filter=11718
-
+For known issues see
+https://wso2.org/jira/issues/?filter=11791
 
 WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
 -----------------------------------------------------
 
-	UES_HOME
+  EMM_HOME
         .
-        ├── bin   //executables
+        ├── bin              //executables
         ├── dbscripts        //DBScripts
         ├── INSTALL.txt
         ├── lib
@@ -67,7 +65,7 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
       various supported databases.
 
     - lib
-      Contains the basic set of libraries required to startup Application Server
+      Contains the basic set of libraries required to startup WSO2 Enterprise Mobility Manager
       in standalone mode
 
     - repository
@@ -79,7 +77,7 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
         - carbonapps
           Carbon Application hot deployment directory.
 
-    	- components
+      - components
           Contains all OSGi related libraries and configurations.
 
         - conf
@@ -93,7 +91,7 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
 
         - deployment
           Contains server side and client side Axis2 repositories.
-	      All deployment artifacts should go into this directory.
+        All deployment artifacts should go into this directory.
 
         - logs
           Contains all log files created during execution.
@@ -101,9 +99,9 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
         - resources
           Contains additional resources that may be required.
 
-	- tenants
-	  Directory will contain relevant tenant artifacts
-	  in the case of a multitenant deployment.
+  - tenants
+    Directory will contain relevant tenant artifacts
+    in the case of a multitenant deployment.
 
     - tmp
       Used for storing temporary files, and is pointed to by the
@@ -120,10 +118,10 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
       This document.
 
     - INSTALL.txt
-      This document contains information on installing WSO2 Application Server.
+      This document contains information on installing WSO2 Enterprise Mobility Manager.
 
     - release-notes.html
-      Release information for WSO2 Application Server ${appserver.version}
+      Release information for WSO2 Enterprise Mobility Manager ${product.version}
 
 Secure sensitive information in carbon configuration files
 ----------------------------------------------------------
@@ -133,19 +131,19 @@ You can secure them by using secure vault. Please go through following steps to
 secure them with default mode.
 
 1. Configure secure vault with default configurations by running ciphertool
-	script from bin directory.
+  script from bin directory.
 
 > ciphertool.sh -Dconfigure   (in UNIX)
 
 This script would do following configurations that you need to do by manually
 
 (i) Replaces sensitive elements in configuration files,  that have been defined in
-		 cipher-tool.properties, with alias token values.
+     cipher-tool.properties, with alias token values.
 (ii) Encrypts plain text password which is defined in cipher-text.properties file.
 (iii) Updates secret-conf.properties file with default keystore and callback class.
 
 cipher-tool.properties, cipher-text.properties and secret-conf.properties files
-			can be found at repository/conf/security directory.
+      can be found at repository/conf/security directory.
 
 2. Start server by running wso2server script from bin directory
 
@@ -180,42 +178,6 @@ from evaluation to production. Our unique approach ensures that all support leve
 development methodology and is provided by the very same engineers who build the technology.
 
 For additional support information please refer to http://wso2.com/support/
-
-For more information on WSO2 Application Server, visit the WSO2 Oxygen Tank (http://wso2.org)
-
-Crypto Notice
--------------
-
-This distribution includes cryptographic software.  The country in
-which you currently reside may have restrictions on the import,
-possession, use, and/or re-export to another country, of
-encryption software.  Before using any encryption software, please
-check your country's laws, regulations and policies concerning the
-import, possession, or use, and re-export of encryption software, to
-see if this is permitted.  See <http://www.wassenaar.org/> for more
-information.
-
-The U.S. Government Department of Commerce, Bureau of Industry and
-Security (BIS), has classified this software as Export Commodity
-Control Number (ECCN) 5D002.C.1, which includes information security
-software using or performing cryptographic functions with asymmetric
-algorithms.  The form and manner of this Apache Software Foundation
-distribution makes it eligible for export under the License Exception
-ENC Technology Software Unrestricted (TSU) exception (see the BIS
-Export Administration Regulations, Section 740.13) for both object
-code and source code.
-
-The following provides more details on the included cryptographic
-software:
-
-Apacge Rampart   : http://ws.apache.org/rampart/
-Apache WSS4J     : http://ws.apache.org/wss4j/
-Apache Santuario : http://santuario.apache.org/
-Bouncycastle     : http://www.bouncycastle.org/
-
-
-For further details, see the WSO2 Application Server documentation at
-http://docs.wso2.org/wiki/application-server-documentation
 
 ---------------------------------------------------------------------------
 (c) Copyright 2013 WSO2 Inc.

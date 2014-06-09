@@ -1,0 +1,264 @@
+{
+    "apiRoutes": {
+        "/emm/api/users/{userid}/sendmail": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/{userid}": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/unauthenicate/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/{userid}": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/{+userid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/{+username}/groups/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/{+username}/groups/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/{userid}/devices": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/invite": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/users/changepassword": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/invite": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/{groupid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/{groupid}/users/device_count": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/{groupid}/users": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/{groupid}/users": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/{groupid}": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/groups/{groupid}/operations/{operation}": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/notifications/devices/{deviceid}": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/refresh/devices/{deviceid}/{operation}": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/permissions/": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/permissions/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/permissions/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policy/{policyid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/{policyid}/enforce": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/{policyid}": {
+            'DELETE': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/{policyid}/groups": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/{policyid}/users": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/{policyid}/platforms": {
+            'PUT': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/policies/{policyid}/groups": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/permission/groups/{groupid}/features/": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/devices/{deviceid}/operations/{operation}": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/devices/{deviceid}/features": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },  
+        "/emm/api/devices/{deviceid}": {
+            'POST': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/pending/devices/{udid}/operations": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/dashboard/devices/all/percentage/byos": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/dashboard/devices/all/percentage/byownership": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/dashboard/all/info": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/dashboard/devices/android/info": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/dashboard/devices/ios/info": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/dashboard/policies/compliance": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/webconsole/devices": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/webconsole/listDevices": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/webconsole/allUsers": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        },
+        "/emm/api/features": {
+            'GET': [
+                'Internal/everyone'
+            ]
+        }
+    },
+    "pageRoutes": {
+    	"users/configuration": ["Internal/emmadmin", "admin"],
+    	"devices/management": ["Internal/emmadmin", "admin"],
+    	"console/dashboard" : ["Internal/emmadmin", "admin"]
+    }
+}

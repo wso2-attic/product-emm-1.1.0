@@ -38,3 +38,34 @@ $( ".tab-button" ).click(function() {
 	
 
 });
+
+$( ".btn-view-app" ).click(function(e) {
+    
+    
+   // alert($(this).data("id"));
+    var url = window.location.protocol + "//" + window.location.host + $(this).data("url");
+	$("#appModalAppURL").attr("href", url);
+    $("#appModalAppURL").html(url);
+    updateQRCode(url);
+    
+    $("#appModal").modal('show');
+	e.stopPropagation();
+	
+
+});
+
+
+
+function updateQRCode(text) {
+
+        var element = document.getElementById("qrcode");
+    
+        
+
+        var bodyElement = document.body;
+        if(element.lastChild)
+          element.replaceChild(showQRCode(text), element.lastChild);
+        else
+          element.appendChild(showQRCode(text));
+
+      }

@@ -1,0 +1,304 @@
+<div class="container">
+
+    <div class="raw-fluid">
+        <div class="span12">{{>config-navigation}}</div>
+    </div>
+
+    <div class="raw-fluid">
+        <div class="span12">
+
+            <div class="raw-fluid">
+                <div class="block">
+                    <div class="block-header">
+                        <div class="block-header-title pull-left">
+                            Settings
+                        </div>
+
+                    </div>
+
+                    <div class="block-body">
+                        <form class="form-horizontal" data-validate="parsley" id="tenetForm" action="../api/tenant/configuration" method="POST">
+
+
+
+                            <ul class="nav nav-tabs" id="oSTab">
+
+                                <li class="active">
+                                    <a href="#general"><i class="icon-gear"></i> General</a>
+                                </li>
+
+                                <li>
+                                    <a href="#android"><i class="icon-android"></i> Android</a>
+                                </li>
+
+                                <li>
+                                    <a href="#ios"><i class="icon-apple"></i> iOS</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" >
+
+
+                                <div class="tab-pane active offset1" id="general">
+
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Company Name <span style="color:#FF0000">*</span></label>
+                                        <div class="controls">
+                                            <input type="text" id="companyName" name="companyName" class="input-xlarge" >
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputCopyright">Browser Title <span style="color:#FF0000">*</span></label>
+                                        <div class="controls">
+                                            <input type="text" id="uiTitle" name="uiTitle" class="input-xxlarge" data-required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputCopyright">Copyright Footer Text <span style="color:#FF0000">*</span></label>
+                                        <div class="controls">
+                                            <input type="text" id="uiCopyright" name="uiCopyright" class="input-xxlarge" data-required="true">
+                                        </div>
+                                    </div>
+
+                                    <h5 class="setting-conf-title" >Email Configurations</h5>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Host</label>
+                                        <div class="controls">
+                                            <input type="text" data-type="url" id="emailSmtpHost" name="emailSmtpHost" class="input-xlarge" >
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Port</label>
+                                        <div class="controls">
+                                            <input type="text" data-type="number" id="emailSmtpPort" name="emailSmtpPort" class="input-medium" >
+                                        </div>
+                                    </div>
+
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputCopyright">Username</label>
+                                        <div class="controls">
+                                            <input type="text" data-type="email" id="emailUsername" name="emailUsername" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputCopyright">Password</label>
+                                        <div class="controls">
+                                            <input type="password" id="emailPassword" name="emailPassword" class="input-xlarge" >
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputCopyright">Sender Email Address</label>
+                                        <div class="controls">
+                                            <input type="text" data-type="email" id="emailSenderAddress" name="emailSenderAddress" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputLicence">Email Template</label>
+                                        <div class="controls">
+                                            <textarea placeholder="You have been registered to the WSO2Mobile MDM. Below is the link to enroll." id="emailTemplate" name="emailTemplate" rows="10" class="input-xxlarge"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <h5 class="setting-conf-title">Policy Settings</h5>
+
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputLicence">Policy Agreement <span style="color:#FF0000">*</span></label>
+                                        <div class="controls">
+                                            <textarea id="uiLicence" name="uiLicence" rows="10" class="input-xxlarge"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="tab-pane offset1" id="android">
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Notifier Type</label>
+                                        <div class="controls">
+                                            <select id="androidNotifier" name="androidNotifier">
+                                                <option value="LOCAL">LOCAL</option>
+                                                <option value="GCM">GCM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">Notifier Frequency (in milliseconds)</label>
+                                        <div class="controls">
+                                            <input type="text" id="androidNotifierFreq" name="androidNotifierFreq" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">API keys</label>
+                                        <div class="controls">
+                                            <textarea id="androidApiKeys" name="androidApiKeys" rows="4" class="input-xxlarge" ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">Sender IDs</label>
+                                        <div class="controls">
+                                            <textarea id="androidSenderIds" name="androidSenderIds" rows="4" class="input-xxlarge" ></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>   
+
+                                <div class="tab-pane offset1" id="ios">
+
+                                    <h5 class="setting-conf-title">iOS SCEP Certificate Configurations</h5>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Email</label>
+                                        <div class="controls">
+                                            <input type="text" data-type="email" id="iosSCEPEmail" name="iosSCEPEmail" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Country (C)</label>
+                                        <div class="controls">
+                                            <input type="text" id="iosSCEPCountry" name="iosSCEPCountry" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >State (ST)</label>
+                                        <div class="controls">
+                                            <input type="text" id="iosSCEPState" name="iosSCEPState" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Locality (L)</label>
+                                        <div class="controls">
+                                            <input type="text" id="iosSCEPLocality" name="iosSCEPLocality" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Organization (O)</label>
+                                        <div class="controls">
+                                            <input type="text" id="iosSCEPOrganisation" name="iosSCEPOrganisation" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Organization Unit (OU)</label>
+                                        <div class="controls">
+                                            <input type="text" id="iosSCEPOrganisationUnit" name="iosSCEPOrganisationUnit" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+
+                                    <h5 class="setting-conf-title">iOS MDM Configurations</h5>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >MDM Certificate</label>
+                                        <div class="controls">
+                                            <span id="mDMCertFileName"></span>
+                                            <input type="file" id="iosMDMCert" name="iosMDMCert" class="input-xxlarge">
+                                            <input type="hidden" value="false" id="iosMDMCertModified" name="iosMDMCertModified" class="input-xxlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >MDM Certificate Password</label>
+                                        <div class="controls">
+                                            <input type="password" id="iosMDMPass" name="iosMDMPass" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >MDM Certificate Topic ID</label>
+                                        <div class="controls">
+                                            <input type="text" id="iosMDMTopic" name="iosMDMTopic" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Mode</label>
+                                        <div class="controls">
+                                            <select id="iosMDMMode" name="iosMDMMode">
+                                                <option value="production">Production</option>
+                                                <option value="developer">Developer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <h5 class="setting-conf-title">iOS APNS Configurations</h5>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >APNS Certificate</label>
+                                        <div class="controls">
+                                             <span id="aPNSCertFileName"></span>
+                                            <input type="file" id="iosAPNSCert" name="iosAPNSCert" class="input-xxlarge">
+                                           
+                                            <input type="hidden" value="false" id="iosAPNSCertModified" name="iosAPNSCertModified" class="input-xxlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >APNS Certificate Password</label>
+                                        <div class="controls">
+                                            <input type="password" id="iosAPNSPass" name="iosAPNSPass" class="input-xlarge">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label" >Mode</label>
+                                        <div class="controls">
+                                            <select id="iosAPNSMode" name="iosAPNSMode">
+                                                <option value="production">Production</option>
+                                                <option value="developer">Developer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>   
+                            </div>
+
+
+
+
+
+                            <hr>
+                            <div class="offset1-5" >
+                                <input type="submit" class="btn btn-orange" id="btn-add" href="#" value="Save">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+    .info-container{
+        display: none
+    }
+
+</style>

@@ -1,0 +1,23 @@
+<%
+	
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
+	var iosEmm = new iosEmmModule();
+	var log = new Log();
+
+    //log.debug("Server.jag received!!!!");
+
+	var payload = iosEmm.sendPushNotifications(request.getInputStream());
+	
+	if(payload != null) {
+		
+		if(payload == "ENTERPRISE_WIPE") {
+			response.status = 401;
+		} else if(payload instanceof Packages.java.lang.String) {
+			response.contentType = "application/x-apple-aspen-config";
+			var byteArrayInputStream = new Packages.java.io.ByteArrayInputStream(payload.getBytes("UTF-8"));	
+			print(new Stream(byteArrayInputStream));
+			byteArrayInputStream.close(); 	
+		}
+	}
+	
+%>

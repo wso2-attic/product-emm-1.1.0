@@ -65,8 +65,8 @@
 		meta.path = '/publisher' +meta.path;
 		var ext = getExtension(file);
 		if(ext=="ipa" || ext =="apk"){
-			var zipFileReading = new Packages.org.wso2.mobile.mam.manifestUtils.ZipFileReading();
-			var path = process.getEnv("PWD")+"/repository/deployment/server/jaggeryapps"+meta.path;
+			var zipFileReading = new Packages.org.wso2.mobile.utils.utilities.ZipFileReading();
+			var path = Packages.java.lang.System.getProperty("carbon.home")+"/repository/deployment/server/jaggeryapps"+meta.path;
 			try{
 				if(ext=="ipa"){
 					var d = zipFileReading.readiOSManifestFile(path, getFileOnly(file));

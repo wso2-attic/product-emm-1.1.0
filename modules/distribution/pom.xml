@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.wso2.emm</groupId>
 		<artifactId>wso2emm-parent</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -88,7 +88,7 @@
 						</configuration>
 					</execution>
 
-<!--                    
+<!--
 					<execution>
 						<id>copy-resources</id>
 						<phase>package</phase>
@@ -193,6 +193,12 @@
 										overwrite="true">
 									<fileset dir="src/repository/plugins"></fileset>
 								</copy>
+
+								<copy todir="target/wso2carbon-core-${carbon.kernal.version}/repository/components/plugins"
+										overwrite="true">
+									<fileset dir="src/repository/components/patches/apimgt"></fileset>
+								</copy>
+
 							</tasks>
 						</configuration>
 						<goals>

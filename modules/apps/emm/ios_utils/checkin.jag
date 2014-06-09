@@ -1,0 +1,9 @@
+<%
+	
+	var iosEmmModule = require('/modules/iosemm.js').iosemm;
+	var iosEmm = new iosEmmModule();
+	var log = new Log();
+
+	var messageType = iosEmm.extractDeviceTokens(request.getInputStream());
+	
+%>

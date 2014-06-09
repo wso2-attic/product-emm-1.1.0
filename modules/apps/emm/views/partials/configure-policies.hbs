@@ -1,0 +1,371 @@
+<form class="form-horizontal" data-validate="parsley" autocomplete="off">
+
+	<div class="control-group">
+		<label class="control-label">Policy Name</label>
+		<div class="controls">
+			<input type="text" id="policyName" class="input-xxlarge" data-required="true">
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">Compliance Monitoring Type</label>
+		<div class="controls">
+			<select id="policyType">
+				<option value="1">Acknowledge</option> 
+				<option value="2">Warning</option>
+				<option value="3">Enforce</option> 
+			</select>
+		</div>
+	</div>
+
+	<div class="accordion" id="accordionPolicies">
+
+		<div class="well-small"><h5>General</h5></div>
+		
+		
+		<div class="accordion-group">
+			<div class="accordion-heading" >
+				<a class="accordion-toggle"  id="507A-policy" data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse1"> <i class="icon-signal"></i> Wifi <i class="icon-ok-sign" style="color:green; display: none"> </i></a>
+			</div>
+			<div id="collapse1" class="accordion-body collapse" style="height: 0px; ">
+
+				<div class="control-group">
+					<label class="control-label">SSID</label>
+					<div class="controls">
+						<input type="text" id="507A-SSID" class="policy-input">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">Password</label>
+					<div class="controls">
+						<input type="password" id="507A-password" class="policy-input" data-rangelength="[8,20]" >
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		
+		
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" id="519A-policy" data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse3"> <i class="icon-key"></i> Screen Lock Password Policy <i class="icon-ok-sign" style="color:green; display: none"> </i> </a>
+			</div>
+			<div id="collapse3" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<!-- Poasscode Policy Start -->
+					<div class="control-group">
+						<label class="control-label">Maximum failed attempts</label>
+						<div class="controls">
+							<input type="text" id="519A-maxFailedAttempts" class="policy-input" data-type="number">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Minimum length</label>
+						<div class="controls">
+							<input type="text" id="519A-minLength" class="policy-input" data-type="number">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Days of Expiration</label>
+						<div class="controls">
+							<input type="text" id="519A-maxPINAgeInDays" class="policy-input" data-type="number">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Minimum complex characters</label>
+						<div class="controls">
+							<input type="text" id="519A-minComplexChars" class="policy-input" data-type="number">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Passcode History</label>
+						<div class="controls">
+							<input type="text" id="519A-pinHistory" class="policy-input">
+						</div>
+					</div>
+
+					
+					<div class="control-group">
+						<label class="control-label">Allow Simple</label>
+						<div class="controls">								
+							<input type="checkbox" data-requiredata="519A-maxFailedAttempts" data-group="policies" id="519A-allowSimple" data-notfunction="true" class="policy-input" data-true-val="true" data-false-val="false" >
+						</div>
+					</div>
+
+					
+					<div class="control-group">
+						<label class="control-label">Require Alphanumeric</label>
+						<div class="controls">						
+							<input type="checkbox" data-requiredata="519A-maxFailedAttempts" data-group="policies" id="519A-requireAlphanumeric" data-notfunction="true" class="policy-input" data-true-val="true" data-false-val="false" >
+						</div>
+					</div>
+
+					<!-- Poasscode Policy End -->
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle 508A-policy 526A-policy"  data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse10"> <i class="icon-ban-circle"></i> Operation Restrictions <i class="icon-ok-sign" style="color:green; display: none"> </i></a>
+			</div>
+			<div id="collapse10" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<!-- Operation Restrictions Start -->
+					<div class="control-group">
+						<label class="control-label">Disable Camera</label>
+						<div class="controls">
+							<input type="checkbox" data-group="policies" id="508A-function" class="policy-input" data-true-val="Disable" data-false-val="Enable" >
+                            
+						</div>
+					</div>
+				
+
+					<div class="control-group">
+						<label class="control-label">Change Screen Lock Passcode [<i title="Android Only" class="icon-android"></i>] </label>
+                       
+						<div class="controls">
+							<input type="text" id="526A-password" class="policy-input"> 
+						</div>
+					</div>
+
+					
+
+					<!-- Operation Restrictions End -->
+				</div>
+			</div>
+		</div>
+        
+        
+		
+		
+		<div class="well-small"><h5>Android</h5></div>
+
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" id="511A-policy" data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse2">  <i class="icon-lock"></i> Encryption <i class="icon-ok-sign" style="color:green; display: none"> </i> </a>
+		
+			</div>
+			<div id="collapse2" class="accordion-body collapse">
+				<div class="accordion-inner">
+
+					<div class="control-group">
+						<label class="control-label">Screen Lock Password</label>
+						<div class="controls">
+							<input type="password" id="511A-password" class="policy-input" >
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Encrypt</label>
+						<div class="controls">
+							<input type="checkbox" data-requiredata="511A-password" data-group="policies" id="511A-function" class="policy-input" data-true-val="encrypt" data-false-val="decrypt" >
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="well-small"><h5>iOS</h5></div>		
+
+		
+
+		
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" id="512A-policy" data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse8"> <i class="icon-mobile-phone"></i> APN Configurations <i class="icon-ok-sign" style="color:green; display: none"> </i></a>
+			</div>
+			<div id="collapse8" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<!-- APN Configuration Start -->
+					<div class="control-group">
+						<label class="control-label">Carrier</label>
+						<div class="controls">
+							<input type="text" id="512A-carrier" class="policy-input">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Username</label>
+						<div class="controls">
+							<input type="text" id="512A-user_name" class="policy-input">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Password</label>
+						<div class="controls">
+							<input type="password" id="512A-password" class="policy-input">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Proxy Server</label>
+						<div class="controls">
+							<input type="text" id="512A-proxy_server" class="policy-input">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Proxy Port</label>
+						<div class="controls">
+							<input type="text" id="512A-proxy_port" class="policy-input">
+						</div>
+					</div>
+
+					<br />
+					<div class="control-group">
+						<label class="control-label">Use SSL</label>
+						<div class="controls">
+							<input type="checkbox" data-group="policies" data-requiredata="512A-carrier" data-notfunction="true" id="512A-usedssl" class="policy-input" data-true-val="true" data-false-val="false">
+						</div>
+					</div>
+
+					<!-- APN Configuration End -->
+				</div>
+			</div>
+		</div>
+
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" id="524A-policy" data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse9"> <i class="icon-group"></i> LDAP Configurations <i class="icon-ok-sign" style="color:green; display: none"> </i></a>
+			</div>
+			<div id="collapse9" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<!-- LDAP Configuration Start -->
+					<div class="control-group">
+						<label class="control-label">LDAP Description</label>
+						<div class="controls">
+							<input type="text" id="524A-ldapdesc" class="policy-input">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Host Name</label>
+						<div class="controls">
+							<input type="text" id="524A-hostname" class="policy-input">
+						</div>
+					</div>			
+					
+					
+					<div class="control-group">
+						<label class="control-label">Use SSL</label>
+						<div class="controls">															
+							<input type="checkbox" data-group="policies" data-requiredata="524A-hostname" id="524A-usedssl" data-notfunction="true" class="policy-input" data-true-val="true" data-false-val="false" >
+						</div>
+					</div>
+
+					<!-- LDAP Configuration End -->
+				</div>
+			</div>
+		</div>
+        
+        
+        
+        
+        
+        
+        <div class="well-small"><h5>App Policy</h5></div>
+
+		
+             <div class="accordion-group">
+			<div class="accordion-heading">
+				<a id="appsMam" class="accordion-toggle" data-toggle="collapse" data-parent="#accordionPolicies" href="#collapse20"> <i class="icon-qrcode"></i> Mobile Applications <i class="icon-ok-sign" style="color:green; display: none"> </i></a>
+			</div>
+			<div id="collapse20" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<!-- Operation Restrictions Start -->
+					<div class="control-group">
+						<label class="control-label">Blacklist Apps</label>
+						
+                        
+                        <div class="controls">
+							<select multiple id="inputBlackListApps">
+								  
+							</select>
+							<div class="raw">
+								<input type="button" class="btn btn-orange" id="modalBlackListAppCreate" data-toggle="modal" href="#modalBlackListApp"  value="Add an app"> 
+								<input type="button" class="btn btn-orange" id="modalBlackListAppRemove"   value="Remove app"> 
+							</div>
+							
+							<div id="modalBlackListApp" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true">
+								
+								<div class="modal-header">
+											<h4 id="myModalLabel">Add an Backlist App</h4>
+										</div>
+										<div class="modal-body">
+												<div class="raw">
+													<div>OS Type: </div><select id="modalBlackListOS"><option value="android">Android</option></select>
+												</div>
+												<div class="raw hide">
+													<div>Store Type: </div><select id="modalBlackListType"><option value="enterprise">Enterprise</option></select>
+												</div>
+												<div class="raw-fluid">
+													<div >Package/ Bundle Name:</div> <input type="text" id="modalBlackListPackageName">
+												</div>											
+										</div>	
+										
+										<div class="modal-footer">
+											<button class="btn btn-cancel"  data-dismiss="modal" aria-hidden="true">
+												Close
+											</button>
+											<button  data-dismiss="modal" aria-hidden="true" id="modalBlackListAppButton" class="btn btn-orange" data-value="Enabled">Add</button>
+											
+										</div>				
+
+							  </div>	
+							
+						</div>
+                        
+                        
+                        
+					</div>
+				
+
+					<div class="control-group">
+								<label class="control-label" for="inputInstallApps">Install Apps</label>
+								<div class="controls raw">
+									<div class="multiple-selectbox">
+										<select multiple="multiple" size="10" id="inputInstallApps" name="inputInstallApps" class='duallistboxapps'>
+											{{#data.installedApps}}
+												<option value="{{identity}}" data-os="{{os}}"  data-name="{{name}}" data-type="{{type}}">{{name}}</option>
+											{{/data.installedApps}}
+										</select>
+									</div>
+
+							</div>
+					</div>
+
+					
+
+					<!-- App Management End -->
+				</div>
+			</div>
+		</div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+		
+				
+		
+
+	</div>
+</form>

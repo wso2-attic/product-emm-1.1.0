@@ -1,10 +1,11 @@
 WSO2 Enterprise Mobility Manager (EMM)
 ----------------------
-
-Welcome to the WSO2 Enterprise Mobility Manager (EMM) 1.0.0 release
+Welcome to the WSO2 Enterprise Mobility Manager (EMM) 1.1.0 release
+=======
 
 Key Features
 ------------
+
 1.  Self-service device enrollment and management with end-user MDM console
 2.  Policy-driven device management for security, data, and device features (Camera, Password Policy)
 3.  Deploy policies over-the-air 
@@ -31,16 +32,15 @@ For more details, see the Installation Guide
 System Requirements
 -------------------
 
-1. Minimum memory - 1GB
-2. Processor      - Pentium 800MHz or equivalent at minimum
-3. Portal app requires full Javascript enablement of the Web browser
+1. Minimum memory - 2GB
+2. Portal app requires full Javascript enablement of the Web browser
 
 For more details see
-https://docs.wso2.org/display/EMM100/Prerequisites
+https://docs.wso2.org/display/EMM110/Prerequisites
 
 Known Issues
 ------------
-https://wso2.org/jira/issues/?filter=11718
+EMM Known issues can be found at <a href="https://wso2.org/jira/issues/?filter=11894">https://wso2.org/jira/issues/?filter=11894</a>
 
 
 WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
@@ -122,56 +122,10 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
       This document.
 
     - INSTALL.txt
-      This document contains information on installing WSO2 Application Server.
-
+      This document contains information on installing WSO2 EMM.
+      
     - release-notes.html
-      Release information for WSO2 Application Server ${appserver.version}
-
-Secure sensitive information in carbon configuration files
-----------------------------------------------------------
-
-There are sensitive information such as passwords in the carbon configuration.
-You can secure them by using secure vault. Please go through following steps to
-secure them with default mode.
-
-1. Configure secure vault with default configurations by running ciphertool
-	script from bin directory.
-
-> ciphertool.sh -Dconfigure   (in UNIX)
-
-This script would do following configurations that you need to do by manually
-
-(i) Replaces sensitive elements in configuration files,  that have been defined in
-		 cipher-tool.properties, with alias token values.
-(ii) Encrypts plain text password which is defined in cipher-text.properties file.
-(iii) Updates secret-conf.properties file with default keystore and callback class.
-
-cipher-tool.properties, cipher-text.properties and secret-conf.properties files
-			can be found at repository/conf/security directory.
-
-2. Start server by running wso2server script from bin directory
-
-> wso2server.sh   (in UNIX)
-
-By default mode, it would ask you to enter the master password
-(By default, master password is the password of carbon keystore and private key)
-
-3. Change any password by running ciphertool script from bin directory.
-
-> ciphertool -Dchange  (in UNIX)
-
-For more details see
-http://docs.wso2.org/wiki/display/Carbon410/WSO2+Carbon+Secure+Vault
-
-Training
---------
-
-WSO2 Inc. offers a variety of professional Training Programs, including
-training on general Web services as well as WSO2 Enterprise Store, Apache Axis2,
-Data Services and a number of other products.
-
-For additional support information please refer to
-http://wso2.com/training/
+      Release information for WSO2 EMM 1.1.0
 
 
 Support
@@ -184,4 +138,4 @@ development methodology and is provided by the very same engineers who build the
 For additional support information please refer to http://wso2.com/support/
 
 ---------------------------------------------------------------------------
-(c) Copyright 2013 WSO2 Inc.
+(c) Copyright 2014 WSO2 Inc.

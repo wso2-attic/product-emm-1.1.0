@@ -7,10 +7,12 @@
 var render = function (theme, data, meta, require) {
 	
 	data.isNotReviwer = true;
+    data.isReviwer = false;
 	
    for(var k = 0; k < data.roles.length; k++){
 		if(data.roles[k] == "Internal/reviewer"){
 					data.isNotReviwer = false;
+                    data.isReviwer = true;
 		}
 	}
 	
@@ -56,6 +58,7 @@ var render = function (theme, data, meta, require) {
 				
 				if(data.roles[k] == "Internal/reviewer"){
 					data.isNotReviwer = false;
+                    data.isReviwer = true;
 					if(name == "Approve"){
 						lifecycleAvailableActionsButtons.push({name: name, style: lifecycleColors[name]});
 					}

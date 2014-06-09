@@ -44,7 +44,7 @@ var e = request.getParameter('authFailure');
 															
 								
 								
-								<form id="loginForm" action="/admin/commonauth" method="POST" >									     
+								<form id="loginForm" action="/commonauth" method="POST" >									     
 									      
 									        <input type="text" class="input-block-level" placeholder="Username" id="username" name="username">
 											<input type="password" class="input-block-level" placeholder="Password" id="password" name="password">	
@@ -84,10 +84,13 @@ var e = request.getParameter('authFailure');
 		<footer style="clear:both;">
 			<div class="navbar">
 				<div class="raw text-center footer-bar">
-					<img class="footer-logo" style="width:100px" src="views/img/footer.png">
-					Copyright (c) 2014 WSO2 .Inc
+					Copyright (c) 2014 WSO2 .Inc |
+					<span>Powered by </span><img alt="" src="views/img/wso2.png" />
 				</div>
+				
 			</div>
+			
+			
 		</footer>
 
 		<script src="assets/jquery/jquery-min.js"></script>

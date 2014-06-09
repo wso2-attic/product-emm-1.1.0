@@ -1,0 +1,7 @@
+{
+	"EMM_UI_URI": "/emm/",
+    "EMM_API_URI": "/emm/api/",
+    "EMM_THEME": "wso2sinine",
+    "DEVICES_IMAGE_SERVICE" : "/emm/assets/wso2mobile/img/models",
+    "APPS_IMAGE_SERVICE" : "/emm/assets/wso2mobile/img/apps"     
+}

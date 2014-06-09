@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>org.wso2.emm</groupId>
 		<artifactId>wso2emm-features</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -32,31 +32,91 @@
 	<name>WSO2 Enterprise Mobility Manager (EMM) feature</name>
 	<url>http://wso2.org</url>
 
-	<dependencies>
+	<dependencies> 
+        <dependency>
+            <groupId>org.wso2.store</groupId>
+            <artifactId>org.wso2.store.sso.common</artifactId>
+            <version>${es.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.emm</groupId>
+            <artifactId>org.wso2.emm.admin.styles</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.plist</groupId>
+            <artifactId>dd-plist</artifactId>
+            <version>1.8</version> <!-- corresponds to r108 -->
+        </dependency>
 		<dependency>
-			<groupId>org.wso2.carbon</groupId>
-			<artifactId>org.wso2.carbon.hostobjects.sso</artifactId>
-			<version>${sso.hostobjects.version}</version>
+			<groupId>org.bouncycastle.wso2</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>${bcprov.wso2.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.wso2.emm</groupId>
-			<artifactId>org.wso2.emm.admin.styles</artifactId>
-			<version>1.0.0</version>
+			<groupId>org.bouncycastle.wso2</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>${bcpkix.wso2.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.wso2.store</groupId>
-			<artifactId>org.wso2.store.sso.common</artifactId>
-			<version>${ues.version}</version>
+			<groupId>org.bouncycastle.wso2</groupId>
+			<artifactId>bcmail-jdk15on</artifactId>
+			<version>${bcmail.wso2.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.wso2.carbon</groupId>
-			<artifactId>org.wso2.carbon.databridge.datasink.cassandra</artifactId>
-			<version>4.2.0</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.wso2.store</groupId>
-			<artifactId>org.wso2.carbon.social</artifactId>
-			<version>1.0.0</version>
+			<groupId>commons-httpclient.wso2</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>${apache.httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.notnoop.apns</groupId>
+			<artifactId>apns</artifactId>
+			<version>${notnoop.apns.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.jscep.wso2</groupId>
+			<artifactId>jscep</artifactId>
+			<version>${jscep.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jcip.wso2</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>${jcip.annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${version.commons.codec}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${version.commons.io}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -74,7 +134,7 @@
 							<goal>p2-feature-gen</goal>
 						</goals>
 						<configuration>
-							<id>org.wso2.store</id>
+							<id>org.wso2.emm</id>
 							<propertiesFile>../../../../etc/feature.properties</propertiesFile>
 							<adviceFile>
 								<properties>
@@ -84,16 +144,25 @@
 							</adviceFile>
 							<bundles>
 								<bundleDef>slf4j.wso2:slf4j:1.5.10.wso2v1</bundleDef>
-<!--
-								<bundleDef>org.wso2.carbon:org.wso2.carbon.hostobjects.sso</bundleDef>
--->
-								<bundleDef>org.wso2.store:org.wso2.store.sso.common</bundleDef>
-								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:1.0.0</bundleDef>
-<!--
-								<bundleDef>org.wso2.store:org.wso2.carbon.social:1.0.0</bundleDef>
-								<bundleDef>org.wso2.carbon:org.wso2.carbon.databridge.datasink.cassandra</bundleDef>
--->
-								<bundleDef>org.wso2.store:jaggery-scxml-executors:1.0.0</bundleDef>
+								<bundleDef>org.wso2.emm:org.wso2.emm.admin.styles:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.gcm:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.task:${project.version}</bundleDef>
+                                <bundleDef>org.wso2.emm:org.wso2.emm.utils:${project.version}</bundleDef>
+                                <bundleDef>com.googlecode.plist:dd-plist:1.8</bundleDef>
+								<bundleDef>org.bouncycastle.wso2:bcprov-jdk15on:${bcprov.wso2.version}</bundleDef>
+								<bundleDef>org.bouncycastle.wso2:bcpkix-jdk15on:${bcpkix.wso2.version}</bundleDef>
+								<bundleDef>org.bouncycastle.wso2:bcmail-jdk15on:${bcmail.wso2.version}</bundleDef>
+								<bundleDef>com.google.code.gson:gson:${gson.version}</bundleDef>
+								<bundleDef>commons-httpclient.wso2:commons-httpclient:${apache.httpclient.version}</bundleDef>
+								<bundleDef>com.notnoop.apns:apns:${notnoop.apns.version}</bundleDef>
+								<bundleDef>com.google.code.jscep.wso2:jscep:${jscep.version}</bundleDef>
+								<bundleDef>com.fasterxml.jackson.core:jackson-core:${jackson.version}</bundleDef>
+								<bundleDef>com.fasterxml.jackson.core:jackson-databind:${jackson.version}</bundleDef>
+								<bundleDef>com.fasterxml.jackson.core:jackson-annotations:${jackson.version}</bundleDef>
+								<bundleDef>net.jcip.wso2:jcip-annotations:${jcip.annotations.version}</bundleDef>
+								<bundleDef>commons-codec:commons-codec:${version.commons.codec}</bundleDef>
+								<bundleDef>commons-io:commons-io:${version.commons.io}</bundleDef>
+								<bundleDef>org.slf4j:slf4j-api:${slf4j.version}</bundleDef>
 							</bundles>
 							<importBundles>
 							</importBundles>
@@ -105,33 +174,27 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>prefilter-resources</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>src/main/resources</outputDirectory>
-							<resources>
-								<resource>
-									<directory>resources</directory>
-									<includes>
-										<include>p2.inf</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>../../</directory>
-									<includes>
-										<include>apps/**</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
+                <version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>prefilter-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>resources</directory>
+                                    <includes>
+                                        <include>p2.inf</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

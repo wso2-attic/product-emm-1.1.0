@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Device Enrollment</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/emm/assets/boostrap3/css/bootstrap.css" rel="stylesheet">
+   <link href="/emm/assets/boostrap3/css/main.css" rel="stylesheet">
+
+
+       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">WSO2 EMM Registration</a>
+        </div>
+
+    </div>
+
+
+     <div class="container">
+        <br />
+
+     <%
+            var userAgent= request.getHeader("User-Agent");
+            if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+                if(userAgent.match(/Safari/i) && userAgent.match(/Version/i)) {
+     %>
+            <form id="certificate" method="get" action="ca">
+                <p align = "center">The Root Certificate needs to be downloaded to your device before you can download to the EMM Agent.<br/><br />
+                    <button class="btn btn-lg btn-primary btn-block">Download the Root Certificate</button>
+                </p>
+                <br /><br />
+            </form>
+            <p class="text-center">If you are not registered with WSO2 EMM,  please download and install the Agent.</p>
+
+            <a href=<% var deviceModule = require('/modules/device.js').device;  var device = new deviceModule();  print(device.getAppForDevice());%> class="btn btn-lg btn-primary btn-block">Download Agent</a>
+     <%
+                } else {
+     %>
+            <p align = "center">Please open this page in Safari<br/><br/></p>
+     <%
+                }
+            } else {
+     %>
+            <p class="text-center">If you are not registered with WSO2 EMM,  please download and install the Agent.</p>
+
+            <a href=<% var deviceModule = require('/modules/device.js').device;  var device = new deviceModule();  print(device.getAppForDevice());%> class="btn btn-lg btn-primary btn-block">Download Agent</a>
+     <%
+            }
+     %>
+    </div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/emm/assets/boostrap3/js/jquery.js"></script>
+<script src="/emm/assets/boostrap3/js/bootstrap.min.js"></script>
+</body>
+</html>

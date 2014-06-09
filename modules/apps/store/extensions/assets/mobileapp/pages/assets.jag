@@ -25,6 +25,8 @@ require('/modules/store.js').exec(function (ctx) {
     mainPage = type;
 
     title = store.assetLinks(type).title;
+   
+   
 
     if (user) {
         subscriptions = store.subscriptions(type);
@@ -98,10 +100,10 @@ require('/modules/store.js').exec(function (ctx) {
     var rxtAttributes = require('/modules/util.js').getRXTAttributes(tenantId, type);
     var devices = [];
     if(user!=null){
-        var mdm = require('/modules/mdm.js').mdm;
-        var mdmServer = new mdm();
+        var emm = require('/modules/emm.js').emm;
+        var emmServer = new emm();
         try{
-            var result = mdmServer.getDevices(user.username+"@"+user.tenantDomain);
+            var result = emmServer.getDevices(user.username+"@"+user.tenantDomain);
             devices = parse(result);
         }catch(e){
             log.debug(e);

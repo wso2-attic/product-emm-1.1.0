@@ -99,6 +99,9 @@ var user = {};
             if (!usr.hasRoles([role])) {
                 usr.addRoles([role]);
             }
+            log.info("ROLE -__ "+ user.privateRole(usr.username));
+            log.info("Permissions");
+            log.info(perms);
             um.authorizeRole(user.privateRole(usr.username), perms);
             if (log.isDebugEnabled()) {
                 log.debug('user ' + usr.username + ' was initialized and role ' + role +

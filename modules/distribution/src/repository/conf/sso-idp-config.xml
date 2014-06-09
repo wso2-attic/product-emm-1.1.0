@@ -37,10 +37,10 @@
             <CustomLoginPage>/publisher/controllers/login.jag</CustomLoginPage>
         </ServiceProvider>
 				<ServiceProvider>
-            <Issuer>mdm</Issuer>
-            <AssertionConsumerService>https://localhost:9443/mdm/acs</AssertionConsumerService>
+            <Issuer>emm</Issuer>
+            <AssertionConsumerService>https://localhost:9443/emm/acs</AssertionConsumerService>
             <SignResponse>true</SignResponse>
-            <CustomLoginPage>/mdm/login</CustomLoginPage>
+            <CustomLoginPage>/emm/login</CustomLoginPage>
         </ServiceProvider>
 				<ServiceProvider>
             <Issuer>mam</Issuer>
