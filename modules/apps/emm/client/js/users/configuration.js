@@ -291,11 +291,7 @@ $( "#main-table" ).on( "click", ".btn-invite", function() {
 						},
                         403: function() {
 							n.setTimeout(0);
-							noty({
-								text : 'Please configure email before inviting a user!',
-								'layout' : 'center',
-								'type': 'error'
-							});
+							enrollWithoutEmail();
 						},
 						500: function() {
 							n.setTimeout(0);
