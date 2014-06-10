@@ -253,7 +253,7 @@ modules/apps/mam/config/ui.json
 modules/apps/publisher/.idea/
 modules/apps/publisher/publisher.iml
 modules/apps/publisher/.project
-modules/apps/publisher/upload
+
 
 modules/apps/store/.idea
 modules/apps/store/store.iml
