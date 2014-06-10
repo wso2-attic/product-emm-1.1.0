@@ -14,9 +14,8 @@ Key Features
 7.  Blacklisting of applications for Android
 8.  Supports App management
 9.  App approval process through a lifecycle
-10. App approval process through a lifecycle
-11. Discover mobile apps through an Enterprise App Store
-12. Self-provisioning of mobile apps to devices
+10. Discover mobile apps through an Enterprise App Store
+11. Self-provisioning of mobile apps to devices
 
 
 Installation & Running
@@ -31,9 +30,8 @@ For more details, see the Installation Guide
 System Requirements
 -------------------
 
-1. Minimum memory - 1GB
-2. Processor      - Pentium 800MHz or equivalent at minimum
-3. Portal app requires full Javascript enablement of the Web browser
+1. Minimum memory - 2GB
+2. Portal app requires full Javascript enablement of the Web browser
 
 For more details see
 https://docs.wso2.org/display/EMM110/Prerequisites

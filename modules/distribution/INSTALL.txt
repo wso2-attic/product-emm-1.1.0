@@ -33,9 +33,8 @@ Running the server
 
 System Requirements
 -------------------
-1. Minimum memory - 1GB
-2. Processor      - Pentium 800MHz or equivalent at minimum
-3. The Management Console requires full Javascript enablement of the Web browser
+1. Minimum memory - 2GB
+2. The Management Console requires full Javascript enablement of the Web browser
    NOTE:
      On Windows Server 2003, it is not allowed to go below the medium security
      level in Internet Explorer 6.x.

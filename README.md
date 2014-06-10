@@ -32,9 +32,8 @@ For more details, see the Installation Guide
 System Requirements
 -------------------
 
-1. Minimum memory - 1GB
-2. Processor      - Pentium 800MHz or equivalent at minimum
-3. Portal app requires full Javascript enablement of the Web browser
+1. Minimum memory - 2GB
+2. Portal app requires full Javascript enablement of the Web browser
 
 For more details see
 https://docs.wso2.org/display/EMM110/Prerequisites
