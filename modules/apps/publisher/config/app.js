@@ -66,6 +66,7 @@ caramel.configs({
 var logPublisherUrl = function () {
 	var log = new Log();
     log.info("Publisher URL : " + config.server.http + caramel.configs().context);
+    log.info("EMM URL : " + config.server.http + "/emm");
 };
 
 //Cause the super tenant to be load
