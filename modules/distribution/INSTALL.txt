@@ -41,7 +41,7 @@ System Requirements
      level in Internet Explorer 6.x.
 
 For more details see
-https://docs.wso2.org/display/EMM101/Prerequisites
+https://docs.wso2.org/display/EMM110/Prerequisites
 
 
 
