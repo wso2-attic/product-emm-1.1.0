@@ -41,7 +41,7 @@ https://docs.wso2.org/display/EMM110/Prerequisites
 
 Known Issues
 ------------
-https://wso2.org/jira/issues/?filter=11894
+EMM Known issues can be found at <a href="https://wso2.org/jira/issues/?filter=11894">https://wso2.org/jira/issues/?filter=11894</a>
 
 
 WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
