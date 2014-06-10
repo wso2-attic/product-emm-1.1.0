@@ -27,7 +27,7 @@ var render = function (theme, data, meta, require) {
 	
      if(data.userAssets){
         for(i = 0; i < data.userAssets.mobileapp.length; i++){
-            print(data.userAssets.mobileapp[i].lifecycleState);
+            //print(data.userAssets.mobileapp[i].lifecycleState);
             if(data.userAssets.mobileapp[i].lifecycleState == 'Unpublished'){
                 delete data.userAssets.mobileapp.splice (i, 1);;
             }
