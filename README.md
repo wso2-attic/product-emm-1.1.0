@@ -41,7 +41,7 @@ https://docs.wso2.org/display/EMM110/Prerequisites
 
 Known Issues
 ------------
-https://wso2.org/jira/issues/?filter=11894
+EMM Known issues can be found at <a href="https://wso2.org/jira/issues/?filter=11894">https://wso2.org/jira/issues/?filter=11894</a>
 
 
 WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
@@ -56,6 +56,7 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
         ├── LICENSE.txt
         ├── modules          //Jaggery Modules
         ├── README.txt
+        ├── release-notes.html
         ├── repository       // repository
         ├── tmp
         ├── webapp-mode
@@ -123,6 +124,9 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
 
     - INSTALL.txt
       This document contains information on installing WSO2 EMM.
+      
+    - release-notes.html
+      Release information for WSO2 EMM 1.1.0
 
 
 Support
