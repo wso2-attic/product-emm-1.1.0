@@ -123,7 +123,7 @@ WSO2 Enterprise Mobility Manager (EMM) Binary Distribution Directory Structure
       This document contains information on installing WSO2 Enterprise Mobility Manager.
 
     - release-notes.html
-      Release information for WSO2 Enterprise Mobility Manager 1.0.1
+      Release information for WSO2 Enterprise Mobility Manager ${product.version}
 
 Secure sensitive information in carbon configuration files
 ----------------------------------------------------------
