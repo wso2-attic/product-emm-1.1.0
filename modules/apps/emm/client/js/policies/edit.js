@@ -1,4 +1,6 @@
 var appsLoded = false;
+var mamContentInstallApps = [];
+var mamInstallAppsChanged = false;
 
 $("#btn-add").click(function() {
 
@@ -103,7 +105,12 @@ $("#btn-add").click(function() {
     });
 
     if(installedAppData.length > 0){
-        policyMamData.push({code: "509B", data: installedAppData});
+            policyMamData.push({code: "509B", data: installedAppData});
+    }
+    
+    if(!mamInstallAppsChanged){
+       
+         policyMamData.push({code: "509B", data: mamContentInstallApps}); 
     }
     //policy apps end
 
@@ -259,8 +266,9 @@ $(document).ready( function () {
                     }
 
                     if(code == '509B'){
+                         mamContentInstallApps = data;
                         if(!appsLoded){
-
+                           
                             for(var j = 0; j < data.length; j++){
                                 $("#appsMam .icon-ok-sign").css("display", "inline");							
                                 //alert(data[j].identity);
@@ -268,9 +276,12 @@ $(document).ready( function () {
                                     //alert(this.text + ' ' + this.value);								   
                                     if(data[j].identity === this.value){								    	
                                         $("[name='inputInstallApps_helper1'] option[value='"+ this.value+"']").remove();
+                                        
                                     }
 
                                 });
+                                
+                                
 
                                 $("[name='inputInstallApps_helper2']").append('<option value="'+ data[j].identity + '" data-os="'+ data[j].os + '" data-name="'+ data[j].name + '" data-type="'+ data[j].type + '">'+ data[j].name + '</option>');
 
@@ -317,6 +328,14 @@ function isEmptyObj(obj) {
     return true;
 }
 
+$("[name='inputInstallApps_helper1']").change(function() {
+mamInstallAppsChanged = true;
+
+});
+
+$("[name='inputInstallApps_helper2']").change(function() {
+    mamInstallAppsChanged = true;
+});
 
 
 //validations

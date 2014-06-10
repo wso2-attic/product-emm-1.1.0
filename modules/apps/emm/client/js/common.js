@@ -134,6 +134,7 @@ $.noty.defaults = {
 
 $('.selectpicker').selectpicker();
 $('.duallistbox').bootstrapDualListbox();
+$('.duallistboxapps').bootstrapDualListbox();
 $(".dropdownimage").msDropDown();
 $('.multiselect').multiselect({
     includeSelectAllOption: true,
