@@ -125,7 +125,7 @@ var device = (function () {
 
 		router.post('devices/isregistered/1.0.0', function(ctx){
 		    var result = device.isRegistered(ctx);
-            log.error(result);
+            log.debug(result);
 		    if(result){
 		        print("registered");
 		        response.status = 200;
@@ -137,7 +137,7 @@ var device = (function () {
 		
 		router.post('devices/isregisteredios', function(ctx){
 		    var result = device.isRegistered(ctx);
-            log.error(result);
+            log.debug(result);
 		    if(result){
 		        print("registered");
 		        response.status = 200;
