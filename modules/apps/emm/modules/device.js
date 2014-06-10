@@ -117,8 +117,6 @@ var device = (function () {
                 var newMamPolicy = separateMAMPolicy(mamPolicy);
                 policyPayLoad = newMamPolicy;
             }
-
-            var policyPayLoad = parse(upresult[0].data);
             obj.payLoad = policyPayLoad;
             obj.type = upresult[0].type;
             obj.policypriority = "USERS";

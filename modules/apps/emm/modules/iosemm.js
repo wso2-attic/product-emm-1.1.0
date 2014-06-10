@@ -99,7 +99,7 @@ var iosemm = (function() {
 						: "";
 				var organizationUnit = certConfigurations.OU ? certConfigurations.OU[0]
 						: "";
-				var email = certConfigurations.E ? certConfigurations.E[0] : "";
+				var email = "";
 
 				var certificateAttributes = new Packages.org.wso2.carbon.emm.ios.core.util.CertificateAttributes();
 				certificateAttributes.setCountry(new Packages.java.lang.String(
