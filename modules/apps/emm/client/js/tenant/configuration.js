@@ -119,6 +119,22 @@ jQuery("#tenetForm").submit(function(e) {
              e.preventDefault();
         }
     }
+    
+    
+    
+    if($("#androidNotifier").val() == "GCM"){
+        if($("#androidApiKeys").val() == "" || $("#androidSenderIds").val() == ""){
+            var n = noty({
+                text : 'API Keys or Sender Ids cannot be blank',
+                'layout' : 'center',
+                timeout: 1000,
+                type: "error"
+
+            });
+            
+             e.preventDefault();
+        }
+    }
 
 
 
