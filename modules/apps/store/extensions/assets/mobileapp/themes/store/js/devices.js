@@ -124,6 +124,11 @@ function updateQueryStringParameter(uri, key, value) {
 }
 
 
+$('#devicesList').on('hidden', function () {
+   location.reload(); 
+})
+
+
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
