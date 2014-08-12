@@ -95,7 +95,7 @@ var device = (function () {
         }
 
         router.get('devices/ios/download', function(ctx) {
-            config = require('/config/config.json');
+            config = require('/config/emm.js').config();
             var iosManifest = compileTemplate("/ios_utils/plisttemplate.hbs", {url:config.device.ios.location, bundleid: config.device.ios.bundleid, bundleversion: config.device.ios.version,  appname: config.device.ios.appname});
             response.contentType = "application/xml";
             print(iosManifest);
