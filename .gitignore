@@ -219,6 +219,8 @@ pip-log.txt
 ## Idea
 #################
 .idea/ 
+*.iws
+*.ipr
 org.wso2.emm.mdm.feature-1.0.0.zip
 modules/distribution/target
 modules/p2-profile-gen/target
