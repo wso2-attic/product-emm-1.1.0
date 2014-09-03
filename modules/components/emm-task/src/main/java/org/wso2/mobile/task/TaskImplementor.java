@@ -41,7 +41,7 @@ public class TaskImplementor implements Task {
             if (port == null)
                 port = SystemProperties.getProperty(EMMTaskConfig.MGT_TRANSPORT_HTTPS_PORT);
             String postUrl = "";
-            if (host == EMMTaskConfig.LOCALHOST) {
+            if (host == null || host == EMMTaskConfig.LOCALHOST) {
                 postUrl = EMMTaskConfig.HTTPS + ip + ":" + port;
             } else {
                 postUrl = EMMTaskConfig.HTTPS + host + ":" + port;
