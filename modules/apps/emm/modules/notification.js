@@ -289,7 +289,7 @@ var notification = (function() {
 		},
 		getPolicyState : function(ctx) {
 
-            var result = driver.query(sqlscripts.notifications.select10,
+            var result = driver.query(sqlscripts.notifications.select16,
                     ctx.deviceid, '501P');
             var newArray = new Array();
             if (result == null || result == undefined || result.length == 0) {
