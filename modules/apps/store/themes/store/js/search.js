@@ -6,7 +6,7 @@ $(function () {
         if (state.data.id === 'sort-assets') {
             renderAssets(state.data.context);
         } else if (state.data.id === 'top-assets') {
-            var el = $('.store-left'), data = state.data.context;
+            var el = $('#container-assets .row:first-child'), data = state.data.context;
             //caramel.css($('head'), data.header['sort-assets'].resources.css, 'sort-assets');
             //caramel.code($('head'), data.body['assets'].resources.code);
             async.parallel({
