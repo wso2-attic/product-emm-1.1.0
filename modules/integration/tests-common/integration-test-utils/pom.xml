@@ -23,47 +23,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
+        <artifactId>wso2emm-integration</artifactId>
         <groupId>org.wso2.emm</groupId>
-        <artifactId>wso2emm-parent</artifactId>
         <version>1.1.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>wso2emm-integration</artifactId>
-    <name>WSO2 EMM - Integration Tests</name>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>tests-common</module>
-        <module>tests-ui-integration</module>
-        <module>tests-integration</module>
-    </modules>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.4.1</version>
-                <executions>
-                    <execution>
-                        <id>auto-clean</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    
-    <dependencies>
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-        </dependency>
-    </dependencies>
-    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>org.wso2.emm.integration.common.utils</artifactId>
+    <groupId>org.wso2.emm</groupId>
+    <packaging>jar</packaging>
+    <name>integration-test-utils</name>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>    
+
 </project>
