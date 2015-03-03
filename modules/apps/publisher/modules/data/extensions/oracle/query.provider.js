@@ -21,12 +21,19 @@ var queryProvider = function () {
     }
 
     function checkIfTableExists(schema){
-        return '';
+		var query = "select * from USER_OBJECTS where OBJECT_TYPE = 'TABLE' and OBJECT_NAME = 'resource'";
+        return query;
+    }
+
+    function insert(schema){
+        var query = 'INSERT INTO "resource" (uuid,content,fileName,tenantId,contentType,contentLength) VALUES (?,?,?,?,?,?)';
+        return query;
     }
 
     return{
-        create: create
-        //checkIfTableExists:checkIfTableExists
+        create: create,
+        insert: insert,
+        checkIfTableExists:checkIfTableExists
     }
 };
 

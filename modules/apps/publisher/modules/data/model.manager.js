@@ -73,7 +73,7 @@ var modelManager = function () {
         var temp = new model();
 
         //Check if the table exists before creating
-        if (!temp.checkIfTableExists()) {
+        if ( Packages.java.lang.System.getProperty('setup') && !temp.checkIfTableExists()) {
             //Create the table
             temp.createTable();
         }
