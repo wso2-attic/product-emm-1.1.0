@@ -1,0 +1,727 @@
+create or replace
+TRIGGER schema_django_nls_tr
+AFTER logon ON DATABASE
+BEGIN
+execute immediate 'ALTER SESSION SET NLS_TERRITORY = ''AMERICA'' NLS_DATE_FORMAT = ''YYYY-MM-DD HH24:MI:SS'' NLS_TIMESTAMP_FORMAT = ''YYYY-MM-DD HH24:MI:SS.FF''';
+END;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE devices';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE devices (
+          ID NUMBER,
+          TENANT_ID NUMBER NOT NULL,
+          USER_ID VARCHAR2(128) NOT NULL,
+          PLATFORM_ID NUMBER NOT NULL,
+          REG_ID VARCHAR2(2048) DEFAULT NULL,
+          OS_VERSION VARCHAR2(45) DEFAULT NULL,
+          PROPERTIES CLOB,
+          CREATED_DATE DATE DEFAULT NULL,
+          STATUS VARCHAR2(10) DEFAULT NULL,
+          BYOD NUMBER DEFAULT 1,
+          DELETED NUMBER DEFAULT 0,
+          VENDOR VARCHAR2(11) DEFAULT NULL,
+          UDID VARCHAR2(2048) DEFAULT NULL,
+          PUSH_TOKEN VARCHAR2(256) DEFAULT NULL,
+          MAC VARCHAR2(100) DEFAULT NULL,
+          PRIMARY KEY (ID)
+      )';
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence device_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger device_id_trigger
+  before insert on devices
+  for each row
+    begin
+      select device_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE featuregroup';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE featuregroup(
+        ID NUMBER,
+        NAME VARCHAR2(45) DEFAULT NULL,
+        DESCRIPTION VARCHAR2(45) DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence featuregroup_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger featuregroup_id_trigger
+  before insert on featuregroup
+  for each row
+    begin
+      select featuregroup_id_seq.nextval into :new.id from dual;
+    end;
+/
+INSERT ALL
+   INTO featuregroup (NAME,DESCRIPTION) VALUES ('MDM_OPERATION','Operations')
+   INTO featuregroup (NAME,DESCRIPTION) VALUES ('MAM','Application')
+   INTO featuregroup (NAME,DESCRIPTION) VALUES ('MMM','Messaging')
+   INTO featuregroup (NAME,DESCRIPTION) VALUES ('MDM_CONFIGURATION','Configuration')
+   INTO featuregroup (NAME,DESCRIPTION) VALUES ('MDM_INFO','Information')
+SELECT 1 FROM DUAL
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE permissions';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE permissions(
+          ID NUMBER,
+          ROLE VARCHAR(45) DEFAULT NULL,
+          CONTENT CLOB DEFAULT NULL,
+          TENANT_ID NUMBER DEFAULT NULL,
+          PRIMARY KEY (ID)
+     )';
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence permissions_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+create trigger permissions_id_trigger
+  before insert on permissions
+  for each row
+    begin
+      select permissions_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE features';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE features(
+        ID NUMBER,
+        NAME VARCHAR2(45) DEFAULT NULL,
+        CODE VARCHAR2(45) DEFAULT NULL,
+        DESCRIPTION VARCHAR2(45) NOT NULL,
+        DELETED NUMBER DEFAULT NULL,
+        GROUP_ID NUMBER DEFAULT NULL,
+        TYPE_ID NUMBER DEFAULT NULL,
+        MONITOR NUMBER DEFAULT 0,
+        PERMISSION_TYPE NUMBER DEFAULT 0,
+        PRIMARY KEY (ID)
+      )';                       
+END;
+/
+INSERT ALL
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (1,'LOCK','503A','Device Lock',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (2,'WIPE','504A','Wipe',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (3,'CLEARPASSCODE','505A','Clear',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (4,'APPLIST','502A','Get All Applications',0,2,2,1,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (5,'LOCATION','501A','Location',0,1,2,0,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (6,'INFO','500A','Device Information',0,5,2,1,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (7,'NOTIFICATION','506A','Message',0,3,1,0,2)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (8,'WIFI','507A','Wifi',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (9,'CAMERA','508A','Camera',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (12,'MUTE','513A','Mute Device',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (13,'INSTALLAPP','509A','Install Application',0,2,3,0,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (14,'UNINSTALLAPP','510A','Uninstall Application',0,2,3,0,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (15,'ENCRYPT','511A','Encrypt Storage',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (16,'APN','512A','APN',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (21,'WEBCLIP','518A','Create Webclips',0,4,3,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (22,'PASSWORDPOLICY','519A','Passcode Policy',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (23,'EMAIL','520A','Email Configuration',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (24,'GOOGLECALENDAR','521A','Calender Subscription',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (26,'VPN','523A','VPN',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (27,'LDAP','524A','LDAP',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (29,'CHANGEPASSWORD','526A','Set Passcode',0,4,1,0,3)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (30,'ENTERPRISEWIPE','527A','Enterprise Wipe',0,1,1,0,1)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (31,'POLICY','500P','Policy Enforcement',0,4,2,0,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (32,'MONITORING','501P','Policy Monitoring ',0,5,2,1,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (33,'BLACKLISTAPPS','528B','Blacklist Apps',0,2,1,0,0)
+INTO features (ID, NAME,CODE,DESCRIPTION,DELETED,GROUP_ID,TYPE_ID,MONITOR,PERMISSION_TYPE) VALUES (34,'REVOKEPOLICY','502P','Revoke Policy',0,4,2,0,0)
+SELECT 1 FROM DUAL
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE featuretype';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE featuretype(
+        ID NUMBER,
+        NAME VARCHAR2(45) DEFAULT NULL,
+        DESCRIPTION VARCHAR2(45) DEFAULT NULL,
+        DELETED NUMBER DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                       
+END;
+/
+INSERT ALL
+INTO FEATURETYPE (ID, NAME,DESCRIPTION,DELETED) VALUES (1,'OPERATION','Can do groups, users, devices',0)
+INTO FEATURETYPE (ID, NAME,DESCRIPTION,DELETED) VALUES (2,'INFO','Only for devices',0)
+INTO FEATURETYPE (ID, NAME,DESCRIPTION,DELETED) VALUES (3,'APPLICATION','application related stuff',0)
+SELECT 1 FROM DUAL
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE group_policy_mapping';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;                     
+END;
+/
+CREATE TABLE group_policy_mapping(
+    GROUP_ID VARCHAR2(45) DEFAULT '' NOT NULL,
+    POLICY_ID NUMBER DEFAULT 0 NOT NULL
+)
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE notifications';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE notifications(
+        ID NUMBER,
+        GROUP_ID NUMBER DEFAULT NULL,
+        USER_ID VARCHAR2(45) DEFAULT NULL,
+        DEVICE_ID NUMBER DEFAULT NULL,
+        MESSAGE CLOB,
+        STATUS VARCHAR2(1) DEFAULT NULL,
+        SENT_DATE DATE DEFAULT NULL,
+        RECEIVED_DATE DATE DEFAULT NULL,
+        RECEIVED_DATA CLOB,
+        FEATURE_CODE VARCHAR2(45) DEFAULT NULL,
+        FEATURE_DESCRIPTION VARCHAR2(200) DEFAULT NULL,
+        TENANT_ID NUMBER DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence notifications_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger notifications_id_trigger
+  before insert on notifications
+  for each row
+    begin
+      select notifications_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE platform_policy_mapping';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;                     
+END;
+/
+CREATE TABLE platform_policy_mapping(
+PLATFORM_ID VARCHAR(45) NOT NULL,
+POLICY_ID VARCHAR(45) NOT NULL	
+)
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE platformfeatures';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE platformfeatures(
+        ID NUMBER,
+        PLATFORM_ID NUMBER DEFAULT NULL,
+        FEATURE_ID NUMBER DEFAULT NULL,
+        MIN_VERSION VARCHAR2(45) DEFAULT NULL,
+        MAX_VERSION VARCHAR2(45) DEFAULT NULL,
+        TEMPLATE VARCHAR2(4000),
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+INSERT ALL
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (1,1,1,'2.2','',null)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (2,1,2,'2.2','','wipe')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (3,1,3,'2.2','','')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (4,1,4,'2.2','',null)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (5,1,5,'2.2','','')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (6,1,6,'2.2','',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (7,1,7,'2.2','','notifications')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (8,1,8,'2.2','','wifi')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (9,1,9,'4.0','','camera')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (12,1,12,'2.2','',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (13,2,1,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (15,2,3,'4.0','5.0','')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (16,2,4,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (17,2,6,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (18,2,8,'4.0','5.0','wifi')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (19,2,9,'4.0','5.0','camera')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (21,3,1,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (23,3,3,'4.0','5.0','')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (24,3,4,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (25,3,6,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (26,3,8,'4.0','5.0','wifi')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (28,3,9,'4.0','5.0','camera')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (30,4,1,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (32,4,3,'4.0','5.0','')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (33,4,4,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (34,4,6,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (35,4,8,'4.0','5.0','wifi')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (36,4,9,'4.0','5.0','camera')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (37,1,15,'3.0',NULL,'encrypt')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (38,1,17,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (39,1,18,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (43,1,19,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (44,1,20,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (45,1,21,'2.2',NULL,'webclip')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (46,1,22,'2.2',NULL,'password_policy')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (49,2,21,'4.0','5.0','webclip')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (50,2,22,'4.0','5.0','password_policy')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (51,3,23,'4.0','5.0','email')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (52,3,24,'4.0','5.0','google_calendar')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (53,3,21,'4.0','5.0','webclip')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (54,3,22,'4.0','5.0','password_policy')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (55,2,23,'4.0','5.0','email')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (56,2,24,'4.0','5.0','google_calendar')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (57,1,25,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (58,1,29,'2.2',NULL,'change-password')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (59,2,30,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (60,3,30,'4.0','5.0',NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (61,2,16,'4.0','5.0','apn')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (62,3,16,'4.0','5.0','apn')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (65,2,27,'4.0','5.0','ldap')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (66,3,27,'4.0','5.0','ldap')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (67,1,23,'2.2',NULL,'email')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (68,1,31,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (69,2,31,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (70,3,31,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (71,4,31,'2.2',NULL,NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (72, 2, 12, '4.0', '5.0', NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (73, 3, 12, '4.0', '5.0', NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (74, 4, 12, '4.0', '5.0', NULL)
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (75, 2, 7, '4.0', '5.0', 'notifications')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (76, 3, 7, '4.0', '5.0', 'notifications')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (77, 4, 7, '4.0', '5.0', 'notifications')
+INTO platformfeatures (ID,PLATFORM_ID,FEATURE_ID,MIN_VERSION,MAX_VERSION,TEMPLATE) VALUES (78, 1, 30, '4.0.3', NULL, NULL)
+SELECT 1 FROM DUAL
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE platforms';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;                     
+END;
+/
+CREATE TABLE platforms(
+ID NUMBER,
+NAME VARCHAR2(45) DEFAULT NULL,
+DESCRIPTION VARCHAR2(45) DEFAULT NULL,
+TYPE VARCHAR2(45) DEFAULT NULL,
+TYPE_NAME VARCHAR2(50) DEFAULT NULL,
+COLOR VARCHAR2(50) DEFAULT NULL,
+PRIMARY KEY (ID)
+)
+/
+INSERT ALL
+INTO platforms (ID,NAME,DESCRIPTION,TYPE,TYPE_NAME,COLOR) VALUES (1,'Android','android phones and tabs','1','Android','#028482')
+INTO platforms (ID,NAME,DESCRIPTION,TYPE,TYPE_NAME,COLOR) VALUES (2,'iPhone','iphone','2','iOS','#CCCCCC')
+INTO platforms (ID,NAME,DESCRIPTION,TYPE,TYPE_NAME,COLOR) VALUES (3,'iPad','ipad','2','iOS','#CCCCCC')
+INTO platforms (ID,NAME,DESCRIPTION,TYPE,TYPE_NAME,COLOR) VALUES (4,'iPod','ipod','2','iOS','#CCCCCC')
+SELECT 1 FROM DUAL
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE policies';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE policies(
+        ID NUMBER,
+        NAME VARCHAR2(45) DEFAULT NULL,
+        CONTENT CLOB,
+        TYPE NUMBER DEFAULT NULL,
+        CATEGORY NUMBER DEFAULT NULL,
+        TENANT_ID NUMBER DEFAULT NULL,
+        MAM_CONTENT CLOB,
+        PRIMARY KEY (ID)
+      )';                            
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence policies_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger policies_id_trigger
+  before insert on policies
+  for each row
+    begin
+      select policies_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE tenantplatformfeatures';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE tenantplatformfeatures(
+        ID NUMBER,
+        TENANT_ID NUMBER DEFAULT NULL,
+        PLATFORMFEATURE_ID NUMBER DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                            
+END;
+/
+INSERT ALL 
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (1,'1',1)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (2,'1',2)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (3,'1',3)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (4,'1',4)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (5,'1',5)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (6,'1',6)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (7,'1',7)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (8,'1',8)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (9,'1',9)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (10,'1',10)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (11,'1',11)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (12,'1',12)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (13,'2',1)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (14,'2',2)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (15,'2',3)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (16,'2',4)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (17,'2',6)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (18,'2',8)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (19,'2',9)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (20,'2',12)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (21,'3',1)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (22,'3',2)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (23,'3',3)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (24,'3',4)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (25,'3',6)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (26,'3',8)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (27,'3',9)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (28,'4',1)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (29,'4',2)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (30,'4',3)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (31,'4',6)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (32,'4',8)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (33,'4',9)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (34,'4',12)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (35,'-1234',1)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (36,'-1234',2)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (37,'-1234',3)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (38,'-1234',4)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (39,'-1234',5)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (40,'-1234',6)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (41,'-1234',7)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (42,'-1234',8)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (43,'-1234',9)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (44,'-1234',10)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (45,'-1234',11)
+INTO tenantplatformfeatures (ID,TENANT_ID,PLATFORMFEATURE_ID) VALUES (46,'-1234',12)
+SELECT 1 FROM DUAL
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE user_policy_mapping';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;                     
+END;
+/
+CREATE TABLE user_policy_mapping(
+USER_ID VARCHAR2(45) NOT NULL,
+POLICY_ID NUMBER NOT NULL	
+)
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE device_awake';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE device_awake(
+        ID NUMBER,
+        DEVICE_ID NUMBER DEFAULT NULL,
+        SENT_DATE DATE DEFAULT NULL,
+        PROCESSED_DATE DATE DEFAULT NULL,
+        CALL_COUNT NUMBER DEFAULT NULL,
+        STATUS VARCHAR2(1) DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence device_awake_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger device_awake_id_trigger
+  before insert on device_awake
+  for each row
+    begin
+      select device_awake_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE device_pending';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE device_pending(
+        ID NUMBER,
+        TENANT_ID NUMBER DEFAULT NULL,
+        USER_ID VARCHAR2(255) DEFAULT NULL,
+        PLATFORM_ID NUMBER DEFAULT NULL,
+        PROPERTIES CLOB DEFAULT NULL,
+        CREATED_DATE DATE DEFAULT NULL,
+        STATUS VARCHAR2(10) DEFAULT NULL,
+        BYOD NUMBER DEFAULT 1,
+        VENDOR VARCHAR2(11) DEFAULT NULL,
+        UDID VARCHAR2(2048) DEFAULT NULL,
+        TOKEN VARCHAR2(255) DEFAULT NULL,
+        REQUEST_STATUS NUMBER DEFAULT 0,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence device_pending_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger device_pending_id_trigger
+  before insert on device_pending
+  for each row
+    begin
+      select device_pending_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE policy_device_profiles';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE policy_device_profiles(
+        ID NUMBER,
+        DEVICE_ID NUMBER DEFAULT NULL,
+        FEATURE_CODE VARCHAR2(45) DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence policy_device_pr_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger policy_device_pr_id_trigger
+  before insert on policy_device_profiles
+  for each row
+    begin
+      select policy_device_pr_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE device_policy';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE device_policy(
+        ID NUMBER,
+        DEVICE_ID NUMBER DEFAULT NULL,
+        TENANT_ID NUMBER DEFAULT NULL,
+        POLICY_ID NUMBER DEFAULT NULL,
+        PAYLOAD_UIDS CLOB DEFAULT NULL,
+        POLICY_PRIORITY_ID NUMBER DEFAULT NULL,
+        STATUS VARCHAR2(1) DEFAULT NULL,
+        DATETIME DATE DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence device_policy_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger device_policy_id_trigger
+  before insert on device_policy
+  for each row
+    begin
+      select device_policy_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE settings';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE settings(
+        ID NUMBER,
+        TENANT_ID NUMBER DEFAULT NULL,
+        PROPERTIES CLOB DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+BEGIN
+  EXECUTE IMMEDIATE 
+      'create sequence settings_id_seq
+        start with 1
+        increment by 1 
+        nomaxvalue';
+    EXCEPTION
+        WHEN OTHERS THEN
+            NULL;
+END;
+/
+CREATE trigger settings_id_trigger
+  before insert on settings
+  for each row
+    begin
+      select settings_id_seq.nextval into :new.id from dual;
+    end;
+/
+BEGIN
+    BEGIN
+         EXECUTE IMMEDIATE 'DROP TABLE policy_priority';
+    EXCEPTION
+         WHEN OTHERS THEN
+            NULL;
+    END;
+
+    EXECUTE IMMEDIATE 
+      'CREATE TABLE policy_priority(
+        ID NUMBER,
+        TYPE VARCHAR2(45) DEFAULT NULL,
+        PRIORITY NUMBER DEFAULT NULL,
+        PRIMARY KEY (ID)
+      )';                          
+END;
+/
+INSERT ALL
+INTO policy_priority (ID,TYPE,PRIORITY) VALUES (1, 'USERS', 1)
+INTO policy_priority (ID,TYPE,PRIORITY) VALUES (2, 'PLATFORMS', 2)
+INTO policy_priority (ID,TYPE,PRIORITY) VALUES (3, 'ROLES', 3)
+SELECT 1 FROM DUAL
+/

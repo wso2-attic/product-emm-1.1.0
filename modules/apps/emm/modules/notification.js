@@ -228,7 +228,7 @@ var notification = (function() {
 
 			log.debug("Operation >>>>>> " + ctx.operation);
 
-			var result = driver.query(sqlscripts.notifications.select10,
+			var result = driver.query(sqlscripts.notifications.select21,
 					ctx.deviceid, ctx.operation);
 			var features = driver.query(sqlscripts.features.select6, ctx.operation);
 			ctx.operation = String(features[0].name);
@@ -289,7 +289,7 @@ var notification = (function() {
 		},
 		getPolicyState : function(ctx) {
 
-            var result = driver.query(sqlscripts.notifications.select16,
+            var result = driver.query(sqlscripts.notifications.select10,
                     ctx.deviceid, '501P');
             var newArray = new Array();
             if (result == null || result == undefined || result.length == 0) {
