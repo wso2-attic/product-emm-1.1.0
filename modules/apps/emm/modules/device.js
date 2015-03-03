@@ -265,8 +265,7 @@ var device = (function () {
 
         var result;
         try {
-            result = driver.query("SELECT content FROM permissions where role in " + whereRoles + " AND tenant_id = ?", common.getTenantID());
-            //result = driver.query("SELECT content FROM permissions where role in ? AND tenant_id = ?", whereRoles, common.getTenantID());
+            result = driver.query("SELECT content FROM permissions WHERE role IN " + whereRoles + " AND tenant_id = ?", common.getTenantID());
             for(var i=0;i<result.length;i++) {
                 var resultString = result[i].content.replace(/"/g,"");
                 var newArray = (resultString.substring(1, resultString.length -1)).split(",");
@@ -807,11 +806,11 @@ var device = (function () {
             if (userAgent.indexOf("Android") > 0) {
                 return (configFile.device.android_location);
             } else if (userAgent.indexOf("iPhone") > 0) {
-                 return("itms-services://?action=download-manifest&url=itms-services://?action=download-manifest&url=" + configFile.HTTPS_URL + "/emm/api/devices/ios/download");
+                return("itms-services://?action=download-manifest&url=itms-services://?action=download-manifest&url=" + configFile.HTTPS_URL + "/emm/api/devices/ios/download");
             } else if (userAgent.indexOf("iPad") > 0){
-                 return("itms-services://?action=download-manifest&url=itms-services://?action=download-manifest&url=" + configFile.HTTPS_URL + "/emm/api/devices/ios/download");
+                return("itms-services://?action=download-manifest&url=itms-services://?action=download-manifest&url=" + configFile.HTTPS_URL + "/emm/api/devices/ios/download");
             } else if (userAgent.indexOf("iPod") > 0){
-                 return("itms-services://?action=download-manifest&url=itms-services://?action=download-manifest&url=" + configFile.HTTPS_URL + "/emm/api/devices/ios/download");
+                return("itms-services://?action=download-manifest&url=itms-services://?action=download-manifest&url=" + configFile.HTTPS_URL + "/emm/api/devices/ios/download");
             }
         },
 

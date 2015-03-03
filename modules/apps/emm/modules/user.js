@@ -243,7 +243,7 @@ var user = (function () {
             }else{
                 print('Error in getting the tenantId from session');
             }
-            log.debug("LLLLLLLLLLLLLLLLLLLL"+stringify(users_list));
+            log.debug("Getting all users : " + stringify(users_list));
             return users_list;
         },
         getAllUserNames: function(filter){
@@ -599,7 +599,7 @@ var user = (function () {
                 jsonBuilder.iosMDMPass = iOSMDMConfigurations.properties.Password[0];
                 jsonBuilder.iosMDMCertFileName = iOSMDMConfigurations.properties.Filename[0];
                 jsonBuilder.iosMDMTopic = iOSMDMConfigurations.properties.TopicID[0];
-                if(iOSMDMConfigurations.properties.Production[0] = "true") {
+                if(iOSMDMConfigurations.properties.Production[0] == "true") {
                     jsonBuilder.iosMDMMode = "production";
                 } else {
                     jsonBuilder.iosMDMMode = "developer";
@@ -613,7 +613,7 @@ var user = (function () {
             if(iOSAPNSConfigurations != null) {
                 jsonBuilder.iosAPNSPass = iOSAPNSConfigurations.properties.Password[0];
                 jsonBuilder.iosAPNSCertFileName = iOSAPNSConfigurations.properties.Filename[0];
-                if(iOSAPNSConfigurations.properties.Production[0] = "true") {
+                if(iOSAPNSConfigurations.properties.Production[0] == "true") {
                     jsonBuilder.iosAPNSMode = "production";
                 } else {
                     jsonBuilder.iosAPNSMode = "developer";
@@ -853,35 +853,37 @@ var user = (function () {
             return user;
         },
 
-        /*send email to particular user*/
-        sendEmail: function(ctx){
-
+        /**
+         * Sends an invitation email to a particular user. 
+         * @param ctx contains user information
+		 */
+        sendEmail: function(ctx) {
             var tenantId = parseInt(common.common.getTenantID());
             var emailConfigurations = this.getEmailConfigurations(tenantId);
             var tenantCopyRight = this.getTenantCopyRight(tenantId);
 
-            if(emailConfigurations != null) {
+            if (emailConfigurations != null) {
                 if(String(emailConfigurations.UserName[0].trim()) != "") {
-                    var password_text = "";
-                    if(ctx.generatedPassword){
-                        password_text = "Your password to your login : "+ctx.generatedPassword;
+                    var passwordText = "";
+                    if (ctx.generatedPassword) {
+                        passwordText = "Your password to log into EMM : " + ctx.generatedPassword;
                     }
-                    content = "Dear " + ctx.firstName +", \n" + emailConfigurations.EmailTemplate[0] +" \n \n"
-                        + config.HTTPS_URL + "/emm/api/device_enroll \n " + password_text + " \n" + tenantCopyRight.CompanyName[0];
-                    subject = "EMM Enrollment";
+                    content = "Dear " + ctx.firstName + ", \n\n" + emailConfigurations.EmailTemplate[0] + "\n\n" + 
+                              config.HTTPS_URL + "/emm/api/device_enroll \n\n" + passwordText + "\n\n" + tenantCopyRight.CompanyName[0];
+                    subject = "WSO2 EMM Enrollment";
 
                     var email = require('email');
                     var sender = new email.Sender(String(emailConfigurations.SMTP[0]), String(emailConfigurations.Port[0]),
                                                   String(emailConfigurations.UserName[0]), String(emailConfigurations.Password[0]), "tls");
+                                                  
                     sender.from = String(emailConfigurations.SenderAddress[0]);
-
-                    log.info("Email sent to -> " + ctx.email);
-                    sender.to = stringify(ctx.email);
+                    sender.to = String(ctx.email);
                     sender.subject = subject;
                     sender.text = content;
-                    try{
+                    try {
                         sender.send();
-                    }catch(e){
+                        log.info("Invitation mail sent to -> " + ctx.email);
+                    } catch(e) {
                         log.error(e);
                     }
                 }

@@ -7,6 +7,7 @@ var mdm_reports = (function () {
     var store = new storeModule(db);
     var GET_APP_FEATURE_CODE = '502A';
     var common = require("common.js");
+    var sqlscripts = require('/sqlscripts/db.js');
 
     var configs = {
         CONTEXT: "/"
@@ -42,7 +43,7 @@ var mdm_reports = (function () {
                 var featureCode = receivedData[i].code;
                 try{
                     var obj = {};
-                    var features = driver.query("SELECT * FROM features WHERE code= ?",featureCode);
+                    var features = driver.query(sqlscripts.features.select6, featureCode);
                     obj.name = features[0].description;
                     obj.status = receivedData[i].status;
                     newArray.push(obj);
@@ -107,11 +108,9 @@ var mdm_reports = (function () {
             }
             var result = [];
             if(typeof ctx.platformType !== 'undefined' && parse(ctx.platformType) !== 0){
-                //sqlscripts.devices.select45
-                result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices,platforms where platforms.type =? AND platforms.id = devices.platform_id  AND devices.created_date between ? and ? and  devices.tenant_id = ?",ctx.platformType,startDate,endDate,common.getTenantID());
+                result = driver.query(sqlscripts.devices.select45, ctx.platformType, startDate, endDate, common.getTenantID());
             }else{
-               // result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices, platforms where devices.created_date between '"+startDate+"' and '"+endDate+"' and  devices.tenant_id = "+common.getTenantID()+"&& devices.platform_id = platforms.id");
-                result = driver.query("SELECT devices.user_id, devices.properties, platforms.name as platform_name, devices.os_version, devices.created_date, devices.status  FROM devices, platforms where devices.created_date between ? and ? and  devices.tenant_id = ? AND devices.platform_id = platforms.id",startDate,endDate,common.getTenantID());
+                result = driver.query(sqlscripts.devices.select49, startDate, endDate, common.getTenantID());
             }
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null ){
                 for(var i=0; i< result.length;i++){
@@ -137,8 +136,8 @@ var mdm_reports = (function () {
             }else{
                 endDate = ctx.endDate+ends;
             }
-             //var result = driver.query("SELECT devices.id, devices.properties, devices.user_id, devices.os_version, platforms.type_name as platform_name, devices.status from devices, platforms WHERE devices.created_date between '"+ctx.startDate+"' AND '"+ctx.endDate+"'AND devices.user_id like '%"+ctx.username+"%' AND status like '%"+ctx.status+"%' AND devices.tenant_id ="+common.getTenantID()+" AND devices.platform_id = platforms.id");
-             var result = driver.query("SELECT devices.id, devices.properties, devices.user_id, devices.os_version, platforms.type_name as platform_name, devices.status from devices, platforms WHERE devices.created_date between ? AND ? AND devices.user_id like ? AND status like ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",startDate,endDate,"%"+ctx.username+"%","%"+ctx.status+"%",common.getTenantID());
+            
+            var result = driver.query(sqlscripts.devices.select50, startDate, endDate, "%" + ctx.username + "%", "%" + ctx.status + "%", common.getTenantID());
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null ){
                  for(var i=0; i< result.length;i++){
                      result[i].imei = parse(result[i].properties).imei;
@@ -169,8 +168,8 @@ var mdm_reports = (function () {
             }else{
                 endDate = ctx.endDate+ends;
             }
-            //var result = driver.query("select * from notifications where feature_code = '501P' && device_id ="+ctx.deviceID+"&& received_date between '"+startDate+"' and '"+endDate+"' and tenant_id = "+common.getTenantID());
-            var result = driver.query("select * from notifications where feature_code = '501P' and device_id = ? and received_date between ? and ? and tenant_id = ?",ctx.deviceID,startDate,endDate,common.getTenantID());
+            
+            var result = driver.query(sqlscripts.notifications.select16, ctx.deviceID, startDate, endDate, common.getTenantID());
 
             if(typeof result !== 'undefined' && result !== null && typeof result[0] !== 'undefined' && result[0] !== null){
                 var stateChangesArray = getComplianceStateChanges(result,ctx.deviceID);
@@ -189,18 +188,9 @@ var mdm_reports = (function () {
             try {
                 if (platform == 0) {
                     log.info("platform 0 ");
-                    queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n " +
-                        "JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt " +
-                        "ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) " +
-                        "JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.id";
-
-                    devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
+                    devicesInfo = driver.query(sqlscripts.notifications.select17, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
                 } else {
-                    queryString = "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications as n " +
-                        "JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt " +
-                        "ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) " +
-                        "JOIN platforms as p ON (p.id = d.platform_id AND p.type = ?) WHERE feature_code = ? ORDER BY n.id";
-                    devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, platform, GET_APP_FEATURE_CODE);
+                    devicesInfo = driver.query(sqlscripts.notifications.select18, GET_APP_FEATURE_CODE, platform, GET_APP_FEATURE_CODE);
                 }
             } catch(e) {
                 log.error(e);
@@ -256,11 +246,9 @@ var mdm_reports = (function () {
             user_id = params.userid;
             tenant_id = session.get("emmConsoleUser").tenantId;
             if (user_id) {
-                queryString = "SELECT n.user_id,p.type_name, d.os_version, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code=? AND user_id=? AND tenant_id=? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id,n.device_id";
-                devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, user_id, tenant_id, GET_APP_FEATURE_CODE);
+                devicesInfo = driver.query(sqlscripts.notifications.select19, GET_APP_FEATURE_CODE, user_id, tenant_id, GET_APP_FEATURE_CODE);
             } else {
-                queryString = "SELECT n.user_id,p.type_name, d.os_version, n.device_id, n.received_data FROM notifications as n JOIN (SELECT device_id, MAX(received_date) as MaxTimeStamp FROM notifications WHERE feature_code=? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices as d ON (n.device_id = d.id) JOIN platforms as p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id,n.device_id";
-                devicesInfo = driver.query(queryString, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
+                devicesInfo = driver.query(sqlscripts.notifications.select20, GET_APP_FEATURE_CODE, GET_APP_FEATURE_CODE);
             }
             //Get the list of apps in Store
             var appsStore = store.getAppsFromStorePackageAndName();
