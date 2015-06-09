@@ -237,7 +237,7 @@ var notification = (function() {
 				return {};
 			}
 
-			result = result[result.length - 1];
+			result = result[0];
 
 			var receivedData = parse(result["received_data"]);
 
@@ -295,7 +295,7 @@ var notification = (function() {
             if (result == null || result == undefined || result.length == 0) {
                 return newArray;
             }
-            var arrayFromDatabase = parse(result[result.length - 1].received_data);
+            var arrayFromDatabase = parse(result[0].received_data);
             var blackListApp = {};
             blackListApp.status = true;
             var checkState = true;

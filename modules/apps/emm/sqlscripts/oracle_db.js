@@ -115,7 +115,7 @@ var notifications = {
     "select7" 	: "SELECT received_data, device_id FROM notifications WHERE id = ? ORDER BY sent_date ASC",
     "select8" 	: "SELECT device_id FROM notifications WHERE id = ?",
     "select9" 	: "SELECT * FROM notifications WHERE id = ? ORDER BY sent_date ASC",
-    "select10"	: "SELECT DISTINCT * FROM notifications WHERE received_data IS NOT NULL AND device_id = ? AND feature_code = ? ORDER BY sent_date ASC",
+    "select10"	: "SELECT * FROM notifications WHERE ID = (SELECT MAX(ID) FROM notifications WHERE device_id = ? AND feature_code = ? AND received_data IS NOT NULL)",
     "select11"	: "SELECT received_date, device_id, feature_code, user_id FROM notifications WHERE id = ? AND feature_code != '500P' AND feature_code != '529A' ORDER BY sent_date ASC",
     "select12"	: "SELECT * FROM notifications WHERE device_id = ? AND feature_code = ? AND status = 'R' AND id = (SELECT MAX(id) FROM notifications WHERE device_id = ? AND feature_code = ? AND status = 'R') ORDER BY sent_date ASC",
     "select13"	: "SELECT * FROM notifications WHERE device_id = ? AND status = 'P' ORDER BY sent_date ASC",
