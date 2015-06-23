@@ -110,7 +110,7 @@ var notifications = {
     "select2" 	: "SELECT id, device_id FROM notifications WHERE status = 'P' AND device_id IN (SELECT id FROM devices WHERE platform_id IN (SELECT id FROM platforms WHERE type_name = 'iOS')) ORDER BY sent_date ASC",
     "select3" 	: "SELECT feature_code ,message, id, received_data FROM notifications WHERE (notifications.status = 'P' OR notifications.status = 'A') AND notifications.device_id = ? ORDER BY sent_date ASC",
     "select4" 	: "SELECT device_id, message FROM notifications WHERE id = ? ORDER BY sent_date ASC",
-    "select5" 	: "SELECT * FROM notifications WHERE device_id = ? AND ROWNUM <= 10 ORDER BY id DESC",
+    "select5" 	: "SELECT * FROM (SELECT * FROM notifications WHERE device_id = ? ORDER BY id DESC) WHERE ROWNUM <= 10",
     "select6" 	: "SELECT message, feature_code, device_id FROM notifications WHERE id = ? ORDER BY sent_date ASC",
     "select7" 	: "SELECT received_data, device_id FROM notifications WHERE id = ? ORDER BY sent_date ASC",
     "select8" 	: "SELECT device_id FROM notifications WHERE id = ?",
