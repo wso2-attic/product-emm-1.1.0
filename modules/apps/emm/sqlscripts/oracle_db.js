@@ -1,3 +1,11 @@
+/*
+ *  EMM uses the following date format for its operations.
+ *  When the default date format of Oracle DB is set to a different format,
+ *  it is required to use that format for sql queries. Therefore 'to_date()' function
+ *  is used to convert EMM defined date format to Oracle DB compatible date format.
+ */
+var dateFormat = "YYYY-MM-DD HH24:MI:SS";
+
 var general = {
     "select1" 	: "SELECT MAX(notifications.id) FROM notifications"
 };
@@ -55,7 +63,7 @@ var devices = {
     "select50"	: "SELECT devices.id, devices.properties, devices.user_id, devices.os_version, platforms.type_name AS platform_name, devices.status FROM devices, platforms WHERE devices.created_date BETWEEN ? AND ? AND devices.user_id LIKE ? AND status LIKE ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",
     "select51"  : "SELECT platforms.type_name AS platform FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?", 	
 
-    "insert1" 	: "INSERT INTO devices(tenant_id, os_version, created_date, properties, reg_id, status, byod, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, ?, ?, ?, 'A', ?, '0', ?, ?, ?, '0', ?)",
+    "insert1" 	: "INSERT INTO devices(tenant_id, os_version, created_date, properties, reg_id, status, byod, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, to_date(?, '" + dateFormat + "'), ?, ?, 'A', ?, '0', ?, ?, ?, '0', ?)",
     "insert2" 	: "INSERT INTO devices(tenant_id, user_id, platform_id, reg_id, properties, created_date, status, byod, deleted, vendor, udid) SELECT tenant_id, user_id, platform_id, ?, ?, created_date, status, byod, 0, vendor, udid FROM device_pending WHERE udid = ?",
 
     "update1" 	: "UPDATE devices SET status = ? WHERE id = ?",
@@ -80,10 +88,10 @@ var device_pending = {
     "select5" 	: "SELECT user_id, udid FROM device_pending WHERE user_id = ? AND udid IS NOT NULL AND request_status = 1",
     "select6" 	: "SELECT id FROM device_pending WHERE token = ?",
 
-    "insert1" 	: "INSERT INTO device_pending(tenant_id, user_id, platform_id, properties, created_date, status, vendor, udid, token) VALUES(?, ?, ?, ?, ?, 'A', ?, ?, ?)",
+    "insert1" 	: "INSERT INTO device_pending(tenant_id, user_id, platform_id, properties, created_date, status, vendor, udid, token) VALUES(?, ?, ?, ?, to_date(?, '" + dateFormat + "'), 'A', ?, ?, ?)",
     "insert2" 	: "INSERT INTO device_pending(user_id, tenant_id, byod, token) VALUES(?, ?, ?, ?)",
 
-    "update1" 	: "UPDATE device_pending SET tenant_id = ?, user_id = ?, platform_id = ?, properties = ?, created_date = ?, status = 'A', vendor = ?, udid = ? WHERE token = ?",
+    "update1" 	: "UPDATE device_pending SET tenant_id = ?, user_id = ?, platform_id = ?, properties = ?, created_date = to_date(?, '" + dateFormat + "'), status = 'A', vendor = ?, udid = ? WHERE token = ?",
     "update2" 	: "UPDATE device_pending SET request_status = 1 WHERE user_id = ? AND udid IS NOT NULL",
     "update3" 	: "UPDATE device_pending SET request_status = 1 WHERE udid = ?",
     "update4" 	: "UPDATE device_pending SET udid = ? WHERE token = ?",
@@ -95,14 +103,14 @@ var device_pending = {
 var device_awake = {
     "select1" 	: "SELECT 86400*(CURRENT_TIMESTAMP - min(sent_date)) AS seconds FROM device_awake WHERE status = 'S' AND device_id = ?",
 
-    "insert1" 	: "INSERT INTO device_awake(device_id, sent_date, call_count, status) VALUES(?, ?, 1, 'S')",
+    "insert1" 	: "INSERT INTO device_awake(device_id, sent_date, call_count, status) VALUES(?, to_date(?, '" + dateFormat + "'), 1, 'S')",
 
-    "update1" 	: "UPDATE device_awake SET status = 'E', processed_date = ? WHERE device_id = ? AND status = 'S'",
-    "update2" 	: "UPDATE device_awake SET sent_date = ?, call_count = call_count + 1 WHERE device_id = ? AND status = 'S'",
+    "update1" 	: "UPDATE device_awake SET status = 'E', processed_date = to_date(?, '" + dateFormat + "') WHERE device_id = ? AND status = 'S'",
+    "update2" 	: "UPDATE device_awake SET sent_date = to_date(?, '" + dateFormat + "'), call_count = call_count + 1 WHERE device_id = ? AND status = 'S'",
     "update3" 	: "UPDATE device_awake JOIN devices ON devices.id = device_awake.device_id SET device_awake.status = 'D' WHERE devices.udid = ? AND device_awake.status = 'S'",
-    "update4" 	: "UPDATE device_awake JOIN devices ON devices.id = device_awake.device_id SET device_awake.status = 'P', device_awake.processed_date = ? WHERE devices.udid = ? AND device_awake.status = 'S'",
+    "update4" 	: "UPDATE device_awake JOIN devices ON devices.id = device_awake.device_id SET device_awake.status = 'P', device_awake.processed_date = to_date(?, '" + dateFormat + "') WHERE devices.udid = ? AND device_awake.status = 'S'",
     "update5" 	: "UPDATE device_awake SET device_awake.status = 'D' WHERE device_awake.device_id = ? AND device_awake.status = 'S'",
-    "update6" 	: "UPDATE device_awake SET status = 'P', processed_date = ? WHERE device_id = ? AND status = 'S'"
+    "update6" 	: "UPDATE device_awake SET status = 'P', processed_date = to_date(?, '" + dateFormat + "') WHERE device_id = ? AND status = 'S'"
 };
 
 var notifications = {
@@ -128,17 +136,17 @@ var notifications = {
     "select20"  : "SELECT n.user_id, p.type_name, d.os_version, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id, n.device_id",
     "select21"	: "SELECT DISTINCT * FROM notifications WHERE received_data IS NOT NULL AND device_id = ? AND feature_code = ? ORDER BY sent_date DESC",
 
-    "insert1" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) VALUES(?, ?, ?, 'P', ?, ?, ?, ?, ?)",
-    "insert2" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id, feature_description, tenant_id) VALUES(?, '1', ?, 'P', ?, ?, ?, ?, ?)",
+    "insert1" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) VALUES(?, ?, ?, 'P', to_date(?, '" + dateFormat + "'), ?, ?, ?, ?)",
+    "insert2" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id, feature_description, tenant_id) VALUES(?, '1', ?, 'P', to_date(?, '" + dateFormat + "'), ?, ?, ?, ?)",
 
     "update1" 	: "UPDATE notifications SET status = 'D' WHERE device_id = ? AND feature_code = ? AND user_id = ? AND status = 'P'",
     "update2" 	: "UPDATE notifications SET received_data = ? WHERE id = ?",
     "update3" 	: "UPDATE notifications SET status = 'C' WHERE id = ?",
-    "update4" 	: "UPDATE notifications SET received_data = ? , received_date = ? WHERE id = ?",
+    "update4" 	: "UPDATE notifications SET received_data = ? , received_date = to_date(?, '" + dateFormat + "') WHERE id = ?",
     "update5" 	: "UPDATE notifications SET status = 'R' WHERE id = ?",
-    "update6" 	: "UPDATE notifications SET status = 'R', received_data = ? , received_date = ? WHERE id = ?",
+    "update6" 	: "UPDATE notifications SET status = 'R', received_data = ? , received_date = to_date(?, '" + dateFormat + "') WHERE id = ?",
     "update7" 	: "UPDATE notifications SET status = 'D' WHERE device_id = ? AND status = 'P'",
-    "update8" 	: "UPDATE notifications SET received_data = ?, received_date = ?, status = 'R' WHERE id = ?",
+    "update8" 	: "UPDATE notifications SET received_data = ?, received_date = to_date(?, '" + dateFormat + "'), status = 'R' WHERE id = ?",
 
     "delete1" 	: "DELETE FROM notifications WHERE device_id = ? AND status = 'P' AND feature_code = ?",
     "delete2" 	: "DELETE FROM notifications WHERE device_id = ? AND status = 'R' AND feature_code = ?"
@@ -256,8 +264,8 @@ var device_policy = {
     "select3" 	: "SELECT device_policy.id AS id, device_policy.device_id AS device_id, device_policy.tenant_id AS tenant_id, device_policy.policy_id AS policy_id, device_policy.payload_uids AS payload_uids, policy_priority.priority FROM device_policy JOIN policy_priority ON policy_priority.id = device_policy.policy_priority_id WHERE device_policy.device_id = ? AND device_policy.tenant_id = ? AND device_policy.status = 'A'",
     "select4" 	: "SELECT id FROM device_policy WHERE device_id = ? AND tenant_id = ? AND status = 'A'",
 
-    "insert1" 	: "INSERT INTO device_policy(device_id, tenant_id, policy_id, policy_priority_id, payload_uids, status, datetime) VALUES(?, ?, ?, ?, ?, 'A', ?)",
-    "insert2" 	: "INSERT INTO device_policy(device_id, tenant_id, policy_id, policy_priority_id, status, datetime) VALUES(?, ?, ?, ?, 'A', ?)",
+    "insert1" 	: "INSERT INTO device_policy(device_id, tenant_id, policy_id, policy_priority_id, payload_uids, status, datetime) VALUES(?, ?, ?, ?, ?, 'A', to_date(?, '" + dateFormat + "'))",
+    "insert2" 	: "INSERT INTO device_policy(device_id, tenant_id, policy_id, policy_priority_id, status, datetime) VALUES(?, ?, ?, ?, 'A', to_date(?, '" + dateFormat + "'))",
 
     "update1" 	: "UPDATE device_policy SET status = 'D' WHERE id = ? AND status = 'A'",
     "update2" 	: "UPDATE device_policy SET status = 'D' WHERE device_id = ? AND status = 'A'",

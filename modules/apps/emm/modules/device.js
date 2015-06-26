@@ -3,6 +3,8 @@ var USER_MANAGER = 'user.manager';
 var common = require("/modules/common.js");
 var configFile = require('/config/emm.js').config();
 var driver;
+var multitenantUtils = org.wso2.carbon.utils.multitenancy.MultitenantUtils;
+var previlegedCarbonContext = org.wso2.carbon.context.PrivilegedCarbonContext.getThreadLocalCarbonContext();
 
 var device = (function () {
 
@@ -396,10 +398,10 @@ var device = (function () {
             if (policyid != null) {
                 device_policy = driver.query(sqlscripts.device_policy.select4, deviceid, tenantID);
                 datetime = common.getCurrentDateTime();
-                if (device_policy[0] == null) {
+                if (device_policy[0]) {
                     // Check platform and accordingly insert to device_policy
 					// table
-                    if (devices[0].platform_type == "iOS") {
+                    if (devices[0].platform_type.toUpperCase() == "IOS") {
                         var payloadIdentifiers = common.getPayloadIdentifierMap();
                         var payloadUidArray = new Array();
                         var policyArray = parse(stringify(ctx.data));
@@ -420,7 +422,7 @@ var device = (function () {
 
                         driver.query(sqlscripts.device_policy.insert1, deviceid, tenantID, policyid, policypriority[0].id, stringify(payloadUidArray), datetime);
 
-                    } else if (devices[0].platform_type == "Android") {
+                    } else if (devices[0].platform_type.toUpperCase() == "ANDROID") {
 
                         driver.query(sqlscripts.device_policy.insert2, deviceid, tenantID, policyid, policypriority[0].id, datetime);
                     }
@@ -1067,6 +1069,12 @@ var device = (function () {
             var platformId = platforms[0].id;
 
             var createdDate =  common.getCurrentDateTime();
+
+            // get fully qualified user name from carbon context
+            var cuser = previlegedCarbonContext.getUsername();
+
+            // get user name without tenant domain
+            userId = multitenantUtils.getTenantAwareUsername(cuser);
 
             if(ctx.regid!=null){
                 var result = driver.query(sqlscripts.devices.select19, ctx.regid);
