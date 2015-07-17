@@ -15,7 +15,7 @@ var devices = {
     "select2" 	: "SELECT platforms.type_name AS label, COUNT(devices.id) AS devices, (SELECT COUNT(id) FROM devices) AS data FROM platforms, devices WHERE devices.platform_id = platforms.id AND devices.tenant_id = ? GROUP BY platforms.type, platforms.type_name",
     "select3" 	: "SELECT COUNT(id) AS count FROM devices WHERE tenant_id = ?",
     "select4" 	: "SELECT COUNT(id) AS count FROM devices WHERE byod = 1 AND tenant_id = ?",
-    "select5" 	: "SELECT platforms.type_name FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?",
+    "select5" 	: "SELECT LOWER(platforms.type_name) AS type_name FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?",
     "select6" 	: "SELECT reg_id, os_version, platform_id, user_id FROM devices WHERE id = ?",
     "select7" 	: "SELECT * FROM devices WHERE udid = ?",
     "select8" 	: "SELECT reg_id FROM devices WHERE id = ?",
@@ -61,7 +61,7 @@ var devices = {
     "select48"	: "SELECT mac FROM devices WHERE udid = ?",
     "select49"	: "SELECT devices.user_id, devices.properties, platforms.name AS platform_name, devices.os_version, devices.created_date, devices.status FROM devices, platforms WHERE devices.created_date BETWEEN ? AND ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",
     "select50"	: "SELECT devices.id, devices.properties, devices.user_id, devices.os_version, platforms.type_name AS platform_name, devices.status FROM devices, platforms WHERE devices.created_date BETWEEN ? AND ? AND devices.user_id LIKE ? AND status LIKE ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",
-    "select51"  : "SELECT platforms.type_name AS platform FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?", 	
+    "select51"  : "SELECT platforms.type_name AS platform FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?",
 
     "insert1" 	: "INSERT INTO devices(tenant_id, os_version, created_date, properties, reg_id, status, byod, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, to_date(?, '" + dateFormat + "'), ?, ?, 'A', ?, '0', ?, ?, ?, '0', ?)",
     "insert2" 	: "INSERT INTO devices(tenant_id, user_id, platform_id, reg_id, properties, created_date, status, byod, deleted, vendor, udid) SELECT tenant_id, user_id, platform_id, ?, ?, created_date, status, byod, 0, vendor, udid FROM device_pending WHERE udid = ?",
@@ -101,7 +101,7 @@ var device_pending = {
 };
 
 var device_awake = {
-    "select1" 	: "SELECT 86400*(CURRENT_TIMESTAMP - min(sent_date)) AS seconds FROM device_awake WHERE status = 'S' AND device_id = ?",
+    "select1" 	: "SELECT 86400*(SYSDATE - min(sent_date)) AS seconds FROM device_awake WHERE status = 'S' AND device_id = ?",
 
     "insert1" 	: "INSERT INTO device_awake(device_id, sent_date, call_count, status) VALUES(?, to_date(?, '" + dateFormat + "'), 1, 'S')",
 
@@ -134,7 +134,6 @@ var notifications = {
     "select18"  : "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id AND p.type = ?) WHERE feature_code = ? ORDER BY n.id",
     "select19"  : "SELECT n.user_id, p.type_name, d.os_version, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND user_id = ? AND tenant_id = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id, n.device_id",
     "select20"  : "SELECT n.user_id, p.type_name, d.os_version, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id, n.device_id",
-    "select21"	: "SELECT DISTINCT * FROM notifications WHERE received_data IS NOT NULL AND device_id = ? AND feature_code = ? ORDER BY sent_date DESC",
 
     "insert1" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) VALUES(?, ?, ?, 'P', to_date(?, '" + dateFormat + "'), ?, ?, ?, ?)",
     "insert2" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id, feature_description, tenant_id) VALUES(?, '1', ?, 'P', to_date(?, '" + dateFormat + "'), ?, ?, ?, ?)",
@@ -223,8 +222,8 @@ var featuregroup = {
 };
 
 var policy_device_profiles = {
-    "select1" 	: "SELECT id, feature_code FROM policy_device_profiles WHERE device_id = ?",   
-    "insert1" 	: "INSERT INTO policy_device_profiles(device_id, feature_code) VALUES(?, ?)",   
+    "select1" 	: "SELECT id, feature_code FROM policy_device_profiles WHERE device_id = ?",
+    "insert1" 	: "INSERT INTO policy_device_profiles(device_id, feature_code) VALUES(?, ?)",
     "delete1" 	: "DELETE FROM policy_device_profiles WHERE id = ?"
 };
 

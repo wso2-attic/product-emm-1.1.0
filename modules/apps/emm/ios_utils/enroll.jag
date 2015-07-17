@@ -21,20 +21,13 @@
     }
     
 	var ctx = {};
-	var domain = session.get("auth.domain");
 
     if (tenantDomain != null && tenantDomain.trim() != ""){
-        if (domain) {
-            ctx.userid = ctx.username = domain + "/" + username + "@" + tenantDomain;
-        } else {
-            ctx.userid = ctx.username = username + "@" + tenantDomain;
-        }
+        ctx.username = username + "@" + tenantDomain;
+        ctx.userid = username + "@" + tenantDomain;
     } else {
-        if (domain) {
-            ctx.userid = ctx.username = domain + "/" + username;
-        } else {
-            ctx.userid = ctx.username = username;
-        }
+        ctx.username = username;
+        ctx.userid = username;
     }
     ctx.password = password;
 	var objUser = user.authenticate(ctx);
@@ -43,7 +36,6 @@
 		response.status=401;
 	    print("Authentication Failed");
 	} else {
-	    username = objUser.username;
 	    ctx.login = true;
         var tenant = user.getUser(ctx);
 		var data = iosEmm.generateMobileConfigurations(ctx.userid);

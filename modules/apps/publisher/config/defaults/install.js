@@ -20,6 +20,7 @@ var installer = function () {
     var PROMOTE_COUNT = 4;    //The number of promote attempts before giving up reaching desired state.
     var INVOKED_OPERATION = 'Promote'; //The action invoked to reach the desired state.
     var DEFAULT_LIFECYCLE = 'SampleLifeCycle2';
+    var config = require('/config/publisher.json');
 
     /*
      The function is used to initialize an individual asset by first reading the
@@ -89,7 +90,7 @@ var installer = function () {
 
         //Create a registry instance
         var registry = new carbon.registry.Registry(server.instance(), {
-            username: 'admin',
+            username: config.user.username,
             tenantId: SUPER_TENANT_ID
         });
 

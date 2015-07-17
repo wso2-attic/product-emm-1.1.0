@@ -4,6 +4,7 @@ var TENANT_PUBLISHER = 'tenant.publisher';
 var log=new Log('modules.publisher');
 var utility=require('/modules/utility.js').rxt_utility();
 var SUPER_TENANT=-1234;
+var conf = require('/config/publisher.json');
 var cleanUsername = function (username) {
     /**
      * this is a one-way hash function, @ is replaced if the user name is an email
@@ -379,7 +380,7 @@ var buildPermissionsList = function (tenantId, username, permissions) {
 var configureUser = function (tenantId, user) {
 
     //Ignore adding permissions for the admin
-    if (user.username == 'admin') {
+    if (user.username == conf.user.username) {
         return;
     }
 

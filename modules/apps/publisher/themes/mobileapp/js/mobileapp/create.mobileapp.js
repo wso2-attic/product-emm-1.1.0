@@ -167,6 +167,8 @@ $(document).ready(function(){
         dataType: 'json',
        	add: function (e, data) {
 		        $('#btn-app-upload').one( "click", function() {
+				        	$("#submitButton").prop('disabled', true);
+				        	$("#submitButton").val("Uploading...");
 		                    //data.context = $('<p/>').text('Uploading...').replaceAll($(this));
 		                    $("#modal-upload-data").css("display", "none");
 		                     $("#modal-upload-progress").css("display", "block");
@@ -232,6 +234,8 @@ $(document).ready(function(){
 	               		$('#appmeta').val(JSON.stringify(data));
 						$("#app-upload-progress-done").css("display", "block");
 						$('#modal-upload-app').modal('hide');
+						$("#submitButton").val("Submit");
+						$("#submitButton").prop('disabled', false);
 	               	}
 					
 		        	//$('#txtWebapp').val(data._response.result[0]);
@@ -264,6 +268,7 @@ jQuery("#form-asset-create").submit(function(e) {
 	
 	$("#txtMarketHidden").val($("#txtMarket").val());
 	$("#txtOSHidden").val($("#txtOS").val());
+	$("#version").val($("#txtVersion").val());
 	
 	if($("#txtMarketHidden").val() == 'VPP'){
 		$('#appmeta').val(JSON.stringify({package: $("#txtPackagename").val(), version: $("#txtVersion").val()}));

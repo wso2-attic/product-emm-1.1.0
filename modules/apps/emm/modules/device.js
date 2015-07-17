@@ -3,8 +3,6 @@ var USER_MANAGER = 'user.manager';
 var common = require("/modules/common.js");
 var configFile = require('/config/emm.js').config();
 var driver;
-var multitenantUtils = org.wso2.carbon.utils.multitenancy.MultitenantUtils;
-var previlegedCarbonContext = org.wso2.carbon.context.PrivilegedCarbonContext.getThreadLocalCarbonContext();
 
 var device = (function () {
 
@@ -398,7 +396,7 @@ var device = (function () {
             if (policyid != null) {
                 device_policy = driver.query(sqlscripts.device_policy.select4, deviceid, tenantID);
                 datetime = common.getCurrentDateTime();
-                if (device_policy[0]) {
+                if (!device_policy[0]) {
                     // Check platform and accordingly insert to device_policy
 					// table
                     if (devices[0].platform_type.toUpperCase() == "IOS") {
@@ -912,18 +910,7 @@ var device = (function () {
             //Fixed issue - Must be refactored
 
             var roles = ctx.roles;
-            for(var i = 0; i<roles.length; i++) {
-                if(roles[i].indexOf("Internal")!==-1) {
-                    roles.splice(i,1);
-                }
-            }
             var deviceId =  ctx.deviceid;
-//            if(role=="user"){
-//                 //role = group.getEffectiveRoleFromDeviceID(deviceId);
-//            }
-//            if(role.indexOf("Internal")!==-1){
-//                role = role.substring(9);
-//            }
             var tenantID = common.getTenantID();
             var featureList = driver.query(sqlscripts.devices.select12, deviceId);
             var obj = new Array();
@@ -1069,12 +1056,6 @@ var device = (function () {
             var platformId = platforms[0].id;
 
             var createdDate =  common.getCurrentDateTime();
-
-            // get fully qualified user name from carbon context
-            var cuser = previlegedCarbonContext.getUsername();
-
-            // get user name without tenant domain
-            userId = multitenantUtils.getTenantAwareUsername(cuser);
 
             if(ctx.regid!=null){
                 var result = driver.query(sqlscripts.devices.select19, ctx.regid);
