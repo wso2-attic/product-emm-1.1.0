@@ -3,6 +3,8 @@ var USER_MANAGER = 'user.manager';
 var common = require("/modules/common.js");
 var configFile = require('/config/emm.js').config();
 var driver;
+var multitenantUtils = org.wso2.carbon.utils.multitenancy.MultitenantUtils;
+var previlegedCarbonContext = org.wso2.carbon.context.PrivilegedCarbonContext.getThreadLocalCarbonContext();
 
 var device = (function () {
 
@@ -344,9 +346,9 @@ var device = (function () {
 
             // Check if device already has a policy if so then revoke it
             if (device_policy != null && device_policy[0] != null) {
-                if (devices[0].platform_type == "iOS") {
+                if (devices[0].platform_type.toUpperCase() == "IOS") {
                     sendMessageToIOSDevice({'deviceid':deviceid, 'operation':'REVOKEPOLICY', 'data':parse(device_policy[0].payload_uids), 'policyid':revokepolicyid});
-                } else if (devices[0].platform_type == "Android"){
+                } else if (devices[0].platform_type.toUpperCase() == "ANDROID"){
                     var revokepolicy = {};
                     revokepolicy.policyid = revokepolicyid;
                     sendMessageToAndroidDevice({'deviceid':deviceid, 'operation':'REVOKEPOLICY', 'data':revokepolicy});
@@ -380,7 +382,7 @@ var device = (function () {
 				// old and apply new
                 if (policypriority[0].priority <= existDevicePolicy[0].priority){
                     // Remove and apply new policy
-                    if (devices[0].platform_type == "iOS") {
+                    if (devices[0].platform_type.toUpperCase() == "IOS") {
                         sendMessageToIOSDevice({'deviceid':deviceid, 'operation':'REVOKEPOLICY', 'data':parse(existDevicePolicy[0].payload_uids), 'policyid':existDevicePolicy[0].policy_id, 'newdatetime': datetime});
                     } else {
                         var revokepolicy = {};
@@ -1056,7 +1058,10 @@ var device = (function () {
             var platformId = platforms[0].id;
 
             var createdDate =  common.getCurrentDateTime();
+            var cuser = previlegedCarbonContext.getUsername();
 
+            // get user name without tenant domain
+            userId = multitenantUtils.getTenantAwareUsername(cuser);
             if(ctx.regid!=null){
                 var result = driver.query(sqlscripts.devices.select19, ctx.regid);
                 /*

@@ -23,7 +23,7 @@ var devices = {
     "select10"	: "SELECT reg_id FROM devices WHERE id = ? AND tenant_id = ?",
     "select11"	: "SELECT platform_id FROM devices WHERE id = ?",
     "select12"	: "SELECT DISTINCT features.description, features.id, features.name, features.code, platformfeatures.template FROM devices, platformfeatures, features WHERE devices.platform_id = platformfeatures.platform_id AND devices.id = ? AND features.id = platformfeatures.feature_id",
-    "select13"	: "SELECT id, reg_id, os_version, platform_id FROM devices WHERE user_id = ? AND tenant_id = ?",
+    "select13"	: "SELECT id, reg_id, os_version, platform_id FROM devices WHERE user_id = LOWER(?) AND tenant_id = ?",
     "select14"	: "SELECT id FROM devices WHERE user_id = ? AND tenant_id = ?",
     "select15"	: "SELECT * FROM devices WHERE tenant_id = ?",
     "select16"	: "SELECT status FROM devices WHERE id = ?",
@@ -36,17 +36,17 @@ var devices = {
     "select23"	: "SELECT COUNT(*) AS count FROM devices WHERE udid = ?",
     "select24"	: "SELECT DISTINCT features.description, features.id, features.name, features.code, platformfeatures.template FROM devices, platformfeatures, features WHERE devices.platform_id = platformfeatures.platform_id AND features.id = platformfeatures.feature_id AND devices.tenant_id = ?",
     "select25"	: "SELECT COUNT(id) AS device_count FROM devices WHERE user_id = ? AND tenant_id = ?",
-    "select26"	: "SELECT * FROM devices WHERE user_id = ? AND tenant_id = ?",
+    "select26"	: "SELECT * FROM devices WHERE user_id = LOWER(?) AND tenant_id = ?",
     "select27"	: "SELECT * FROM devices WHERE platform_id = ? AND tenant_id = ?",
     "select28"	: "SELECT * FROM devices WHERE platform_id > ?",
-    "select29"	: "SELECT * FROM devices WHERE devices.user_id = ?",
+    "select29"	: "SELECT * FROM devices WHERE devices.user_id = LOWER(?)",
     "select30"	: "SELECT platforms.type_name AS platform from devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?",
     "select31"	: "SELECT * FROM devices WHERE devices.user_id = ? AND devices.platform_id = ?",
     "select32"	: "SELECT devices.id AS id, devices.properties AS properties, devices.user_id AS user_id, platforms.name AS name, devices.os_version AS os_version, devices.created_date AS created_date FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.user_id LIKE ? AND devices.tenant_id = ? AND byod = ? AND platform_id = ?",
     "select33"	: "SELECT devices.id AS id, devices.properties AS properties, devices.user_id AS user_id, platforms.name AS name, devices.os_version AS os_version, devices.created_date AS created_date FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.user_id LIKE ? AND devices.tenant_id = ? AND byod = ?",
     "select34"	: "SELECT devices.id AS id, devices.properties AS properties, devices.user_id AS user_id, platforms.name AS name, devices.os_version AS os_version, devices.created_date AS created_date FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.user_id LIKE ? AND devices.tenant_id = ? AND platform_id = ?",
     "select35"	: "SELECT devices.id AS id, devices.properties AS properties, devices.user_id AS user_id, platforms.name AS name, devices.os_version AS os_version, devices.created_date AS created_date FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.user_id LIKE ? AND devices.tenant_id = ?",
-    "select36"	: "SELECT * FROM devices WHERE user_id = ?",
+    "select36"	: "SELECT * FROM devices WHERE user_id = LOWER(?)",
     "select37"	: "SELECT devices.id AS id FROM devices JOIN platforms ON platforms.id = devices.platform_id WHERE type_name = 'iOS'",
     "select38"	: "SELECT properties, user_id FROM devices WHERE udid = ?",
     "select39"	: "SELECT push_token FROM devices WHERE id = ?",
@@ -56,19 +56,19 @@ var devices = {
     "select43"	: "SELECT properties, platform_id FROM devices WHERE id = ?",
     "select44"	: "SELECT * FROM devices",
     "select45"	: "SELECT devices.user_id, devices.properties, platforms.name AS platform_name, devices.os_version, devices.created_date, devices.status FROM devices, platforms WHERE platforms.type = ? AND platforms.id = devices.platform_id AND devices.created_date BETWEEN ? AND ? AND devices.tenant_id = ?",
-    "select46"	: "SELECT COUNT(*) AS count FROM devices WHERE user_id = ? AND tenant_id = ?",
+    "select46"	: "SELECT COUNT(*) AS count FROM devices WHERE user_id = LOWER(?) AND tenant_id = ?",
     "select47"	: "SELECT devices.id AS id FROM devices JOIN platforms ON platforms.id = devices.platform_id WHERE type_name = 'Android' AND devices.tenant_id = ?",
     "select48"	: "SELECT mac FROM devices WHERE udid = ?",
     "select49"	: "SELECT devices.user_id, devices.properties, platforms.name AS platform_name, devices.os_version, devices.created_date, devices.status FROM devices, platforms WHERE devices.created_date BETWEEN ? AND ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",
-    "select50"	: "SELECT devices.id, devices.properties, devices.user_id, devices.os_version, platforms.type_name AS platform_name, devices.status FROM devices, platforms WHERE devices.created_date BETWEEN ? AND ? AND devices.user_id LIKE ? AND status LIKE ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",
+    "select50"	: "SELECT devices.id, devices.properties, devices.user_id, devices.os_version, platforms.type_name AS platform_name, devices.status FROM devices, platforms WHERE devices.created_date BETWEEN ? AND ? AND devices.user_id LIKE LOWER(?) AND status LIKE ? AND devices.tenant_id = ? AND devices.platform_id = platforms.id",
     "select51"  : "SELECT platforms.type_name AS platform FROM devices, platforms WHERE platforms.id = devices.platform_id AND devices.id = ?",
 
-    "insert1" 	: "INSERT INTO devices(tenant_id, os_version, created_date, properties, reg_id, status, byod, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, to_date(?, '" + dateFormat + "'), ?, ?, 'A', ?, '0', ?, ?, ?, '0', ?)",
+    "insert1" 	: "INSERT INTO devices(tenant_id, os_version, created_date, properties, reg_id, status, byod, deleted, user_id, platform_id, vendor, udid, mac) VALUES(?, ?, to_date(?, '" + dateFormat + "'), ?, ?, 'A', ?, '0', LOWER(?), ?, ?, '0', ?)",
     "insert2" 	: "INSERT INTO devices(tenant_id, user_id, platform_id, reg_id, properties, created_date, status, byod, deleted, vendor, udid) SELECT tenant_id, user_id, platform_id, ?, ?, created_date, status, byod, 0, vendor, udid FROM device_pending WHERE udid = ?",
 
     "update1" 	: "UPDATE devices SET status = ? WHERE id = ?",
     "update2" 	: "UPDATE devices SET deleted = 0 WHERE reg_id = ? AND tenant_id = ?",
-    "update3" 	: "UPDATE devices SET tenant_id = ?, user_id = ?, platform_id = ?, reg_id = ?, properties = ?, status = ?, byod = ?, vendor = ?, udid = ?  WHERE udid = ?",
+    "update3" 	: "UPDATE devices SET tenant_id = ?, user_id = LOWER(?), platform_id = ?, reg_id = ?, properties = ?, status = ?, byod = ?, vendor = ?, udid = ?  WHERE udid = ?",
     "update4" 	: "UPDATE devices SET os_version = ?, properties = ?, mac = ? WHERE id = ?",
     "update5" 	: "UPDATE devices SET push_token = ? WHERE udid = ?",
     "update6" 	: "UPDATE devices SET os_version = ?, properties = ? WHERE id = ?",
@@ -81,23 +81,23 @@ var devices = {
 };
 
 var device_pending = {
-    "select1" 	: "SELECT * FROM device_pending WHERE token = ?",
+    "select1" 	: "SELECT * FROM device_pending WHERE token =  LOWER(?)",
     "select2" 	: "SELECT properties, user_id FROM device_pending WHERE udid = ?",
     "select3" 	: "SELECT tenant_id, user_id, platform_id, created_date, status, byod, 0, vendor, udid FROM device_pending WHERE udid = ?",
     "select4" 	: "SELECT tenant_id FROM device_pending WHERE udid = ?",
-    "select5" 	: "SELECT user_id, udid FROM device_pending WHERE user_id = ? AND udid IS NOT NULL AND request_status = 1",
-    "select6" 	: "SELECT id FROM device_pending WHERE token = ?",
+    "select5" 	: "SELECT user_id, udid FROM device_pending WHERE user_id = LOWER(?) AND udid IS NOT NULL AND request_status = 1",
+    "select6" 	: "SELECT id FROM device_pending WHERE token = LOWER(?)",
 
-    "insert1" 	: "INSERT INTO device_pending(tenant_id, user_id, platform_id, properties, created_date, status, vendor, udid, token) VALUES(?, ?, ?, ?, to_date(?, '" + dateFormat + "'), 'A', ?, ?, ?)",
-    "insert2" 	: "INSERT INTO device_pending(user_id, tenant_id, byod, token) VALUES(?, ?, ?, ?)",
+    "insert1" 	: "INSERT INTO device_pending(tenant_id, user_id, platform_id, properties, created_date, status, vendor, udid, token) VALUES(?, LOWER(?), ?, ?, to_date(?, '" + dateFormat + "'), 'A', ?, ?, LOWER(?))",
+    "insert2" 	: "INSERT INTO device_pending(user_id, tenant_id, byod, token) VALUES(LOWER(?), ?, ?, LOWER(?))",
 
-    "update1" 	: "UPDATE device_pending SET tenant_id = ?, user_id = ?, platform_id = ?, properties = ?, created_date = to_date(?, '" + dateFormat + "'), status = 'A', vendor = ?, udid = ? WHERE token = ?",
-    "update2" 	: "UPDATE device_pending SET request_status = 1 WHERE user_id = ? AND udid IS NOT NULL",
+    "update1" 	: "UPDATE device_pending SET tenant_id = ?, user_id = LOWER(?), platform_id = ?, properties = ?, created_date = to_date(?, '" + dateFormat + "'), status = 'A', vendor = ?, udid = ? WHERE token = LOWER(?)",
+    "update2" 	: "UPDATE device_pending SET request_status = 1 WHERE user_id = LOWER(?) AND udid IS NOT NULL",
     "update3" 	: "UPDATE device_pending SET request_status = 1 WHERE udid = ?",
-    "update4" 	: "UPDATE device_pending SET udid = ? WHERE token = ?",
-    "update5" 	: "UPDATE device_pending SET user_id = ?, tenant_id = ?, byod = ? WHERE token = ?",
+    "update4" 	: "UPDATE device_pending SET udid = ? WHERE token = LOWER(?)",
+    "update5" 	: "UPDATE device_pending SET user_id = LOWER(?), tenant_id = ?, byod = ? WHERE token = LOWER(?)",
 
-    "delete1" 	: "DELETE FROM device_pending WHERE user_id = ?"
+    "delete1" 	: "DELETE FROM device_pending WHERE user_id = LOWER(?)"
 };
 
 var device_awake = {
@@ -132,7 +132,7 @@ var notifications = {
     "select16"  : "SELECT * FROM notifications WHERE feature_code = '501P' AND device_id = ? AND received_date BETWEEN ? AND ? AND tenant_id = ?",
     "select17"  : "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.id",
     "select18"  : "SELECT n.id, p.type_name, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id AND p.type = ?) WHERE feature_code = ? ORDER BY n.id",
-    "select19"  : "SELECT n.user_id, p.type_name, d.os_version, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND user_id = ? AND tenant_id = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id, n.device_id",
+    "select19"  : "SELECT n.user_id, p.type_name, d.os_version, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND user_id = LOWER(?) AND tenant_id = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id, n.device_id",
     "select20"  : "SELECT n.user_id, p.type_name, d.os_version, n.device_id, n.received_data FROM notifications n JOIN (SELECT device_id, MAX(received_date) AS MaxTimeStamp FROM notifications WHERE feature_code = ? AND status = 'R' GROUP BY device_id) dt ON (n.device_id = dt.device_id AND n.received_date = dt.MaxTimeStamp) JOIN devices d ON (n.device_id = d.id) JOIN platforms p ON (p.id = d.platform_id) WHERE feature_code = ? ORDER BY n.user_id, n.device_id",
 
     "insert1" 	: "INSERT INTO notifications(device_id, group_id, message, status, sent_date, feature_code, user_id ,feature_description, tenant_id) VALUES(?, ?, ?, 'P', to_date(?, '" + dateFormat + "'), ?, ?, ?, ?)",
@@ -164,17 +164,17 @@ var features = {
 };
 
 var policies = {
-    "select1" 	: "SELECT policies.content AS data, policies.type FROM policies, user_policy_mapping WHERE policies.category = ? AND policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = ?",
+    "select1" 	: "SELECT policies.content AS data, policies.type FROM policies, user_policy_mapping WHERE policies.category = ? AND policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = LOWER(?)",
     "select2" 	: "SELECT policies.id AS policyid, policies.content AS data, policies.mam_content AS mam_data, policies.type FROM policies, platform_policy_mapping WHERE policies.category = ? AND policies.id = platform_policy_mapping.policy_id AND platform_policy_mapping.platform_id = ? AND policies.tenant_id = ? ORDER BY policies.id DESC",
     "select3" 	: "SELECT policies.id AS policyid, policies.content AS data, policies.mam_content AS mam_data, policies.type FROM policies, group_policy_mapping WHERE policies.category = ? AND policies.id = group_policy_mapping.policy_id AND group_policy_mapping.group_id = ? AND policies.tenant_id = ? ORDER BY policies.id DESC",
-    "select4" 	: "SELECT policies.id AS id FROM policies, user_policy_mapping WHERE policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = ?",
+    "select4" 	: "SELECT policies.id AS id FROM policies, user_policy_mapping WHERE policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = LOWER(?)",
     "select5" 	: "SELECT policies.id AS id FROM policies, platform_policy_mapping WHERE policies.id = platform_policy_mapping.policy_id AND platform_policy_mapping.platform_id = ?",
     "select6" 	: "SELECT policies.id AS id FROM policies, group_policy_mapping WHERE policies.id = group_policy_mapping.policy_id AND group_policy_mapping.group_id = ?",
     "select7" 	: "SELECT * FROM policies WHERE name = ?",
     "select8" 	: "SELECT * FROM policies WHERE category = 1 AND tenant_id = ?",
     "select9" 	: "SELECT * FROM policies WHERE category = 2 AND tenant_id = ?",
     "select10"	: "SELECT * FROM policies WHERE id = ? AND tenant_id = ?",
-    "select11"	: "SELECT policies.content AS data, policies.type FROM policies, user_policy_mapping WHERE category = ? AND policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = ?",
+    "select11"	: "SELECT policies.content AS data, policies.type FROM policies, user_policy_mapping WHERE category = ? AND policies.id = user_policy_mapping.policy_id AND user_policy_mapping.user_id = LOWER(?)",
     "select12"	: "SELECT policies.content AS data, policies.type FROM policies, platform_policy_mapping WHERE category = ? AND policies.id = platform_policy_mapping.policy_id AND platform_policy_mapping.platform_id = ?",
     "select13"	: "SELECT policies.content AS data, policies.type FROM policies, group_policy_mapping WHERE category = ? AND policies.id = group_policy_mapping.policy_id AND group_policy_mapping.group_id = ?",
     "select14"	: "SELECT * FROM policies WHERE name = ? AND tenant_id = ?",
@@ -191,12 +191,12 @@ var policies = {
 
 var user_policy_mapping = {
     "select1" 	: "SELECT * FROM user_policy_mapping WHERE user_policy_mapping.policy_id = ?",
-    "select2" 	: "SELECT * FROM user_policy_mapping WHERE policy_id = ? AND user_id = ?",
+    "select2" 	: "SELECT * FROM user_policy_mapping WHERE policy_id = ? AND user_id = LOWER(?)",
     "select3" 	: "SELECT user_id FROM user_policy_mapping WHERE policy_id = ?",
 
-    "insert1" 	: "INSERT INTO user_policy_mapping(user_id, policy_id) VALUES(?, ?)",
+    "insert1" 	: "INSERT INTO user_policy_mapping(user_id, policy_id) VALUES(LOWER(?), ?)",
 
-    "delete1" 	: "DELETE FROM user_policy_mapping WHERE user_policy_mapping.policy_id = ? AND user_policy_mapping.user_id = ?",
+    "delete1" 	: "DELETE FROM user_policy_mapping WHERE user_policy_mapping.policy_id = ? AND user_policy_mapping.user_id = LOWER(?)",
     "delete2" 	: "DELETE FROM user_policy_mapping WHERE user_policy_mapping.policy_id = ?"
 };
 

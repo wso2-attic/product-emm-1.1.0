@@ -55,6 +55,7 @@
             }
             ctx.password = password;
             var objUser = user.authenticate(ctx);
+            session.put("userDetails", objUser);
             if (objUser == null) {
                 response.sendRedirect("authfailed");
             } else {

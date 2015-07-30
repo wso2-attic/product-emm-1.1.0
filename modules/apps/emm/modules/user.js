@@ -4,6 +4,7 @@ var USER_OPTIONS = 'server.user.options';
 //Need to change this
 var USER_SPACE = '/_system/governance/';
 var EMM_USER_SESSION = "emmConsoleUser";
+var userCoreUtil = org.wso2.carbon.user.core.util.UserCoreUtil;
 
 
 var user = (function () {
@@ -830,20 +831,42 @@ var user = (function () {
         /*other functions*/
 
         /*authentication for devices only*/
-        authenticate: function(ctx){
+        authenticate: function (ctx) {
             ctx.username = ctx.username;
             log.debug("username "+ctx.username);
             try {
                 var authStatus = server().authenticate(ctx.username, ctx.password);
-            } catch (e){
+            } catch (e) {
                 return null;
             }
 
             log.debug("auth >>>> " + authStatus);
-            if(!authStatus) {
+            if (!authStatus) {
                 return null;
             }
-	    return this.getUser({'userid': ctx.username, login:true});
+            try {
+                var domain = userCoreUtil.getDomainFromThreadLocal();
+            } catch (e) {
+                log.error("Error occurred while retrieving user domain", e);
+                return null;
+            }
+
+
+            // adding authenticated user's user store domain for further use of iOS device login
+            session.put("auth.domain", domain);
+
+            if (domain) {
+                ctx.username = domain + "/" + ctx.username;
+            }
+
+            var user = this.getUser(
+                {
+                    "userid": ctx.username,
+                    "login": true
+                }
+            );
+            log.info("authenticate after " + ctx.username);
+            return user;
         },
 
         /**
