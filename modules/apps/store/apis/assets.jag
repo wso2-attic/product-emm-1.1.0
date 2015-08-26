@@ -9,12 +9,16 @@ require('/modules/store.js').exec(function (ctx) {
             tenantId = tenant.tenantId,
             store = require('/modules/store.js').store(tenantId, session);
 
-    var type, total, assets,
+    var type, total, assets, emm,
             tag = request.getParameter('tag'),
             sort = request.getParameter('sort'),
+            emm = request.getParameter('emm'),
             paging = store.assetsPaging(request);
     if (matcher.match('/{context}/apis/assets/{type}/paging') ||
             matcher.match('/{context}/apis/assets/{type}')) {
+        if(emm != null && emm != undefined && emm != "") {
+            store = require('/modules/store.js').store(tenantId, session, true);
+        }
         type = matcher.elements().type;
         if (tag) {
             assets = store.tagged(type, tag, paging);

@@ -129,7 +129,7 @@ var currentAsset = function () {
  * @param session
  * @return {*}
  */
-var store = function (o, session) {
+var store = function (o, session, emm) {
     var user, store, configs, tenantId,
         carbon = require('carbon'),
         mod = require('store'),
@@ -152,7 +152,7 @@ var store = function (o, session) {
     if (cached && store) {
         return store;
     }
-    store = new Store(tenantId);
+    store = new Store(tenantId, null, emm);
     configs[TENANT_STORE] = store;
     return store;
 };
@@ -182,7 +182,7 @@ var configs = function (tenantId) {
  * @param session
  * @constructor
  */
-var Store = function (tenantId, session) {
+var Store = function (tenantId, session, emm) {
     var assetManagers = {},
         mod = require('store'),
         user = mod.user,
@@ -190,12 +190,17 @@ var Store = function (tenantId, session) {
     this.tenantId = tenantId;
     this.servmod = server;
     this.assetManagers = assetManagers;
+    var storeConfigs = require('/config/store.js').config();
     if (session) {
         this.user = server.current(session);
         this.registry = user.userRegistry(session);
         this.session = session;
         this.userSpace = user.userSpace(this.user);
-    } else {
+    } else if (emm){
+        configs(tenantId).assets.forEach(function (type) {
+            assetManagers[type] = assetManager(type, server.anonRegistry(tenantId));
+        });
+    } else if(storeConfigs.anonymousVisibilityEnable){
         configs(tenantId).assets.forEach(function (type) {
             assetManagers[type] = assetManager(type, server.anonRegistry(tenantId));
         });

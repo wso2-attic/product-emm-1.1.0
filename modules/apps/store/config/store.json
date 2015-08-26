@@ -4,6 +4,7 @@
     "subscriptionsUrlPrefix": "/subscriptions",
     "tenantConfigs": "/_system/config/store/configs/store.json",
     "socialCommentsEnable": false,
+    "anonymousVisibilityEnable": false,
     "cached": false,
     "server": {
         "https": "%https.ip%/admin",

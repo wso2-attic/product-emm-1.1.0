@@ -257,7 +257,7 @@ var store = (function() {
             var page = 1;
             log.info("Tenant ID: " + getTenantID());
             do {
-                var url = configsFile.mam.store_location + "/apis/assets/mobileapp" + "?domain=" + getTenantDomainFromID(getTenantID()) + "&page=" + page;
+                var url = configsFile.mam.store_location + "/apis/assets/mobileapp" + "?emm=true&&domain=" + getTenantDomainFromID(getTenantID()) + "&page=" + page;
                 log.debug("url: " + url);
                 var data = get(url, {});
                 data = parse(data.data);
