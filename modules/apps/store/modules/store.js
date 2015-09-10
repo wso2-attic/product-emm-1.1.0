@@ -191,6 +191,7 @@ var Store = function (tenantId, session, emm) {
     this.servmod = server;
     this.assetManagers = assetManagers;
     var storeConfigs = require('/config/store.js').config();
+
     if (session) {
         this.user = server.current(session);
         this.registry = user.userRegistry(session);
@@ -433,7 +434,10 @@ Store.prototype.assets = function (type, paging) {
     var newPaging = PaginationFormBuilder(paging);
     //var assetz = this.assetManager(type).list(paging);
 
-    var assetz = this.assetManager(type).search(options, newPaging);
+    var assetz = [];
+    if(this.assetManager(type) != null && this.assetManager(type) != undefined){
+        assetz = this.assetManager(type).search(options, newPaging);
+    }
 
 
     for (i = 0; i < assetz.length; i++) {
@@ -533,7 +537,10 @@ Store.prototype.popularAssets = function (type, count) {
         sortOrder: 'ASC'
     };
 
-    var assets = this.assetManager(type).search(options, paging);
+    var assets = [];
+    if(this.assetManager(type) != null && this.assetManager(type) != undefined){
+        assets = this.assetManager(type).search(options, paging);
+    }
     return assets;
 };
 
@@ -558,7 +565,10 @@ Store.prototype.recentAssets = function (type, count) {
     options = obtainViewQuery(options);
     options = {"attributes": options};
 
-    var recent = this.assetManager(type).search(options, paging);
+    var recent = [];
+    if(this.assetManager(type) != null && this.assetManager(type) != undefined){
+        recent = this.assetManager(type).search(options, paging);
+    }
 
     //log.debug('re')
     /* var recent = this.assetManager(type).list({
