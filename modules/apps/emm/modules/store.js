@@ -302,7 +302,7 @@ var store = (function() {
             if (!tenantDomain) {
                 tenantDomain = getTenantDomainFromID(getTenantID());
             }
-            var url = configsFile.mam.store_location + "/apis/asset/mobileapp?id=" + id + "&domain=" + tenantDomain;
+            var url = configsFile.mam.store_location + "/apis/asset/mobileapp?emm=true&id=" + id + "&domain=" + tenantDomain;
             var data = get(url, {});
             data = parse(data.data);
             return data;

@@ -8,7 +8,12 @@ require('/modules/store.js').exec(function (ctx) {
             paging = store.assetsPaging(request),
             matcher = new URIMatcher(request.getRequestURI()),
             query = request.getParameter('query'),
+            emm = request.getParameter('emm'),
             aid = request.getParameter('id');
+
+    if(emm != null && emm != undefined && emm != "") {
+        store = require('/modules/store.js').store(request, session, true);
+    }
 
     var isMyAsset = false;
     if (matcher.match('/{context}/apis/myAsset')) {

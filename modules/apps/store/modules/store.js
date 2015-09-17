@@ -492,9 +492,11 @@ Store.prototype.asset = function (type, aid) {
      log.debug('Returning an empty [] for store.asset');
      return [];
      }*/
-
-    var asset = this.assetManager(type).get(aid);
-    asset.rating = this.rating(asset.path);
+    var asset;
+	if(this.assetManager(type) != null && this.assetManager(type) != undefined) {
+    	asset = this.assetManager(type).get(aid);
+    	asset.rating = this.rating(asset.path);
+	}
     return asset;
 };
 
