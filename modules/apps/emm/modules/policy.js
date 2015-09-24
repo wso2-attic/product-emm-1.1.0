@@ -197,6 +197,21 @@ var policy = (function () {
             return result;
         },
         addPolicy: function(ctx){
+
+            for(var j = 0; j<ctx.policyMamData.length; j++){
+                if(ctx.policyMamData[j].code == "509B"){
+                    for(var k = 0; k<ctx.policyMamData[j].data.length; k++){
+                        var apps = [];
+                        apps = store.getAppsFromStoreFormatted();
+                        for(var i = 0; i<apps.length; i++){
+                            if(apps[i].identity == ctx.policyMamData[j].data[k].identity){
+                                ctx.policyMamData[j].data[k].package = apps[i].package;
+                            }
+                        }
+                    }
+                }
+            }
+
             var existingPolicies =  driver.query(sqlscripts.policies.select14, ctx.policyName, common.getTenantID());
             if(ctx.category==1){
                 if(existingPolicies != undefined && existingPolicies != null && existingPolicies[0] != undefined && existingPolicies[0] != null ){

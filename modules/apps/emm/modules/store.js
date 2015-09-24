@@ -288,6 +288,7 @@ var store = (function() {
                         'packageid': app.attributes.overview_packagename,
                         'type': app.attributes.overview_type
                     }),
+                    'package': app.attributes.overview_packagename,
                     'os': app.attributes.overview_platform,
                     'type': app.attributes.overview_type,
                     'name': app.attributes.overview_name
