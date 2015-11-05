@@ -44,8 +44,12 @@
   	<%
         var sqlscripts = require('/sqlscripts/db.js');
         var driver = require('driver').driver(db);
+        var domain = session.get("auth.domain");
         var username = request.getParameter("username");
-		driver.query(sqlscripts.device_pending.delete1, username);
+        if (domain) {
+            username = domain + "/" + username;
+        }
+        driver.query(sqlscripts.device_pending.delete1, username);
 	
 	%>
   	
