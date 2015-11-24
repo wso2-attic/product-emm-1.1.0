@@ -835,7 +835,7 @@ var user = (function () {
             ctx.username = ctx.username;
             log.debug("username "+ctx.username);
             try {
-                var authStatus = server().authenticate(ctx.username, ctx.password);
+                var authStatus = server().authenticate(ctx.username, encodeURIComponent(ctx.password));
             } catch (e) {
                 return null;
             }
