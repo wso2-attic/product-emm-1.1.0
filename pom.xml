@@ -142,6 +142,7 @@
 		<module>modules/components/emm-task</module>
 		<module>modules/components/emm-gcm</module>
 		<module>modules/components/emm-utils</module>
+		<module>modules/components/emm-ios</module>
 		<module>modules/features</module>
 		<module>modules/p2-profile-gen</module>
 		<module>modules/distribution</module>

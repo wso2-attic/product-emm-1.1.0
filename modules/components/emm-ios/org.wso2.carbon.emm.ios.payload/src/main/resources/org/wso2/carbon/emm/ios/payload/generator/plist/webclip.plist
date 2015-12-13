@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+   <dict>
+      <key>PayloadContent</key>
+      <array>
+         <dict>
+            <key>IsRemovable</key>
+            <true />
+            <key>Label</key>
+            <string>${Label}</string>
+            <key>PayloadDescription</key>
+            <string>Adds a Web Clip.</string>
+            <key>PayloadDisplayName</key>
+            <string>${PayloadDisplayName}</string>
+            <key>PayloadIdentifier</key>
+            <string>${PayloadIdentifier}</string>
+            <key>PayloadOrganization</key>
+            <string>${PayloadOrganization}</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>${PayloadUUID}</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>${URL}</string>
+            <key>Icon</key>
+            <data>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</data>
+         </dict>
+      </array>
+      <key>PayloadDescription</key>
+      <string>This profile will send a WebClip.</string>
+      <key>PayloadDisplayName</key>
+      <string>${PayloadDisplayName}</string>
+      <key>PayloadIdentifier</key>
+      <string>${PayloadIdentifier}</string>
+      <key>PayloadOrganization</key>
+      <string>${PayloadOrganization}</string>
+      <key>PayloadRemovalDisallowed</key>
+      <false />
+      <key>PayloadType</key>
+      <string>Configuration</string>
+      <key>PayloadUUID</key>
+      <string>${PayloadUUID}</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+   </dict>
+</plist>

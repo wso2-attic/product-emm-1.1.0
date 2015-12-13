@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+   <dict>
+      <key>PayloadContent</key>
+      <array>
+         <dict>
+            <key>EmailAccountDescription</key>
+            <string>${EmailAccountDescription}</string>
+            <key>EmailAccountName</key>
+            <string>${EmailAccountName}</string>
+            <key>EmailAccountType</key>
+            <string>${EmailAccountType}</string>
+            <key>EmailAddress</key>
+            <string>${EmailAddress}</string>
+            <key>IncomingMailServerAuthentication</key>
+            <string>${IncomingMailServerAuthentication}</string>
+            <key>IncomingMailServerHostName</key>
+            <string>${IncomingMailServerHostName}</string>
+            <key>IncomingMailServerPortNumber</key>
+            <real>${IncomingMailServerPortNumber}</real>
+            <key>IncomingMailServerUseSSL</key>
+            ${IncomingMailServerUseSSL}
+            <key>IncomingMailServerUsername</key>
+            <string>${IncomingMailServerUsername}</string>
+            <key>IncomingPassword</key>
+            <string>${IncomingPassword}</string>
+            <key>OutgoingMailServerAuthentication</key>
+            <string>${OutgoingMailServerAuthentication}</string>
+            <key>OutgoingMailServerHostName</key>
+            <string>${OutgoingMailServerHostName}</string>
+            <key>OutgoingMailServerPortNumber</key>
+            <real>${OutgoingMailServerPortNumber}</real>
+            <key>OutgoingMailServerUseSSL</key>
+            ${OutgoingMailServerUseSSL}
+            <key>OutgoingMailServerUsername</key>
+            <string>${OutgoingMailServerUsername}</string>
+            <key>OutgoingPassword</key>
+            <string>${OutgoingPassword}</string>
+            <key>OutgoingPasswordSameAsIncomingPassword</key>
+            ${OutgoingPasswordSameAsIncomingPassword}
+            <key>PayloadDescription</key>
+            <string>Configures email account.</string>
+            <key>PayloadDisplayName</key>
+            <string>${PayloadDisplayName}</string>
+            <key>PayloadIdentifier</key>
+            <string>${PayloadIdentifier}</string>
+            <key>PayloadOrganization</key>
+            <string>${PayloadOrganization}</string>
+            <key>PayloadType</key>
+            <string>com.apple.mail.managed</string>
+            <key>PayloadUUID</key>
+            <string>${PayloadUUID}</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+         </dict>
+      </array>
+      <key>PayloadDescription</key>
+      <string>This profile will add email configurations.</string>
+      <key>PayloadDisplayName</key>
+      <string>${PayloadDisplayName}</string>
+      <key>PayloadIdentifier</key>
+      <string>${PayloadIdentifier}</string>
+      <key>PayloadOrganization</key>
+      <string>${PayloadOrganization}</string>
+      <key>PayloadRemovalDisallowed</key>
+      <false />
+      <key>PayloadType</key>
+      <string>Configuration</string>
+      <key>PayloadUUID</key>
+      <string>${PayloadUUID}</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+   </dict>
+</plist>

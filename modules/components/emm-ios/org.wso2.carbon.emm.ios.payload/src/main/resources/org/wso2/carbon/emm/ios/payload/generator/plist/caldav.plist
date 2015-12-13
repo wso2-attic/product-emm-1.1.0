@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+   <dict>
+      <key>PayloadContent</key>
+      <array>
+         <dict>
+            <key>CalDAVAccountDescription</key>
+            <string>CalDAV Account</string>
+            <key>CalDAVHostName</key>
+            <string />
+            <key>CalDAVPassword</key>
+            <string />
+            <key>CalDAVPort</key>
+            <integer />
+            <key>CalDAVPrincipalURL</key>
+            <string />
+            <key>CalDAVUseSSL</key>
+            <true />
+            <key>CalDAVUsername</key>
+            <string />
+            <key>PayloadDescription</key>
+            <string>Configures CalDAV account.</string>
+            <key>PayloadDisplayName</key>
+            <string>CalDAV (CalDAV Account)</string>
+            <key>PayloadIdentifier</key>
+            <string>.caldav</string>
+            <key>PayloadOrganization</key>
+            <string />
+            <key>PayloadType</key>
+            <string>com.apple.caldav.account</string>
+            <key>PayloadUUID</key>
+            <string>BD24466F-1D5B-4EC1-A13E-C8A111AA263B</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+         </dict>
+      </array>
+      <key>PayloadDescription</key>
+      <string>CalDav Config</string>
+      <key>PayloadDisplayName</key>
+      <string>CalDav Profile</string>
+      <key>PayloadIdentifier</key>
+      <string>com.wso2mobile.CalDav</string>
+      <key>PayloadOrganization</key>
+      <string>WSO2Mobile</string>
+      <key>PayloadRemovalDisallowed</key>
+      <false />
+      <key>PayloadType</key>
+      <string>Configuration</string>
+      <key>PayloadUUID</key>
+      <string>814776D433sssssss3423sss46333FF-D215-4474-BAC5-061221D61A8D</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+   </dict>
+</plist>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+   <dict>
+      <key>PayloadContent</key>
+      <array>
+         <dict>
+            <key>maxFailedAttempts</key>
+            <integer>${MaxFailedAttempts}</integer>
+            <key>minLength</key>
+            <integer>${MinLength}</integer>
+            <key>maxPINAgeInDays</key>
+            <integer>${MaxPINAgeInDays}</integer>
+            <key>requireAlphanumeric</key>
+            ${RequireAlphanumeric}
+            <key>minComplexChars</key>
+            <integer>${MinComplexChars}</integer>
+            <key>pinHistory</key>
+            <integer>${PinHistory}</integer>
+            <key>allowSimple</key>
+            ${AllowSimple}
+            <key>PayloadDescription</key>
+            <string>Adds a Passcode policy.</string>
+            <key>PayloadDisplayName</key>
+            <string>${PayloadDisplayName}</string>
+            <key>PayloadIdentifier</key>
+            <string>${PayloadIdentifier}</string>
+            <key>PayloadOrganization</key>
+            <string>${PayloadOrganization}</string>
+            <key>PayloadType</key>
+            <string>com.apple.mobiledevice.passwordpolicy</string>
+            <key>PayloadUUID</key>
+            <string>${PayloadUUID}</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+         </dict>
+      </array>
+      <key>PayloadDescription</key>
+      <string>This profile will add a passcode policy.</string>
+      <key>PayloadDisplayName</key>
+      <string>${PayloadDisplayName}</string>
+      <key>PayloadIdentifier</key>
+      <string>${PayloadIdentifier}</string>
+      <key>PayloadOrganization</key>
+      <string>${PayloadOrganization}</string>
+      <key>PayloadRemovalDisallowed</key>
+      <false />
+      <key>PayloadType</key>
+      <string>Configuration</string>
+      <key>PayloadUUID</key>
+      <string>${PayloadUUID}</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+   </dict>
+</plist>
