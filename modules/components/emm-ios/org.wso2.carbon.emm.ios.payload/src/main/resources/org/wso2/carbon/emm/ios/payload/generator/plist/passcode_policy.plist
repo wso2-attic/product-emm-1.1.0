@@ -33,6 +33,8 @@
             <string>${PayloadUUID}</string>
             <key>PayloadVersion</key>
             <integer>1</integer>
+            <key>forcePIN</key>
+            <true/>
          </dict>
       </array>
       <key>PayloadDescription</key>
