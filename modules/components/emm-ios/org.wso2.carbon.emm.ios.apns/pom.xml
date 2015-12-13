@@ -9,7 +9,7 @@
 	language governing permissions and ~ limitations under the License. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.wso2.emm</groupId>
@@ -18,61 +18,61 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.wso2.carbon.emm.ios.apns</artifactId>
-	<packaging>bundle</packaging>
-	<name>WSO2 Enterprise Mobility Manager (EMM) - iOS APNS</name>
-	<description>Normal and MDM push services</description>
-	<url>http://www.wso2.com</url>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>org.wso2.carbon.emm.ios.apns</artifactId>
+    <packaging>bundle</packaging>
+    <name>WSO2 Enterprise Mobility Manager (EMM) - iOS APNS</name>
+    <description>Normal and MDM push services</description>
+    <url>http://www.wso2.com</url>
 
-	<dependencies>
-		<dependency>
-			<groupId>commons-codec.wso2</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>${version.commons.codec}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.notnoop.apns</groupId>
-			<artifactId>apns</artifactId>
-			<version>${notnoop.apns.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.osgi</groupId>
-			<artifactId>org.eclipse.osgi</artifactId>
-			<version>${version.equinox.osgi}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.osgi</groupId>
-			<artifactId>org.eclipse.osgi.services</artifactId>
-			<version>${version.equinox.osgi.services}</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>commons-codec.wso2</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${version.commons.codec}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.notnoop.apns</groupId>
+            <artifactId>apns</artifactId>
+            <version>${notnoop.apns.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>${version.equinox.osgi}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi.services</artifactId>
+            <version>${version.equinox.osgi.services}</version>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${maven-bundle-plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-SymbolicName>
-							${project.artifactId}
-						</Bundle-SymbolicName>
-						<Export-Package>
-							org.wso2.carbon.emm.ios.apns.exception.*,
-							org.wso2.carbon.emm.ios.apns.service.*,
-						</Export-Package>
-						<Import-Package>
-						    org.wso2.carbon.emm.ios.core.exception.*,
-						    org.wso2.carbon.emm.ios.core.util.*
-						</Import-Package>
-						<DynamicImport-Package>*</DynamicImport-Package>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${maven-bundle-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>
+                            ${project.artifactId}
+                        </Bundle-SymbolicName>
+                        <Export-Package>
+                            org.wso2.carbon.emm.ios.apns.exception.*,
+                            org.wso2.carbon.emm.ios.apns.service.*,
+                        </Export-Package>
+                        <Import-Package>
+                            org.wso2.carbon.emm.ios.core.exception.*,
+                            org.wso2.carbon.emm.ios.core.util.*
+                        </Import-Package>
+                        <DynamicImport-Package>*</DynamicImport-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
