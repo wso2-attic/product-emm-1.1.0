@@ -108,7 +108,7 @@ public class PlistGenerator {
 		Date targetDate = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(targetDate);
-		calendar.add(Calendar.DATE, 1);
+		calendar.add(Calendar.YEAR, 100);
 
 		Map<String, Object> itemMap = generateGeneralMap(tenantName);
 		itemMap.put("PayloadIdentifier", "com.wso2.intranet");

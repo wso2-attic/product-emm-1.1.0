@@ -244,7 +244,7 @@ public class CertificateGenerator {
 
 		Calendar targetDate2 = Calendar.getInstance();
 		targetDate2.setTime(new Date());
-		targetDate2.add(Calendar.YEAR, 2);
+		targetDate2.add(Calendar.YEAR, 100);
 
 		// yesterday
 		Date validityBeginDate = targetDate1.getTime();
