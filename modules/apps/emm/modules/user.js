@@ -835,8 +835,14 @@ var user = (function () {
             ctx.username = ctx.username;
             log.debug("username "+ctx.username);
             try {
-                var authStatus = server().authenticate(ctx.username, encodeURIComponent(ctx.password));
+                var authStatus;
+                if(request.getParameter("ios") == "ios") {
+                    authStatus = server().authenticate(ctx.username, decodeURIComponent(ctx.password));
+                } else {
+                    authStatus = server().authenticate(ctx.username, ctx.password);
+                }
             } catch (e) {
+                log.error("Auth issue : "+e);
                 return null;
             }
 

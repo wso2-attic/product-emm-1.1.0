@@ -38,7 +38,7 @@
         <input name="tenantDomain" id="domain" type="text" class="form-control" placeholder="Domain">
         <input name="username" id="uname" type="text" class="form-control" placeholder="Username">
         <input name="password" id="password" type="password" class="form-control" placeholder="Password">
-
+        <input name="ios" id="ios" type="hidden" class="form-control" value="ios">
         <div style="padding-bottom: 20px; padding-top: 10px">
         <input name="byod" type="radio" value="1" checked="checked" /> BYOD (This device is my own device) <br /> <br />
         <input name="byod" id="byod" type="radio" value="0" /> COPE (This device is a corporate device)
@@ -65,7 +65,7 @@
 		var monitor;
 	
 		function onClickSubmit() {
-			
+			$('#password').val(encodeURIComponent($("#password").val()));
 			if($('#byod').is(':checked')) {
 				$("#authform").submit();
 				monitor = setInterval(function(){ invokeServer(); }, 1000);	 
